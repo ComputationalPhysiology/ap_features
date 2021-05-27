@@ -54,7 +54,7 @@ type: ## Run mypy
 	python3 -m mypy ap_features tests
 
 test: ## run tests on every Python version with tox
-	python3 -m pytest -cov=ap_features tests
+	NUMBA_DISABLE_JIT=1 python3 -m pytest
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/ap_features.rst

@@ -5,7 +5,6 @@ watchdog
 flake8
 Sphinx
 twine
-
 pytest
 pytest-cov
 black
