@@ -45,7 +45,7 @@ jobs:
           submodules: true
 
       - name: Install libomp
-        run: bash bash build_utils/build_libomp.sh
+        run: bash build_utils/build_libomp.sh
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v1.11.0
