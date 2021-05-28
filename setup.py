@@ -55,16 +55,12 @@ class CMakeBuild(build_ext):
         subprocess.check_call(
             [cmake, ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env
         )
-
-        # Run make with multiple jobs
-        num_build_procs = min(8, os.cpu_count())
-
-        make = find_executable("make")
-
         subprocess.check_call(
-            [make, "-j{:d}".format(num_build_procs)] + build_args, cwd=self.build_temp
+            ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
-        subprocess.check_call(["make", "install"], cwd=self.build_temp)
+        subprocess.check_call(
+            ["cmake", "--install", "."] + build_args, cwd=self.build_temp
+        )
 
 
 with open("README.md") as readme_file:

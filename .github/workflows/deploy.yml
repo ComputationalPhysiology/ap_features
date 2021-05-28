@@ -10,6 +10,9 @@ on: [push, pull_request]
 #     types:
 #       - published
 
+env:
+  CIBW_REPAIR_WHEEL_COMMAND: ""
+
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
