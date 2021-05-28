@@ -12,7 +12,6 @@ on: [push, pull_request]
 
 env:
   CIBW_REPAIR_WHEEL_COMMAND: ""
-  MACOSX_RPATH: $LD_LIBRARY_PATH
   CIBW_BUILD: "cp3[7-9]*"
 
 jobs:

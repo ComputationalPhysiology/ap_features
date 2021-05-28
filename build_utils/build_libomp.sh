@@ -6,7 +6,7 @@ git clone --depth 1 --branch llvmorg-11.0.0 https://github.com/llvm/llvm-project
 pushd llvm-project/openmp
 mkdir build
 cd build
-cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_INSTALL_PREFIX="${build_dir}" -DCMAKE_MACOSX_RPATH="${build_dir}/lib" ..
+cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
 make
 make install
 
