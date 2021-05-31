@@ -1,12 +1,9 @@
 cmake_minimum_required (VERSION 3.9)
 
 project (AP_FEATURES LANGUAGES C)
-if (CMAKE_CUDA_COMPILER)
-    enable_language(CUDA)
-endif()
 
 option(AP_FEAUTRES_ENABLE_BENCHMARK "Build binary executable." OFF)
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake" ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 set (CMAKE_FIND_FRAMEWORK LAST)
 
 find_package(PythonInterp)

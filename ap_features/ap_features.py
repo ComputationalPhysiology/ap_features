@@ -1,7 +1,6 @@
 import ctypes
 import logging
 import os
-import sysconfig
 import time
 from ctypes import c_double, c_int, c_long, c_uint8, c_void_p
 from pathlib import Path
@@ -50,18 +49,15 @@ def py_update_progress(progress_bar=None):
 
 def load_library(name: str) -> ctypes.CDLL:
 
-    loader_path = sysconfig.get_paths()["purelib"]
-    for filename in os.listdir(loader_path):
-        if filename == f"lib{name}.so":
-            libname = filename
-            break
-        elif filename == f"lib{name}.dylib":
-            libname = filename
-            break
-    else:
-        raise OSError(f"Cannot find shared library for {name}")
+    try:
+        libname = next(
+            f.name for f in HERE.iterdir() if f.name.startswith("cost_terms")
+        )
+    except StopIteration:
+        raise FileNotFoundError(f"Could not find shared library for {name}")
 
-    lib = np.ctypeslib.load_library(libname, sysconfig.get_paths()["purelib"])
+    lib = np.ctypeslib.load_library(libname, HERE)
+
     lib_path = lib._name
     lib_mtime_float = os.path.getmtime(lib_path)
     lib_mtime_struct = time.localtime(lib_mtime_float)
