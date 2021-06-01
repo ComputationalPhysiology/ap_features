@@ -2,8 +2,6 @@
 requires = [
     "setuptools>=42",
     "wheel",
-    "ninja; sys_platform != 'win32'",
-    "cmake>=3.12",
     "numpy==1.13.3; python_version<'3.5'",
     "oldest-supported-numpy; python_version>='3.5'",
 ]

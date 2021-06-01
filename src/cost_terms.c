@@ -5,7 +5,9 @@
 #include <string.h>
 #include <time.h>
 
+#if defined(_OPENMP)
 #include <omp.h>
+#endif
 
 #include "cost_terms.h"
 
@@ -394,7 +396,11 @@ void fill_cost_array_with_inf(double *R)
 void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long length,
                     long num_parameter_sets, progress_update_func_ptr progress_update)
 {
+#if defined(_OPENMP)
     int num_threads = omp_get_max_threads();
+#else
+    int num_threads = 0;
+#endif
     int stride = 8; // we choose stride to be CACHE_LINE_SIZE / sizeof(long) = 8
     long parameter_sets_computed_per_thread[num_threads * stride];
 
@@ -403,7 +409,12 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
 
 #pragma omp parallel
     {
+#if defined(_OPENMP)
         int thread_id = omp_get_thread_num();
+#else
+        int thread_id = 0;
+#endif
+
 
 #pragma omp for
         for (long n = 0; n < num_parameter_sets; n++) {
