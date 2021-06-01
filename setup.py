@@ -88,7 +88,7 @@ def get_openmp_compile_args():
 
 
 def get_openmp_link_args():
-    extra_link_args = ["-lgomp"]
+    extra_link_args = ["-fopenmp"]
     if sys.platform == "darwin":
         extra_link_args = ["-lomp"]
     return extra_link_args
