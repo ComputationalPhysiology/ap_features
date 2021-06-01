@@ -316,7 +316,7 @@ double trapz(double *V, double *T, int length, double extra)
     double h;
 
     // Compute the integral of sin(X) using Trapezoidal numerical integration method
-    for (int j; j < length - 1; ++j) {
+    for (int j = 0; j < length - 1; ++j) {
         h = T[j + 1] - T[j];
         // if (j == 0 || j == length - 1) // for the first and last elements
         //     sum += h * (V[j] + extra) / 2;
