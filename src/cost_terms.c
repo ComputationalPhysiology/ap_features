@@ -316,7 +316,7 @@ double trapz(double *V, double *T, int length, double extra)
     double h;
 
     // Compute the integral of sin(X) using Trapezoidal numerical integration method
-    for (int j; j < length - 1; ++j) {
+    for (int j = 0; j < length - 1; ++j) {
         h = T[j + 1] - T[j];
         // if (j == 0 || j == length - 1) // for the first and last elements
         //     sum += h * (V[j] + extra) / 2;
@@ -399,7 +399,7 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
 #if defined(_OPENMP)
     int num_threads = omp_get_max_threads();
 #else
-    int num_threads = 0;
+    int num_threads = 1;
 #endif
     int stride = 8; // we choose stride to be CACHE_LINE_SIZE / sizeof(long) = 8
     long parameter_sets_computed_per_thread[num_threads * stride];

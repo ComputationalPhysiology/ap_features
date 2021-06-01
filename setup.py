@@ -17,10 +17,12 @@ def check_for_openmp():
     CCODE = """
     #include <omp.h>
     #include <stdio.h>
+
     int main(void) {
-    #pragma omp parallel
-    printf("nthreads=%d\\n", omp_get_num_threads());
-    return 0;
+        #pragma omp parallel
+        printf("nthreads=%d\\n", omp_get_num_threads());
+
+        return 0;
     }
     """
 
@@ -88,7 +90,7 @@ def get_openmp_compile_args():
 
 
 def get_openmp_link_args():
-    extra_link_args = ["-lgomp"]
+    extra_link_args = ["-fopenmp"]
     if sys.platform == "darwin":
         extra_link_args = ["-lomp"]
     return extra_link_args
