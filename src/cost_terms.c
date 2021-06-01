@@ -399,7 +399,7 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
 #if defined(_OPENMP)
     int num_threads = omp_get_max_threads();
 #else
-    int num_threads = 0;
+    int num_threads = 1;
 #endif
     int stride = 8; // we choose stride to be CACHE_LINE_SIZE / sizeof(long) = 8
     long parameter_sets_computed_per_thread[num_threads * stride];
