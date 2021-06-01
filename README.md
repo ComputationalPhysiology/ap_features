@@ -12,7 +12,7 @@ Package to compute features of traces from action potential models
 
 
 * Free software: GNU General Public License v3
-* Documentation: https://ap-features.readthedocs.io.
+* Documentation: https://computationalphysiology.github.io/ap_features/
 
 * Source code: https://github.com/ComputationalPhysiology/ap_features
 
