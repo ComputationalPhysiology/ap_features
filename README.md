@@ -1,22 +1,20 @@
 # Action Potential features
 
- 
+
 
 [![image](https://img.shields.io/pypi/v/ap_features.svg)](https://pypi.python.org/pypi/ap_features)
 
-[![Documentation Status](https://readthedocs.org/projects/ap_features/badge/?version=latest)](https://ap-features.readthedocs.io/en/latest/?badge=latest)
-
-![CI](https://github.com/finsberg/ap_features/workflows/CI/badge.svg)
+![CI](https://github.com/ComputationalPhysiology/ap_features/workflows/CI/badge.svg)
 
 
 
 Package to compute features of traces from action potential models
 
- 
-* Free software: GNU General Public License v3 
+
+* Free software: GNU General Public License v3
 * Documentation: https://ap-features.readthedocs.io.
 
-* Source code: https://github.com/finsberg/ap_features
+* Source code: https://github.com/ComputationalPhysiology/ap_features
 
 ## Features
 
@@ -26,5 +24,5 @@ Package to compute features of traces from action potential models
 
 This package was created with
 [Cookiecutter](https://github.com/audreyr/cookiecutter) and the
-[finsberg/cookiecutter-pypackage](https://github.com/finsberg/cookiecutter-pypackage)
+[ComputationalPhysiology/cookiecutter-pypackage](https://github.com/ComputationalPhysiology/cookiecutter-pypackage)
 project template.

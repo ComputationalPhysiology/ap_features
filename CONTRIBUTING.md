@@ -9,7 +9,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at <https://github.com/finsberg/ap_features/issues>.
+Report bugs at <https://github.com/ComputationalPhysiology/ap_features/issues>.
 
 If you are reporting a bug, please include:
 
@@ -38,7 +38,7 @@ docstrings, or even on the web in blog posts, articles, and such.
 ### Submit Feedback
 
 The best way to send feedback is to file an issue at
-<https://github.com/finsberg/ap_features/issues>.
+<https://github.com/ComputationalPhysiology/ap_features/issues>.
 
 If you are proposing a feature:
 
@@ -61,7 +61,7 @@ Ready to contribute? Here's how to set up ap_features for local development.
     $ git clone git@github.com:your_name_here/ap_features.git
     ```
 
-3.  Install your local copy into a virtual environment. 
+3.  Install your local copy into a virtual environment.
 
     ``` {.shell}
     $ cd ap_features/
@@ -108,7 +108,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2.  If the pull request adds functionality, the docs should be updated.
     Put your new functionality into a function with a docstring, and add
     the feature to the list in README.rst.
-3.  The pull request should work for Python 3.7 and 3.8. Check https://github.com/finsberg/ap_features/actions to make sure all tests are passing.
+3.  The pull request should work for Python 3.7 and 3.8. Check https://github.com/ComputationalPhysiology/ap_features/actions to make sure all tests are passing.
     Python versions.
 
 ## Tips
