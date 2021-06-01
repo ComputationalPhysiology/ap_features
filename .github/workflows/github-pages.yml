@@ -23,6 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt install -y pandoc
           make dev
 
       - name: Build docs
