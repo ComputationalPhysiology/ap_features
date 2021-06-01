@@ -19,6 +19,8 @@ from .ap_features import (
     cost_terms_c,
     cost_terms_trace,
     cost_terms_trace_c,
+    list_cost_function_terms,
+    list_cost_function_terms_trace,
     peak_and_repolarization,
     transpose_trace_array,
 )
@@ -40,4 +42,6 @@ __all__ = [
     "all_cost_terms_c",
     "peak_and_repolarization",
     "transpose_trace_array",
+    "list_cost_function_terms_trace",
+    "list_cost_function_terms",
 ]

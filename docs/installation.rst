@@ -62,13 +62,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git@github.com:finsberg/ap_features.git
+    $ git clone git@github.com:ComputationalPhysiology/ap_features.git
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl -OJL https://github.com/finsberg/ap_features/tarball/master
+    $ curl -OJL https://github.com/ComputationalPhysiology/ap_features/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -94,5 +94,5 @@ In addition you should also make sure to install the pre-commit hook. All of thi
 
 Note that this will also install the main package in editable mode, which is nice when developing.
 
-.. _Github repo: https://github.com/finsberg/ap_features
-.. _tarball: https://github.com/finsberg/ap_features/tarball/master
+.. _Github repo: https://github.com/ComputationalPhysiology/ap_features
+.. _tarball: https://github.com/ComputationalPhysiology/ap_features/tarball/master
