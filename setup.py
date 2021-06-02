@@ -96,7 +96,7 @@ def get_openmp_link_args():
     if sys.platform == "darwin":
         extra_link_args = ["-lomp"]
     elif sys.platform == "win32":
-        extra_link_args = ["-openmp"]
+        extra_link_args = []
     return extra_link_args
 
 
