@@ -133,7 +133,7 @@ def get_extension():
         extra_compile_args = get_openmp_compile_args()
         extra_link_args = get_openmp_link_args()
 
-    sources = ["src/cost_terms.c"]
+    sources = ["src/c/cost_terms.c"]
     c_functions = collect_c_functions(sources)
 
     return Extension(
