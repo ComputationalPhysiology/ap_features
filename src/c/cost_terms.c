@@ -234,7 +234,8 @@ double CDECL apd(double *V, double *t, int factor, int length, double *T_diff_bu
     return t_end - t_start;
 }
 
-double CDECL apd_up_xy(double *V, double *t, int factor_x, int factor_y, int length, double *T_diff_buf)
+double CDECL apd_up_xy(double *V, double *t, int factor_x, int factor_y, int length,
+                       double *T_diff_buf)
 {
     if (factor_x > factor_y) {
         return -INFINITY;
@@ -261,7 +262,7 @@ double CDECL apd_up_xy(double *V, double *t, int factor_x, int factor_y, int len
 }
 
 double CDECL time_up(double *V, double *t, int length, int factor_low, int factor_high,
-               double *T_diff_buf)
+                     double *T_diff_buf)
 {
 
     double T_max = array_max_double(t, length);
@@ -286,7 +287,7 @@ double CDECL time_up(double *V, double *t, int length, int factor_low, int facto
 }
 
 double CDECL time_down(double *V, double *t, int length, int factor_low, int factor_high,
-                 double *T_diff_buf)
+                       double *T_diff_buf)
 {
 
     double T_max = array_max_double(t, length);
@@ -394,7 +395,7 @@ void CDECL fill_cost_array_with_inf(double *R)
 
 
 void CDECL all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long length,
-                    long num_parameter_sets, progress_update_func_ptr progress_update)
+                          long num_parameter_sets, progress_update_func_ptr progress_update)
 {
 #if defined(_OPENMP)
     const int num_threads = omp_get_max_threads();
@@ -445,7 +446,7 @@ void CDECL all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, l
 }
 
 #ifdef _OS_WINDOWS
-void PyInit_cost_terms() {
-
+void PyInit_cost_terms()
+{
 }
 #endif
