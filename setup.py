@@ -105,7 +105,7 @@ def get_extension():
 
     return Extension(
         "ap_features.cost_terms",
-        ["src/cost_terms.c"],
+        ["src/c/cost_terms.c"],
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args,
     )
