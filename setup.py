@@ -100,14 +100,13 @@ def get_openmp_link_args():
     return extra_link_args
 
 
-
 def collect_c_functions(source_files):
     import re
 
     cdecl_re = re.compile(r"(\S+)\s+CDECL\s+(\w+)")
 
     def collect_c_functions_file(source_file):
-        with open(source_file, 'r') as f:
+        with open(source_file, "r") as f:
             code = f.read()
 
         m_list = cdecl_re.findall(code)
@@ -116,9 +115,7 @@ def collect_c_functions(source_files):
 
     all_function_names = []
     for source_file in source_files:
-        all_function_names.extend(
-            collect_c_functions_file(source_file)
-        )
+        all_function_names.extend(collect_c_functions_file(source_file))
 
     return all_function_names
 
@@ -128,7 +125,7 @@ def get_extension():
 
     extra_compile_args = []
     extra_link_args = []
-    disable_openmp = 'DISABLE_OPENMP' in os.environ
+    disable_openmp = "DISABLE_OPENMP" in os.environ
     if not disable_openmp and check_for_openmp():
         extra_compile_args = get_openmp_compile_args()
         extra_link_args = get_openmp_link_args()
@@ -149,5 +146,5 @@ requirements = ["numpy", "numba", "tqdm"]
 
 setup(
     ext_modules=[get_extension()],
-    version="0.1.2",
+    version="1.0.0",
 )
