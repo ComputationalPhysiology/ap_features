@@ -397,24 +397,20 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
                     long num_parameter_sets, progress_update_func_ptr progress_update)
 {
 #if defined(_OPENMP)
-    int num_threads = omp_get_max_threads();
+    const int num_threads = omp_get_max_threads();
 #else
-    int num_threads = 1;
+    const int num_threads = 1;
 #endif
-    int stride = 8; // we choose stride to be CACHE_LINE_SIZE / sizeof(long) = 8
-    long parameter_sets_computed_per_thread[num_threads * stride];
-
-    memset(parameter_sets_computed_per_thread, 0, sizeof(parameter_sets_computed_per_thread));
+    long *parameter_sets_computed_per_thread = calloc(num_threads * stride, sizeof(long));
     /* we pad the entries in parameter_sets_computed_per_thread so that each thread works on a separate 64 byte cache line */
 
 #pragma omp parallel
     {
 #if defined(_OPENMP)
-        int thread_id = omp_get_thread_num();
+        const int thread_id = omp_get_thread_num();
 #else
-        int thread_id = 0;
+        const int thread_id = 0;
 #endif
-
 
 #pragma omp for
         for (long n = 0; n < num_parameter_sets; n++) {
@@ -443,4 +439,5 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
     // perform a final unconditional progress update
     // if the number of parameter sets is low, this will be the only progress update.
     progress_update(num_parameter_sets);
+    free(parameter_sets_computed_per_thread);
 }
