@@ -20,7 +20,7 @@ int get_num_cost_terms()
     return NUM_COST_TERMS;
 }
 
-double max(double *x, int length)
+double array_max_double(double *x, int length)
 {
     double m = x[0];
     int i;
@@ -50,7 +50,7 @@ int min_int(int x1, int x2)
     }
 }
 
-double min(double *x, int length)
+double array_min_double(double *x, int length)
 {
     double m = x[0];
     int i;
@@ -203,7 +203,7 @@ double apd(double *V, double *t, int factor, int length, double *T_diff_buf)
 {
     // printf("Calling apd %d\n", factor);
 
-    double T_max = max(t, length);
+    double T_max = array_max_double(t, length);
     // printf("T_max = %f\n", T_max);
     double T_half = T_max / 2;
     // printf("T_half = %f\n", T_half);
@@ -213,13 +213,13 @@ double apd(double *V, double *t, int factor, int length, double *T_diff_buf)
 
     // printf("idx_T_half = %d\n", idx_T_half);
 
-    double V_max = max(V, idx_T_half);
+    double V_max = array_max_double(V, idx_T_half);
     // printf("V_max = %f\n", V_max);
 
     int max_idx = argmax(V, idx_T_half);
     // printf("max_idx = %d\n", max_idx);
 
-    double V_min = min(V, length);
+    double V_min = array_min_double(V, length);
     // printf("V_min = %f\n", V_min);
 
     double th = V_min + (1 - factor / 100.0) * (V_max - V_min);
@@ -243,13 +243,13 @@ double apd_up_xy(double *V, double *t, int factor_x, int factor_y, int length, d
         return 0.0;
     }
 
-    double T_max = max(t, length);
+    double T_max = array_max_double(t, length);
     double T_half = T_max / 2;
     sub_abs(T_diff_buf, t, T_half, length);
     int idx_T_half = argmin(T_diff_buf, length);
-    double V_max = max(V, idx_T_half);
+    double V_max = array_max_double(V, idx_T_half);
     int max_idx = argmax(V, idx_T_half);
-    double V_min = min(V, length);
+    double V_min = array_min_double(V, length);
 
     double thx = V_min + (1 - factor_x / 100.0) * (V_max - V_min);
     double tx = get_t_start(max_idx, V, t, thx, length, 0.0);
@@ -264,17 +264,17 @@ double time_up(double *V, double *t, int length, int factor_low, int factor_high
                double *T_diff_buf)
 {
 
-    double T_max = max(t, length);
+    double T_max = array_max_double(t, length);
     double T_half = 4 * T_max / 5;
 
     sub_abs(T_diff_buf, t, T_half, length);
     int idx_T_half = argmin(T_diff_buf, length);
 
-    double V_max = max(V, idx_T_half);
+    double V_max = array_max_double(V, idx_T_half);
 
     int max_idx = argmax(V, idx_T_half);
 
-    double V_min = min(V, length);
+    double V_min = array_min_double(V, length);
 
     double th_low = V_min + (1 - factor_low / 100.0) * (V_max - V_min);
     double th_high = V_min + (1 - factor_high / 100.0) * (V_max - V_min);
@@ -289,17 +289,17 @@ double time_down(double *V, double *t, int length, int factor_low, int factor_hi
                  double *T_diff_buf)
 {
 
-    double T_max = max(t, length);
+    double T_max = array_max_double(t, length);
     double T_half = 4 * T_max / 5;
 
     sub_abs(T_diff_buf, t, T_half, length);
     int idx_T_half = argmin(T_diff_buf, length);
 
-    double V_max = max(V, idx_T_half);
+    double V_max = array_max_double(V, idx_T_half);
 
     int max_idx = argmax(V, idx_T_half);
 
-    double V_min = min(V, length);
+    double V_min = array_min_double(V, length);
 
     double th_low = V_min + (1 - factor_low / 100.0) * (V_max - V_min);
     double th_high = V_min + (1 - factor_high / 100.0) * (V_max - V_min);
@@ -329,11 +329,11 @@ double trapz(double *V, double *T, int length, double extra)
 double compute_integral(double *V, double *t, int length, int factor)
 {
 
-    double V_max = max(V, length);
+    double V_max = array_max_double(V, length);
 
     int max_idx = argmax(V, length);
 
-    double V_min = min(V, length);
+    double V_min = array_min_double(V, length);
 
     double th = V_min + (1 - factor / 100.0) * (V_max - V_min);
 
@@ -355,8 +355,8 @@ void cost_terms_trace(double *R, double *V, double *t, int length)
     int factor = 10;
     size_t V_size = length * sizeof(double);
     double *T_diff_buf = malloc(V_size);
-    R[0] = max(V, length);
-    R[1] = min(V, length);
+    R[0] = array_max_double(V, length);
+    R[1] = array_min_double(V, length);
     R[2] = argmax(V, length);
     R[3] = dv_dt_max(V, t, length); // dV/dt
     int i;
