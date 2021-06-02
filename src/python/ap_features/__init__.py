@@ -2,6 +2,7 @@ __author__ = """Henrik Finsberg"""
 __email__ = "henriknf@simula.no"
 __version__ = "0.1.0"
 
+from . import ap_features
 from .ap_features import (
     all_cost_terms,
     all_cost_terms_c,
@@ -24,6 +25,7 @@ from .ap_features import (
 )
 
 __all__ = [
+    "ap_features",
     "apd_c",
     "apd_up_xy_c",
     "cost_terms",

@@ -34,7 +34,7 @@ clean-build: ## remove build artifacts
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
-	rm -f ap_features/cost_terms.*
+	rm -f src/python/ap_features/cost_terms.*
 
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
@@ -49,10 +49,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
-	python -m flake8 ap_features tests
+	python -m flake8 src/python/ap_features tests
 
 type: ## Run mypy
-	python3 -m mypy ap_features tests
+	python3 -m mypy src/python/ap_features tests
 
 test: ## run tests on every Python version with tox
 	NUMBA_DISABLE_JIT=1 python3 -m pytest
@@ -64,7 +64,7 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	pandoc HISTORY.md -o docs/history.rst
 	pandoc CONTRIBUTING.md -o docs/contributing.rst
 	pandoc AUTHORS.md -o docs/authors.rst
-	sphinx-apidoc -o docs/ ap_features
+	sphinx-apidoc -o docs/ src/python/ap_features
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	# $(BROWSER) docs/_build/html/index.html
