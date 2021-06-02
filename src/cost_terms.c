@@ -401,6 +401,7 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
 #else
     const int num_threads = 1;
 #endif
+    int stride = 8; // we choose stride to be CACHE_LINE_SIZE / sizeof(long) = 8
     long *parameter_sets_computed_per_thread = calloc(num_threads * stride, sizeof(long));
     /* we pad the entries in parameter_sets_computed_per_thread so that each thread works on a separate 64 byte cache line */
 
