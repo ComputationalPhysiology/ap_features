@@ -47,12 +47,20 @@ int main()
 
     struct timespec pre, post;
 
+#ifdef _OS_WINDOWS
+    timespec_get(&pre, TIME_UTC);
+#else
     clock_gettime(CLOCK_MONOTONIC_RAW, &pre);
+#endif
 
     // compute cost terms
     //all_cost_terms(R, traces, t, mask, trace_length, num_parameter_sets, NULL);
     all_cost_terms(R, traces, t, mask, trace_length, num_parameter_sets, &progress_updater);
+#ifdef _OS_WINDOWS
+    timespec_get(&post, TIME_UTC);
+#else
     clock_gettime(CLOCK_MONOTONIC_RAW, &post);
+#endif
 
     double time_elapsed = post.tv_sec - pre.tv_sec + 1E-9 * (post.tv_nsec - pre.tv_nsec);
 

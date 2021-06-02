@@ -19,7 +19,7 @@ def check_for_openmp():
     #include <stdio.h>
 
     int main(void) {
-        #pragma omp parallel
+        #pragma omp parallel num_threads(2)
         printf("nthreads=%d\\n", omp_get_num_threads());
 
         return 0;
@@ -86,6 +86,8 @@ def get_openmp_compile_args():
     extra_compile_args = ["-fopenmp"]
     if sys.platform == "darwin":
         extra_compile_args = ["-Xclang", "-fopenmp"]
+    elif sys.platform == "win32":
+        extra_compile_args = ["-openmp"]
     return extra_compile_args
 
 
@@ -93,21 +95,53 @@ def get_openmp_link_args():
     extra_link_args = ["-fopenmp"]
     if sys.platform == "darwin":
         extra_link_args = ["-lomp"]
+    elif sys.platform == "win32":
+        extra_link_args = []
     return extra_link_args
 
 
+
+def collect_c_functions(source_files):
+    import re
+
+    cdecl_re = re.compile(r"(\S+)\s+CDECL\s+(\w+)")
+
+    def collect_c_functions_file(source_file):
+        with open(source_file, 'r') as f:
+            code = f.read()
+
+        m_list = cdecl_re.findall(code)
+        function_names = [m[1] for m in m_list]
+        return function_names
+
+    all_function_names = []
+    for source_file in source_files:
+        all_function_names.extend(
+            collect_c_functions_file(source_file)
+        )
+
+    return all_function_names
+
+
 def get_extension():
+    import os
+
     extra_compile_args = []
     extra_link_args = []
-    if check_for_openmp():
+    disable_openmp = 'DISABLE_OPENMP' in os.environ
+    if not disable_openmp and check_for_openmp():
         extra_compile_args = get_openmp_compile_args()
         extra_link_args = get_openmp_link_args()
 
+    sources = ["src/c/cost_terms.c"]
+    c_functions = collect_c_functions(sources)
+
     return Extension(
         "ap_features.cost_terms",
-        ["src/c/cost_terms.c"],
+        sources,
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args,
+        export_symbols=c_functions,
     )
 
 
