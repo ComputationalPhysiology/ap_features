@@ -15,12 +15,12 @@
     (1 << 10) // number of parameter sets to compute per thread between each progress update
 
 
-int get_num_cost_terms()
+int CDECL get_num_cost_terms()
 {
     return NUM_COST_TERMS;
 }
 
-double array_max_double(double *x, int length)
+double CDECL array_max_double(double *x, int length)
 {
     double m = x[0];
     int i;
@@ -32,7 +32,7 @@ double array_max_double(double *x, int length)
     return m;
 }
 
-int max_int(int x1, int x2)
+int CDECL max_int(int x1, int x2)
 {
     if (x1 > x2) {
         return x1;
@@ -41,7 +41,7 @@ int max_int(int x1, int x2)
     }
 }
 
-int min_int(int x1, int x2)
+int CDECL min_int(int x1, int x2)
 {
     if (x1 < x2) {
         return x1;
@@ -50,7 +50,7 @@ int min_int(int x1, int x2)
     }
 }
 
-double array_min_double(double *x, int length)
+double CDECL array_min_double(double *x, int length)
 {
     double m = x[0];
     int i;
@@ -62,7 +62,7 @@ double array_min_double(double *x, int length)
     return m;
 }
 
-int argmin(double *x, int length)
+int CDECL argmin(double *x, int length)
 {
     double m = x[0];
     int min_idx = 0;
@@ -76,7 +76,7 @@ int argmin(double *x, int length)
     return min_idx;
 }
 
-int argmax(double *x, int length)
+int CDECL argmax(double *x, int length)
 {
     double m = x[0];
     int max_idx = 0;
@@ -90,7 +90,7 @@ int argmax(double *x, int length)
     return max_idx;
 }
 
-void sub_abs(double *s, double *x, double y, int length)
+void CDECL sub_abs(double *s, double *x, double y, int length)
 {
     int i;
     for (i = 0; i < length; i++) {
@@ -98,7 +98,7 @@ void sub_abs(double *s, double *x, double y, int length)
     }
 }
 
-int get_dt_start(int max_idx, double *V, double *T, double th, int length, double dt_start)
+int CDECL get_dt_start(int max_idx, double *V, double *T, double th, int length, double dt_start)
 {
     int idx = 0;
     int N = min_int(length - 1, max_idx);
@@ -120,7 +120,7 @@ int get_dt_start(int max_idx, double *V, double *T, double th, int length, doubl
     return idx;
 }
 
-double get_t_start(int max_idx, double *V, double *T, double th, int length, double t_start)
+double CDECL get_t_start(int max_idx, double *V, double *T, double th, int length, double t_start)
 {
     int idx = 0;
     double v_u, v_o, t_u, t_o;
@@ -140,7 +140,7 @@ double get_t_start(int max_idx, double *V, double *T, double th, int length, dou
     return t_start;
 }
 
-int get_dt_end(int max_idx, double *V, double *T, double th, int length, double dt_end)
+int CDECL get_dt_end(int max_idx, double *V, double *T, double th, int length, double dt_end)
 {
     int idx = 0;
     double v_u, v_o, t_u, t_o, t_end;
@@ -163,7 +163,7 @@ int get_dt_end(int max_idx, double *V, double *T, double th, int length, double 
     return idx;
 }
 
-double get_t_end(int max_idx, double *V, double *T, double th, int length, double t_end)
+double CDECL get_t_end(int max_idx, double *V, double *T, double th, int length, double t_end)
 {
     int idx = 0;
     int N = max_int(1, max_idx);
@@ -184,7 +184,7 @@ double get_t_end(int max_idx, double *V, double *T, double th, int length, doubl
     return t_end;
 }
 
-double dv_dt_max(double *V, double *t, int length)
+double CDECL dv_dt_max(double *V, double *t, int length)
 {
 
     double max_dv_dt = 0.0;
@@ -199,7 +199,7 @@ double dv_dt_max(double *V, double *t, int length)
     return max_dv_dt;
 }
 
-double apd(double *V, double *t, int factor, int length, double *T_diff_buf)
+double CDECL apd(double *V, double *t, int factor, int length, double *T_diff_buf)
 {
     // printf("Calling apd %d\n", factor);
 
@@ -234,7 +234,7 @@ double apd(double *V, double *t, int factor, int length, double *T_diff_buf)
     return t_end - t_start;
 }
 
-double apd_up_xy(double *V, double *t, int factor_x, int factor_y, int length, double *T_diff_buf)
+double CDECL apd_up_xy(double *V, double *t, int factor_x, int factor_y, int length, double *T_diff_buf)
 {
     if (factor_x > factor_y) {
         return -INFINITY;
@@ -260,7 +260,7 @@ double apd_up_xy(double *V, double *t, int factor_x, int factor_y, int length, d
     return tx - ty;
 }
 
-double time_up(double *V, double *t, int length, int factor_low, int factor_high,
+double CDECL time_up(double *V, double *t, int length, int factor_low, int factor_high,
                double *T_diff_buf)
 {
 
@@ -285,7 +285,7 @@ double time_up(double *V, double *t, int length, int factor_low, int factor_high
     return t_end_up - t_start_up;
 }
 
-double time_down(double *V, double *t, int length, int factor_low, int factor_high,
+double CDECL time_down(double *V, double *t, int length, int factor_low, int factor_high,
                  double *T_diff_buf)
 {
 
@@ -310,7 +310,7 @@ double time_down(double *V, double *t, int length, int factor_low, int factor_hi
     return t_end_down - t_start_down;
 }
 
-double trapz(double *V, double *T, int length, double extra)
+double CDECL trapz(double *V, double *T, int length, double extra)
 {
     double sum = 0.0;
     double h;
@@ -326,7 +326,7 @@ double trapz(double *V, double *T, int length, double extra)
     return sum;
 }
 
-double compute_integral(double *V, double *t, int length, int factor)
+double CDECL compute_integral(double *V, double *t, int length, int factor)
 {
 
     double V_max = array_max_double(V, length);
@@ -350,7 +350,7 @@ double compute_integral(double *V, double *t, int length, int factor)
     return trapz(V + idx1, t + idx1, n, -th);
 }
 
-void cost_terms_trace(double *R, double *V, double *t, int length)
+void CDECL cost_terms_trace(double *R, double *V, double *t, int length)
 {
     int factor = 10;
     size_t V_size = length * sizeof(double);
@@ -377,13 +377,13 @@ void cost_terms_trace(double *R, double *V, double *t, int length)
     free(T_diff_buf);
 }
 
-void full_cost_terms(double *R, double *V, double *Ca, double *t, int length)
+void CDECL full_cost_terms(double *R, double *V, double *Ca, double *t, int length)
 {
     cost_terms_trace(R, V, t, length);
     cost_terms_trace(R + 30, Ca, t, length);
 }
 
-void fill_cost_array_with_inf(double *R)
+void CDECL fill_cost_array_with_inf(double *R)
 {
     // printf("fill cost array with inf");
     for (int i = 0; i < NUM_COST_TERMS; i++) {
@@ -393,7 +393,7 @@ void fill_cost_array_with_inf(double *R)
 }
 
 
-void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long length,
+void CDECL all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long length,
                     long num_parameter_sets, progress_update_func_ptr progress_update)
 {
 #if defined(_OPENMP)
@@ -412,9 +412,10 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
 #else
         const int thread_id = 0;
 #endif
-
+        // declare loop variable outside loop to make the Microsoft compiler happy
+        long n;
 #pragma omp for
-        for (long n = 0; n < num_parameter_sets; n++) {
+        for (n = 0; n < num_parameter_sets; n++) {
             if (mask[n] == 1) {
                 fill_cost_array_with_inf(R + NUM_COST_TERMS * n);
             } else {
@@ -442,3 +443,9 @@ void all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, long le
     progress_update(num_parameter_sets);
     free(parameter_sets_computed_per_thread);
 }
+
+#ifdef _OS_WINDOWS
+void PyInit_cost_terms() {
+
+}
+#endif
