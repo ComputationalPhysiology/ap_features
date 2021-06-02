@@ -143,6 +143,10 @@ def all_cost_terms_c(
     mask: Optional[np.ndarray] = None,
     normalize_time: bool = True,
 ) -> np.ndarray:
+    # check that the number of trace points is consistent
+    assert t.shape[0] == arr.shape[0]
+    num_trace_points = t.shape[0]
+
     traces = transpose_trace_array(arr[...])
     num_sets = traces.shape[0]
     if mask is None:
@@ -164,8 +168,10 @@ def all_cost_terms_c(
         t = t - t[0]
     R = np.zeros((num_sets, NUM_COST_TERMS))
     lib.all_cost_terms(
-        R, traces, t[...], mask[...], t.size, num_sets, update_progress_func
+        R, traces, t[...], mask[...], num_trace_points, num_sets, update_progress_func
     )
+    if progress_bar:
+        progress_bar.close()
     return R
 
 
