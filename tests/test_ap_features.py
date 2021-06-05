@@ -4,7 +4,7 @@ import os
 import numpy as np
 import pytest
 
-from ap_features import ap_features as cost_terms
+import ap_features as cost_terms
 
 here = os.path.dirname(os.path.abspath(__file__))
 

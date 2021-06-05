@@ -1,19 +1,15 @@
-import ctypes
 import logging
-import os
-import time
-from ctypes import c_double, c_int, c_long, c_uint8, c_void_p
-from pathlib import Path
 from typing import Optional
-from unittest import mock
 
 import numpy as np
-import tqdm
+
+from ._c import NUM_COST_TERMS
 
 try:
     from numba import njit, prange
 except ImportError:
 
+    # In case numba is not install we create a dummy decorator
     def njit(*args, **kwargs):
         def _njit(func):
             def wrapper(*args, **kwargs):
@@ -29,176 +25,6 @@ except ImportError:
     prange = range
 
 logger = logging.getLogger(__name__)
-
-HERE = Path(__file__).absolute().parent
-
-
-def py_update_progress(progress_bar=None):
-    if progress_bar is None:
-        progress_bar = mock.Mock()
-        progress_bar.n = 0
-
-    @ctypes.CFUNCTYPE(c_int, c_int)
-    def py_update_progress_wrap(current_step):
-        increment = current_step - progress_bar.n
-        progress_bar.update(increment)
-        return 0
-
-    return py_update_progress_wrap
-
-
-def load_library(name: str) -> ctypes.CDLL:
-
-    try:
-        libname = next(
-            f.name for f in HERE.iterdir() if f.name.startswith("cost_terms")
-        )
-    except StopIteration:
-        raise FileNotFoundError(f"Could not find shared library for {name}")
-
-    lib = np.ctypeslib.load_library(libname, HERE)
-
-    lib_path = lib._name
-    lib_mtime_float = os.path.getmtime(lib_path)
-    lib_mtime_struct = time.localtime(lib_mtime_float)
-    lib_mtime_str = time.asctime(lib_mtime_struct)
-    logger.debug(f"Loading library '{lib_path}' last modified {lib_mtime_str}")
-    return lib
-
-
-lib = load_library("cost_terms")
-
-uint8_array = np.ctypeslib.ndpointer(dtype=c_uint8, ndim=1, flags="contiguous")
-float64_array = np.ctypeslib.ndpointer(dtype=c_double, ndim=1, flags="contiguous")
-float64_array_2d = np.ctypeslib.ndpointer(dtype=c_double, ndim=2, flags="contiguous")
-float64_array_3d = np.ctypeslib.ndpointer(dtype=c_double, ndim=3, flags="contiguous")
-
-lib.apd.argtypes = [float64_array, float64_array, c_int, c_int, float64_array]
-lib.apd.restype = c_double
-
-lib.apd_up_xy.argtypes = [
-    float64_array,
-    float64_array,
-    c_int,
-    c_int,
-    c_int,
-    float64_array,
-]
-lib.apd_up_xy.restype = c_double
-
-lib.cost_terms_trace.argtypes = [float64_array, float64_array, float64_array, c_int]
-lib.cost_terms_trace.restype = None
-
-lib.get_num_cost_terms.argtypes = []
-lib.get_num_cost_terms.restype = c_int
-
-lib.full_cost_terms.argtypes = [
-    float64_array,
-    float64_array,
-    float64_array,
-    float64_array,
-    c_int,
-]
-lib.full_cost_terms.restype = None
-
-lib.all_cost_terms.argtypes = [
-    float64_array_2d,
-    float64_array_3d,
-    float64_array,
-    uint8_array,
-    c_long,
-    c_long,
-    c_void_p,
-]
-lib.all_cost_terms.restype = None
-
-NUM_COST_TERMS = lib.get_num_cost_terms()
-
-
-def apd_c(V, T, factor):
-    return lib.apd(V[...], T[...], factor, T.size, V.copy())
-
-
-def apd_up_xy_c(V, T, factor_x, factor_y):
-    return lib.apd_up_xy(V[...], T[...], factor_x, factor_y, T.size, V.copy())
-
-
-def cost_terms_trace_c(V, T):
-
-    R = np.zeros(NUM_COST_TERMS // 2)
-    lib.cost_terms_trace(R, V[...], T[...], T.size)
-    return R
-
-
-def cost_terms_c(v, ca, t_v, t_ca):
-    R = np.zeros(NUM_COST_TERMS)
-    lib.cost_terms_trace(R[: NUM_COST_TERMS // 2], v[...], t_v[...], t_v.size)
-    lib.cost_terms_trace(R[NUM_COST_TERMS // 2 :], ca[...], t_ca[...], t_ca.size)
-    return R
-
-
-def all_cost_terms_c(
-    arr: np.ndarray,
-    t: np.ndarray,
-    mask: Optional[np.ndarray] = None,
-    normalize_time: bool = True,
-) -> np.ndarray:
-    # check that the number of trace points is consistent
-    assert t.shape[0] == arr.shape[0]
-    num_trace_points = t.shape[0]
-
-    traces = transpose_trace_array(arr[...])
-    num_sets = traces.shape[0]
-    if mask is None:
-        mask = np.zeros(num_sets, dtype=np.uint8)
-    if mask.dtype != np.uint8:
-        mask = mask.astype(np.uint8)
-
-    verbose = logger.level <= 20
-
-    if verbose:
-        progress_bar = tqdm.tqdm(total=num_sets)
-        progress_bar.set_description("Computing cost terms")
-    else:
-        progress_bar = None
-
-    update_progress_func = py_update_progress(progress_bar)
-
-    if normalize_time:
-        t = t - t[0]
-    R = np.zeros((num_sets, NUM_COST_TERMS))
-    lib.all_cost_terms(
-        R, traces, t[...], mask[...], num_trace_points, num_sets, update_progress_func
-    )
-    if progress_bar:
-        progress_bar.close()
-    return R
-
-
-def list_cost_function_terms_trace(key=""):
-
-    apd_key = "APD"
-    if key.lower() == "ca":
-        apd_key = "CaD"
-
-    if key != "":
-        key += "_"
-
-    lst = (
-        [f"{key}max", f"{key}min", f"{key}t_max", f"d{key}dt_max"]
-        + [f"{apd_key}{apd}" for apd in np.arange(10, 95, 5, dtype=int)]
-        + [
-            f"{apd_key}_up_{x}{y}"
-            for x in np.arange(20, 61, 20, dtype=int)
-            for y in np.arange(x + 20, 81, 20, dtype=int)
-        ]
-        + [f"{key}int_30", f"{key}t_up", f"{key}t_down"]
-    )
-    return lst
-
-
-def list_cost_function_terms():
-    return list_cost_function_terms_trace("V") + list_cost_function_terms_trace("Ca")
 
 
 @njit
