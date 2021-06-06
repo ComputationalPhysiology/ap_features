@@ -1,34 +1,3 @@
-r"""
-Action potential duration
--------------------------
-
-If the signal represent voltage, we would like to compute the action
-potential duration at a given percentage of the signals. Formally,
-Let :math:`p \in (0, 100)`, and define
-
-.. math::
-    y_p = \tilde{y} - \left(1- \frac{p}{100} \right).
-
-Now let :math:`\mathcal{T}` denote the set of solutions of :math:`y_p = 0`,
-i.e
-
-.. math::
-    y_p(t) = 0, \;\; \forall t \in \mathcal{T}
-
-Then there are three different scenarios; :math:`\mathcal{T}` contains one,
-two or more than two elements. Note that :math:`\mathcal{T}` cannot be
-empty (because of the intermediate value theorem).
-The only valid scenario is the case when :math:`\mathcal{T}` contains
-two (or more) elements. In this case we define
-
-.. math::
-    \mathrm{APD} \; p = \max \mathcal{T} - \min \mathcal{T}
-
-for :math:`p < 0.5` and
-
-.. math::
-    \mathrm{APD} \; p = \min \mathcal{T} / \min \mathcal{T}  - \min \mathcal{T}
-"""
 import ctypes
 import logging
 from ctypes import c_int

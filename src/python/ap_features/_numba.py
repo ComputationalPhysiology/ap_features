@@ -142,13 +142,9 @@ def compute_integral(V, T, factor):
 
     # Find end time
     dt_end = np.inf
-    # try:
     t_end, idx2 = get_t_end(max_idx, V, T, th)
     idx2 = idx2 - 1
     dt_end = t_end - T[idx2]
-    # except Exception as ex:
-    # print(ex)
-    # print('Fail at {}'.format(idx2))
 
     # Compute integral
     if np.isinf(dt_end) or np.isinf(dt_start):

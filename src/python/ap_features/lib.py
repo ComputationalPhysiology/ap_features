@@ -35,9 +35,7 @@ def load_library(name: str) -> ctypes.CDLL:
     """
 
     try:
-        libname = next(
-            f.name for f in HERE.iterdir() if f.name.startswith("cost_terms")
-        )
+        libname = next(f.name for f in HERE.iterdir() if f.name.startswith(name))
     except StopIteration:
         raise FileNotFoundError(f"Could not find shared library for {name}")
 
@@ -51,7 +49,7 @@ def load_library(name: str) -> ctypes.CDLL:
     return lib
 
 
-lib = load_library("cost_terms")
+lib = load_library("libcost_terms")
 
 uint8_array = np.ctypeslib.ndpointer(dtype=c_uint8, ndim=1, flags="contiguous")
 float64_array = np.ctypeslib.ndpointer(dtype=c_double, ndim=1, flags="contiguous")

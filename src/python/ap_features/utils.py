@@ -1,4 +1,15 @@
+import logging
+from enum import Enum
+
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
+class Backend(Enum):
+    C = "C"
+    numba = "numba"
+    python = "python"
 
 
 def list_cost_function_terms_trace(key=""):
@@ -25,3 +36,18 @@ def list_cost_function_terms_trace(key=""):
 
 def list_cost_function_terms():
     return list_cost_function_terms_trace("V") + list_cost_function_terms_trace("Ca")
+
+
+def filt(y, kernel_size=None):
+    """
+    Filer signal using a median filter.
+    Default kernel_size is 3
+    """
+    if kernel_size is None:
+        kernel_size = 3
+
+    logger.debug("\nFilter image")
+    from scipy.signal import medfilt
+
+    smooth_trace = medfilt(y, kernel_size)
+    return smooth_trace
