@@ -40,7 +40,7 @@ def py_update_progress(progress_bar: Optional[tqdm.tqdm] = None) -> Callable:
     return py_update_progress_wrap
 
 
-def apd_c(y: np.ndarray, t: np.ndarray, factor: float) -> float:
+def apd(y: np.ndarray, t: np.ndarray, factor: float) -> float:
     """Return the action potential duration at the given factor.
 
     Parameters

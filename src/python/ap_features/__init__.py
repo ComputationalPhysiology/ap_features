@@ -2,19 +2,17 @@ __author__ = """Henrik Finsberg"""
 __email__ = "henriknf@simula.no"
 __version__ = "0.1.0"
 
-# from . import ap_features
+
+from . import features
 from ._c import (
     NUM_COST_TERMS,
     all_cost_terms_c,
-    apd_c,
     apd_up_xy_c,
     cost_terms_c,
     cost_terms_trace_c,
 )
 from ._numba import (
     all_cost_terms,
-    compute_APD,
-    compute_APD_from_stim,
     compute_APDUpxy,
     compute_dvdt_for_v,
     compute_dvdt_max,
@@ -24,9 +22,14 @@ from ._numba import (
     peak_and_repolarization,
     transpose_trace_array,
 )
-from .utils import list_cost_function_terms, list_cost_function_terms_trace
+from .beat import Beat, Trace
+from .features import apd
+from .utils import Backend, list_cost_function_terms, list_cost_function_terms_trace
 
 __all__ = [
+    "features",
+    "apd",
+    "Backend",
     "ap_features",
     "apd_c",
     "apd_up_xy_c",
@@ -47,4 +50,6 @@ __all__ = [
     "list_cost_function_terms_trace",
     "list_cost_function_terms",
     "NUM_COST_TERMS",
+    "Beat",
+    "Trace",
 ]

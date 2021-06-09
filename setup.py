@@ -136,6 +136,7 @@ def get_extension():
     return Extension(
         "ap_features.libcost_terms",
         sources,
+        language="c",
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args,
         export_symbols=c_functions,

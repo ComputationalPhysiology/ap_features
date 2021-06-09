@@ -6,8 +6,8 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-class Backend(Enum):
-    C = "C"
+class Backend(str, Enum):
+    c = "c"
     numba = "numba"
     python = "python"
 

@@ -28,12 +28,12 @@ def synthetic_data(num_parameter_sets=1):
 
 
 @pytest.mark.parametrize(
-    "factor, method", it.product(range(10, 95, 5), ["apd_c", "compute_APD"])
+    "factor, backend", it.product(range(10, 95, 5), cost_terms.Backend)
 )
-def test_apds_triangle_signal(factor, method, triangle_signal):
+def test_apds_triangle_signal(factor, backend, triangle_signal):
     x, y = triangle_signal
-    func = getattr(cost_terms, method)
-    apd = func(y, x, factor)
+
+    apd = cost_terms.apd(V=y, t=x, factor=factor, backend=backend)
     assert abs(apd - 2 * factor) < 1e-10
 
 
@@ -154,13 +154,24 @@ def test_cost_terms_trace(synthetic_data):
     assert np.all(np.abs(cost_terms_c[x] - cost_terms_py[x]) < 1e-10)
 
 
-@pytest.mark.parametrize("factor", (40, 60, 80))
-def test_apd_equivalence(factor, synthetic_data):
+@pytest.mark.parametrize("factor, backend", it.product((40, 60, 80), ("c", "numba")))
+def test_apd_equivalence(factor, backend, synthetic_data):
     arr, t, expected_cost = synthetic_data
     V = np.ascontiguousarray(arr[0, :])
-    apd_c = cost_terms.apd_c(V, t, factor)
-    apd_py = cost_terms.compute_APD(V, t, factor)
-    assert abs(apd_c - apd_py) < 1e-10
+    apd_py = cost_terms.apd(V=V, t=t, factor=factor, backend="python")
+    apd_x = cost_terms.apd(V=V, t=t, factor=factor, backend=backend)
+    # We expect some difference here, but no more than 1ms
+    assert abs(apd_x - apd_py) < 1
+
+
+@pytest.mark.parametrize("factor", (40, 60, 80))
+def test_apd_equivalence_c_numba(factor, synthetic_data):
+    arr, t, expected_cost = synthetic_data
+    V = np.ascontiguousarray(arr[0, :])
+    apd_numba = cost_terms.apd(V=V, t=t, factor=factor, backend="numba")
+    apd_c = cost_terms.apd(V=V, t=t, factor=factor, backend="c")
+
+    assert abs(apd_c - apd_numba) < 1e-10
 
 
 @pytest.mark.parametrize(

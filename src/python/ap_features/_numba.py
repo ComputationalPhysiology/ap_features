@@ -42,24 +42,24 @@ def compute_dvdt_for_v(V, T, V_th):
     return (V[idx_o] - V[idx_o - 1]) / (T[idx_o] - T[idx_o - 1])
 
 
-@njit
-def compute_APD_from_stim(V, T, t_stim, factor):
-    T_half = T.max() / 2
-    idx_T_half = np.argmin(np.abs(T - T_half))
+# @njit
+# def compute_APD_from_stim(V, T, t_stim, factor):
+#     T_half = T.max() / 2
+#     idx_T_half = np.argmin(np.abs(T - T_half))
 
-    # Set up threshold
-    V_max = np.max(V[:idx_T_half])
-    max_idx = np.argmax(V[:idx_T_half])
-    V_min = np.min(V)
+#     # Set up threshold
+#     V_max = np.max(V[:idx_T_half])
+#     max_idx = np.argmax(V[:idx_T_half])
+#     V_min = np.min(V)
 
-    th = V_min + (1 - factor / 100) * (V_max - V_min)
+#     th = V_min + (1 - factor / 100) * (V_max - V_min)
 
-    # % Find start time
-    t_start = t_stim
-    # % Find end time
-    t_end, idx2 = get_t_end(max_idx, V, T, th, t_end=T[-1])
+#     # % Find start time
+#     t_start = t_stim
+#     # % Find end time
+#     t_end, idx2 = get_t_end(max_idx, V, T, th, t_end=T[-1])
 
-    return t_end - t_start
+#     return t_end - t_start
 
 
 @njit
@@ -196,7 +196,7 @@ def compute_dvdt_max(V, T):
 
 
 @njit
-def compute_APD(V, T, factor):
+def apd(V, T, factor):
 
     T_half = T.max() / 2
     idx_T_half = np.argmin(np.abs(T - T_half))
@@ -232,8 +232,8 @@ def _cost_terms_trace(v, t, R):
     R[3] = compute_dvdt_max(v, t)
 
     i = 4
-    for apd in np.arange(10, 95, 5):
-        R[i] = compute_APD(v, t, apd)
+    for factor in np.arange(10, 95, 5):
+        R[i] = apd(v, t, factor)
         i += 1
     for x in np.arange(20, 61, 20):
         for y in np.arange(x + 20, 81, 20):

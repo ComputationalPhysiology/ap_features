@@ -428,7 +428,7 @@ void CDECL all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, l
 }
 
 #ifdef _OS_WINDOWS
-void PyInit_cost_terms()
+void PyInit_libcost_terms()
 {
 }
 #endif
