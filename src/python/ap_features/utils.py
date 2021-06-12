@@ -1,9 +1,12 @@
 import logging
 from enum import Enum
+from typing import List, Sequence, Union
 
 import numpy as np
 
 logger = logging.getLogger(__name__)
+
+Array = Union[np.ndarray, List[float], Sequence[float]]
 
 
 class Backend(str, Enum):

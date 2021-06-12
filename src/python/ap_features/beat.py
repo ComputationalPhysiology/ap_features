@@ -1,17 +1,18 @@
-from typing import List, Optional, Sequence
+from typing import List, Optional
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import features
+from . import background, features
+from .utils import Array
 
 
 class Trace:
     def __init__(
         self,
-        t: Sequence[float],
-        y: Sequence[float],
-        pacing: Optional[Sequence[float]] = None,
+        t: Array,
+        y: Array,
+        pacing: Optional[Array] = None,
     ) -> None:
 
         self._t = np.array(t)
@@ -46,14 +47,16 @@ class Trace:
 class Beat(Trace):
     def __init__(
         self,
-        t: Sequence[float],
-        y: Sequence[float],
-        pacing: Optional[Sequence[float]] = None,
-        y_rest: float = 0,
+        t: Array,
+        y: Array,
+        pacing: Optional[Array] = None,
+        y_rest: Optional[float] = None,
+        parent: Optional["BeatSeries"] = None,
     ) -> None:
 
         super().__init__(t, y, pacing)
         self._y_rest = y_rest
+        self._parent = parent
 
     @property
     def y_normalized(self):
@@ -70,7 +73,30 @@ class Beat(Trace):
         f = UnivariateSpline(self.t, self.y_normalized - 0.5, s=0, k=3)
         return f.roots().size == 2
 
-    def apd(self, factor):
+    @property
+    def parent(self) -> "BeatSeries":
+        """If the beat comes from a BeatSeries
+        object then this will return that BeatSeries
+
+        Returns
+        -------
+        BeatSeries
+            The parent BeatSeries
+        """
+
+    def apd(self, factor: int) -> Optional[float]:
+        """The action potential duration
+
+        Parameters
+        ----------
+        factor : int
+            Integer between 0 and 100
+
+        Returns
+        -------
+        float
+            action potential duration
+        """
         return features.apd(factor=factor, V=self.y, t=self.t, v_r=self.y_rest)
 
     def apd_up(self, factor_x, factor_y):
@@ -78,8 +104,25 @@ class Beat(Trace):
 
 
 class BeatSeries(Trace):
+    def __init__(
+        self,
+        t: Array,
+        y: Array,
+        pacing: Optional[Array] = None,
+        correct_background: bool = False,
+    ) -> None:
+        self._background = None
+        if correct_background:
+            self._background = background.correct_background(x=t, y=y)
+
+        super().__init__(t, y, pacing=pacing)
+
     def chop(self) -> List[Beat]:
         raise NotImplementedError
 
     def beatrate(self):
         raise NotImplementedError
+
+    @property
+    def background(self) -> Optional[background.Background]:
+        return self._background

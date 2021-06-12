@@ -3,7 +3,7 @@ __email__ = "henriknf@simula.no"
 __version__ = "0.1.0"
 
 
-from . import features
+from . import background, features
 from ._c import (
     NUM_COST_TERMS,
     all_cost_terms_c,
@@ -22,7 +22,7 @@ from ._numba import (
     peak_and_repolarization,
     transpose_trace_array,
 )
-from .beat import Beat, Trace
+from .beat import Beat, BeatSeries, Trace
 from .features import apd
 from .utils import Backend, list_cost_function_terms, list_cost_function_terms_trace
 
@@ -52,4 +52,6 @@ __all__ = [
     "NUM_COST_TERMS",
     "Beat",
     "Trace",
+    "BeatSeries",
+    "background",
 ]

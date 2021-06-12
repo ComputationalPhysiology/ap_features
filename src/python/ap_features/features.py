@@ -1,12 +1,12 @@
 import logging
 from collections import namedtuple
-from typing import Optional, Sequence, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
 from . import _c, _numba
-from .utils import Backend
+from .utils import Array, Backend
 
 logger = logging.getLogger(__name__)
 
@@ -19,26 +19,24 @@ APDCoords = namedtuple("APDCoords", ["x1", "x2", "y1", "y2", "yth"])
 
 def apd(
     factor: int,
-    V: Sequence[float],
-    t: Sequence[float],
+    V: Array,
+    t: Array,
     v_r: Optional[float] = None,
     use_spline: bool = True,
     backend: Backend = Backend.python,
 ) -> Optional[float]:
-    r"""
-    Return the action potential duration at the given
+    r"""Return the action potential duration at the given
     factor repolarization, so that factor = 0
     would be zero, and factor = 1 given the time from triggering
     to potential is down to resting potential.
-
 
     Parameters
     ----------
     factor : int
         The APD factor between 0 and 100
-    V : Sequence[float]
+    V : Array
         The signal
-    t : Sequence[float]
+    t : Array
         The time stamps
     v_r : Optional[float], optional
         Resting value, by default None. Only applicablle for python Backend.
@@ -60,6 +58,15 @@ def apd(
         If the signal has more intersection than two with the
         APX_X line, then the first and second occurence will be used.
 
+
+    Raises
+    ------
+    ValueError
+        If factor is outside the range of (0, 100)
+    ValueError
+        If shape of x and y does not match
+    RunTimeError
+        In unable to compute APD
 
     Notes
     -----
@@ -90,7 +97,8 @@ def apd(
     .. math::
         \mathrm{APD} \; p = \min \mathcal{T} / \min \mathcal{T}  - \min \mathcal{T}
 
-    """
+    """ ""
+
     assert backend in Backend.__members__
 
     if not 0 < factor < 100:
@@ -155,8 +163,8 @@ def _apd(
 
 def apd_coords(
     factor: int,
-    V: Sequence[float],
-    t: Sequence[float],
+    V: Array,
+    t: Array,
     v_r: Optional[float] = None,
     use_spline=True,
 ) -> APDCoords:
@@ -167,9 +175,9 @@ def apd_coords(
     ----------
     factor : int
         The APD factor between 0 and 100
-    V : Sequence[float]
+    V : Array
         The signal
-    t : Sequence[float]
+    t : Array
         The time stamps
     v_r : Optional[float], optional
         Resting value, by default None. Only applicablle for python Backend.
@@ -194,21 +202,45 @@ def apd_coords(
     return APDCoords(x1, x2, y1, y2, yth)
 
 
-def tau(x, y, a=0.75):
+def tau(
+    x: Array,
+    y: Array,
+    a: float = 0.75,
+    backend: Backend = Backend.python,
+) -> float:
     """
     Decay time. Time for the signal amplitude to go from maxium to
     (1 - a) * 100 % of maximum
 
-    Arguments
-    ---------
-    x : array
+    Parameters
+    ----------
+    x : Array
         The time stamps
-    y : array
+    y : Array
         The signal
-    a : The value for which you want to estimate the time decay
+    a : float, optional
+        The value for which you want to estimate the time decay, by default 0.75
+    backend : Backend, optional
+        Which backend to use by default Backend.python.
+        Choices, 'python', 'c', 'numba'
+
+    Returns
+    -------
+    float
+        Decay time
+
+    Raises
+    ------
+    NotImplementedError
+        If unsupported backend is used
     """
+    if backend != Backend.python:
+        raise NotImplementedError(
+            "Method currently only implemented for python backend"
+        )
+
     Y = UnivariateSpline(x, normalize_signal(y) - a, s=0, k=3)
-    t_max = x[np.argmax(y)]
+    t_max = x[int(np.argmax(y))]
     r = Y.roots()
     if len(r) >= 2:
         t_a = r[1]
@@ -231,34 +263,59 @@ def tau(x, y, a=0.75):
     return t_a - t_max
 
 
-def time_to_peak(x, y, pacing=None):
-    """
-    Computed the time to peak from pacing is
-    triggered to maximum amplitude. Note, if pacing info
+def time_to_peak(
+    x: Array,
+    y: Array,
+    pacing: Optional[Array] = None,
+    backend: Backend = Backend.python,
+) -> float:
+    """Computed the time to peak from pacing is
+    triggered to maximum amplitude. Note, if pacing
     is not provided it will compute the time from
     the beginning of the trace (which might not be consistent)
     to the peak.
 
-    Arguments
-    ---------
-    x : array
+    Parameters
+    ----------
+    x : Array
         The time stamps
-    y : array
+    y : Array
         The signal
-    pacing : array
-        The pacing amplitude
+    pacing : Optional[Array], optional
+        The pacing amplitude, by default None
+    backend : Backend, optional
+        Which backend to use by default Backend.python.
+        Choices, 'python', 'c', 'numba'
+
+    Returns
+    -------
+    float
+        Time to peak
+
+    Raises
+    ------
+    NotImplementedError
+        If unsupported backend is used
     """
+    if backend != Backend.python:
+        raise NotImplementedError(
+            "Method currently only implemented for python backend"
+        )
 
     if pacing is None:
-        return x[np.argmax(y)]
+        return x[int(np.argmax(y))]
 
-    t_max = x[np.argmax(y)]
+    t_max = x[int(np.argmax(y))]
     if pacing is None:
         t_start = x[0]
     else:
         try:
             start_idx = (
-                next(i for i, p in enumerate(np.diff(pacing.astype(float))) if p > 0)
+                next(
+                    i
+                    for i, p in enumerate(np.diff(np.array(pacing).astype(float)))
+                    if p > 0
+                )
                 + 1
             )
         except StopIteration:
@@ -268,16 +325,51 @@ def time_to_peak(x, y, pacing=None):
     return t_max - t_start
 
 
-def upstroke(x, y, a=0.8):
-    """
-    Compute the time from (1-a)*100 % signal
+def upstroke(
+    x: Array,
+    y: Array,
+    a: float = 0.8,
+    backend: Backend = Backend.python,
+) -> float:
+    """Compute the time from (1-a)*100 % signal
     amplitude to peak. For example if if a = 0.8
     if will compute the time from the starting value
     of APD80 to the upstroke.
+
+    Parameters
+    ----------
+    x : Array
+        The time stamps
+    y : Array
+        The signal
+    a : float, optional
+        Fraction of signal amplitide, by default 0.8
+    backend : Backend, optional
+        Which backend to use by default Backend.python.
+        Choices, 'python', 'c', 'numba'
+
+    Returns
+    -------
+    float
+        The upstroke value
+
+    Raises
+    ------
+    NotImplementedError
+        If unsupported backend is used
+    ValueError
+        If a is outside the range of (0, 1)
     """
+    if backend != Backend.python:
+        raise NotImplementedError(
+            "Method currently only implemented for python backend"
+        )
+
+    if not 0 < a < 1:
+        raise ValueError("'a' has to be between 0.0 and 1.0")
 
     Y = UnivariateSpline(x, normalize_signal(y) - (1 - a), s=0, k=3)
-    t_max = x[np.argmax(y)]
+    t_max = x[int(np.argmax(y))]
     r = Y.roots()
     if len(r) >= 1:
         if len(r) == 1:
@@ -300,10 +392,21 @@ def upstroke(x, y, a=0.8):
     return t_max - t_a
 
 
-def beating_frequency(times, unit="ms"):
-    """
-    Returns the approximate beating frequency
-    in Hz
+def beating_frequency(times: List[Array], unit: str = "ms") -> float:
+    """Returns the approximate beating frequency in Hz by
+    finding the average duration of each beat
+
+    Parameters
+    ----------
+    times : List[Array]
+        Time stamps of all beats
+    unit : str, optional
+        Unit of time, by default "ms"
+
+    Returns
+    -------
+    float
+        Beating frequency in Hz
     """
     if len(times) == 0:
         return np.nan
@@ -317,13 +420,30 @@ def beating_frequency(times, unit="ms"):
     return 1.0 / t_mean
 
 
-def beating_frequency_modified(data, times, unit="ms"):
-    """
-    Returns the approximate beating frequency
-    in Hz
+def beating_frequency_from_peaks(
+    signals: List[Array],
+    times: List[Array],
+    unit: str = "ms",
+) -> float:
+    """Returns the beating frequency in Hz by using
+    the peak values of the signals in each beat
+
+    Parameters
+    ----------
+    signals : List[Array]
+        The signal values for each beat
+    times : List[Array]
+        The time stamps of all beats
+    unit : str, optional
+        Unit of time, by default "ms"
+
+    Returns
+    -------
+    float
+        Beating frequency in Hz
     """
 
-    t_maxs = [t[np.argmax(c)] for c, t in zip(data, times)]
+    t_maxs = [t[int(np.argmax(c))] for c, t in zip(signals, times)]
 
     dt = np.diff(t_maxs)
     if unit == "ms":
