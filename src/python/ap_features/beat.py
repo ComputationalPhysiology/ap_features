@@ -8,12 +8,7 @@ from .utils import Array
 
 
 class Trace:
-    def __init__(
-        self,
-        t: Array,
-        y: Array,
-        pacing: Optional[Array] = None,
-    ) -> None:
+    def __init__(self, t: Array, y: Array, pacing: Optional[Array] = None,) -> None:
 
         self._t = np.array(t)
         self._y = np.array(y)

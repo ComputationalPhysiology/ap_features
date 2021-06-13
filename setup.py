@@ -146,6 +146,5 @@ def get_extension():
 requirements = ["numpy", "numba", "tqdm"]
 
 setup(
-    ext_modules=[get_extension()],
-    version="1.0.0",
+    ext_modules=[get_extension()], version="1.0.0",
 )

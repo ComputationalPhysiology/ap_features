@@ -6,7 +6,7 @@ import numpy as np
 from scipy.interpolate import UnivariateSpline
 
 from . import _c, _numba
-from .utils import Array, Backend
+from .utils import Array, Backend, _check_factor
 
 logger = logging.getLogger(__name__)
 
@@ -101,8 +101,7 @@ def apd(
 
     assert backend in Backend.__members__
 
-    if not 0 < factor < 100:
-        raise ValueError(f"Factor has to be between 0 and 100, got {factor}")
+    _check_factor(factor)
 
     y = np.array(V)
     x = np.array(t)
@@ -129,6 +128,7 @@ def _apd(
     use_spline=True,
 ) -> Tuple[float, float]:
 
+    _check_factor(factor)
     y = normalize_signal(V, v_r) - (1 - factor / 100)
 
     if use_spline:
@@ -162,11 +162,7 @@ def _apd(
 
 
 def apd_coords(
-    factor: int,
-    V: Array,
-    t: Array,
-    v_r: Optional[float] = None,
-    use_spline=True,
+    factor: int, V: Array, t: Array, v_r: Optional[float] = None, use_spline=True,
 ) -> APDCoords:
     """Return the coordinates of the start and stop
         of the APD, and not the duration itself
@@ -190,6 +186,7 @@ def apd_coords(
     APDCoords
         APD coordinates
     """
+    _check_factor(factor)
     y = np.array(V)
     x = np.array(t)
     x1, x2 = _apd(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
@@ -203,10 +200,7 @@ def apd_coords(
 
 
 def tau(
-    x: Array,
-    y: Array,
-    a: float = 0.75,
-    backend: Backend = Backend.python,
+    x: Array, y: Array, a: float = 0.75, backend: Backend = Backend.python,
 ) -> float:
     """
     Decay time. Time for the signal amplitude to go from maxium to
@@ -326,10 +320,7 @@ def time_to_peak(
 
 
 def upstroke(
-    x: Array,
-    y: Array,
-    a: float = 0.8,
-    backend: Backend = Backend.python,
+    x: Array, y: Array, a: float = 0.8, backend: Backend = Backend.python,
 ) -> float:
     """Compute the time from (1-a)*100 % signal
     amplitude to peak. For example if if a = 0.8
@@ -421,9 +412,7 @@ def beating_frequency(times: List[Array], unit: str = "ms") -> float:
 
 
 def beating_frequency_from_peaks(
-    signals: List[Array],
-    times: List[Array],
-    unit: str = "ms",
+    signals: List[Array], times: List[Array], unit: str = "ms",
 ) -> float:
     """Returns the beating frequency in Hz by using
     the peak values of the signals in each beat
@@ -482,9 +471,11 @@ def find_upstroke_values(
     return upstroke
 
 
-def time_between_APDs(t, y, from_APD, to_APD):
-    """Find the duration between first intersection
-    of two APD lines
+def time_between_APDs(
+    t: Array, y: Array, from_APD: int, to_APD: int, backend: Backend = Backend.python
+):
+    """Find the duration between first intersection (i.e
+    during the upstroke) of two APD lines
 
     Arguments
     ---------
@@ -511,16 +502,15 @@ def time_between_APDs(t, y, from_APD, to_APD):
         t2080 = time_between_APDs(t, y, 20, 80)
 
     """
+    _check_factor(from_APD)
+    _check_factor(to_APD)
+
     y_norm = normalize_signal(y)
 
-    if not (0 < from_APD < 1):
-        from_APD /= 100
-    y_from = UnivariateSpline(t, y_norm - from_APD, s=0, k=3)
+    y_from = UnivariateSpline(t, y_norm - from_APD / 100, s=0, k=3)
     t_from = y_from.roots()[0]
 
-    if not (0 < to_APD < 1):
-        to_APD /= 100
-    y_to = UnivariateSpline(t, y_norm - to_APD, s=0, k=3)
+    y_to = UnivariateSpline(t, y_norm - to_APD / 100, s=0, k=3)
     t_to = y_to.roots()[0]
 
     return t_to - t_from

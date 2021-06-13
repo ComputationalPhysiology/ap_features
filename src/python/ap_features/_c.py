@@ -6,8 +6,10 @@ from unittest import mock
 
 import numpy as np
 import tqdm
+from scipy import interpolate
 
 from .lib import lib
+from .utils import Array, _check_factor
 
 logger = logging.getLogger(__name__)
 NUM_COST_TERMS = lib.get_num_cost_terms()
@@ -40,17 +42,17 @@ def py_update_progress(progress_bar: Optional[tqdm.tqdm] = None) -> Callable:
     return py_update_progress_wrap
 
 
-def apd(y: np.ndarray, t: np.ndarray, factor: float) -> float:
+def apd(y: Array, t: Array, factor: interpolate) -> float:
     """Return the action potential duration at the given factor.
 
     Parameters
     ----------
-    y : np.ndarray
+    y : Array
         The signal
-    t : np.ndarray
+    t : Array
         The time stamps
-    factor : float
-        The factor
+    factor : int
+        The factor value between 0 and 100
 
     Returns
     -------
@@ -58,11 +60,21 @@ def apd(y: np.ndarray, t: np.ndarray, factor: float) -> float:
         The action potential duration
 
     """
-    return lib.apd(y[...], t[...], factor, y.size, y.copy())
+    _check_factor(factor)
+    return lib.apd(
+        np.array(y)[...], np.array(y)[...], int(factor), len(y), np.array(y).copy()
+    )
 
 
-def apd_up_xy_c(V, T, factor_x, factor_y):
-    return lib.apd_up_xy(V[...], T[...], factor_x, factor_y, T.size, V.copy())
+def apd_up_xy_c(y: Array, t: Array, factor_x: int, factor_y: int) -> float:
+    return lib.apd_up_xy(
+        np.array(y)[...],
+        np.array(t)[...],
+        factor_x,
+        factor_y,
+        len(t),
+        np.array(y).copy(),
+    )
 
 
 def cost_terms_trace_c(V, T):

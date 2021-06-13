@@ -15,6 +15,15 @@ class Backend(str, Enum):
     python = "python"
 
 
+def _check_factor(factor: float) -> None:
+    if not 0 < factor < 100:
+        raise ValueError(f"Factor has to be between 0 and 100, got {factor}")
+    if factor < 1:
+        logger.warning(
+            f"Factor passed to APD calculation is {factor}, did you mean {factor * 100}?"
+        )
+
+
 def list_cost_function_terms_trace(key=""):
 
     apd_key = "APD"

@@ -41,11 +41,7 @@ def main():
     Iext = 0.23
     time = np.linspace(0, 999, 1000)
     res = solve_ivp(
-        fitzhugh_nagumo,
-        [0, 1000],
-        [0, 0],
-        args=(a, b, tau, Iext),
-        t_eval=time,
+        fitzhugh_nagumo, [0, 1000], [0, 0], args=(a, b, tau, Iext), t_eval=time,
     )
 
     v = res.y[0, :]
