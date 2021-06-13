@@ -19,7 +19,7 @@ class BackgroundCostFunction(str, Enum):
 
 
 def correct_background(x: Array, y: Array, **kwargs) -> Background:
-    """Perform at background correction.
+    r"""Perform at background correction.
     First estimate background :math:`b`, and let
     :math:`F_0 = b(0)`. The corrected background is
     then :math:`\frac{y - b}{F_0}`. Additional argument

@@ -60,18 +60,14 @@ test: ## run tests on every Python version with tox
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/ap_features.rst
 	rm -f docs/modules.rst
-	pandoc README.md -o docs/readme.rst
-	pandoc HISTORY.md -o docs/history.rst
-	pandoc CONTRIBUTING.md -o docs/contributing.rst
-	pandoc AUTHORS.md -o docs/authors.rst
+	for file in README.md HISTORY.md CONTRIBUTING.md AUTHORS.md; do \
+		cp $$file docs/. ;\
+	done
 	sphinx-apidoc -o docs/ src/python/ap_features
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	# $(BROWSER) docs/_build/html/index.html
 	# python -m http.server --directory docs/_build/html
-
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 release: dist ## package and upload a release
 	python3 -m twine upload -u ${PYPI_USERNAME} -p ${PYPI_PASSWORD} dist/*

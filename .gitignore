@@ -1,3 +1,13 @@
+docs/AUTHORS.md
+docs/CONTRIBUTING.md
+docs/HISTORY.md
+docs/INDEX.md
+docs/README.md
+docs/ap_features.md
+docs/modules.md
+
+wheel/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

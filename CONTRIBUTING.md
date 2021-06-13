@@ -57,13 +57,13 @@ Ready to contribute? Here's how to set up ap_features for local development.
 
 2.  Clone your fork locally:
 
-    ``` {.shell}
+    ```Shell
     $ git clone git@github.com:your_name_here/ap_features.git
     ```
 
 3.  Install your local copy into a virtual environment.
 
-    ``` {.shell}
+    ```Shell
     $ cd ap_features/
     $ python -m venv venv
     $ source venv/bin/activate
@@ -72,7 +72,7 @@ Ready to contribute? Here's how to set up ap_features for local development.
 
 4.  Create a branch for local development:
 
-    ``` {.shell}
+    ```Shell
     $ git checkout -b name-of-your-bugfix-or-feature
     ```
 
@@ -82,7 +82,7 @@ Ready to contribute? Here's how to set up ap_features for local development.
     flake8, static type checking and the tests, including testing other Python versions with
     tox:
 
-    ``` {.shell}
+    ```Shell
     $ make lint
     $ make type
     $ make test
@@ -92,7 +92,7 @@ Ready to contribute? Here's how to set up ap_features for local development.
 
 6.  Commit your changes and push your branch to GitHub:
 
-    ``` {.shell}
+    ```Shell
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
@@ -115,7 +115,7 @@ Before you submit a pull request, check that it meets these guidelines:
 
 To run a subset of tests starting with `test_something` do:
 
-``` {.shell}
+```Shell
 $ python -m pytest -k test_something
 ```
 
@@ -126,7 +126,7 @@ $ python -m pytest -k test_something
 A reminder for the maintainers on how to deploy. Make sure all your
 changes are committed (including an entry in HISTORY.md). Then run:
 
-``` {.shell}
+```Shell
 $ bump2version patch # possible: major / minor / patch
 $ git push
 $ git push --tags

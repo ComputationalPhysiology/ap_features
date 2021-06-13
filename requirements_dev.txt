@@ -15,3 +15,5 @@ ipython
 pandoc
 sphinx_rtd_theme
 pdbpp
+sphinx-press-theme
+myst-parser
