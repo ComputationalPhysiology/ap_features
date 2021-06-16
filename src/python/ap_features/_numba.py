@@ -108,7 +108,7 @@ def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> flo
         return 0
 
     t_half = t.max() / 2
-    idx_t_half = np.argmin(np.abs(t - t_half))
+    idx_t_half = int(np.argmin(np.abs(t - t_half)))
 
     # Set up threshold
     y_max = np.max(y[:idx_t_half])
