@@ -1,9 +1,11 @@
 # Credits
 
-## Development Lead
+## Maintainers
 
 -   Henrik Finsberg henriknf@simula.no
+-   Kristian G. Hustad kghustad@simula.no
 
-## Contributors
-
-None yet. Why not be the first?
+This package was created with
+[Cookiecutter](https://github.com/audreyr/cookiecutter) and the
+[finsberg/cookiecutter-pypackage](https://github.com/ComputationalPhysiology/cookiecutter-pypackage)
+project template.

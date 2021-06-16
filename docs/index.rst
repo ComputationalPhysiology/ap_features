@@ -5,12 +5,12 @@ Welcome to Action Potential features's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   readme
-   installation
-   usage
-   contributing
-   authors
-   history
+   README.md
+   INSTALL.md
+   USAGE.md
+   CONTRIBUTING.md
+   AUTHORS.md
+   HISTORY.md
 
 Programmers reference
 =====================

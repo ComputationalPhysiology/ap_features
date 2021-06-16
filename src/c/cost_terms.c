@@ -201,36 +201,18 @@ double CDECL dv_dt_max(double *V, double *t, int length)
 
 double CDECL apd(double *V, double *t, int factor, int length, double *T_diff_buf)
 {
-    // printf("Calling apd %d\n", factor);
 
     double T_max = array_max_double(t, length);
-    // printf("T_max = %f\n", T_max);
     double T_half = T_max / 2;
-    // printf("T_half = %f\n", T_half);
-
     sub_abs(T_diff_buf, t, T_half, length);
     int idx_T_half = argmin(T_diff_buf, length);
-
-    // printf("idx_T_half = %d\n", idx_T_half);
-
     double V_max = array_max_double(V, idx_T_half);
-    // printf("V_max = %f\n", V_max);
-
     int max_idx = argmax(V, idx_T_half);
-    // printf("max_idx = %d\n", max_idx);
-
     double V_min = array_min_double(V, length);
-    // printf("V_min = %f\n", V_min);
-
     double th = V_min + (1 - factor / 100.0) * (V_max - V_min);
-    // printf("th = %f\n", th);
-
     double t_start = get_t_start(max_idx, V, t, th, length, 0.0);
-    // printf("t_start = %f\n", t_start);
-
     double t_end = get_t_end(max_idx, V, t, th, length, INFINITY);
-    // printf("t_end = %f\n", t_end);
-    // printf("Done - Calling apd %d\n", factor);
+
     return t_end - t_start;
 }
 
@@ -446,7 +428,7 @@ void CDECL all_cost_terms(double *R, double *traces, double *t, uint8_t *mask, l
 }
 
 #ifdef _OS_WINDOWS
-void PyInit_cost_terms()
+void PyInit_libcost_terms()
 {
 }
 #endif

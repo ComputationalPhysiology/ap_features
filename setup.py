@@ -134,8 +134,9 @@ def get_extension():
     c_functions = collect_c_functions(sources)
 
     return Extension(
-        "ap_features.cost_terms",
+        "ap_features.libcost_terms",
         sources,
+        language="c",
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args,
         export_symbols=c_functions,
@@ -145,6 +146,5 @@ def get_extension():
 requirements = ["numpy", "numba", "tqdm"]
 
 setup(
-    ext_modules=[get_extension()],
-    version="1.0.0",
+    ext_modules=[get_extension()], version="1.0.0",
 )
