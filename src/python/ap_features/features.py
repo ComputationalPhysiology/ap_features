@@ -43,7 +43,7 @@ def apd(
     use_spline : bool, optional
         Use spline interpolation, by default True.
         Only applicablle for python Backend.
-    backend : Backend, optional
+    backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
 
@@ -221,7 +221,7 @@ def tau(
         The signal
     a : float, optional
         The value for which you want to estimate the time decay, by default 0.75
-    backend : Backend, optional
+    backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
 
@@ -284,7 +284,7 @@ def time_to_peak(
         The signal
     pacing : Optional[Array], optional
         The pacing amplitude, by default None
-    backend : Backend, optional
+    backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
 
@@ -345,7 +345,7 @@ def upstroke(
         The signal
     a : float, optional
         Fraction of signal amplitide, by default 0.8
-    backend : Backend, optional
+    backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
 
@@ -499,7 +499,7 @@ def apd_up_xy(
         First APD line (value between 0 and 100)
     to_APD: int
         Second APD line (value between 0 and 100)
-    backend : Backend, optional
+    backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
 

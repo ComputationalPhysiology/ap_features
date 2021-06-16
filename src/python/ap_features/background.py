@@ -52,7 +52,7 @@ def background(
     threshold: float = 0.01,
     cost_function: BackgroundCostFunction = BackgroundCostFunction.atq,
 ) -> np.ndarray:
-    """Compute an estimation of the background (aka baseline)
+    r"""Compute an estimation of the background (aka baseline)
     in chemical spectra. The background is estimated by a polynomial
     with order using a cost-function and a threshold parameter.
     This is a reimplementation of a MATLAB script that
@@ -62,9 +62,9 @@ def background(
     Parameters
     ----------
     x : Array
-        [description]
+        Time stamps
     y : Array
-        [description]
+        Signal
     order : int, optional
         Polynomial order, by default 2
     threshold : float, optional
@@ -72,20 +72,50 @@ def background(
     cost_function : BackgroundCostFunction, optional
         Cost function to be minimized, by default BackgroundCostFunction.atq.
         The cost functions can have the following forms:
-        FUNCTION can have the four following values:
-        'sh'  - symmetric Huber function :  f(x) = { x^2  if abs(x) < threshold,
-                                                   { 2*threshold*abs(x)-threshold^2  otherwise.
-        'ah'  - asymmetric Huber function :  f(x) = { x^2  if x < threshold,
-                                                    { 2*threshold*x-threshold^2  otherwise.
-        'stq' - symmetric truncated quadratic :  f(x) = { x^2  if abs(x) < threshold,
-                                                        { threshold^2  otherwise.
-        'atq' - asymmetric truncated quadratic :  f(x) = { x^2  if x < threshold,
-                                                         { threshold^2  otherwise.
 
     Returns
     -------
     np.ndarray
         The estimated baseline
+
+    Notes
+    -----
+
+    The cost function can have the four following values:
+
+    * sh  - symmetric Huber function :
+
+        .. math::
+            f(x) =  \begin{cases}
+                    x^2, \; \text{ if } |x| < \text{threshold} \\
+                    2 \text{threshold}  |x|-\text{threshold}^2,  \; \text{otherwise}
+                    \end{cases}
+
+    * ah  - asymmetric Huber function :
+
+        .. math::
+            f(x) =  \begin{cases}
+                    x^2, \; \text{ if } x < \text{threshold} \\
+                    2 \text{threshold} x-\text{threshold}^2 , \; \text{otherwise}
+                    \end{cases}
+
+
+    * stq - symmetric truncated quadratic :
+
+        .. math::
+            f(x) =  \begin{cases}
+                    x^2, \; \text{ if } |x| < \text{threshold} \\
+                    \text{threshold}^2 , \; \text{otherwise}
+                    \end{cases}
+
+    * atq - asymmetric truncated quadratic :
+
+        .. math::
+            f(x) =  \begin{cases}
+                    x^2, \; \text{ if } x < \text{threshold} \\
+                    \text{threshold}^2 , \; \text{otherwise}
+                    \end{cases}
+
 
     .. rubric:: References
 

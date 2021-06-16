@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#
+# type:ignore
 # ap_features documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun  9 13:47:02 2017.
 #
@@ -19,6 +19,9 @@
 #
 import os
 import sys
+from pathlib import Path
+
+here = Path(__file__).parent.absolute()
 
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -106,7 +109,9 @@ html_theme = "press"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+_static_path = "_static"
+here.joinpath(_static_path).mkdir(exist_ok=True)
+html_static_path = [_static_path]
 
 
 # -- Options for HTMLHelp output ---------------------------------------

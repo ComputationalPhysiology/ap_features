@@ -104,15 +104,15 @@ class Beat(Trace):
         """Decay time. Time for the signal amplitude to go from maxium to
         (1 - a) * 100 % of maximum
 
-            Parameters
-            ----------
-            a : float
-                The value for which you want to estimate the time decay
+        Parameters
+        ----------
+        a : float
+            The value for which you want to estimate the time decay
 
-            Returns
-            -------
-            float
-                Decay time
+        Returns
+        -------
+        float
+            Decay time
         """
         return features.tau(x=self.t, y=self.y, a=a)
 
