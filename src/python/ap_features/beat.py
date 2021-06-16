@@ -4,7 +4,7 @@ import numpy as np
 from scipy.interpolate import UnivariateSpline
 
 from . import background, chopping, features
-from .utils import Array
+from .utils import Array, normalize_signal
 
 
 class Trace:
@@ -61,7 +61,7 @@ class Beat(Trace):
 
     @property
     def y_normalized(self):
-        return features.normalize_signal(self.y, self.y_rest)
+        return normalize_signal(self.y, self.y_rest)
 
     @property
     def y_rest(self):

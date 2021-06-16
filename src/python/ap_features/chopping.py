@@ -392,9 +392,7 @@ def chop_data_with_pacing(
         p = pacing[start:end]
         chopped_pacing.append(p)
 
-    chop_pars = chopping_parameters(
-        use_pacing_info=True, extend_end=extend_end, extend_front=extend_front
-    )
+    chop_pars = chopping_parameters(use_pacing_info=True)
 
     return chopped_data(
         data=chopped_y, times=chopped_times, pacing=chopped_pacing, parameters=chop_pars

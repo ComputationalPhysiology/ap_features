@@ -34,7 +34,6 @@ def test_chop_data(chopped_data):
     # assert len(chopped_data.data) == 7
     print([len(c) for c in chopped_data.data])
     assert chopped_data.parameters.use_pacing_info is kwargs["use_pacing_info"]
-    assert chopped_data.parameters.extend_front == kwargs["extend_front"]
 
     # fig, ax = plt.subplots()
     # for t, c in zip(chopped_data.times, chopped_data.data):

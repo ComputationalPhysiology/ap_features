@@ -6,19 +6,19 @@ from ap_features import Beat, BeatSeries, Trace
 @pytest.fixture(scope="session")
 def trace(single_beat):
     t, y = single_beat
-    return Trace(t, y)
+    return Trace(y, t)
 
 
 @pytest.fixture(scope="session")
 def beat(single_beat):
     t, y = single_beat
-    return Beat(t, y)
+    return Beat(y, t)
 
 
 @pytest.fixture(scope="session")
 def beatseries(multiple_beats):
     t, y = multiple_beats
-    return BeatSeries(t, y)
+    return BeatSeries(y, t)
 
 
 def test_trace(single_beat, trace):
