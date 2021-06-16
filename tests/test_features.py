@@ -4,6 +4,7 @@ import os
 import numpy as np
 import pytest
 
+import ap_features as apf
 import ap_features as cost_terms
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -38,19 +39,16 @@ def test_apds_triangle_signal(factor, backend, triangle_signal):
 
 
 @pytest.mark.parametrize(
-    "factor_x, factor_y, method",
-    it.product(range(10, 95, 5), range(10, 95, 5), ["apd_up_xy_c", "compute_APDUpxy"]),
+    "factor_x, factor_y, backend",
+    it.product(range(10, 95, 5), range(10, 95, 5), apf.Backend),
 )
-def test_apdxy_triangle_signal(factor_x, factor_y, method, triangle_signal):
+def test_apdxy_triangle_signal(factor_x, factor_y, backend, triangle_signal):
     x, y = triangle_signal
-    func = getattr(cost_terms, method)
 
-    apd = func(y, x, factor_x, factor_y)
+    apd = apf.apd_up_xy(y, x, factor_x, factor_y)
 
     if factor_x == factor_y:
         assert abs(apd) < 1e-12
-    elif factor_x > factor_y:
-        assert np.isinf(apd)
     else:
         assert abs(apd - (factor_y - factor_x)) < 1e-10
 
@@ -86,14 +84,14 @@ def test_compare_c_matlab(synthetic_data):
 
     arr, t, expected_cost = synthetic_data
 
-    cost = cost_terms.cost_terms_c(
+    cost = apf.cost_terms(
         v=np.ascontiguousarray(arr[0, :]),
         ca=np.ascontiguousarray(arr[1, :]),
         t_v=t,
         t_ca=t,
     )
 
-    lst = cost_terms.list_cost_function_terms()
+    lst = apf.list_cost_function_terms()
     i = 0
     for ri in expected_cost:
 
@@ -109,45 +107,28 @@ def test_compare_c_matlab(synthetic_data):
         i += 1
 
 
-def test_all_cost_terms(synthetic_data):
+@pytest.mark.parametrize("backend", ("c", "numba"))
+def test_all_cost_terms(synthetic_data, backend):
 
     arr, t, expected_cost = synthetic_data
     arrs = np.expand_dims(arr, axis=0)
-    cost = cost_terms.all_cost_terms(arrs.T, t).squeeze()
+    cost = apf.all_cost_terms(arrs.T, t, backend=backend).squeeze()
 
-    lst = cost_terms.list_cost_function_terms()
+    lst = apf.list_cost_function_terms()
     up_inds = np.where(["APD_up" in item or "CaD_up" in item for item in lst])[0]
     cost = np.delete(cost, up_inds)
 
     assert np.all(cost - expected_cost < 1e-10)
 
 
-def test_all_cost_terms_c(synthetic_data):
-
-    arr, t, expected_cost = synthetic_data
-    arrs = np.expand_dims(arr, axis=0)
-    cost = cost_terms.all_cost_terms_c(np.ascontiguousarray(arrs.T), t)
-
-    lst = cost_terms.list_cost_function_terms()
-    up_inds = np.where(["APD_up" in item or "CaD_up" in item for item in lst])[0]
-    cost = np.delete(cost, up_inds)
-
-    # We take out the int_30 terms because we use
-    # different integration rules
-    x = np.array([xi for xi in range(48) if xi not in [21, 45]])
-    tol = np.ones(len(x)) * 1e-10
-
-    assert np.all(np.abs(cost[x] - expected_cost[x]) < tol)
-
-
 def test_cost_terms_trace(synthetic_data):
     arr, t, expected_cost = synthetic_data
     V = np.ascontiguousarray(arr[0, :])
 
-    cost_terms_c = cost_terms.cost_terms_trace_c(V, t)
-    cost_terms_py = cost_terms.cost_terms_trace(V, t)
+    cost_terms_c = apf.cost_terms_trace(V, t, backend="c")
+    cost_terms_py = apf.cost_terms_trace(V, t, backend="numba")
 
-    lst = cost_terms.list_cost_function_terms_trace()
+    lst = apf.list_cost_function_terms_trace()
     inds = np.where(["int_30" in item for item in lst])[0]
     x = np.delete(np.arange(len(lst)), inds)
 
@@ -158,8 +139,9 @@ def test_cost_terms_trace(synthetic_data):
 def test_apd_equivalence(factor, backend, synthetic_data):
     arr, t, expected_cost = synthetic_data
     V = np.ascontiguousarray(arr[0, :])
-    apd_py = cost_terms.apd(V=V, t=t, factor=factor, backend="python")
-    apd_x = cost_terms.apd(V=V, t=t, factor=factor, backend=backend)
+    apd_py = apf.apd(V=V, t=t, factor=factor, backend="python")
+    apd_x = apf.apd(V=V, t=t, factor=factor, backend=backend)
+
     # We expect some difference here, but no more than 1ms
     assert abs(apd_x - apd_py) < 1
 
@@ -168,8 +150,8 @@ def test_apd_equivalence(factor, backend, synthetic_data):
 def test_apd_equivalence_c_numba(factor, synthetic_data):
     arr, t, expected_cost = synthetic_data
     V = np.ascontiguousarray(arr[0, :])
-    apd_numba = cost_terms.apd(V=V, t=t, factor=factor, backend="numba")
-    apd_c = cost_terms.apd(V=V, t=t, factor=factor, backend="c")
+    apd_numba = apf.apd(V=V, t=t, factor=factor, backend="numba")
+    apd_c = apf.apd(V=V, t=t, factor=factor, backend="c")
 
     assert abs(apd_c - apd_numba) < 1e-10
 
@@ -179,12 +161,16 @@ def test_apd_equivalence_c_numba(factor, synthetic_data):
     (("", "max", "APD10"), ("V", "V_max", "APD10"), ("Ca", "Ca_max", "CaD10")),
 )
 def test_list_cost_function_terms_trace(key, index0, index4):
-    lst = cost_terms.list_cost_function_terms_trace(key)
+    lst = apf.list_cost_function_terms_trace(key)
     assert lst[0] == index0
     assert lst[4] == index4
 
 
 def test_list_cost_function_terms():
-    lst = cost_terms.list_cost_function_terms()
+    lst = apf.list_cost_function_terms()
     assert lst[0] == "V_max"
-    assert lst[cost_terms.NUM_COST_TERMS // 2] == "Ca_max"
+    assert lst[apf.NUM_COST_TERMS // 2] == "Ca_max"
+
+
+def test_tau():
+    pass

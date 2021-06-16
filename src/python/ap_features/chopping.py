@@ -1,16 +1,16 @@
 import logging
 from collections import namedtuple
-from typing import List, Union
+from typing import List, Optional, Union
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
+from . import utils
+
 logger = logging.getLogger(__name__)
 
 chopped_data = namedtuple("chopped_data", "data, times, pacing, parameters")
-chopping_parameters = namedtuple(
-    "chopping_parameters", "use_pacing_info, extend_end, extend_front"
-)
+chopping_parameters = namedtuple("chopping_parameters", "use_pacing_info")
 
 
 def chop_data(data, time, **kwargs):
@@ -35,13 +35,12 @@ class EmptyChoppingError(ValueError):
 def chop_data_without_pacing(
     data,
     time,
-    threshold_factor=None,
-    extend_front=None,
-    extend_end=None,
-    min_window=None,
-    max_window=None,
-    winlen=None,
-    N=None,
+    threshold_factor: float = 0.3,
+    min_window: int = 50,
+    max_window: int = 2000,
+    winlen: int = 50,
+    N: Optional[int] = None,
+    extend_front: Optional[float] = None,
     **kwargs,
 ):
 
@@ -147,15 +146,9 @@ def chop_data_without_pacing(
         \tau_i^1 = \tilde{\tau_i}^1 + b
     """
     logger.debug("Chopping without pacing")
-    threshold_factor = threshold_factor if threshold_factor is not None else 0.3
-    extend_end = extend_end if extend_end is not None else 300
-    extend_front = extend_front if extend_front is not None else 100
-    min_window = min_window if min_window is not None else 50
-    max_window = max_window if max_window is not None else 2000
-    winlen = winlen if winlen is not None else 50
 
     chop_pars = chopping_parameters(
-        use_pacing_info=False, extend_end=extend_end, extend_front=extend_front
+        use_pacing_info=False,
     )
     logger.debug(f"Use chopping parameters: {chop_pars}")
     empty = chopped_data(data=[], times=[], pacing=[], parameters=chop_pars)
@@ -165,7 +158,7 @@ def chop_data_without_pacing(
 
     try:
         starts, ends, zeros = locate_chop_points(
-            time, data, threshold_factor, chop_pars
+            time, data, threshold_factor, winlen=winlen
         )
     except EmptyChoppingError:
         return empty
@@ -178,7 +171,7 @@ def chop_data_without_pacing(
             pacing=[np.zeros_like(data)],
             parameters=chop_pars,
         )
-    starts, ends = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
+    starts, ends = filter_start_ends_in_chopping(starts, ends, extend_front)
 
     while len(ends) > 0 and ends[-1] > time[-1]:
         ends = ends[:-1]
@@ -190,7 +183,7 @@ def chop_data_without_pacing(
     # Update the ends to be the start of the next trace
     for i, s in enumerate(starts[1:]):
         ends[i] = s
-    ends[-1] = min(ends[-1] + extend_end, time[-2])
+    ends[-1] = min(ends[-1], time[-2])
 
     # Storage
     cutdata = []
@@ -231,8 +224,7 @@ def chop_data_without_pacing(
 def filter_start_ends_in_chopping(
     starts: Union[List[float], np.ndarray],
     ends: Union[List[float], np.ndarray],
-    extend_front: float = 0,
-    extend_end: float = 0,
+    extend_front: Optional[float] = None,
 ):
     starts = np.array(starts)
     ends = np.array(ends)
@@ -252,6 +244,13 @@ def filter_start_ends_in_chopping(
     # And we should check this one more time
     if len(ends) == 0:
         raise EmptyChoppingError
+
+    # Find the length half way between the previous and next point
+    if extend_front is None:
+        try:
+            extend_front = np.min(starts[1:] - ends[:-1]) / 2
+        except IndexError:
+            extend_front = 300
 
     # Subtract the extend front
     starts = np.subtract(starts, extend_front)
@@ -276,43 +275,24 @@ def filter_start_ends_in_chopping(
     return np.array(new_starts), np.array(new_ends)
 
 
-def locate_chop_points(time, data, threshold_factor, chop_pars, winlen=50, eps=0.1):
+def locate_chop_points(time, data, threshold_factor, winlen=50, eps=0.1):
     """FIXME"""
     # Some perturbation away from the zeros
     # eps = 0.1  # ms
 
-    threshold = ((np.max(data) - np.min(data)) * threshold_factor) + np.min(data)
-
     # Data with zeros at the threshold
-    data_spline_thresh = UnivariateSpline(time, data - threshold, s=0)
+    data_spline_thresh = UnivariateSpline(
+        time, utils.normalize_signal(data) - threshold_factor, s=0
+    )
     # Localization of the zeros
     zeros_threshold_ = data_spline_thresh.roots()
 
     # Remove close indices
-    inds = winlen < np.diff(zeros_threshold_)
+    inds = winlen < np.diff(zeros_threshold_) * 2
     zeros_threshold = np.append(zeros_threshold_[0], zeros_threshold_[1:][inds])
 
     # Find the starts
     starts = zeros_threshold[data_spline_thresh(zeros_threshold + eps) > 0]
-
-    if len(starts) == 0:
-        logger.info("Chould not chop data. Try to reduce threshold factor")
-        # Then something is wrong try agains with a lower threshold factor
-        threshold_factor /= 2
-
-        threshold = ((np.max(data) - np.min(data)) * threshold_factor) + np.min(data)
-
-        # Data with zeros at the threshold
-        data_spline_thresh = UnivariateSpline(time, data - threshold, s=0)
-        # Localization of the zeros
-        zeros_threshold_ = data_spline_thresh.roots()
-
-        # Remove close indices
-        inds = winlen < np.diff(zeros_threshold_)
-        if len(zeros_threshold_) > 1:
-            zeros_threshold = np.append(zeros_threshold_[0], zeros_threshold_[1:][inds])
-            # Find the starts
-            starts = zeros_threshold[data_spline_thresh(zeros_threshold + eps) > 0]
 
     # Find the endpoint where we hit the threshold
     ends = zeros_threshold[data_spline_thresh(zeros_threshold + eps) < 0]

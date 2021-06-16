@@ -15,7 +15,7 @@ repos:
         name: isort
 
   - repo: https://github.com/ambv/black
-    rev: stable
+    rev: 21.6b0
     hooks:
       - id: black
 

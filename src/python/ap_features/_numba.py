@@ -97,28 +97,28 @@ def get_t_end(max_idx, V, T, th, t_end=np.inf):
 
 
 @njit
-def compute_APDUpxy(V, T, x=20, y=80):
+def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> float:
     """Compute time from first intersection of
     APDx line to first intersection of APDy line
     """
-    if x > y:
-        # x has to be larger thay y
+    if factor_x > factor_y:
+        # factor_x has to be larger than factor_y
         return -np.inf
-    if x == y:
+    if factor_x == factor_y:
         return 0
 
-    T_half = T.max() / 2
-    idx_T_half = np.argmin(np.abs(T - T_half))
+    t_half = t.max() / 2
+    idx_t_half = np.argmin(np.abs(t - t_half))
 
     # Set up threshold
-    V_max = np.max(V[:idx_T_half])
-    max_idx = np.argmax(V[:idx_T_half])
-    V_min = np.min(V)
+    y_max = np.max(y[:idx_t_half])
+    max_idx = np.argmax(y[:idx_t_half])
+    y_min = np.min(y)
 
-    thx = V_min + (1 - x / 100) * (V_max - V_min)
-    tx, idx1 = get_t_start(max_idx, V, T, thx, t_start=0)
-    thy = V_min + (1 - y / 100) * (V_max - V_min)
-    ty, idx1 = get_t_start(max_idx, V, T, thy, t_start=tx)
+    thx = y_min + (1 - factor_x / 100) * (y_max - y_min)
+    tx, idx1 = get_t_start(max_idx, y, t, thx, t_start=0)
+    thy = y_min + (1 - factor_y / 100) * (y_max - y_min)
+    ty, idx1 = get_t_start(max_idx, y, t, thy, t_start=tx)
     return tx - ty
 
 
@@ -214,9 +214,9 @@ def apd(V, T, factor):
 
 
 @njit
-def cost_terms_trace(v, t):
+def cost_terms_trace(y: np.ndarray, t: np.ndarray) -> np.ndarray:
     R = np.zeros(NUM_COST_TERMS // 2)
-    return _cost_terms_trace(v, t, R)
+    return _cost_terms_trace(y, t, R)
 
 
 @njit
@@ -237,7 +237,7 @@ def _cost_terms_trace(v, t, R):
         i += 1
     for x in np.arange(20, 61, 20):
         for y in np.arange(x + 20, 81, 20):
-            R[i] = compute_APDUpxy(v, t, x, y)
+            R[i] = apd_up_xy(v, t, x, y)
             i += 1
 
     R[27] = compute_integral(v, t, 30)
@@ -254,7 +254,9 @@ def _cost_terms(v, ca, t_v, t_ca, R):
 
 
 @njit
-def cost_terms(v, ca, t_v, t_ca):
+def cost_terms(
+    v: np.ndarray, ca: np.ndarray, t_v: np.ndarray, t_ca: np.ndarray
+) -> np.ndarray:
     R = np.zeros(NUM_COST_TERMS, dtype=np.float64)
     return _cost_terms(v, ca, t_v, t_ca, R)
 

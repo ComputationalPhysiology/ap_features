@@ -5,7 +5,7 @@ from typing import List, Optional, Tuple
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import _c, _numba
+from . import _c, _numba, utils
 from .utils import Array, Backend, _check_factor
 
 logger = logging.getLogger(__name__)
@@ -129,7 +129,7 @@ def _apd(
 ) -> Tuple[float, float]:
 
     _check_factor(factor)
-    y = normalize_signal(V, v_r) - (1 - factor / 100)
+    y = utils.normalize_signal(V, v_r) - (1 - factor / 100)
 
     if use_spline:
 
@@ -146,7 +146,7 @@ def _apd(
             inds = t[np.where(np.diff(np.sign(y)))[0]]
     else:
         inds = t[np.where(np.diff(np.sign(y)))[0]]
-    print(inds)
+
     if len(inds) == 0:
         logger.warning("Warning: no root was found for APD {}".format(factor))
         x1 = x2 = 0
@@ -162,7 +162,11 @@ def _apd(
 
 
 def apd_coords(
-    factor: int, V: Array, t: Array, v_r: Optional[float] = None, use_spline=True,
+    factor: int,
+    V: Array,
+    t: Array,
+    v_r: Optional[float] = None,
+    use_spline=True,
 ) -> APDCoords:
     """Return the coordinates of the start and stop
         of the APD, and not the duration itself
@@ -200,7 +204,10 @@ def apd_coords(
 
 
 def tau(
-    x: Array, y: Array, a: float = 0.75, backend: Backend = Backend.python,
+    x: Array,
+    y: Array,
+    a: float = 0.75,
+    backend: Backend = Backend.python,
 ) -> float:
     """
     Decay time. Time for the signal amplitude to go from maxium to
@@ -233,7 +240,7 @@ def tau(
             "Method currently only implemented for python backend"
         )
 
-    Y = UnivariateSpline(x, normalize_signal(y) - a, s=0, k=3)
+    Y = UnivariateSpline(x, utils.normalize_signal(y) - a, s=0, k=3)
     t_max = x[int(np.argmax(y))]
     r = Y.roots()
     if len(r) >= 2:
@@ -320,7 +327,10 @@ def time_to_peak(
 
 
 def upstroke(
-    x: Array, y: Array, a: float = 0.8, backend: Backend = Backend.python,
+    x: Array,
+    y: Array,
+    a: float = 0.8,
+    backend: Backend = Backend.python,
 ) -> float:
     """Compute the time from (1-a)*100 % signal
     amplitude to peak. For example if if a = 0.8
@@ -359,7 +369,7 @@ def upstroke(
     if not 0 < a < 1:
         raise ValueError("'a' has to be between 0.0 and 1.0")
 
-    Y = UnivariateSpline(x, normalize_signal(y) - (1 - a), s=0, k=3)
+    Y = UnivariateSpline(x, utils.normalize_signal(y) - (1 - a), s=0, k=3)
     t_max = x[int(np.argmax(y))]
     r = Y.roots()
     if len(r) >= 1:
@@ -412,7 +422,9 @@ def beating_frequency(times: List[Array], unit: str = "ms") -> float:
 
 
 def beating_frequency_from_peaks(
-    signals: List[Array], times: List[Array], unit: str = "ms",
+    signals: List[Array],
+    times: List[Array],
+    unit: str = "ms",
 ) -> float:
     """Returns the beating frequency in Hz by using
     the peak values of the signals in each beat
@@ -471,9 +483,9 @@ def find_upstroke_values(
     return upstroke
 
 
-def time_between_APDs(
-    t: Array, y: Array, from_APD: int, to_APD: int, backend: Backend = Backend.python
-):
+def apd_up_xy(
+    y: Array, t: Array, factor_x: int, factor_y: int, backend: Backend = Backend.python
+) -> float:
     """Find the duration between first intersection (i.e
     during the upstroke) of two APD lines
 
@@ -484,33 +496,38 @@ def time_between_APDs(
     y : np.ndarray
         The trace
     from_APD: int
-        First APD line
+        First APD line (value between 0 and 100)
     to_APD: int
-        Second APD line
+        Second APD line (value between 0 and 100)
+    backend : Backend, optional
+        Which backend to use by default Backend.python.
+        Choices, 'python', 'c', 'numba'
 
     Returns
     -------
     float:
-        The time between `from_APD` to `to_APD`
+        The time between `factor_x` to `factor_y`
 
-    Example
-    -------
 
-    .. code:: python
-
-        # Compute the time between APD20 and APD80
-        t2080 = time_between_APDs(t, y, 20, 80)
 
     """
-    _check_factor(from_APD)
-    _check_factor(to_APD)
+    _check_factor(factor_x)
+    _check_factor(factor_y)
 
-    y_norm = normalize_signal(y)
+    y = numpyfy(y)
+    t = numpyfy(t)
 
-    y_from = UnivariateSpline(t, y_norm - from_APD / 100, s=0, k=3)
+    if backend == Backend.c:
+        return _c.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
+    if backend == Backend.numba:
+        return _numba.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
+
+    y_norm = utils.normalize_signal(y)
+
+    y_from = UnivariateSpline(t, y_norm - factor_x / 100, s=0, k=3)
     t_from = y_from.roots()[0]
 
-    y_to = UnivariateSpline(t, y_norm - to_APD / 100, s=0, k=3)
+    y_to = UnivariateSpline(t, y_norm - factor_y / 100, s=0, k=3)
     t_to = y_to.roots()[0]
 
     return t_to - t_from
@@ -555,7 +572,7 @@ def max_relative_upstroke_velocity(
     """
 
     # Interpolate to 1ms precision
-    t0, y0 = interpolate(t, y, dt=1.0)
+    t0, y0 = utils.interpolate(t, y, dt=1.0)
     # Find values beloning to upstroke
     upstroke = find_upstroke_values(t0, y0, upstroke_duration=upstroke_duration)
     dt = np.mean(np.diff(t))
@@ -582,7 +599,7 @@ def max_relative_upstroke_velocity(
             index = None  # type:ignore
             s = sigmoid(t_upstroke, k, x0)
             value = k / 2
-            time_APD20_to_APD80 = time_between_APDs(t_upstroke, s, 20, 80)
+            time_APD20_to_APD80 = apd_up_xy(s, t_upstroke, 20, 80)
 
         else:
             # Find max upstroke
@@ -590,7 +607,7 @@ def max_relative_upstroke_velocity(
             value = np.max(np.diff(upstroke))
             x0 = None
             s = None
-            time_APD20_to_APD80 = time_between_APDs(t_upstroke, upstroke, 20, 80)
+            time_APD20_to_APD80 = apd_up_xy(upstroke, t_upstroke, 20, 80)
 
     return Upstroke(
         index=index,
@@ -659,7 +676,7 @@ def maximum_upstroke_velocity(y, t=None, use_spline=True, normalize=False):
 
     # Normalize
     if normalize:
-        y = normalize_signal(y)
+        y = utils.normalize_signal(y)
 
     if use_spline:
         f = UnivariateSpline(t, y, s=0, k=5)
@@ -714,7 +731,7 @@ def integrate_apd(y, t=None, percent=0.3, use_spline=True, normalize=False):
     """
 
     if normalize:
-        y = normalize_signal(y)
+        y = utils.normalize_signal(y)
 
     if t is None:
         t = range(len(y))
@@ -735,47 +752,6 @@ def integrate_apd(y, t=None, percent=0.3, use_spline=True, normalize=False):
         integral = np.sum(np.multiply(Y[t1:t2], np.diff(t)[t1:t2]))
 
     return integral
-
-
-def normalize_signal(V, v_r=None):
-    """
-    Normalize signal to have maximum value 1
-    and zero being the value equal to v_r (resting value).
-    If v_r is not provided the minimum value
-    in V will be used as v_r
-
-    Arguments
-    ---------
-    V : array
-        The signal
-    v_r : float
-        The resting value
-
-    """
-
-    # Maximum valu
-    v_max = np.max(V)
-
-    # Baseline or resting value
-    if v_r is None:
-        v_r = np.min(V)
-
-    return (np.array(V) - v_r) / (v_max - v_r)
-
-
-def time_unit(time_stamps):
-
-    dt = np.mean(np.diff(time_stamps))
-    # Assume dt is larger than 0.5 ms and smallar than 0.5 seconds
-    unit = "ms" if dt > 0.5 else "s"
-    return unit
-
-
-def interpolate(t: np.ndarray, trace: np.ndarray, dt: float = 1.0):
-
-    f = UnivariateSpline(t, trace, s=0, k=1)
-    t0 = np.arange(t[0], t[-1] + dt, dt)
-    return t0, f(t0)
 
 
 def corrected_apd(apd, beat_rate, formula="friderica"):
@@ -806,3 +782,74 @@ def corrected_apd(apd, beat_rate, formula="friderica"):
         return np.multiply(apd, pow(RR, -1 / 3))
     else:
         return np.multiply(apd, pow(RR, -1 / 2))
+
+
+def numpyfy(y: Array) -> np.ndarray:
+    if not isinstance(y, np.ndarray):
+        y = np.array(y)
+    return y
+
+
+def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.ndarray:
+    y = numpyfy(y)
+    t = numpyfy(t)
+
+    if backend == Backend.python:
+        raise NotImplementedError(
+            "Method currently not implemented for python backend (and will probably not be)"
+        )
+
+    if backend == Backend.numba:
+        return _numba.cost_terms_trace(y=y, t=t)
+
+    # Use C backend
+    return _c.cost_terms_trace(y=y, t=t)
+
+
+def cost_terms(
+    v: Array, ca: Array, t_v: Array, t_ca: Array, backend: Backend = Backend.c
+) -> np.ndarray:
+    v = numpyfy(v)
+    t_v = numpyfy(t_v)
+    ca = numpyfy(ca)
+    t_ca = numpyfy(t_ca)
+
+    if backend == Backend.python:
+        raise NotImplementedError(
+            "Method currently not implemented for python backend (and will probably not be)"
+        )
+
+    if backend == Backend.numba:
+        return _numba.cost_terms(v=v, ca=ca, t_v=t_v, t_ca=t_ca)
+
+    # Use C backend
+    return _c.cost_terms(v=v, ca=ca, t_v=t_v, t_ca=t_ca)
+
+
+def all_cost_terms(
+    arr: np.ndarray,
+    t: np.ndarray,
+    mask: Optional[np.ndarray] = None,
+    backend: Backend = Backend.c,
+    normalize_time: bool = True,
+) -> np.ndarray:
+    if not isinstance(arr, np.ndarray):
+        raise TypeError(f"Expected 'arr' to be of type numpy.ndarray got {type(arr)}")
+    if not isinstance(t, np.ndarray):
+        raise TypeError(f"Expected 't' to be of type numpy.ndarray got {type(t)}")
+    if t.shape[0] != arr.shape[0]:
+        raise ValueError(
+            "Shape of 't'({t.shape}) and 'arr'({arr.shape}) does not match"
+        )
+    if normalize_time:
+        t = t - t[0]
+
+    if backend == Backend.python:
+        raise NotImplementedError(
+            "Method currently not implemented for python backend (and will probably not be)"
+        )
+    if backend == Backend.numba:
+        return _numba.all_cost_terms(arr=arr, t=t, mask=mask)
+
+    # Use C backend
+    return _c.all_cost_terms(arr=arr, t=t, mask=mask)

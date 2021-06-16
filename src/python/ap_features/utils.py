@@ -3,6 +3,7 @@ from enum import Enum
 from typing import List, Sequence, Union
 
 import numpy as np
+from scipy.interpolate import UnivariateSpline
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,47 @@ def _check_factor(factor: float) -> None:
         logger.warning(
             f"Factor passed to APD calculation is {factor}, did you mean {factor * 100}?"
         )
+
+
+def normalize_signal(V, v_r=None):
+    """
+    Normalize signal to have maximum value 1
+    and zero being the value equal to v_r (resting value).
+    If v_r is not provided the minimum value
+    in V will be used as v_r
+
+    Arguments
+    ---------
+    V : array
+        The signal
+    v_r : float
+        The resting value
+
+    """
+
+    # Maximum valu
+    v_max = np.max(V)
+
+    # Baseline or resting value
+    if v_r is None:
+        v_r = np.min(V)
+
+    return (np.array(V) - v_r) / (v_max - v_r)
+
+
+def time_unit(time_stamps):
+
+    dt = np.mean(np.diff(time_stamps))
+    # Assume dt is larger than 0.5 ms and smallar than 0.5 seconds
+    unit = "ms" if dt > 0.5 else "s"
+    return unit
+
+
+def interpolate(t: np.ndarray, trace: np.ndarray, dt: float = 1.0):
+
+    f = UnivariateSpline(t, trace, s=0, k=1)
+    t0 = np.arange(t[0], t[-1] + dt, dt)
+    return t0, f(t0)
 
 
 def list_cost_function_terms_trace(key=""):
