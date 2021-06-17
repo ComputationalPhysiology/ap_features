@@ -23,7 +23,7 @@ def _check_factor(factor: float) -> None:
         raise ValueError(f"Factor has to be between 0 and 100, got {factor}")
     if factor < 1:
         logger.warning(
-            f"Factor passed to APD calculation is {factor}, did you mean {factor * 100}?"
+            f"Factor passed to APD calculation is {factor}, did you mean {factor * 100}?",
         )
 
 

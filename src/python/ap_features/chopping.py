@@ -160,7 +160,10 @@ def chop_data_without_pacing(
 
     try:
         starts, ends, zeros = locate_chop_points(
-            time, data, threshold_factor, winlen=winlen
+            time,
+            data,
+            threshold_factor,
+            winlen=winlen,
         )
     except EmptyChoppingError:
         return empty
@@ -284,7 +287,9 @@ def locate_chop_points(time, data, threshold_factor, winlen=50, eps=0.1):
 
     # Data with zeros at the threshold
     data_spline_thresh = UnivariateSpline(
-        time, utils.normalize_signal(data) - threshold_factor, s=0
+        time,
+        utils.normalize_signal(data) - threshold_factor,
+        s=0,
     )
     # Localization of the zeros
     zeros_threshold_ = data_spline_thresh.roots()
@@ -397,5 +402,8 @@ def chop_data_with_pacing(
     chop_pars = chopping_parameters(use_pacing_info=True)
 
     return chopped_data(
-        data=chopped_y, times=chopped_times, pacing=chopped_pacing, parameters=chop_pars
+        data=chopped_y,
+        times=chopped_times,
+        pacing=chopped_pacing,
+        parameters=chop_pars,
     )

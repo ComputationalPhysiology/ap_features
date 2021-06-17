@@ -64,7 +64,11 @@ def apd(y: Array, t: Array, factor: interpolate) -> float:
     """
     _check_factor(factor)
     return lib.apd(
-        np.array(y)[...], np.array(t)[...], int(factor), len(y), np.array(y).copy()
+        np.array(y)[...],
+        np.array(t)[...],
+        int(factor),
+        len(y),
+        np.array(y).copy(),
     )
 
 
@@ -87,7 +91,10 @@ def cost_terms_trace(y: np.ndarray, t: np.ndarray) -> np.ndarray:
 
 
 def cost_terms(
-    v: np.ndarray, ca: np.ndarray, t_v: np.ndarray, t_ca: np.ndarray
+    v: np.ndarray,
+    ca: np.ndarray,
+    t_v: np.ndarray,
+    t_ca: np.ndarray,
 ) -> np.ndarray:
     R = np.zeros(NUM_COST_TERMS)
     lib.cost_terms_trace(R[: NUM_COST_TERMS // 2], v[...], t_v[...], t_v.size)
@@ -125,7 +132,13 @@ def all_cost_terms(
 
     R = np.zeros((num_sets, NUM_COST_TERMS))
     lib.all_cost_terms(
-        R, traces, t[...], mask[...], num_trace_points, num_sets, update_progress_func
+        R,
+        traces,
+        t[...],
+        mask[...],
+        num_trace_points,
+        num_sets,
+        update_progress_func,
     )
     if progress_bar:
         progress_bar.close()

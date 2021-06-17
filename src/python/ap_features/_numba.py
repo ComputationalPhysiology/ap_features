@@ -255,7 +255,10 @@ def _cost_terms(v, ca, t_v, t_ca, R):
 
 @njit
 def cost_terms(
-    v: np.ndarray, ca: np.ndarray, t_v: np.ndarray, t_ca: np.ndarray
+    v: np.ndarray,
+    ca: np.ndarray,
+    t_v: np.ndarray,
+    t_ca: np.ndarray,
 ) -> np.ndarray:
     R = np.zeros(NUM_COST_TERMS, dtype=np.float64)
     return _cost_terms(v, ca, t_v, t_ca, R)

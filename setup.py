@@ -44,13 +44,17 @@ def check_for_openmp():
             ccompiler = new_compiler()
             # Compile, test program
             ccompiler.compile(
-                [filename], output_dir="objects", extra_postargs=compile_flags
+                [filename],
+                output_dir="objects",
+                extra_postargs=compile_flags,
             )
 
             # Link test program
             objects = glob.glob(os.path.join("objects", "*" + ccompiler.obj_extension))
             ccompiler.link_executable(
-                objects, filename.split(".")[0], extra_postargs=link_flags
+                objects,
+                filename.split(".")[0],
+                extra_postargs=link_flags,
             )
 
             # Run test program
@@ -64,13 +68,13 @@ def check_for_openmp():
                 else:
                     print(
                         "Unexpected number of lines from output of test OpenMP "
-                        "program (output was {0})".format(output)
+                        "program (output was {0})".format(output),
                     )
                     is_openmp_supported = False
             else:
                 print(
                     "Unexpected output from test OpenMP "
-                    "program (output was {0})".format(output)
+                    "program (output was {0})".format(output),
                 )
                 is_openmp_supported = False
         except (CompileError, LinkError, subprocess.CalledProcessError):

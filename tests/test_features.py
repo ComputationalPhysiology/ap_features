@@ -28,7 +28,8 @@ def synthetic_data(num_parameter_sets=1):
 
 
 @pytest.mark.parametrize(
-    "factor, backend", it.product(range(10, 95, 5), cost_terms.Backend)
+    "factor, backend",
+    it.product(range(10, 95, 5), cost_terms.Backend),
 )
 def test_apds_triangle_signal(factor, backend, triangle_signal):
     x, y = triangle_signal
@@ -58,7 +59,7 @@ def test_number_of_cost_terms():
 
 def test_number_of_cost_terms_trace():
     assert cost_terms.NUM_COST_TERMS // 2 == len(
-        cost_terms.list_cost_function_terms_trace()
+        cost_terms.list_cost_function_terms_trace(),
     )
 
 

@@ -136,7 +136,8 @@ def background(
     x_norm = (
         2
         * np.divide(
-            np.subtract(x_sorted, x_sorted[N - 1]), x_sorted[N - 1] - x_sorted[0]
+            np.subtract(x_sorted, x_sorted[N - 1]),
+            x_sorted[N - 1] - x_sorted[0],
         )
         + 1
     )

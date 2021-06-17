@@ -243,7 +243,7 @@ def tau(
     """
     if backend != Backend.python:
         raise NotImplementedError(
-            "Method currently only implemented for python backend"
+            "Method currently only implemented for python backend",
         )
 
     Y = UnivariateSpline(x, utils.normalize_signal(y) - a, s=0, k=3)
@@ -255,7 +255,7 @@ def tau(
         logger.warning(
             (
                 "Only one zero was found when computing tau{}. " "Result might be wrong"
-            ).format(int(a * 100))
+            ).format(int(a * 100)),
         )
         t_a = r[0]
     else:
@@ -263,7 +263,7 @@ def tau(
             (
                 "No zero found when computing tau{}. "
                 "Return the value of time to peak"
-            ).format(int(a * 100))
+            ).format(int(a * 100)),
         )
         t_a = x[0]
 
@@ -306,7 +306,7 @@ def time_to_peak(
     """
     if backend != Backend.python:
         raise NotImplementedError(
-            "Method currently only implemented for python backend"
+            "Method currently only implemented for python backend",
         )
 
     if pacing is None:
@@ -369,7 +369,7 @@ def upstroke(
     """
     if backend != Backend.python:
         raise NotImplementedError(
-            "Method currently only implemented for python backend"
+            "Method currently only implemented for python backend",
         )
 
     if not 0 < a < 1:
@@ -384,7 +384,7 @@ def upstroke(
                 (
                     "Only one zero was found when computing upstroke{}. "
                     "Result might be wrong"
-                ).format(int(a * 100))
+                ).format(int(a * 100)),
             )
         t_a = r[0]
     else:
@@ -392,7 +392,7 @@ def upstroke(
             (
                 "No zero found when computing upstroke{}. "
                 "Return the value of time to peak"
-            ).format(int(a * 100))
+            ).format(int(a * 100)),
         )
         t_a = x[0]
 
@@ -459,7 +459,10 @@ def beating_frequency_from_peaks(
 
 
 def find_upstroke_values(
-    t: np.ndarray, y: np.ndarray, upstroke_duration: int = 50, normalize: bool = True
+    t: np.ndarray,
+    y: np.ndarray,
+    upstroke_duration: int = 50,
+    normalize: bool = True,
 ) -> np.ndarray:
 
     # Find intersection with APD50 line
@@ -490,7 +493,11 @@ def find_upstroke_values(
 
 
 def apd_up_xy(
-    y: Array, t: Array, factor_x: int, factor_y: int, backend: Backend = Backend.python
+    y: Array,
+    t: Array,
+    factor_x: int,
+    factor_y: int,
+    backend: Backend = Backend.python,
 ) -> float:
     """Find the duration between first intersection (i.e
     during the upstroke) of two APD lines
@@ -540,7 +547,10 @@ def apd_up_xy(
 
 
 def max_relative_upstroke_velocity(
-    t: np.ndarray, y: np.ndarray, upstroke_duration: int = 50, sigmoid_fit: bool = True
+    t: np.ndarray,
+    y: np.ndarray,
+    upstroke_duration: int = 50,
+    sigmoid_fit: bool = True,
 ) -> Upstroke:
     """Estimate maximum relative upstroke velocity
 
@@ -802,7 +812,7 @@ def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.nda
 
     if backend == Backend.python:
         raise NotImplementedError(
-            "Method currently not implemented for python backend (and will probably not be)"
+            "Method currently not implemented for python backend (and will probably not be)",
         )
 
     if backend == Backend.numba:
@@ -813,7 +823,11 @@ def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.nda
 
 
 def cost_terms(
-    v: Array, ca: Array, t_v: Array, t_ca: Array, backend: Backend = Backend.c
+    v: Array,
+    ca: Array,
+    t_v: Array,
+    t_ca: Array,
+    backend: Backend = Backend.c,
 ) -> np.ndarray:
     v = numpyfy(v)
     t_v = numpyfy(t_v)
@@ -822,7 +836,7 @@ def cost_terms(
 
     if backend == Backend.python:
         raise NotImplementedError(
-            "Method currently not implemented for python backend (and will probably not be)"
+            "Method currently not implemented for python backend (and will probably not be)",
         )
 
     if backend == Backend.numba:
@@ -845,14 +859,14 @@ def all_cost_terms(
         raise TypeError(f"Expected 't' to be of type numpy.ndarray got {type(t)}")
     if t.shape[0] != arr.shape[0]:
         raise ValueError(
-            "Shape of 't'({t.shape}) and 'arr'({arr.shape}) does not match"
+            "Shape of 't'({t.shape}) and 'arr'({arr.shape}) does not match",
         )
     if normalize_time:
         t = t - t[0]
 
     if backend == Backend.python:
         raise NotImplementedError(
-            "Method currently not implemented for python backend (and will probably not be)"
+            "Method currently not implemented for python backend (and will probably not be)",
         )
     if backend == Backend.numba:
         return _numba.all_cost_terms(arr=arr, t=t, mask=mask)

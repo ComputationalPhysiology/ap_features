@@ -41,7 +41,7 @@ def test_chop_data(chopped_data):
     N = min([len(d) for d in chopped_data.data])
     data = np.array([d[:N] for d in chopped_data.data])
     q = scipy.spatial.distance.pdist(data, "euclidean") / max(
-        [np.linalg.norm(d) for d in data]
+        [np.linalg.norm(d) for d in data],
     )
     assert all(q < 0.1)
 
