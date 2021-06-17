@@ -6,6 +6,10 @@
 
 ![CI](https://github.com/ComputationalPhysiology/ap_features/workflows/CI/badge.svg)
 
+[![codecov](https://codecov.io/gh/ComputationalPhysiology/ap_features/branch/master/graph/badge.svg?token=H0U23J41OQ)](https://codecov.io/gh/ComputationalPhysiology/ap_features)
+
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ComputationalPhysiology/ap_features/master.svg)](https://results.pre-commit.ci/latest/github/ComputationalPhysiology/ap_features/master)
+
 
 
 Package to compute features of traces from action potential models
