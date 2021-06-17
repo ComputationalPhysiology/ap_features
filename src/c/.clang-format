@@ -8,7 +8,6 @@ AlwaysBreakBeforeMultilineStrings: true
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
-IndentCaseLabels: false
 AlignEscapedNewlinesLeft: false
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: false
@@ -17,7 +16,6 @@ SpaceAfterCStyleCast: true
 MaxEmptyLinesToKeep: 2
 BreakBeforeBinaryOperators: NonAssignment
 BreakStringLiterals: false
-SortIncludes:    false
 ContinuationIndentWidth: 8
 IndentPPDirectives: None
 CommentPragmas: '#pragma'
