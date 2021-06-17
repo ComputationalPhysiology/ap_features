@@ -4,11 +4,16 @@ from typing import Optional
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
+<<<<<<< HEAD
 from . import background
 from . import chopping
 from . import features
 from .utils import Array
 from .utils import normalize_signal
+=======
+from . import background, chopping, features
+from .utils import Array, Backend, normalize_signal
+>>>>>>> Start adding classes for Beatcollection
 
 
 class Trace:
@@ -17,6 +22,7 @@ class Trace:
         y: Array,
         t: Optional[Array],
         pacing: Optional[Array] = None,
+        backend: Backend = Backend.c,
     ) -> None:
 
         if t is None:
@@ -32,6 +38,9 @@ class Trace:
         )
         assert self._t.shape == self._y.shape, msg
         self._pacing = np.array(pacing)
+
+        assert backend in Backend
+        self._backend = backend
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(t={self.t.shape}, y={self.y.shape})"
@@ -79,7 +88,7 @@ class Beat(Trace):
         return f.roots().size == 2
 
     @property
-    def parent(self) -> "BeatSeries":
+    def parent(self) -> Optional["BeatSeries"]:
         """If the beat comes from a BeatSeries
         object then this will return that BeatSeries
 
@@ -88,6 +97,7 @@ class Beat(Trace):
         BeatSeries
             The parent BeatSeries
         """
+        return self._parent
 
     def apd(self, factor: int) -> Optional[float]:
         """The action potential duration
@@ -162,6 +172,9 @@ class Beat(Trace):
     def apd_up(self, factor_x, factor_y):
         pass
 
+    def cost_terms(self):
+        return features.cost_terms_trace(y=self.y, t=self.t, backend=self._backend)
+
 
 class BeatSeries(Trace):
     def __init__(
@@ -201,3 +214,36 @@ class BeatSeries(Trace):
     @property
     def background(self) -> Optional[background.Background]:
         return self._background
+
+
+class BeatCollection(Trace):
+    def __init__(
+        self,
+        y: Array,
+        t: Array,
+        pacing: Optional[Array] = None,
+        parent: Optional["BeatSeriesCollection"] = None,
+    ) -> None:
+        # TODO: Check dimensions
+        super().__init__(y=y, t=t, pacing=pacing)
+        self._parent = parent
+
+    @property
+    def parent(self) -> Optional["BeatSeriesCollection"]:
+        """If the beat comes from a BeatSeries
+        object then this will return that BeatSeries
+
+        Returns
+        -------
+        BeatSeries
+            The parent BeatSeries
+        """
+        return self._parent
+
+
+class BeatSeriesCollection(Trace):
+    pass
+
+    @property
+    def num_beats(self) -> List[int]:
+        raise NotImplementedError

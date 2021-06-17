@@ -236,15 +236,9 @@ def tau(
     float
         Decay time
 
-    Raises
-    ------
-    NotImplementedError
-        If unsupported backend is used
     """
     if backend != Backend.python:
-        raise NotImplementedError(
-            "Method currently only implemented for python backend",
-        )
+        logger.warning("Method currently only implemented for python backend")
 
     Y = UnivariateSpline(x, utils.normalize_signal(y) - a, s=0, k=3)
     t_max = x[int(np.argmax(y))]
@@ -299,15 +293,9 @@ def time_to_peak(
     float
         Time to peak
 
-    Raises
-    ------
-    NotImplementedError
-        If unsupported backend is used
     """
     if backend != Backend.python:
-        raise NotImplementedError(
-            "Method currently only implemented for python backend",
-        )
+        logger.warning("Method currently only implemented for python backend")
 
     if pacing is None:
         return x[int(np.argmax(y))]
@@ -362,15 +350,11 @@ def upstroke(
 
     Raises
     ------
-    NotImplementedError
-        If unsupported backend is used
     ValueError
         If a is outside the range of (0, 1)
     """
     if backend != Backend.python:
-        raise NotImplementedError(
-            "Method currently only implemented for python backend",
-        )
+        logger.warning("Method currently only implemented for python backend")
 
     if not 0 < a < 1:
         raise ValueError("'a' has to be between 0.0 and 1.0")
@@ -811,7 +795,7 @@ def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.nda
     t = numpyfy(t)
 
     if backend == Backend.python:
-        raise NotImplementedError(
+        logger.warning(
             "Method currently not implemented for python backend (and will probably not be)",
         )
 
@@ -835,7 +819,7 @@ def cost_terms(
     t_ca = numpyfy(t_ca)
 
     if backend == Backend.python:
-        raise NotImplementedError(
+        logger.warning(
             "Method currently not implemented for python backend (and will probably not be)",
         )
 
@@ -865,7 +849,7 @@ def all_cost_terms(
         t = t - t[0]
 
     if backend == Backend.python:
-        raise NotImplementedError(
+        logger.warning(
             "Method currently not implemented for python backend (and will probably not be)",
         )
     if backend == Backend.numba:
