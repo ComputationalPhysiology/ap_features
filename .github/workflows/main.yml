@@ -29,8 +29,8 @@ jobs:
       - name: Test with pytest
         run: |
           make test
-      - name: Coverange report
+      - name: Coverage report
         uses: codecov/codecov-action@v1
         with:
           fail_ci_if_error: true
-          directory: htmlcov
+          files: coverage.xml
