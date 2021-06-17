@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-
 """The setup script."""
 import sys
 
-from setuptools import Extension, setup
+from setuptools import Extension
+from setuptools import setup
 
 
 def check_for_openmp():

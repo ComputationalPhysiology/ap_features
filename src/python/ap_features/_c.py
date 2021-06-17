@@ -1,7 +1,8 @@
 import ctypes
 import logging
 from ctypes import c_int
-from typing import Callable, Optional
+from typing import Callable
+from typing import Optional
 from unittest import mock
 
 import numpy as np
@@ -9,7 +10,8 @@ import tqdm
 from scipy import interpolate
 
 from .lib import lib
-from .utils import Array, _check_factor
+from .utils import _check_factor
+from .utils import Array
 
 logger = logging.getLogger(__name__)
 NUM_COST_TERMS = lib.get_num_cost_terms()

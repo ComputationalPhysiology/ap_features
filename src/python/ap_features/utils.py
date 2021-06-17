@@ -1,6 +1,8 @@
 import logging
 from enum import Enum
-from typing import List, Sequence, Union
+from typing import List
+from typing import Sequence
+from typing import Union
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline

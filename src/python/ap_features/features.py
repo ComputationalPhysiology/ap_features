@@ -1,12 +1,18 @@
 import logging
 from collections import namedtuple
-from typing import List, Optional, Tuple
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import _c, _numba, utils
-from .utils import Array, Backend, _check_factor
+from . import _c
+from . import _numba
+from . import utils
+from .utils import _check_factor
+from .utils import Array
+from .utils import Backend
 
 logger = logging.getLogger(__name__)
 

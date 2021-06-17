@@ -1,6 +1,5 @@
 import numpy as np
 import pytest
-
 from ap_features import background
 
 

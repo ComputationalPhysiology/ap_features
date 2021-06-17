@@ -1,10 +1,14 @@
-from typing import List, Optional
+from typing import List
+from typing import Optional
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import background, chopping, features
-from .utils import Array, normalize_signal
+from . import background
+from . import chopping
+from . import features
+from .utils import Array
+from .utils import normalize_signal
 
 
 class Trace:

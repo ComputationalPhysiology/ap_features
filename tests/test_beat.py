@@ -1,6 +1,7 @@
 import pytest
-
-from ap_features import Beat, BeatSeries, Trace
+from ap_features import Beat
+from ap_features import BeatSeries
+from ap_features import Trace
 
 
 @pytest.fixture(scope="session")

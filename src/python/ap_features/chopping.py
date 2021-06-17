@@ -1,6 +1,8 @@
 import logging
 from collections import namedtuple
-from typing import List, Optional, Union
+from typing import List
+from typing import Optional
+from typing import Union
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline

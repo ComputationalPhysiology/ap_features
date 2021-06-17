@@ -5,7 +5,11 @@ import ctypes
 import logging
 import os
 import time
-from ctypes import c_double, c_int, c_long, c_uint8, c_void_p
+from ctypes import c_double
+from ctypes import c_int
+from ctypes import c_long
+from ctypes import c_uint8
+from ctypes import c_void_p
 from pathlib import Path
 
 import numpy as np

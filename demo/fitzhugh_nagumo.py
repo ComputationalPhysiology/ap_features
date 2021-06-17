@@ -1,8 +1,7 @@
+import ap_features as apf
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
-
-import ap_features as apf
 
 
 def fitzhugh_nagumo(t, x, a, b, tau, Iext):
