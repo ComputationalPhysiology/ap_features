@@ -65,9 +65,33 @@ def single_beat(multiple_beats):
 
 
 @pytest.fixture(scope="session")
+def NUM_TRACES():
+    return 5
+
+
+@pytest.fixture(scope="session")
+def NUM_STATES():
+    return 2
+
+
+@pytest.fixture(scope="session")
+def single_beat_collection(single_beat, NUM_TRACES):
+    t, y = single_beat
+    # Create N duplicates
+    ys = np.repeat(y, NUM_TRACES).reshape(-1, NUM_TRACES)
+    return t, ys
+
+
+@pytest.fixture(scope="session")
+def state_collection_data(single_beat, NUM_TRACES, NUM_STATES):
+    t, y = single_beat
+    ys = np.repeat(y, NUM_STATES * NUM_TRACES).reshape(-1, NUM_STATES, NUM_TRACES)
+    return t, ys
+
+
+@pytest.fixture(scope="session")
 def triangle_signal():
     x = np.arange(301, dtype=float)
-
     y = np.zeros(301, dtype=float)
     y[:101] = np.linspace(0, 1, 101)
     y[101:201] = np.linspace(1, 0, 101)[1:]

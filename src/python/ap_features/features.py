@@ -13,6 +13,7 @@ from . import utils
 from .utils import _check_factor
 from .utils import Array
 from .utils import Backend
+from .utils import numpyfy
 
 logger = logging.getLogger(__name__)
 
@@ -784,12 +785,6 @@ def corrected_apd(apd, beat_rate, formula="friderica"):
         return np.multiply(apd, pow(RR, -1 / 2))
 
 
-def numpyfy(y: Array) -> np.ndarray:
-    if not isinstance(y, np.ndarray):
-        y = np.array(y)
-    return y
-
-
 def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.ndarray:
     y = numpyfy(y)
     t = numpyfy(t)
@@ -837,6 +832,9 @@ def all_cost_terms(
     backend: Backend = Backend.c,
     normalize_time: bool = True,
 ) -> np.ndarray:
+
+    arr = numpyfy(arr)
+    t = numpyfy(t)
     if not isinstance(arr, np.ndarray):
         raise TypeError(f"Expected 'arr' to be of type numpy.ndarray got {type(arr)}")
     if not isinstance(t, np.ndarray):

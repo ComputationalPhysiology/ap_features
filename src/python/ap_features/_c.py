@@ -12,6 +12,7 @@ from scipy import interpolate
 from .lib import lib
 from .utils import _check_factor
 from .utils import Array
+from .utils import numpyfy
 
 logger = logging.getLogger(__name__)
 NUM_COST_TERMS = lib.get_num_cost_terms()
@@ -63,6 +64,8 @@ def apd(y: Array, t: Array, factor: interpolate) -> float:
 
     """
     _check_factor(factor)
+    y = to_c_contigous(y)
+    t = to_c_contigous(t)
     return lib.apd(
         np.array(y)[...],
         np.array(t)[...],
@@ -73,6 +76,9 @@ def apd(y: Array, t: Array, factor: interpolate) -> float:
 
 
 def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> float:
+    y = to_c_contigous(y)
+    t = to_c_contigous(t)
+
     return lib.apd_up_xy(
         np.array(y)[...],
         np.array(t)[...],
@@ -84,10 +90,19 @@ def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> flo
 
 
 def cost_terms_trace(y: np.ndarray, t: np.ndarray) -> np.ndarray:
-
     R = np.zeros(NUM_COST_TERMS // 2)
+    y = to_c_contigous(y)
+    t = to_c_contigous(t)
     lib.cost_terms_trace(R, y[...], t[...], t.size)
     return R
+
+
+def to_c_contigous(y: np.ndarray) -> np.ndarray:
+
+    y = numpyfy(y)
+    if not y.flags.c_contiguous:
+        y = np.ascontiguousarray(y)
+    return y
 
 
 def cost_terms(
@@ -97,6 +112,12 @@ def cost_terms(
     t_ca: np.ndarray,
 ) -> np.ndarray:
     R = np.zeros(NUM_COST_TERMS)
+
+    v = to_c_contigous(v)
+    ca = to_c_contigous(ca)
+    t_v = to_c_contigous(t_v)
+    t_ca = to_c_contigous(t_ca)
+
     lib.cost_terms_trace(R[: NUM_COST_TERMS // 2], v[...], t_v[...], t_v.size)
     lib.cost_terms_trace(R[NUM_COST_TERMS // 2 :], ca[...], t_ca[...], t_ca.size)
     return R

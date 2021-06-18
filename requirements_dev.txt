@@ -1,6 +1,8 @@
 black
 bump2version
+dask[array]
 flake8
+h5py
 ipython
 isort
 mypy

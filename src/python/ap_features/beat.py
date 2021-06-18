@@ -4,16 +4,13 @@ from typing import Optional
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-<<<<<<< HEAD
 from . import background
 from . import chopping
 from . import features
 from .utils import Array
+from .utils import Backend
 from .utils import normalize_signal
-=======
-from . import background, chopping, features
-from .utils import Array, Backend, normalize_signal
->>>>>>> Start adding classes for Beatcollection
+from .utils import numpyfy
 
 
 class Trace:
@@ -27,17 +24,12 @@ class Trace:
 
         if t is None:
             t = np.arange(len(y))
-        self._t = np.array(t)
-        self._y = np.array(y)
+        self._t = numpyfy(t)
+        self._y = numpyfy(y)
         if pacing is None:
-            pacing = np.zeros_like(self._y)  # type: ignore
+            pacing = np.zeros_like(self._t)  # type: ignore
 
-        msg = (
-            "Expected shape of 't' and 'y' to be the same got "
-            f"{self._t.shape}(t) and {self._y.shape}(y)"
-        )
-        assert self._t.shape == self._y.shape, msg
-        self._pacing = np.array(pacing)
+        self._pacing = numpyfy(pacing)
 
         assert backend in Backend
         self._backend = backend
@@ -66,9 +58,15 @@ class Beat(Trace):
         pacing: Optional[Array] = None,
         y_rest: Optional[float] = None,
         parent: Optional["BeatSeries"] = None,
+        backend: Backend = Backend.c,
     ) -> None:
 
-        super().__init__(y, t, pacing)
+        super().__init__(y, t, pacing=pacing, backend=backend)
+        msg = (
+            "Expected shape of 't' and 'y' to be the same. got "
+            f"{self._t.shape}(t) and {self._y.shape}(y)"
+        )
+        assert self._t.shape == self._y.shape, msg
         self._y_rest = y_rest
         self._parent = parent
 
@@ -172,6 +170,7 @@ class Beat(Trace):
     def apd_up(self, factor_x, factor_y):
         pass
 
+    @property
     def cost_terms(self):
         return features.cost_terms_trace(y=self.y, t=self.t, backend=self._backend)
 
@@ -183,12 +182,18 @@ class BeatSeries(Trace):
         t: Array,
         pacing: Optional[Array] = None,
         correct_background: bool = False,
+        backend: Backend = Backend.c,
     ) -> None:
         self._background = None
         if correct_background:
             self._background = background.correct_background(x=t, y=y)
 
-        super().__init__(y, t, pacing=pacing)
+        super().__init__(y, t, pacing=pacing, backend=backend)
+        msg = (
+            "Expected shape of 't' and 'y' to be the same got "
+            f"{self._t.shape}(t) and {self._y.shape}(y)"
+        )
+        assert self._t.shape == self._y.shape, msg
 
     def chop(self, **options) -> List[Beat]:
         c = chopping.chop_data(data=self.y, time=self.t, pacing=self.pacing, **options)
@@ -222,11 +227,25 @@ class BeatCollection(Trace):
         y: Array,
         t: Array,
         pacing: Optional[Array] = None,
+        mask: Optional[Array] = None,
         parent: Optional["BeatSeriesCollection"] = None,
+        backend: Backend = Backend.c,
     ) -> None:
-        # TODO: Check dimensions
-        super().__init__(y=y, t=t, pacing=pacing)
+
+        super().__init__(y, t, pacing=pacing, backend=backend)
         self._parent = parent
+        msg = (
+            "Expected first dimension of 'y' to be the same as shape of 't' "
+            f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
+        )
+        assert self.t.size == self.y.shape[0], msg
+        assert (
+            len(self.y.shape) == 2
+        ), f"Expected shape of y to be 2D, got {len(self.y.shape)}D"
+
+    @property
+    def num_traces(self):
+        return self.y.shape[-1]
 
     @property
     def parent(self) -> Optional["BeatSeriesCollection"]:
@@ -242,6 +261,107 @@ class BeatCollection(Trace):
 
 
 class BeatSeriesCollection(Trace):
+    pass
+
+    @property
+    def num_beats(self) -> List[int]:
+        raise NotImplementedError
+
+
+class State(Trace):
+    def __init__(
+        self,
+        y: Array,
+        t: Optional[Array],
+        pacing: Optional[Array] = None,
+        backend: Backend = Backend.c,
+    ) -> None:
+        super().__init__(y, t, pacing=pacing, backend=backend)
+
+        msg = (
+            "Expected first dimension of 'y' to be the same as shape of 't' "
+            f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
+        )
+        assert self.t.size == self.y.shape[0], msg
+        assert (
+            len(self.y.shape) == 2
+        ), f"Expected shape of y to be D, got {len(self.y.shape)}D"
+
+    @property
+    def num_states(self):
+        return self.y.shape[1]
+
+    def __getitem__(self, k):
+        return self.y[:, k]
+
+    @property
+    def cost_terms(self):
+        if self.num_states != 2:
+            raise NotImplementedError
+
+        return features.cost_terms(v=self[0], ca=self[1], t_v=self.t, t_ca=self.t)
+
+
+class StateCollection(Trace):
+    def __init__(
+        self,
+        y: Array,
+        t: Array,
+        pacing: Optional[Array] = None,
+        mask: Optional[Array] = None,
+        parent: Optional["StateSeriesCollection"] = None,
+    ) -> None:
+        # TODO: Check dimensions
+        super().__init__(y=y, t=t, pacing=pacing)
+        self._parent = parent
+
+        msg = (
+            "Expected first dimension of 'y' to be the same as shape of 't' "
+            f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
+        )
+        assert self.t.size == self.y.shape[0], msg
+        assert (
+            len(self.y.shape) == 3
+        ), f"Expected shape of y to be 3D, got {len(self.y.shape)}D"
+        self.mask = mask
+
+    @property
+    def mask(self) -> Optional[Array]:
+        return self._mask
+
+    @mask.setter
+    def mask(self, mask: Optional[Array]) -> None:
+        if mask is not None:
+            mask = numpyfy(mask)
+            assert mask.size == self.num_traces
+        self._mask = mask
+
+    @property
+    def num_traces(self):
+        return self.y.shape[-1]
+
+    @property
+    def num_states(self):
+        return self.y.shape[1]
+
+    @property
+    def parent(self) -> Optional["StateSeriesCollection"]:
+        """If the beat comes from a BeatSeries
+        object then this will return that BeatSeries
+
+        Returns
+        -------
+        BeatSeries
+            The parent BeatSeries
+        """
+        return self._parent
+
+    @property
+    def cost_terms(self):
+        return features.all_cost_terms(arr=self.y, t=self.t, mask=self.mask)
+
+
+class StateSeriesCollection(Trace):
     pass
 
     @property
