@@ -13,6 +13,7 @@ from . import utils
 from .utils import _check_factor
 from .utils import Array
 from .utils import Backend
+from .utils import numpyfy
 
 logger = logging.getLogger(__name__)
 
@@ -236,15 +237,9 @@ def tau(
     float
         Decay time
 
-    Raises
-    ------
-    NotImplementedError
-        If unsupported backend is used
     """
     if backend != Backend.python:
-        raise NotImplementedError(
-            "Method currently only implemented for python backend",
-        )
+        logger.warning("Method currently only implemented for python backend")
 
     Y = UnivariateSpline(x, utils.normalize_signal(y) - a, s=0, k=3)
     t_max = x[int(np.argmax(y))]
@@ -299,15 +294,9 @@ def time_to_peak(
     float
         Time to peak
 
-    Raises
-    ------
-    NotImplementedError
-        If unsupported backend is used
     """
     if backend != Backend.python:
-        raise NotImplementedError(
-            "Method currently only implemented for python backend",
-        )
+        logger.warning("Method currently only implemented for python backend")
 
     if pacing is None:
         return x[int(np.argmax(y))]
@@ -362,15 +351,11 @@ def upstroke(
 
     Raises
     ------
-    NotImplementedError
-        If unsupported backend is used
     ValueError
         If a is outside the range of (0, 1)
     """
     if backend != Backend.python:
-        raise NotImplementedError(
-            "Method currently only implemented for python backend",
-        )
+        logger.warning("Method currently only implemented for python backend")
 
     if not 0 < a < 1:
         raise ValueError("'a' has to be between 0.0 and 1.0")
@@ -800,18 +785,12 @@ def corrected_apd(apd, beat_rate, formula="friderica"):
         return np.multiply(apd, pow(RR, -1 / 2))
 
 
-def numpyfy(y: Array) -> np.ndarray:
-    if not isinstance(y, np.ndarray):
-        y = np.array(y)
-    return y
-
-
 def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.ndarray:
     y = numpyfy(y)
     t = numpyfy(t)
 
     if backend == Backend.python:
-        raise NotImplementedError(
+        logger.warning(
             "Method currently not implemented for python backend (and will probably not be)",
         )
 
@@ -835,7 +814,7 @@ def cost_terms(
     t_ca = numpyfy(t_ca)
 
     if backend == Backend.python:
-        raise NotImplementedError(
+        logger.warning(
             "Method currently not implemented for python backend (and will probably not be)",
         )
 
@@ -853,6 +832,9 @@ def all_cost_terms(
     backend: Backend = Backend.c,
     normalize_time: bool = True,
 ) -> np.ndarray:
+
+    arr = numpyfy(arr)
+    t = numpyfy(t)
     if not isinstance(arr, np.ndarray):
         raise TypeError(f"Expected 'arr' to be of type numpy.ndarray got {type(arr)}")
     if not isinstance(t, np.ndarray):
@@ -865,7 +847,7 @@ def all_cost_terms(
         t = t - t[0]
 
     if backend == Backend.python:
-        raise NotImplementedError(
+        logger.warning(
             "Method currently not implemented for python backend (and will probably not be)",
         )
     if backend == Backend.numba:

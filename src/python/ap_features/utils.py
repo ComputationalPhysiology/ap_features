@@ -27,6 +27,29 @@ def _check_factor(factor: float) -> None:
         )
 
 
+def numpyfy(y) -> np.ndarray:
+    if isinstance(y, (list, tuple)):
+        y = np.array(y)
+
+    try:
+        import dask.array as da
+    except ImportError:
+        pass
+    else:
+        if isinstance(y, da.Array):
+            y = y.compute()
+
+    try:
+        import h5py
+    except ImportError:
+        pass
+    else:
+        if isinstance(y, h5py.Dataset):
+            y = y[...]
+
+    return y
+
+
 def normalize_signal(V, v_r=None):
     """
     Normalize signal to have maximum value 1
