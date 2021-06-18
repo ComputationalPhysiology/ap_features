@@ -27,7 +27,7 @@ def _check_factor(factor: float) -> None:
         )
 
 
-def numpyfy(y: Array) -> np.ndarray:
+def numpyfy(y) -> np.ndarray:
     if isinstance(y, (list, tuple)):
         y = np.array(y)
 

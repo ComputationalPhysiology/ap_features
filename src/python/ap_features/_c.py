@@ -11,7 +11,6 @@ from scipy import interpolate
 
 from .lib import lib
 from .utils import _check_factor
-from .utils import Array
 from .utils import numpyfy
 
 logger = logging.getLogger(__name__)
@@ -45,7 +44,7 @@ def py_update_progress(progress_bar: Optional[tqdm.tqdm] = None) -> Callable:
     return py_update_progress_wrap
 
 
-def apd(y: Array, t: Array, factor: interpolate) -> float:
+def apd(y: np.ndarray, t: np.ndarray, factor: interpolate) -> float:
     """Return the action potential duration at the given factor.
 
     Parameters
