@@ -1,4 +1,4 @@
-* {{ cookiecutter.project_name }} version:
+* ap_features version:
 * Python version:
 * Operating System:
 
