@@ -1,5 +1,6 @@
 from typing import List
 from typing import Optional
+from typing import Sequence
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
@@ -204,9 +205,9 @@ class Beats(Trace):
         return self._beats
 
     @property
-    def beating_frequencies(self) -> List[float]:
-        signals = [beat.y for beat in self.beats]
-        times = [beat.t for beat in self.beats]
+    def beating_frequencies(self) -> Sequence[float]:
+        signals: List[Array] = [beat.y for beat in self.beats]
+        times: List[Array] = [beat.t for beat in self.beats]
         return features.beating_frequency_from_peaks(signals=signals, times=times)
 
     @property

@@ -2,6 +2,7 @@ import logging
 from collections import namedtuple
 from typing import List
 from typing import Optional
+from typing import Sequence
 from typing import Tuple
 
 import numpy as np
@@ -416,7 +417,7 @@ def beating_frequency_from_peaks(
     signals: List[Array],
     times: List[Array],
     unit: str = "ms",
-) -> List[float]:
+) -> Sequence[float]:
     """Returns the beating frequency in Hz by using
     the peak values of the signals in each beat
 
