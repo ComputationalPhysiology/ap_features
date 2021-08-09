@@ -329,13 +329,13 @@ def filter_start_ends_in_chopping(
     # Find the length half way between the previous and next point
     if extend_front is None:
         try:
-            extend_front = np.min(starts[1:] - ends[:-1]) / 2
+            extend_front = np.min(starts[1:] - ends[:-1]) / 2  # type: ignore
         except IndexError:
             extend_front = 300
 
     if extend_end is None:
         try:
-            extend_end = np.min(starts[1:] - ends[:-1]) / 2
+            extend_end = np.min(starts[1:] - ends[:-1]) / 2  # type: ignore
         except IndexError:
             extend_end = 60
 
