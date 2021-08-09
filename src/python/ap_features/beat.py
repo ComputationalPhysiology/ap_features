@@ -57,7 +57,7 @@ class Beat(Trace):
         t: Array,
         pacing: Optional[Array] = None,
         y_rest: Optional[float] = None,
-        parent: Optional["BeatSeries"] = None,
+        parent: Optional["Beats"] = None,
         backend: Backend = Backend.c,
     ) -> None:
 
@@ -86,14 +86,14 @@ class Beat(Trace):
         return f.roots().size == 2
 
     @property
-    def parent(self) -> Optional["BeatSeries"]:
-        """If the beat comes from a BeatSeries
-        object then this will return that BeatSeries
+    def parent(self) -> Optional["Beats"]:
+        """If the beat comes from several Beats
+        object then this will return those Beats
 
         Returns
         -------
-        BeatSeries
-            The parent BeatSeries
+        Beats
+            The parent Beats
         """
         return self._parent
 
@@ -175,7 +175,7 @@ class Beat(Trace):
         return features.cost_terms_trace(y=self.y, t=self.t, backend=self._backend)
 
 
-class BeatSeries(Trace):
+class Beats(Trace):
     def __init__(
         self,
         y: Array,
@@ -203,22 +203,47 @@ class BeatSeries(Trace):
         self._chopped_data = c
         return self._beats
 
-    def beatrate(self):
-        raise NotImplementedError
+    @property
+    def beating_frequencies(self) -> List[float]:
+        signals = [beat.y for beat in self.beats]
+        times = [beat.t for beat in self.beats]
+        return features.beating_frequency_from_peaks(signals=signals, times=times)
+
+    @property
+    def beating_frequency(self) -> float:
+        return np.median(self.beating_frequencies)
+
+    @property
+    def beat_rate(self) -> float:
+        return 60 / self.beating_frequency
+
+    @property
+    def beat_rates(self) -> List[float]:
+        return [60 / bf for bf in self.beating_frequencies]
 
     @property
     def beats(self) -> List[Beat]:
         if not hasattr(self, "_beats"):
-            raise ValueError("Please chop BeatSeries into Beats first")
+            self.chop()
         return self._beats
 
     @property
     def num_beats(self) -> int:
-        return len(self._beats)
+        return len(self.beats)
 
     @property
     def background(self) -> Optional[background.Background]:
         return self._background
+
+    @property
+    def y(self) -> np.ndarray:
+        if self.background is not None:
+            return self.background.corrected
+        return super().y
+
+    @property
+    def original_y(self) -> np.ndarray:
+        return super().y
 
 
 class BeatCollection(Trace):

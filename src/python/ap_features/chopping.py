@@ -11,8 +11,8 @@ from . import utils
 
 logger = logging.getLogger(__name__)
 
-chopped_data = namedtuple("chopped_data", "data, times, pacing, parameters")
-chopping_parameters = namedtuple("chopping_parameters", "use_pacing_info")
+ChoppedData = namedtuple("ChoppedData", "data, times, pacing, parameters")
+ChoppingParameters = namedtuple("ChoppingParameters", "use_pacing_info")
 
 
 def chop_data(data, time, **kwargs):
@@ -34,6 +34,10 @@ class EmptyChoppingError(ValueError):
     pass
 
 
+class InvalidChoppingError(ValueError):
+    pass
+
+
 def chop_data_without_pacing(
     data,
     time,
@@ -43,6 +47,7 @@ def chop_data_without_pacing(
     winlen: int = 50,
     N: Optional[int] = None,
     extend_front: Optional[float] = None,
+    extend_end: Optional[float] = None,
     **kwargs,
 ):
 
@@ -149,57 +154,80 @@ def chop_data_without_pacing(
     """
     logger.debug("Chopping without pacing")
 
-    chop_pars = chopping_parameters(
+    chop_pars = ChoppingParameters(
         use_pacing_info=False,
     )
     logger.debug(f"Use chopping parameters: {chop_pars}")
-    empty = chopped_data(data=[], times=[], pacing=[], parameters=chop_pars)
 
-    # Make a spline interpolation
-    data_spline = UnivariateSpline(time, data, s=0)
-
-    try:
-        starts, ends, zeros = locate_chop_points(
-            time,
-            data,
-            threshold_factor,
-            winlen=winlen,
-        )
-    except EmptyChoppingError:
-        return empty
+    starts, ends, zeros = find_start_and_ends(
+        time=time,
+        data=data,
+        threshold_factor=threshold_factor,
+        winlen=winlen,
+        chop_pars=chop_pars,
+        extend_front=extend_front,
+        extend_end=extend_end,
+    )
 
     if len(zeros) <= 3:
         ## Just return the original data
-        return chopped_data(
+        return ChoppedData(
             data=[data],
             times=[time],
             pacing=[np.zeros_like(data)],
             parameters=chop_pars,
         )
-    starts, ends = filter_start_ends_in_chopping(starts, ends, extend_front)
-
-    while len(ends) > 0 and ends[-1] > time[-1]:
-        ends = ends[:-1]
-        starts = starts[:-1]
-
-    if len(ends) == 0:
-        return empty
-
-    # Update the ends to be the start of the next trace
-    for i, s in enumerate(starts[1:]):
-        ends[i] = s
-    ends[-1] = min(ends[-1], time[-2])
 
     # Storage
-    cutdata = []
-    times = []
+    chopped_data, chopped_times, chopped_pacing = chop_from_start_ends(
+        data,
+        time,
+        starts,
+        ends,
+        pacing=None,
+        N=N,
+        max_window=max_window,
+        min_window=min_window,
+    )
+
+    return ChoppedData(
+        data=chopped_data,
+        times=chopped_times,
+        pacing=chopped_pacing,
+        parameters=chop_pars,
+    )
+
+
+def chop_from_start_ends(
+    data,
+    time,
+    starts,
+    ends,
+    pacing=None,
+    N=None,
+    max_window=2000,
+    min_window=50,
+):
+    chopped_data = []
+    chopped_pacing = []
+    chopped_times = []
+
+    if pacing is None:
+        pacing = np.zeros_like(time)
+
+    # Make a spline interpolation
+    data_spline = UnivariateSpline(time, data, s=0)
+    pacing_spline = UnivariateSpline(time, pacing, s=0)
+
+    # Add a little bit of slack
+    eps = 1e-10
 
     for s, e in zip(starts, ends):
 
         if N is None:
             # Find the correct time points
-            s_idx = next(i for i, si in enumerate(time) if si > s)
-            e_idx = next(i for i, ei in enumerate(time) if ei > e)
+            s_idx = next(i for i, si in enumerate(time) if si >= s - eps)
+            e_idx = next(i for i, ei in enumerate(time) if ei >= e - eps)
             t = time[s_idx - 1 : e_idx + 1]
 
         else:
@@ -217,19 +245,59 @@ def chop_data_without_pacing(
             t_end = next(i for i, ti in enumerate(t) if ti - t[0] > max_window) + 1
             t = t[:t_end]
 
-        sub = data_spline(t)
+        chopped_data.append(data_spline(t))
+        chopped_pacing.append(pacing_spline(t))
+        chopped_times.append(t)
+    return chopped_data, chopped_times, chopped_pacing
 
-        cutdata.append(sub)
-        times.append(t)
 
-    pacing = [np.zeros(len(ti)) for ti in times]
-    return chopped_data(data=cutdata, times=times, pacing=pacing, parameters=chop_pars)
+def find_start_and_ends(
+    time,
+    data,
+    threshold_factor,
+    winlen,
+    chop_pars,
+    extend_front,
+    extend_end,
+):
+
+    empty = ChoppedData(data=[], times=[], pacing=[], parameters=chop_pars)
+
+    try:
+        starts, ends, zeros = locate_chop_points(
+            time,
+            data,
+            threshold_factor,
+            winlen=winlen,
+        )
+    except EmptyChoppingError:
+        return empty
+
+    if len(zeros) <= 3:
+        return starts, ends, zeros
+
+    starts, ends = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
+
+    while len(ends) > 0 and ends[-1] > time[-1]:
+        ends = ends[:-1]
+        starts = starts[:-1]
+
+    if len(ends) == 0:
+        return empty
+
+    # Update the ends to be the start of the next trace
+    for i, s in enumerate(starts[1:]):
+        ends[i] = s
+    ends[-1] = min(ends[-1], time[-2])
+
+    return starts, ends, zeros
 
 
 def filter_start_ends_in_chopping(
     starts: Union[List[float], np.ndarray],
     ends: Union[List[float], np.ndarray],
     extend_front: Optional[float] = None,
+    extend_end: Optional[float] = None,
 ):
     starts = np.array(starts)
     ends = np.array(ends)
@@ -243,12 +311,22 @@ def filter_start_ends_in_chopping(
 
     # If the first end is lower than the first start
     # we should drop the first end
-    if ends[0] < starts[0]:
+    while ends[0] < starts[0]:
         ends = ends[1:]
+
+    # If we have a beat at the end without an end we remove
+    # that one
+    while starts[-1] > ends[-1]:
+        starts = starts[:-1]
 
     # And we should check this one more time
     if len(ends) == 0:
         raise EmptyChoppingError
+
+    if len(ends) != len(starts):
+        raise InvalidChoppingError(
+            f"Unequal number of starts {len(starts)} and ends {len(ends)}",
+        )
 
     # Find the length half way between the previous and next point
     if extend_front is None:
@@ -257,8 +335,18 @@ def filter_start_ends_in_chopping(
         except IndexError:
             extend_front = 300
 
+    if extend_end is None:
+        try:
+            extend_end = np.min(starts[1:] - ends[:-1]) / 2
+        except IndexError:
+            extend_end = 60
+
     # Subtract the extend front
     starts = np.subtract(starts, extend_front)
+
+    # Add at the end
+    ends = np.add(ends, extend_end)
+
     # If the trace starts in the middle of an event, that event is thrown out
     if starts[0] < 0:
         starts = starts[1:]
@@ -357,53 +445,57 @@ def chop_data_with_pacing(
     beginning of the next beat (plus `extend_end` which is also has as
     default value of zero).
     """
-    extend_end = extend_end if extend_end is not None else 0
-    extend_front = extend_front if extend_front is not None else 0
-    min_window = min_window if min_window is not None else 300
-    max_window = max_window if max_window is not None else 2000
 
     # Find indices for start of each pacing
-    start_pace_idx = np.where(np.diff(np.array(pacing, dtype=float)) > 0)[0].tolist()
-    N = len(data)
-    start_pace_idx.append(N)
+    starts, ends = pacing_to_start_ends(time, pacing, extend_front, extend_end)
 
-    idx_freq = 1.0 / np.mean(np.diff(time))
-    shift_start = int(idx_freq * extend_front)
-    shift_end = int(idx_freq * extend_end)
+    chopped_data, chopped_times, chopped_pacing = chop_from_start_ends(
+        data,
+        time,
+        starts,
+        ends,
+        pacing=pacing,
+        N=None,
+        max_window=max_window,
+        min_window=min_window,
+    )
 
-    chopped_y = []
-    chopped_pacing = []
-    chopped_times = []
+    chop_pars = ChoppingParameters(use_pacing_info=True)
 
-    for i in range(len(start_pace_idx) - 1):
-        # Time
-        end = min(start_pace_idx[i + 1] + shift_end, N)
-        start = max(start_pace_idx[i] - shift_start, 0)
-
-        t = time[start:end]
-        if t[-1] - t[0] < min_window:
-            continue
-
-        if t[-1] - t[0] > max_window:
-            t_end = next(i for i, ti in enumerate(t) if ti - t[0] > max_window) + 1
-            end = start + t_end
-            t = time[start:end]
-
-        chopped_times.append(t)
-
-        # Data
-        c = data[start:end]
-        chopped_y.append(c)
-
-        # Pacing
-        p = pacing[start:end]
-        chopped_pacing.append(p)
-
-    chop_pars = chopping_parameters(use_pacing_info=True)
-
-    return chopped_data(
-        data=chopped_y,
+    return ChoppedData(
+        data=chopped_data,
         times=chopped_times,
         pacing=chopped_pacing,
         parameters=chop_pars,
     )
+
+
+def find_pacing_indices(pacing):
+    """Return indices of where the pacing array changes
+    from a low to a high values
+
+    Parameters
+    ----------
+    pacing : list or np.ndarray
+        The array with pacing amplitude
+
+    Returns
+    -------
+    np.ndarray
+        List of indices where the pacing is triggered
+    """
+    return np.where(np.diff(np.array(pacing, dtype=float)) > 0)[0].tolist()
+
+
+def pacing_to_start_ends(time, pacing, extend_front, extend_end, add_final=True):
+    start_pace_idx = np.where(np.diff(np.array(pacing, dtype=float)) > 0)[0].tolist()
+    N = len(time)
+    if add_final:
+        start_pace_idx.append(N - 1)
+
+    indices = np.array(start_pace_idx)
+    time = np.array(time)
+    starts = time[indices[:-1]]
+    ends = time[indices[1:]]
+
+    return filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)

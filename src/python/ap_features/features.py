@@ -416,7 +416,7 @@ def beating_frequency_from_peaks(
     signals: List[Array],
     times: List[Array],
     unit: str = "ms",
-) -> float:
+) -> List[float]:
     """Returns the beating frequency in Hz by using
     the peak values of the signals in each beat
 
@@ -431,8 +431,8 @@ def beating_frequency_from_peaks(
 
     Returns
     -------
-    float
-        Beating frequency in Hz
+    List[float]
+        Beating frequency in Hz for each beat
     """
 
     t_maxs = [t[int(np.argmax(c))] for c, t in zip(signals, times)]

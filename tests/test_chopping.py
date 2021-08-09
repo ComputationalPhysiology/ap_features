@@ -1,7 +1,8 @@
-import ap_features as apf
 import numpy as np
 import pytest
 import scipy
+
+import ap_features as apf
 
 
 @pytest.fixture(params=["with_pacing", "without_pacing"])
@@ -47,3 +48,42 @@ def test_chop_data(chopped_data):
 
     times = np.array([t[:N] for t in chopped_data.times])
     assert all(scipy.spatial.distance.pdist([t - t[0] for t in times]) < 1e-10)
+
+
+@pytest.mark.parametrize(
+    "starts, ends, extend_front, extend_end, new_starts, new_ends",
+    [
+        (
+            [69.40241445, 1628.85895293, 3074.24891969, 4641.53700245],
+            [811.77991702, 2380.96124084, 3826.5365545],
+            None,
+            None,
+            [1282.2151135, 2727.60508026],
+            [2727.60508026, 4173.18039393],
+        ),
+        (
+            [69.40241445, 1628.85895293, 3074.24891969, 4641.53700245],
+            [811.77991702, 2380.96124084, 3826.5365545],
+            0,
+            0,
+            [69.40241445, 1628.85895293, 3074.24891969],
+            [811.77991702, 2380.96124084, 3826.5365545],
+        ),
+    ],
+)
+def test_filter_start_ends_in_chopping(
+    starts,
+    ends,
+    extend_front,
+    extend_end,
+    new_starts,
+    new_ends,
+):
+    s, e = apf.chopping.filter_start_ends_in_chopping(
+        starts,
+        ends,
+        extend_front,
+        extend_end,
+    )
+    assert np.isclose(s, new_starts).all()
+    assert np.isclose(e, new_ends).all()
