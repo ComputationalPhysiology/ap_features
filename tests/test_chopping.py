@@ -1,8 +1,7 @@
+import ap_features as apf
 import numpy as np
 import pytest
 import scipy
-
-import ap_features as apf
 
 
 @pytest.fixture(params=["with_pacing", "without_pacing"])

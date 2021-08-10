@@ -1,9 +1,8 @@
+import ap_features as apf
 import dask.array as da
 import h5py
 import numpy as np
 import pytest
-
-import ap_features as apf
 
 
 def handle_request_param(request, t, y, cls):
