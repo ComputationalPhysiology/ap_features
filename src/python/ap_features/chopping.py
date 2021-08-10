@@ -392,32 +392,8 @@ def filter_start_ends_in_chopping(
     """
     starts = np.array(starts)
     ends = np.array(ends)
-    # If there is no starts return nothing
-    if len(starts) == 0:
-        raise EmptyChoppingError
 
-    # The same with no ends
-    if len(ends) == 0:
-        raise EmptyChoppingError
-
-    # If the first end is lower than the first start
-    # we should drop the first end
-    while ends[0] < starts[0]:
-        ends = ends[1:]
-
-    # If we have a beat at the end without an end we remove
-    # that one
-    while starts[-1] > ends[-1]:
-        starts = starts[:-1]
-
-    # And we should check this one more time
-    if len(ends) == 0:
-        raise EmptyChoppingError
-
-    if len(ends) != len(starts):
-        raise InvalidChoppingError(
-            f"Unequal number of starts {len(starts)} and ends {len(ends)}",
-        )
+    starts, ends = check_starts_ends(starts, ends)
 
     # Find the length half way between the previous and next point
     if extend_front is None:
@@ -457,6 +433,64 @@ def filter_start_ends_in_chopping(
             new_starts.pop()
 
     return np.array(new_starts), np.array(new_ends)
+
+
+def check_starts_ends(starts: Array, ends: Array) -> Tuple[Array, Array]:
+    """Check starts and ends and make sure that
+    they are consitent
+
+    Parameters
+    ----------
+    starts : Array
+        List of start points
+    ends : Array
+        List of end points
+
+    Returns
+    -------
+    Tuple[Array, Array]
+        starts, ends
+
+    Raises
+    ------
+    EmptyChoppingError
+        If number of starts or ends become zero.
+    InvalidChoppingError
+        If number of starts and ends does not add up.
+    """
+    # If there is no starts return nothing
+    if len(starts) == 0:
+        raise EmptyChoppingError
+
+    # The same with no ends
+    if len(ends) == 0:
+        raise EmptyChoppingError
+
+    # If the first end is lower than the first start
+    # we should drop the first end
+    try:
+        while ends[0] < starts[0]:
+            ends = ends[1:]
+    except IndexError as ex:
+        raise EmptyChoppingError from ex
+
+    # If we have a beat at the end without an end we remove
+    # that one
+    try:
+        while starts[-1] > ends[-1]:
+            starts = starts[:-1]
+    except IndexError as ex:
+        raise EmptyChoppingError from ex
+
+    # And we should check this one more time
+    if len(ends) == 0:
+        raise EmptyChoppingError
+
+    if len(ends) != len(starts):
+        raise InvalidChoppingError(
+            f"Unequal number of starts {len(starts)} and ends {len(ends)}",
+        )
+    return starts, ends
 
 
 def locate_chop_points(

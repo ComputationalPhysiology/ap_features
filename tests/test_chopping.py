@@ -87,3 +87,26 @@ def test_filter_start_ends_in_chopping(
     )
     assert np.isclose(s, new_starts).all()
     assert np.isclose(e, new_ends).all()
+
+
+@pytest.mark.parametrize(
+    "starts, ends",
+    [
+        ([], [1.0]),
+        ([1.0], []),
+        ([], []),
+        ([2.0], [1.0]),
+    ],
+)
+def test_filter_start_ends_in_chopping_raises_on_empty(starts, ends):
+    with pytest.raises(apf.chopping.EmptyChoppingError):
+        apf.chopping.filter_start_ends_in_chopping(starts, ends)
+
+
+@pytest.mark.parametrize(
+    "starts, ends",
+    [([1, 2, 3], [2.5])],
+)
+def test_filter_start_ends_in_chopping_raises_on_invalid(starts, ends):
+    with pytest.raises(apf.chopping.InvalidChoppingError):
+        apf.chopping.filter_start_ends_in_chopping(starts, ends)
