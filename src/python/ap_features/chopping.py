@@ -396,17 +396,8 @@ def filter_start_ends_in_chopping(
     starts, ends = check_starts_ends(starts, ends)
 
     # Find the length half way between the previous and next point
-    if extend_front is None:
-        try:
-            extend_front = float(np.min(starts[1:] - ends[:-1]) / 2)  # type: ignore
-        except IndexError:
-            extend_front = 300
-
-    if extend_end is None:
-        try:
-            extend_end = np.min(starts[1:] - ends[:-1]) / 2  # type: ignore
-        except IndexError:
-            extend_end = 60
+    extend_front = get_extend_value(extend_front, starts, ends, default=300)
+    extend_end = get_extend_value(extend_end, starts, ends, default=60)
 
     # Subtract the extend front
     starts = np.subtract(starts, extend_front)
@@ -433,6 +424,22 @@ def filter_start_ends_in_chopping(
             new_starts.pop()
 
     return np.array(new_starts), np.array(new_ends)
+
+
+def get_extend_value(
+    extend: Optional[float],
+    starts: Array,
+    ends: Array,
+    default: float,
+) -> float:
+    if extend is None:
+        try:
+            value = float(np.min(np.subtract(starts[1:], ends[:-1])) / 2)
+        except IndexError:
+            value = default
+    else:
+        value = extend
+    return value
 
 
 def check_starts_ends(starts: Array, ends: Array) -> Tuple[Array, Array]:
