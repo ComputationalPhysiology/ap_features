@@ -16,7 +16,22 @@ ChoppedData = namedtuple("ChoppedData", "data, times, pacing, parameters")
 ChoppingParameters = namedtuple("ChoppingParameters", "use_pacing_info")
 
 
-def chop_data(data, time, **kwargs):
+def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
+    """Chop data into individual beats
+
+    Parameters
+    ----------
+    data : Array
+        The signal amplitude
+    time : Array
+        Time stamps
+
+    Returns
+    -------
+    ChoppedData
+        Data chopped into individual beats
+
+    """
 
     if time is None:
         time = np.arange(len(data))
@@ -45,7 +60,6 @@ def chop_data_without_pacing(
     threshold_factor: float = 0.3,
     min_window: float = 50,
     max_window: float = 2000,
-    winlen: float = 50,
     N: Optional[int] = None,
     extend_front: Optional[float] = None,
     extend_end: Optional[float] = None,
@@ -79,14 +93,8 @@ def chop_data_without_pacing(
 
     Returns
     -------
-    chopped_data : list
-        List of chopped data
-    chopped_times : list
-        List of chopped times
-    chopped_pacing : list
-        List of chopped pacing amps (which are all zero)
-
-
+    ChoppedData
+        The chopped data
 
     Notes
     -----
@@ -165,7 +173,7 @@ def chop_data_without_pacing(
             time=time,
             data=data,
             threshold_factor=threshold_factor,
-            winlen=winlen,
+            min_window=min_window,
             extend_front=extend_front,
             extend_end=extend_end,
         )
@@ -211,6 +219,34 @@ def chop_from_start_ends(
     max_window: float = 2000,
     min_window: float = 50,
 ) -> Tuple[List[Array], List[Array], List[Array]]:
+    """Chop the data based on starts and ends
+
+    Parameters
+    ----------
+    data : Array
+        The signal amplitude
+    time : Array
+        The time stamps
+    starts : Array
+        List of start points
+    ends : Array
+        List of end points
+    pacing : Optional[Array], optional
+        Pacing amplitude, by default None
+    N : Optional[int], optional
+        Number of points in each chopped signal, by default None.
+        If this is differnt from None then each signal will be
+        interpolated so that it has N points
+    max_window : float, optional
+        Maximum allowed size of a chopped signal, by default 2000
+    min_window : float, optional
+        Minimum allowed size of a chopped signal, by default 50
+
+    Returns
+    -------
+    Tuple[List[Array], List[Array], List[Array]]
+        Chopped data, times, pacing
+    """
 
     chopped_data: List[Array] = []
     chopped_pacing: List[Array] = []
@@ -259,16 +295,43 @@ def find_start_and_ends(
     time: Array,
     data: Array,
     threshold_factor: float,
-    winlen: float,
+    min_window: float,
     extend_front: Optional[float],
     extend_end: Optional[float],
 ) -> Tuple[Array, Array, Array]:
+    """Find the starts and ends of a signal.
+
+    Parameters
+    ----------
+    time : Array
+        Array of time stamps
+    data : Array
+        Signal amplitude
+    threshold_factor : float
+        Threshold for where to chop
+    min_window : float
+        Lenght of minimum chopped signal
+    extend_front : Optional[float]
+        How many ms the signal should be extended at the front
+    extend_end : Optional[float]
+        How many ms the signal should be extended at the end
+
+    Returns
+    -------
+    Tuple[Array, Array, Array]
+        starts, ends, zeros
+
+    Raises
+    ------
+    EmptyChoppingError
+        If starts or ends is or become zero
+    """
 
     starts, ends, zeros = locate_chop_points(
         time,
         data,
         threshold_factor,
-        winlen=winlen,
+        min_window=min_window,
     )
 
     if len(zeros) <= 3:
@@ -297,6 +360,36 @@ def filter_start_ends_in_chopping(
     extend_front: Optional[float] = None,
     extend_end: Optional[float] = None,
 ) -> Tuple[Array, Array]:
+    """Adjust start and ends based on extend_front
+    and extent_end
+
+    Parameters
+    ----------
+    starts : Array
+        The start points
+    ends : Array
+        The end points
+    extend_front : Optional[float], optional
+        How much you want to extent the front. If not provided
+        it will try to use the half distance between the minimum
+        start and end, by default None
+    extend_end : Optional[float], optional
+        How much you want to extend the end. If not provided
+        it will try to use the half distance between the minimum
+        start and end, by default None
+
+    Returns
+    -------
+    Tuple[Array, Array]
+        start, ends
+
+    Raises
+    ------
+    EmptyChoppingError
+        If number of starts or ends become zero.
+    InvalidChoppingError
+        If number of starts and ends does not add up.
+    """
     starts = np.array(starts)
     ends = np.array(ends)
     # If there is no starts return nothing
@@ -329,7 +422,7 @@ def filter_start_ends_in_chopping(
     # Find the length half way between the previous and next point
     if extend_front is None:
         try:
-            extend_front = np.min(starts[1:] - ends[:-1]) / 2  # type: ignore
+            extend_front = float(np.min(starts[1:] - ends[:-1]) / 2)  # type: ignore
         except IndexError:
             extend_front = 300
 
@@ -370,12 +463,30 @@ def locate_chop_points(
     time: Array,
     data: Array,
     threshold_factor: float,
-    winlen: float = 50,
+    min_window: float = 50,
     eps: float = 0.1,
 ) -> Tuple[Array, Array, Array]:
-    """FIXME"""
-    # Some perturbation away from the zeros
-    # eps = 0.1  # ms
+    """Find the ponts where to chop
+
+    Parameters
+    ----------
+    time : Array
+        Time stamps
+    data : Array
+        The signal amplitide
+    threshold_factor : float
+        The thresold for where to chop
+    min_window : float, optional
+        Mininmum allow size of signal in ms, by default 50
+    eps : float, optional
+        Perterbation use to find the sign of the signal
+        derivative, by default 0.1
+
+    Returns
+    -------
+    Tuple[Array, Array, Array]
+        starts, ends, zeros
+    """
 
     # Data with zeros at the threshold
     data_spline_thresh = UnivariateSpline(
@@ -387,7 +498,7 @@ def locate_chop_points(
     zeros_threshold_ = data_spline_thresh.roots()
 
     # Remove close indices
-    inds = winlen < np.diff(zeros_threshold_) * 2
+    inds = min_window < np.diff(zeros_threshold_) * 2
     zeros_threshold = np.append(zeros_threshold_[0], zeros_threshold_[1:][inds])
 
     # Find the starts
@@ -414,29 +525,27 @@ def chop_data_with_pacing(
 
     Arguments
     ---------
-    data : array
+    data : Array
         The data to be chopped
-    time : array
+    time : Array
         The time stamps for the data
-    pacing : array
+    pacing : Array
         The pacing amplitude
-    extend_front : scalar
+    extend_front : float
         Extend the start of each subsignal this many milliseconds
-        before the threshold is detected. Default: 300 ms
-    extend_end : scalar
+        before the threshold is detected. Default: 0 ms
+    extend_end : float
         Extend the end of each subsignal this many milliseconds.
-        Default 60 ms.
-    min_window : int
+        Default 0 ms.
+    min_window : float
+        Minimum size of chopped signal
+    max_window : float
         Minimum size of chopped signal
 
     Returns
     -------
-    chopped_data : list
-        List of chopped data
-    chopped_times : list
-        List of chopped times
-    chopped_pacing : list
-        List of chopped pacing amps
+    ChoppeData
+        Named tuple with the choppped data
 
 
     Notes
@@ -498,6 +607,28 @@ def pacing_to_start_ends(
     extend_end: float,
     add_final: bool = True,
 ) -> Tuple[Array, Array]:
+    """Convert an array of pacing amplitudes to
+    start and end points
+
+    Parameters
+    ----------
+    time : Array
+        Time stamps
+    pacing : Array
+        Array of pacing amplitides
+    extend_front : float
+        How many ms you want to extend the array in front
+    extend_end : float
+        How many ms you want to exten the array at the end
+    add_final : bool, optional
+        Wheter you want to add a final end point for the
+        last index, by default True
+
+    Returns
+    -------
+    Tuple[Array, Array]
+        starts, ends
+    """
     start_pace_idx = np.where(np.diff(np.array(pacing, dtype=float)) > 0)[0].tolist()
     N = len(time)
     if add_final:
