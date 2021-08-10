@@ -43,7 +43,7 @@ def state(request, single_beat, NUM_STATES):
 @pytest.fixture(scope="session", params=["numpy", "dask", "h5py"])
 def beatseries(request, multiple_beats):
     t, y = multiple_beats
-    yield from handle_request_param(request, t, y, apf.BeatSeries)
+    yield from handle_request_param(request, t, y, apf.Beats)
 
 
 @pytest.fixture(scope="session", params=["numpy", "dask", "h5py"])
