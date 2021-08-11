@@ -3,12 +3,13 @@ __email__ = "henriknf@simula.no"
 __version__ = "2021.0.0"
 
 
-from . import background, chopping, features
+from . import background, chopping, features, average
 from ._c import NUM_COST_TERMS
 from ._numba import transpose_trace_array
 from .beat import Beat, Beats, Trace, BeatCollection, StateCollection, State
 from .features import all_cost_terms, apd, apd_up_xy, cost_terms, cost_terms_trace
 from .utils import Backend, list_cost_function_terms, list_cost_function_terms_trace
+from .average import average_and_interpolate, average_list
 
 __all__ = [
     "features",
@@ -31,4 +32,7 @@ __all__ = [
     "BeatCollection",
     "StateCollection",
     "State",
+    "average",
+    "average_and_interpolate",
+    "average_list",
 ]
