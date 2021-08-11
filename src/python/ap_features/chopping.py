@@ -46,11 +46,11 @@ def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
         return chop_data_with_pacing(data, time, pacing, **kwargs)
 
 
-class EmptyChoppingError(ValueError):
+class EmptyChoppingError(RuntimeError):
     pass
 
 
-class InvalidChoppingError(ValueError):
+class InvalidChoppingError(RuntimeError):
     pass
 
 
