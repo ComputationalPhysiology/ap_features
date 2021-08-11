@@ -2,6 +2,7 @@ from collections import namedtuple
 from itertools import zip_longest as izip_longest
 from typing import List
 from typing import Optional
+from typing import Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
@@ -9,6 +10,10 @@ from scipy.interpolate import UnivariateSpline
 from .utils import Array
 
 Average = namedtuple("Average", ["y", "x", "ys", "xs"])
+
+
+class InvalidSubSignalError(RuntimeError):
+    pass
 
 
 def average_list(signals: List[Array]) -> Array:
@@ -55,11 +60,124 @@ def average_list(signals: List[Array]) -> Array:
     return average
 
 
+def clean_data(
+    ys: List[Array],
+    xs: Optional[List[Array]],
+) -> Tuple[List[Array], List[Array]]:
+    """Make sure `xs` and `ys` have the
+    correct shapes and remove empty subsignals
+
+    Parameters
+    ----------
+    ys : List[Array]
+        First list
+    xs : Optional[List[Array]]
+        Second list
+
+    Returns
+    -------
+    Tuple[List[Array], List[Array]]
+        (ys, xs) - cleaned version
+
+    Note
+    ----
+    The order you send in the array will be the
+    same as the order it is retured. Apart from
+    this fact, the order doesn't matter.
+
+    Raises
+    ------
+    InvalidSubSignalError
+        If the length of `xs` and `ys` don't agree
+    InvalidSubSignalError
+        If the length of one of the subsignals of `xs`
+        and `ys` don't agree.
+    """
+    new_xs = []
+    new_ys = []
+
+    if xs is None:
+        return ys, []
+
+    if len(xs) != len(ys):
+        raise InvalidSubSignalError(
+            "Expected Xs and Ys has to be of same lenght. "
+            f"Got len(xs) = {len(xs)}, len(ys) = {len(ys)}",
+        )
+
+    for i, (x, y) in enumerate(zip(xs, ys)):
+        if len(x) != len(y):
+            raise InvalidSubSignalError(
+                "Expected X and Y has to be of same lenght. "
+                f"Got len(x) = {len(x)}, len(y) = {len(y)} for index {i}",
+            )
+        if len(x) == 0:
+            # Skip this one
+            continue
+
+        new_xs.append(x)
+        new_ys.append(y)
+    return new_ys, new_xs
+
+
+def interpolate(X: Array, x: Array, y: Array) -> np.ndarray:
+    """Interapolate array
+
+    Parameters
+    ----------
+    X : Array
+        x-coordinates at which to evaluate the interpolated
+        values
+    x : Array
+        x-coordinates of the data points
+    y : Array
+        y-coordinates of the data points
+
+    Returns
+    -------
+    np.ndarray
+        Interpolated y-coordinates
+
+    Note
+    ----
+    This function will try to perform spline interpolation using
+    `scipy.interpolate.UnivariateSpline` and fall back to
+    `numpy.interp` in case that doesn't work
+    """
+    try:
+        Y = UnivariateSpline(x, y, s=0)(X)
+    except Exception:
+        # https://stackoverflow.com/questions/64766510/catch-dfitpack-error-from-scipy-interpolate-interpolatedunivariatespline
+        Y = np.interp(X, x, y)
+    return Y
+
+
+def create_longest_time_array(xs: List[Array], N: int) -> np.ndarray:
+    """Given a list of subsignals create a new array of length
+    `N` that cover all values
+
+    Parameters
+    ----------
+    xs : List[Array]
+        List of monotonic sub subsignal
+    N : int
+        Size of output arrayu
+
+    Returns
+    -------
+    np.ndarray
+        Array that cover all values of length `N`
+    """
+    min_x = np.min([xi[0] for xi in xs])
+    max_x = np.max([xi[-1] for xi in xs])
+    return np.linspace(min_x, max_x, N)
+
+
 def average_and_interpolate(
     ys: List[Array],
     xs: Optional[List[Array]] = None,
     N: int = 200,
-):
+) -> Average:
     """
     Get the avagere of list of signals assuming that
     they align at the same x value
@@ -81,29 +199,21 @@ def average_and_interpolate(
         The new x-values
 
     """
-    if xs is None or len(xs) == 0:
-        return average_list(ys), np.arange(max([len(i) for i in ys]))
+    ys, xs = clean_data(ys, xs)
+
+    if len(xs) == 0:
+        y = average_list(ys)
+        x = [] if len(ys) == 0 else np.arange(max([len(i) for i in ys]))
+        return Average(y=y, x=x, xs=xs, ys=ys)
 
     # Construct new time array
-    min_x = np.min([xi[0] for xi in xs])
-    max_x = np.max([xi[-1] for xi in xs])
-    X = np.linspace(min_x, max_x, N)
+    X = create_longest_time_array(xs, N)
 
     if len(ys) == 0:
-        return np.zeros(N), X
+        return Average(y=np.zeros(N), x=X, xs=xs, ys=ys)
 
-    # Check args
-    msg = (
-        "Expected Xs and Ys has to be of same lenght. " "Got len(xs) = {}, len(ys) = {}"
-    ).format(len(xs), len(ys))
-    assert len(xs) == len(ys), msg
-
-    for i, (x, y) in enumerate(zip(xs, ys)):
-        msg = (
-            "Expected X and Y has to be of same lenght. "
-            "Got len(x) = {}, len(y) = {} for index {}"
-        ).format(len(x), len(y), i)
-        assert len(x) == len(y), msg
+    if len(ys) == 1:
+        return Average(y=interpolate(X, xs[0], ys[0]), x=X, xs=xs, ys=ys)
 
     Ys = []
     Xs = []
@@ -112,11 +222,8 @@ def average_and_interpolate(
         # Take out relevant piece
         idx = next(j + 1 for j, xj in enumerate(X) if xj >= x[-1])
 
-        X_ = X[:idx]
-        Xs.append(X_)
-
-        Y = UnivariateSpline(x, y, s=0)(X_)
-        Ys.append(Y)
+        Xs.append(X[:idx])
+        Ys.append(interpolate(Xs[-1], x, y))
 
     Y_avg = average_list(Ys)
 
