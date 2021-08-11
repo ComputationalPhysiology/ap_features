@@ -1,7 +1,7 @@
 from collections import namedtuple
 from itertools import zip_longest as izip_longest
-from typing import List
 from typing import Optional
+from typing import Sequence
 from typing import Tuple
 
 import numpy as np
@@ -16,7 +16,7 @@ class InvalidSubSignalError(RuntimeError):
     pass
 
 
-def average_list(signals: List[Array]) -> Array:
+def average_list(signals: Sequence[Array]) -> Array:
     """Get average of signals.
     Assume that signals are alinged, but
     they dont have to be of the same length.
@@ -26,7 +26,7 @@ def average_list(signals: List[Array]) -> Array:
 
     Parameters
     ----------
-    signals : List[Array]
+    signals : Sequence[Array]
         The data that you want to average
 
     Returns
@@ -44,7 +44,7 @@ def average_list(signals: List[Array]) -> Array:
     # Check is they have the same lenght
     if all([len(s) == len(signals[0]) for s in signals[1:]]):
         # Then it is easy to take the average
-        average = np.mean(signals, 0)
+        average = np.mean(signals, 0)  # type:ignore
 
     else:
         # We need to take into account the possibilty
@@ -61,22 +61,22 @@ def average_list(signals: List[Array]) -> Array:
 
 
 def clean_data(
-    ys: List[Array],
-    xs: Optional[List[Array]],
-) -> Tuple[List[Array], List[Array]]:
+    ys: Sequence[Array],
+    xs: Optional[Sequence[Array]],
+) -> Tuple[Sequence[Array], Sequence[Array]]:
     """Make sure `xs` and `ys` have the
     correct shapes and remove empty subsignals
 
     Parameters
     ----------
-    ys : List[Array]
+    ys : Sequence[Array]
         First list
-    xs : Optional[List[Array]]
+    xs : Optional[Sequence[Array]]
         Second list
 
     Returns
     -------
-    Tuple[List[Array], List[Array]]
+    Tuple[Sequence[Array], Sequence[Array]]
         (ys, xs) - cleaned version
 
     Note
@@ -152,13 +152,13 @@ def interpolate(X: Array, x: Array, y: Array) -> np.ndarray:
     return Y
 
 
-def create_longest_time_array(xs: List[Array], N: int) -> np.ndarray:
+def create_longest_time_array(xs: Sequence[Array], N: int) -> np.ndarray:
     """Given a list of subsignals create a new array of length
     `N` that cover all values
 
     Parameters
     ----------
-    xs : List[Array]
+    xs : Sequence[Array]
         List of monotonic sub subsignal
     N : int
         Size of output arrayu
@@ -174,8 +174,8 @@ def create_longest_time_array(xs: List[Array], N: int) -> np.ndarray:
 
 
 def average_and_interpolate(
-    ys: List[Array],
-    xs: Optional[List[Array]] = None,
+    ys: Sequence[Array],
+    xs: Optional[Sequence[Array]] = None,
     N: int = 200,
 ) -> Average:
     """
