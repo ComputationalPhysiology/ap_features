@@ -50,7 +50,8 @@ def multiple_beats():
         args=(a, b, tau, Iext),
         t_eval=time,
     )
-    return time, res.y[0, :]
+
+    return np.array(time), res.y[0, :]
 
 
 @pytest.fixture(scope="session")
@@ -58,9 +59,10 @@ def single_beat(multiple_beats):
     time, v = multiple_beats
     # Find the local minima
     p, _ = find_peaks(-v)
-    x = time[p[0] : p[1] + 10]
+    x = np.array(time)[p[0] : p[1] + 10]
     x -= x[0]
     y = v[p[0] : p[1] + 10]
+
     return x, y
 
 

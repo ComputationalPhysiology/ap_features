@@ -1,5 +1,7 @@
 import logging
 from enum import Enum
+from typing import Any
+from typing import Dict
 from typing import List
 from typing import Sequence
 from typing import Union
@@ -25,6 +27,32 @@ def _check_factor(factor: float) -> None:
         logger.warning(
             f"Factor passed to APD calculation is {factor}, did you mean {factor * 100}?",
         )
+
+
+def intersection(
+    data: Union[Sequence[Sequence[int]], Dict[Any, Sequence[int]]],
+) -> Sequence[int]:
+    """Get intersection of all values in
+    a dictionary or a list of lists
+
+    Parameters
+    ----------
+    data : Union[Sequence[Sequence[int]], Dict[str, Sequence[int]]]
+        Input data
+
+    Returns
+    -------
+    Sequence[int]
+        The intersection
+    """
+    vals = data
+    if isinstance(data, dict):
+        vals = list(data.values())
+
+    if len(vals) == 0:
+        return []
+
+    return list(set(vals[0]).intersection(*list(vals)))
 
 
 def numpyfy(y) -> np.ndarray:

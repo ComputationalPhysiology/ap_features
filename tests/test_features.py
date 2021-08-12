@@ -1,10 +1,11 @@
 import itertools as it
 import os
 
-import ap_features as apf
-import ap_features as cost_terms
 import numpy as np
 import pytest
+
+import ap_features as apf
+import ap_features as cost_terms
 
 here = os.path.dirname(os.path.abspath(__file__))
 
@@ -80,6 +81,43 @@ def test_compare_python_matlab(synthetic_data):
         i += 1
 
 
+@pytest.mark.parametrize(
+    "arr, x, expected_output",
+    [
+        ([1, 2, 3, 4, 5], 1, [1, 2, 3]),
+        ([1, 1, 1], 1, [0, 1, 2]),
+        ([0, 1, 1, 1], 1, [1, 2, 3]),
+        ([], 1, []),
+        ([1], 1, [0]),
+    ],
+)
+def test_within_x_std(arr, x, expected_output):
+    output = apf.features.within_x_std(arr, x)
+    assert len(output) == len(expected_output)
+    assert np.isclose(output, expected_output).all()
+
+
+def test_filter_signals_dict():
+    data = {"apd30": [1, 2, 3, 4, 5], "length": [1, 1, 1, 3, 0]}
+
+    output = apf.features.filter_signals(data, x=1.0)
+    assert output == [1, 2]
+
+
+def test_filter_signals_list():
+    data = [[1, 2, 3, 4, 5], [1, 1, 1, 3, 0]]
+
+    output = apf.features.filter_signals(data, x=1.0)
+    assert output == [1, 2]
+
+
+def test_filter_signales_raises_RuntimeError_on_unequal_lengths():
+    data = {"apd30": [1, 2, 3, 4, 5], "length": [1, 1, 1, 0]}
+
+    with pytest.raises(RuntimeError):
+        apf.features.filter_signals(data, x=1.0)
+
+
 def test_compare_c_matlab(synthetic_data):
 
     arr, t, expected_cost = synthetic_data
@@ -105,6 +143,32 @@ def test_compare_c_matlab(synthetic_data):
 
         assert abs((cost[i] - ri) / ri) < tol
         i += 1
+
+
+@pytest.mark.parametrize(
+    "y, x, expected_ttp",
+    [
+        ([0, 1, 0], [0, 1, 2], 1),
+        ([0, 1, 2], [0, 1, 2], 2),
+        ([2, 1, 0], [0, 1, 2], 0),
+        ([], [], 0),
+        ([0, 0, 0], [0, 1, 2], 0),
+    ],
+)
+def test_time_to_peak_without_pacing(y, x, expected_ttp):
+    assert apf.features.time_to_peak(y, x) == expected_ttp
+
+
+@pytest.mark.parametrize(
+    "y, x, p, expected_ttp",
+    [
+        ([0, 0, 0, 1], [0, 1, 2, 3], [0, 1, 0, 0], 2),
+        ([0, 0, 1, 0], [0, 1, 2, 3], [0, 1, 0, 0], 1),
+        ([0, 0, 1, 0], [0, 1, 2, 3], [0, 0, 0, 0], 2),
+    ],
+)
+def test_time_to_peak_with_pacing(y, x, p, expected_ttp):
+    assert apf.features.time_to_peak(y, x, pacing=p) == expected_ttp
 
 
 @pytest.mark.parametrize("backend", ("c", "numba"))

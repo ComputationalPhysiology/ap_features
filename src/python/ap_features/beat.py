@@ -1,7 +1,7 @@
-from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Sequence
+from typing import Set
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
@@ -52,6 +52,16 @@ class Trace:
     def pacing(self) -> np.ndarray:
         return self._pacing
 
+    def __eq__(self, other) -> bool:
+        try:
+            return (
+                (self.t == other.t).all()
+                and (self.y == other.y).all()
+                and (self.pacing == other.pacing).all()
+            )
+        except Exception:
+            return False
+
 
 class Beat(Trace):
     def __init__(
@@ -79,6 +89,9 @@ class Beat(Trace):
     def y_normalized(self):
         return normalize_signal(self.y, self.y_rest)
 
+    def __len__(self):
+        return len(self.y)
+
     @property
     def y_rest(self):
         return self._y_rest
@@ -102,7 +115,7 @@ class Beat(Trace):
         """
         return self._parent
 
-    def apd(self, factor: int) -> Optional[float]:
+    def apd(self, factor: int) -> float:
         """The action potential duration
 
         Parameters
@@ -180,8 +193,47 @@ class Beat(Trace):
         return features.cost_terms_trace(y=self.y, t=self.t, backend=self._backend)
 
 
-def filter_beats(beats: Sequence[Beat], filters: Dict[features.Filters, float]):
-    pass
+def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
+    if len(bad_indices) == 0:
+        return feature_list
+
+    new_list = []
+    for sublist in feature_list:
+        new_sublist = sublist.copy()
+        for index in sorted(bad_indices, reverse=True):
+            del new_sublist[index]
+        new_list.append(new_sublist)
+    return new_list
+
+
+def filter_beats(
+    beats: Sequence[Beat],
+    filters: Sequence[features.Filters],
+    x: float = 1.0,
+):
+    if len(filters) == 0:
+        return beats
+    feature_list: List[List[float]] = []
+    bad_indices: Set[int] = set()
+    # Compute the features of all beats
+    for f in filters:
+        if f not in features.Filters.__members__:
+            raise features.InvalidFilter(f"Invalid filter {f}")
+        if f.startswith("apd"):
+            apds = [beat.apd(int(f[3:])) for beat in beats]
+
+            # If any apds are negative we should remove that beat
+            if any(apd < 0 for apd in apds):
+                bad_indices.union(set(np.where(apd < 0 for apd in apds)[0]))
+
+            feature_list.append(apds)
+        if f == features.Filters.length:
+            feature_list.append([len(beat) for beat in beats])
+        if f == features.Filters.time_to_peak:
+            feature_list.append([len(beat) for beat in beats])
+
+    indices = features.filter_signals(feature_list, x)
+    return [beats[index] for index in indices]
 
 
 class Beats(Trace):
@@ -231,10 +283,14 @@ class Beats(Trace):
     def beat_rates(self) -> List[float]:
         return [60 / bf for bf in self.beating_frequencies]
 
-    def average_beat(self, filters=None, N: int = 200) -> Beat:
-        xs = [beat.t - beat.t[0] for beat in self.beats]
-        ys = [beat.y for beat in self.beats]
-        ps = [beat.pacing for beat in self.beats]
+    def average_beat(self, filters=None, N: int = 200, x: float = 1.0) -> Beat:
+        beats = self.beats
+
+        if filters is not None:
+            beats = filter_beats(self.beats, filters=filters, x=x)
+        xs = [beat.t - beat.t[0] for beat in beats]
+        ys = [beat.y for beat in beats]
+        ps = [beat.pacing for beat in beats]
         avg = average.average_and_interpolate(ys, xs, N)
         avg_pacing = average.average_and_interpolate(ps, xs, N)
         return Beat(y=avg.y, t=avg.x, pacing=avg_pacing.y, parent=self)
