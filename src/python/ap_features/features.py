@@ -1,5 +1,6 @@
 import logging
 from collections import namedtuple
+from enum import Enum
 from typing import List
 from typing import Optional
 from typing import Sequence
@@ -23,6 +24,10 @@ Upstroke = namedtuple(
     ["index", "value", "upstroke", "dt", "x0", "sigmoid", "time_APD20_to_APD80"],
 )
 APDCoords = namedtuple("APDCoords", ["x1", "x2", "y1", "y2", "yth"])
+
+
+class Filters(str, Enum):
+    pass
 
 
 def apd(

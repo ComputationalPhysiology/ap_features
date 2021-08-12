@@ -1,3 +1,4 @@
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Sequence
@@ -5,6 +6,7 @@ from typing import Sequence
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
+from . import average
 from . import background
 from . import chopping
 from . import features
@@ -60,6 +62,7 @@ class Beat(Trace):
         y_rest: Optional[float] = None,
         parent: Optional["Beats"] = None,
         backend: Backend = Backend.c,
+        beat_number: Optional[int] = None,
     ) -> None:
 
         super().__init__(y, t, pacing=pacing, backend=backend)
@@ -70,6 +73,7 @@ class Beat(Trace):
         assert self._t.shape == self._y.shape, msg
         self._y_rest = y_rest
         self._parent = parent
+        self._beat_number = beat_number
 
     @property
     def y_normalized(self):
@@ -176,6 +180,10 @@ class Beat(Trace):
         return features.cost_terms_trace(y=self.y, t=self.t, backend=self._backend)
 
 
+def filter_beats(beats: Sequence[Beat], filters: Dict[features.Filters, float]):
+    pass
+
+
 class Beats(Trace):
     def __init__(
         self,
@@ -196,10 +204,11 @@ class Beats(Trace):
         )
         assert self._t.shape == self._y.shape, msg
 
-    def chop(self, **options) -> List[Beat]:
+    def chop(self, **options) -> Sequence[Beat]:
         c = chopping.chop_data(data=self.y, time=self.t, pacing=self.pacing, **options)
         self._beats = [
-            Beat(t=t, y=y, pacing=p) for (t, y, p) in zip(c.times, c.data, c.pacing)
+            Beat(t=t, y=y, pacing=p, parent=self, beat_number=i)
+            for i, (t, y, p) in enumerate(zip(c.times, c.data, c.pacing))
         ]
         self._chopped_data = c
         return self._beats
@@ -221,6 +230,14 @@ class Beats(Trace):
     @property
     def beat_rates(self) -> List[float]:
         return [60 / bf for bf in self.beating_frequencies]
+
+    def average_beat(self, filters=None, N: int = 200) -> Beat:
+        xs = [beat.t - beat.t[0] for beat in self.beats]
+        ys = [beat.y for beat in self.beats]
+        ps = [beat.pacing for beat in self.beats]
+        avg = average.average_and_interpolate(ys, xs, N)
+        avg_pacing = average.average_and_interpolate(ps, xs, N)
+        return Beat(y=avg.y, t=avg.x, pacing=avg_pacing.y, parent=self)
 
     @property
     def beats(self) -> List[Beat]:
