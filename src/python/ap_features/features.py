@@ -1,9 +1,13 @@
 import logging
 from collections import namedtuple
+from enum import Enum
+from typing import Any
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Sequence
 from typing import Tuple
+from typing import Union
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
@@ -25,6 +29,85 @@ Upstroke = namedtuple(
 APDCoords = namedtuple("APDCoords", ["x1", "x2", "y1", "y2", "yth"])
 
 
+class UnequalLengthError(RuntimeError):
+    pass
+
+
+class InvalidFilter(RuntimeError):
+    pass
+
+
+class Filters(str, Enum):
+    apd30 = "apd30"
+    apd50 = "apd50"
+    apd70 = "apd70"
+    apd80 = "apd80"
+    apd90 = "apd90"
+    length = "length"
+    time_to_peak = "time_to_peak"
+
+
+def within_x_std(arr: Array, x: float = 1.0, center="mean") -> Sequence[int]:
+    """Get the indices in the array that are
+    within x standard deviations from the center value
+
+    Parameters
+    ----------
+    arr : Array
+        The array with values
+    x : float, optional
+        Number of standard deviations, by default 1.0
+    center : str, optional
+        Center value, Either "mean" or "median", by default "mean"
+
+    Returns
+    -------
+    Sequence[int]
+        Indices of the values that are within x
+        standard deviations from the center value
+    """
+    if len(arr) == 0:
+        return []
+
+    msg = f"Expected 'center' to be 'mean' or 'median', got {center}"
+    assert center in ["mean", "median"], msg
+    mu = np.mean(arr) if center == "mean" else np.median(arr)
+
+    std = np.std(arr)
+    within = [abs(a - mu) <= x * std for a in arr]
+    return np.where(within)[0]
+
+
+def filter_signals(
+    data: Union[Sequence[Array], Dict[Any, Array]],
+    x: float = 1,
+    center="mean",
+) -> Sequence[int]:
+
+    if len(data) == 0:
+        return []
+
+    values = data
+    if isinstance(data, dict):
+        values = list(data.values())
+
+    # Check that all arrays have the same length
+    v0 = values[0]
+    N = len(v0)
+    for v in values:
+        if len(v) != N:
+            raise RuntimeError("Unequal length of arrays")
+
+    all_indices = []
+    for v in values:
+        indices = within_x_std(v, x, center)
+        # If no indices are with the tolerace then we just
+        # include everything
+        all_indices.append(indices if len(indices) > 0 else np.arange(N))
+
+    return utils.intersection(all_indices)
+
+
 def apd(
     factor: int,
     V: Array,
@@ -32,7 +115,7 @@ def apd(
     v_r: Optional[float] = None,
     use_spline: bool = True,
     backend: Backend = Backend.python,
-) -> Optional[float]:
+) -> float:
     r"""Return the action potential duration at the given
     factor repolarization, so that factor = 0
     would be zero, and factor = 1 given the time from triggering
@@ -120,7 +203,8 @@ def apd(
         try:
             x1, x2 = _apd(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
         except RuntimeError:
-            return None
+            # Return a number that indicate that something went wrong
+            return -1
         return x2 - x1
     elif backend == Backend.c:
         return _c.apd(y=y, t=x, factor=factor)
@@ -267,8 +351,8 @@ def tau(
 
 
 def time_to_peak(
-    x: Array,
     y: Array,
+    x: Array,
     pacing: Optional[Array] = None,
     backend: Backend = Backend.python,
 ) -> float:
@@ -280,10 +364,10 @@ def time_to_peak(
 
     Parameters
     ----------
-    x : Array
-        The time stamps
     y : Array
         The signal
+    x : Array
+        The time stamps
     pacing : Optional[Array], optional
         The pacing amplitude, by default None
     backend : utils.Backend, optional
@@ -298,6 +382,14 @@ def time_to_peak(
     """
     if backend != Backend.python:
         logger.warning("Method currently only implemented for python backend")
+
+    # Check some edge cases
+    if len(x) != len(y):
+        raise UnequalLengthError("x and y does not have the same length")
+    if len(x) == 0:
+        return 0
+    if len(y) == 0:
+        return 0
 
     if pacing is None:
         return x[int(np.argmax(y))]
