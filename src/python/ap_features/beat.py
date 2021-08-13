@@ -210,7 +210,30 @@ def filter_beats(
     beats: Sequence[Beat],
     filters: Sequence[features.Filters],
     x: float = 1.0,
-):
+) -> Sequence[Beat]:
+    """Filter beats based of similiarities of the filters
+
+    Parameters
+    ----------
+    beats : Sequence[Beat]
+        List of beats
+    filters : Sequence[features.Filters]
+        List of filters
+    x : float, optional
+        How many standard deviations away from the mean
+        the different beats should be to be
+        included, by default 1.0
+
+    Returns
+    -------
+    Sequence[Beat]
+        A list of filtered beats
+
+    Raises
+    ------
+    features.InvalidFilter
+        If a filter in the list of filters is not valid.
+    """
     if len(filters) == 0:
         return beats
     feature_list: List[List[float]] = []
@@ -257,37 +280,116 @@ class Beats(Trace):
         assert self._t.shape == self._y.shape, msg
 
     def chop(self, **options) -> Sequence[Beat]:
+        """Chop signal into individual beats.
+        You can also pass in any options that should
+        be provided to the chopping algorithm.
+
+        Returns
+        -------
+        Sequence[Beat]
+            A list of chopped beats
+        """
         c = chopping.chop_data(data=self.y, time=self.t, pacing=self.pacing, **options)
         self._beats = [
             Beat(t=t, y=y, pacing=p, parent=self, beat_number=i)
             for i, (t, y, p) in enumerate(zip(c.times, c.data, c.pacing))
         ]
-        self._chopped_data = c
         return self._beats
+
+    def filter_beats(
+        self,
+        filters: Sequence[features.Filters],
+        x: float = 1.0,
+    ) -> Sequence[Beat]:
+        """Get a subset of the chopped beats based on
+            similarities in different features.
+
+            Parameters
+            ----------
+            filters : Sequence[features.Filters]
+                A list of filters that should be used for filtering
+            x : float, optional
+            How many standard deviations away from the mean
+            the different beats should be to be
+            included, by default 1.0
+
+        Returns
+        -------
+        Sequence[Beat]
+            A list of filtered beats
+        """
+        return filter_beats(self.beats, filters=filters, x=x)
 
     @property
     def beating_frequencies(self) -> Sequence[float]:
+        """Get the frequency for each beat
+
+        Returns
+        -------
+        List[float]
+            List of frequencies
+        """
         signals: List[Array] = [beat.y for beat in self.beats]
         times: List[Array] = [beat.t for beat in self.beats]
         return features.beating_frequency_from_peaks(signals=signals, times=times)
 
     @property
     def beating_frequency(self) -> float:
+        """The median frequency of all beats"""
         return np.median(self.beating_frequencies)
 
     @property
     def beat_rate(self) -> float:
+        """The beat rate, i.e number of beats
+        per mininute, which is simply 60 divided
+        by the beating frequency
+        """
         return 60 / self.beating_frequency
 
     @property
     def beat_rates(self) -> List[float]:
+        """Beat rate for all beats
+
+        Returns
+        -------
+        List[float]
+            List of beat rates
+        """
         return [60 / bf for bf in self.beating_frequencies]
 
-    def average_beat(self, filters=None, N: int = 200, x: float = 1.0) -> Beat:
+    def average_beat(
+        self,
+        filters: Optional[Sequence[features.Filters]] = None,
+        N: int = 200,
+        x: float = 1.0,
+    ) -> Beat:
+        """Compute an average beat based on
+        aligning the individual beats
+
+        Parameters
+        ----------
+        filters : Optional[Sequence[features.Filters]], optional
+            A list of filters that should be used to decide
+            which beats that should be included in the
+            averaging, by default None
+        N : int, optional
+            Length of output signal, by default 200.
+            Note that the output signal will be interpolated so
+            that it has this length. This is done beacause the
+            different beats might have different lengths.
+        x : float, optional
+            The number of standard deviations used in the
+            filtering, by default 1.0
+
+        Returns
+        -------
+        Beat
+            An average beat.
+        """
         beats = self.beats
 
         if filters is not None:
-            beats = filter_beats(self.beats, filters=filters, x=x)
+            beats = self.filter_beats(filters=filters, x=x)
         xs = [beat.t - beat.t[0] for beat in beats]
         ys = [beat.y for beat in beats]
         ps = [beat.pacing for beat in beats]
@@ -296,7 +398,7 @@ class Beats(Trace):
         return Beat(y=avg.y, t=avg.x, pacing=avg_pacing.y, parent=self)
 
     @property
-    def beats(self) -> List[Beat]:
+    def beats(self) -> Sequence[Beat]:
         if not hasattr(self, "_beats"):
             self.chop()
         return self._beats
