@@ -37,8 +37,9 @@ def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
         time = np.arange(len(data))
 
     pacing = kwargs.pop("pacing", np.zeros(len(time)))
+    ignore_pacing = kwargs.pop("ignore_pacing", False)
 
-    if all(pacing == 0):
+    if ignore_pacing or all(pacing == 0):
         logger.debug("Chop data without pacing")
         return chop_data_without_pacing(data, time, **kwargs)
     else:

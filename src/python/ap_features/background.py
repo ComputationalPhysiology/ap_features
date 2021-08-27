@@ -1,6 +1,7 @@
 import logging
 from collections import namedtuple
 from enum import Enum
+from typing import Optional
 
 import numpy as np
 
@@ -11,6 +12,12 @@ Background = namedtuple("Background", ["x", "y", "corrected", "background", "F0"
 logger = logging.getLogger(__name__)
 
 
+class BackgroundCorrection(str, Enum):
+    full = "full"
+    subtract = "subtract"
+    none = "none"
+
+
 class BackgroundCostFunction(str, Enum):
     sh = "sh"
     ah = "ah"
@@ -18,7 +25,32 @@ class BackgroundCostFunction(str, Enum):
     atq = "atq"
 
 
-def correct_background(x: Array, y: Array, **kwargs) -> Background:
+def correct_background(
+    x: Array, y: Array, method: BackgroundCorrection, **kwargs
+) -> Optional[Background]:
+
+    methods = tuple(BackgroundCorrection.__members__.keys())
+    if method not in methods:
+        raise ValueError(f"Invalid method '{method}', expected one of {methods}")
+
+    if len(x) != len(y):
+        raise ValueError(f"Size of x ({len(x)}) and y ({len(y)}) did not match")
+
+    if method == BackgroundCorrection.none:
+        return None
+
+    bkg = background(x, y, **kwargs)
+
+    if method == BackgroundCorrection.full:
+        F0 = bkg[0]
+
+    if method == BackgroundCorrection.subtract:
+        F0 = 1
+    corrected = (1 / F0) * (y - bkg)
+    return Background(x=x, y=y, corrected=corrected, background=bkg, F0=F0)
+
+
+def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
     r"""Perform at background correction.
     First estimate background :math:`b`, and let
     :math:`F_0 = b(0)`. The corrected background is

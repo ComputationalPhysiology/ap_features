@@ -10,6 +10,7 @@ from . import average
 from . import background
 from . import chopping
 from . import features
+from .background import BackgroundCorrection as BC
 from .utils import Array
 from .utils import Backend
 from .utils import normalize_signal
@@ -265,12 +266,14 @@ class Beats(Trace):
         y: Array,
         t: Array,
         pacing: Optional[Array] = None,
-        correct_background: bool = False,
+        background_correction_method: BC = BC.none,
         backend: Backend = Backend.c,
     ) -> None:
-        self._background = None
-        if correct_background:
-            self._background = background.correct_background(x=t, y=y)
+        self._background = background.correct_background(
+            x=t,
+            y=y,
+            method=background_correction_method,
+        )
 
         super().__init__(y, t, pacing=pacing, backend=backend)
         msg = (
