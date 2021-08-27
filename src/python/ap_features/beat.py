@@ -10,11 +10,10 @@ from . import average
 from . import background
 from . import chopping
 from . import features
+from . import utils
 from .background import BackgroundCorrection as BC
 from .utils import Array
 from .utils import Backend
-from .utils import normalize_signal
-from .utils import numpyfy
 
 
 class Trace:
@@ -28,12 +27,12 @@ class Trace:
 
         if t is None:
             t = np.arange(len(y))
-        self._t = numpyfy(t)
-        self._y = numpyfy(y)
+        self._t = utils.numpyfy(t)
+        self._y = utils.numpyfy(y)
         if pacing is None:
             pacing = np.zeros_like(self._t)  # type: ignore
 
-        self._pacing = numpyfy(pacing)
+        self._pacing = utils.numpyfy(pacing)
 
         assert backend in Backend
         self._backend = backend
@@ -88,7 +87,7 @@ class Beat(Trace):
 
     @property
     def y_normalized(self):
-        return normalize_signal(self.y, self.y_rest)
+        return utils.normalize_signal(self.y, self.y_rest)
 
     def __len__(self):
         return len(self.y)
@@ -267,6 +266,7 @@ class Beats(Trace):
         t: Array,
         pacing: Optional[Array] = None,
         background_correction_method: BC = BC.none,
+        zero_index: Optional[int] = None,
         backend: Backend = Backend.c,
     ) -> None:
         self._background = background.correct_background(
@@ -281,6 +281,12 @@ class Beats(Trace):
             f"{self._t.shape}(t) and {self._y.shape}(y)"
         )
         assert self._t.shape == self._y.shape, msg
+
+        if zero_index is not None and not utils.valid_index(self._y, zero_index):
+            raise RuntimeError(
+                f"Invalid zero index {zero_index} for array or size {len(y)}",
+            )
+        self._zero_index = zero_index
 
     def chop(self, **options) -> Sequence[Beat]:
         """Chop signal into individual beats.
@@ -416,9 +422,12 @@ class Beats(Trace):
 
     @property
     def y(self) -> np.ndarray:
+        y = super().y
         if self.background is not None:
-            return self.background.corrected
-        return super().y
+            y = self.background.corrected
+        if self._zero_index is not None:
+            y = y - y[self._zero_index]
+        return y
 
     @property
     def original_y(self) -> np.ndarray:
@@ -536,7 +545,7 @@ class StateCollection(Trace):
     @mask.setter
     def mask(self, mask: Optional[Array]) -> None:
         if mask is not None:
-            mask = numpyfy(mask)
+            mask = utils.numpyfy(mask)
             assert mask.size == self.num_traces
         self._mask = mask
 

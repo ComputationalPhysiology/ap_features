@@ -29,6 +29,15 @@ def _check_factor(factor: float) -> None:
         )
 
 
+def valid_index(arr: Array, index: int):
+    y = numpyfy(arr)
+    try:
+        y[index]
+    except IndexError:
+        return False
+    return True
+
+
 def intersection(
     data: Union[Sequence[Sequence[int]], Dict[Any, Sequence[int]]],
 ) -> Sequence[int]:
