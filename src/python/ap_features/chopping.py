@@ -436,7 +436,7 @@ def get_extend_value(
     if extend is None:
         try:
             value = float(np.min(np.subtract(starts[1:], ends[:-1])) / 2)
-        except IndexError:
+        except (IndexError, ValueError):
             value = default
     else:
         value = extend

@@ -109,3 +109,19 @@ def test_filter_start_ends_in_chopping_raises_on_empty(starts, ends):
 def test_filter_start_ends_in_chopping_raises_on_invalid(starts, ends):
     with pytest.raises(apf.chopping.InvalidChoppingError):
         apf.chopping.filter_start_ends_in_chopping(starts, ends)
+
+
+@pytest.mark.parametrize(
+    "extend, starts, ends, default, value",
+    [
+        (None, [], [], 200, 200),
+        (None, [1], [1], 200, 200),
+        (100, [], [], 200, 100),
+        (None, [100, 300, 500], [200, 400, 600], 200, 50),
+    ],
+)
+def test_get_extend_value(extend, starts, ends, default, value):
+    assert np.isclose(
+        apf.chopping.get_extend_value(extend, starts, ends, default),
+        value,
+    )
