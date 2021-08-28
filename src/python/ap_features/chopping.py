@@ -36,6 +36,10 @@ def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
     if time is None:
         time = np.arange(len(data))
 
+    if np.isnan(data).any():
+        # If the array contains nan values we should not analyze it
+        return ChoppedData(data=[], times=[], pacing=[], parameters={})
+
     pacing = kwargs.pop("pacing", np.zeros(len(time)))
     ignore_pacing = kwargs.pop("ignore_pacing", False)
 
