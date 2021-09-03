@@ -49,7 +49,7 @@ def main():
     v = res.y[0, :]
     w = res.y[1, :]
 
-    s = apf.BeatSeries(y=v, t=time)
+    s = apf.Beats(y=v, t=time)
     beats = s.chop()
 
     # Plot al beats
