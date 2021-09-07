@@ -27,13 +27,13 @@ The list of currently implemented features are as follows
 
 
 ## Documentation
-Documentation is hosted at GitHub pages: https://computationalphysiology.github.io/ap_features/
+Documentation is hosted at GitHub pages: <https://computationalphysiology.github.io/ap_features/>
 
-Note that the documentation is written using [`jupyerbook`](https://jupyterbook.org) and contains an [interactive demo](https://computationalphysiology.github.io/ap_features/demo_fitzhugh_nagumo.html)
+Note that the documentation is written using [`jupyterbook`](https://jupyterbook.org) and contains an [interactive demo](https://computationalphysiology.github.io/ap_features/demo_fitzhugh_nagumo.html)
 
 
 ## License
 * Free software: GNU General Public License v3
 
 ## Source Code
-* https://github.com/ComputationalPhysiology/ap_features
+* <https://github.com/ComputationalPhysiology/ap_features>
