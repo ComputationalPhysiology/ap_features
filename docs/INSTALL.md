@@ -79,9 +79,13 @@ $ make install
 ### For developers
 
 If you plan to develop this package you should also make sure to install
-the development dependencies listed in the
-[requirements_dev.txt]{.title-ref}. In addition you should also make
-sure to install the pre-commit hook. All of this can be installed by
+the development dependencies using the command
+
+```Shell
+python -m pip install -e ".[dev]"
+```
+
+In addition you should also make sure to install the pre-commit hook. All of this can be installed by
 executing the command
 
 ```Shell
