@@ -64,10 +64,8 @@ docs: ## generate Sphinx HTML documentation, including API docs
 		cp $$file docs/. ;\
 	done
 	sphinx-apidoc -o docs/ src/python/ap_features
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	# $(BROWSER) docs/_build/html/index.html
-	# python -m http.server --directory docs/_build/html
+	jupyter-book build docs
+
 
 release: dist ## package and upload a release
 	python3 -m twine upload -u ${PYPI_USERNAME} -p ${PYPI_PASSWORD} dist/*

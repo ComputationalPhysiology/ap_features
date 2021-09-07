@@ -233,6 +233,7 @@ def filter_beats(
     ------
     features.InvalidFilter
         If a filter in the list of filters is not valid.
+
     """
     if len(filters) == 0:
         return beats
