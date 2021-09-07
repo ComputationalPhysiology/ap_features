@@ -7,11 +7,33 @@
 
 # Action Potential features
 
-Package to compute features of traces from action potential models
+`ap_features` is package for computing features of traces from action potential traces. This includes chopping, background correction and feature calculations.
+
+Parts of this library is written in `C` and `numba` and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.
 
 
+## Available features
+The list of currently implemented features are as follows
+- Action potential duration (APD)
+- Corrected action potential duration (cAPD)
+- Decay time (Time for the signal amplitude to go from maxium to (1 - a) * 100 % of maximum)
+- Time to peak (ttp)
+- Upstrok time (time from (1-a)*100 % signal amplitude to peak)
+- Beating frequency
+- APD up (The duration between first intersections of two APD lines)
+- Maximum relative upstroke velocity
+- Maximum upstroke velocity
+- APD integral (integral of the signals above the APD line)
 
 
+## Documentation
+Documentation is hosted at GitHub pages: https://computationalphysiology.github.io/ap_features/
+
+Note that the documentation is written using [`jupyerbook`](https://jupyterbook.org) and contains an [interactive demo](https://computationalphysiology.github.io/ap_features/demo_fitzhugh_nagumo.html)
+
+
+## License
 * Free software: GNU General Public License v3
-* Documentation: https://computationalphysiology.github.io/ap_features/
-* Source code: https://github.com/ComputationalPhysiology/ap_features
+
+## Source Code
+* https://github.com/ComputationalPhysiology/ap_features
