@@ -79,8 +79,7 @@ install: clean ## install the package to the active Python's site-packages
 	python3 -m pip install .
 
 dev: clean ## Just need to make sure that libfiles remains
-	python3 -m pip install -r requirements_dev.txt
-	python3 -m pip install -e .
+	python3 -m pip install -e ".[all]"
 	pre-commit install
 
 bump:
