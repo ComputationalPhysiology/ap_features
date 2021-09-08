@@ -7,7 +7,7 @@
 
 # Action Potential features
 
-`ap_features` is package for computing features of traces from action potential traces. This includes chopping, background correction and feature calculations.
+`ap_features` is package for computing features of action potential traces. This includes chopping, background correction and feature calculations.
 
 Parts of this library is written in `C` and `numba` and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.
 
