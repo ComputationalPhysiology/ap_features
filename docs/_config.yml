@@ -30,7 +30,7 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
-  extra_navbar: <a href="https://www.uio.no/studier/emner/matnat/ifi/IN1910/h21/index.html">Course homepage at UiO</a>
+  extra_navbar: <a href="https://www.simula.no/research/projects/department-computational-physiology">Computational Physiology at Simula</a>
 
 sphinx:
   extra_extensions:
