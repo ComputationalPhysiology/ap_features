@@ -11,6 +11,15 @@
 
 Parts of this library is written in `C` and `numba` and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.
 
+## Install
+Install the package with pip
+```
+python -m pip install ap_features
+```
+See [installation instructions](https://computationalphysiology.github.io/ap_features/INSTALL.html) for more options.
+
+
+
 
 ## Available features
 The list of currently implemented features are as follows
