@@ -2,7 +2,6 @@ import logging
 from collections import namedtuple
 from typing import List
 from typing import Optional
-from typing import Sequence
 from typing import Tuple
 
 import numpy as np
@@ -354,7 +353,7 @@ def find_start_and_ends(
     return intervals, zeros
 
 
-def create_intervals(starts: Sequence, ends: Sequence) -> List[Interval]:
+def create_intervals(starts: Array, ends: Array) -> List[Interval]:
     remaing_ends = (e for e in sorted(ends))
     intervals = []
     for start in sorted(starts):
