@@ -2,6 +2,7 @@ import logging
 from collections import namedtuple
 from typing import List
 from typing import Optional
+from typing import Sequence
 from typing import Tuple
 
 import numpy as np
@@ -14,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 ChoppedData = namedtuple("ChoppedData", "data, times, pacing, parameters")
 ChoppingParameters = namedtuple("ChoppingParameters", "use_pacing_info")
+Interval = namedtuple("Interval", "start, end")
 
 
 def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
@@ -62,7 +64,7 @@ class InvalidChoppingError(RuntimeError):
 def chop_data_without_pacing(
     data: Array,
     time: Array,
-    threshold_factor: float = 0.3,
+    threshold_factor: float = 0.5,
     min_window: float = 50,
     max_window: float = 2000,
     N: Optional[int] = None,
@@ -174,7 +176,7 @@ def chop_data_without_pacing(
     logger.debug(f"Use chopping parameters: {chop_pars}")
 
     try:
-        starts, ends, zeros = find_start_and_ends(
+        intervals, zeros = find_start_and_ends(
             time=time,
             data=data,
             threshold_factor=threshold_factor,
@@ -195,11 +197,10 @@ def chop_data_without_pacing(
         )
 
     # Storage
-    chopped_data, chopped_times, chopped_pacing = chop_from_start_ends(
+    chopped_data, chopped_times, chopped_pacing = chop_intervals(
         data,
         time,
-        starts,
-        ends,
+        intervals,
         pacing=None,
         N=N,
         max_window=max_window,
@@ -214,11 +215,10 @@ def chop_data_without_pacing(
     )
 
 
-def chop_from_start_ends(
+def chop_intervals(
     data: Array,
     time: Array,
-    starts: Array,
-    ends: Array,
+    intervals: List[Interval],
     pacing: Optional[Array] = None,
     N: Optional[int] = None,
     max_window: float = 2000,
@@ -232,10 +232,8 @@ def chop_from_start_ends(
         The signal amplitude
     time : Array
         The time stamps
-    starts : Array
-        List of start points
-    ends : Array
-        List of end points
+    intervals : List[Interval]
+        List of intervals with start and ends
     pacing : Optional[Array], optional
         Pacing amplitude, by default None
     N : Optional[int], optional
@@ -267,7 +265,7 @@ def chop_from_start_ends(
     # Add a little bit of slack
     eps = 1e-10
 
-    for s, e in zip(starts, ends):
+    for s, e in intervals:
 
         if N is None:
             # Find the correct time points
@@ -293,7 +291,18 @@ def chop_from_start_ends(
         chopped_data.append(data_spline(t))
         chopped_pacing.append(pacing_spline(t))
         chopped_times.append(t)
+
     return chopped_data, chopped_times, chopped_pacing
+
+
+def cutoff_final_interval(intervals: List[Interval], end_time: float) -> List[Interval]:
+    new_intervals = intervals.copy()
+    if len(intervals) > 0:
+        final_interval = new_intervals.pop()
+        new_intervals.append(
+            Interval(start=final_interval[0], end=min(final_interval[1], end_time)),
+        )
+    return new_intervals
 
 
 def find_start_and_ends(
@@ -303,7 +312,7 @@ def find_start_and_ends(
     min_window: float,
     extend_front: Optional[float],
     extend_end: Optional[float],
-) -> Tuple[Array, Array, Array]:
+) -> Tuple[List[Interval], Array]:
     """Find the starts and ends of a signal.
 
     Parameters
@@ -339,24 +348,33 @@ def find_start_and_ends(
         min_window=min_window,
     )
 
-    if len(zeros) <= 3:
-        return starts, ends, zeros
+    intervals = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
+    intervals = cutoff_final_interval(intervals, time[-1])
 
-    starts, ends = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
+    return intervals, zeros
 
-    while len(ends) > 0 and ends[-1] > time[-1]:
-        ends = ends[:-1]
-        starts = starts[:-1]
 
-    if len(ends) == 0:
-        raise EmptyChoppingError
+def create_intervals(starts: Sequence, ends: Sequence) -> List[Interval]:
+    remaing_ends = (e for e in sorted(ends))
+    intervals = []
+    for start in sorted(starts):
+        for end in remaing_ends:
+            if end > start:
+                intervals.append(Interval(start, end))
+                break
+    return intervals
 
-    # Update the ends to be the start of the next trace
-    for i, s in enumerate(starts[1:]):
-        ends[i] = s  # type: ignore
-    ends[-1] = min(ends[-1], time[-2])  # type: ignore
 
-    return starts, ends, zeros
+def extend_intervals(intervals, extend_front, extend_end):
+    extended_intervals = []
+    for interval in intervals:
+        extended_intervals.append(
+            Interval(
+                start=max(interval[0] - extend_front, 0),
+                end=interval[1] + extend_end,
+            ),
+        )
+    return extended_intervals
 
 
 def filter_start_ends_in_chopping(
@@ -364,7 +382,7 @@ def filter_start_ends_in_chopping(
     ends: Array,
     extend_front: Optional[float] = None,
     extend_end: Optional[float] = None,
-) -> Tuple[Array, Array]:
+) -> List[Interval]:
     """Adjust start and ends based on extend_front
     and extent_end
 
@@ -385,58 +403,40 @@ def filter_start_ends_in_chopping(
 
     Returns
     -------
-    Tuple[Array, Array]
-        start, ends
+    List[Interval]
+        List of the filtered intervals
 
     Raises
     ------
     EmptyChoppingError
         If number of starts or ends become zero.
     InvalidChoppingError
-        If number of starts and ends does not add up.
+        If any of the intervals have a start value that
+        is higher than the end value.
     """
     starts = np.array(starts)
     ends = np.array(ends)
 
-    starts, ends = check_starts_ends(starts, ends)
+    intervals = create_intervals(starts, ends)
+
+    check_intervals(intervals)
 
     # Find the length half way between the previous and next point
-    extend_front = get_extend_value(extend_front, starts, ends, default=300)
-    extend_end = get_extend_value(extend_end, starts, ends, default=60)
+    extend_front = get_extend_value(extend_front, intervals, default=300)
+    extend_end = get_extend_value(extend_end, intervals, default=60)
 
-    # Subtract the extend front
-    starts = np.subtract(starts, extend_front)
+    intervals = extend_intervals(intervals, extend_front, extend_end)
 
-    # Add at the end
-    ends = np.add(ends, extend_end)
-
-    # If the trace starts in the middle of an event, that event is thrown out
-    if starts[0] < 0:
-        starts = starts[1:]
-
-    new_starts = []
-    new_ends = []
-    for s in np.sort(starts):
-        # if len(new_ends) !
-        new_starts.append(s)
-        for e in np.sort(ends):
-            if e > s:
-                new_ends.append(e)
-                break
-        else:
-            # If no end was appended
-            # we pop the last start
-            new_starts.pop()
-
-    return np.array(new_starts), np.array(new_ends)
+    return intervals
 
 
 def get_extend_value(
     extend: Optional[float],
-    starts: Array,
-    ends: Array,
+    intervals: List[Interval],
     default: float,
 ) -> float:
+    starts = [interval[0] for interval in intervals]
+    ends = [interval[1] for interval in intervals]
     if extend is None:
         try:
             value = float(np.min(np.subtract(starts[1:], ends[:-1])) / 2)
@@ -447,7 +447,7 @@ def get_extend_value(
     return value
 
 
-def check_starts_ends(starts: Array, ends: Array) -> Tuple[Array, Array]:
+def check_intervals(intervals: List[Interval]) -> None:
     """Check starts and ends and make sure that
     they are consitent
 
@@ -470,39 +470,12 @@ def check_starts_ends(starts: Array, ends: Array) -> Tuple[Array, Array]:
     InvalidChoppingError
         If number of starts and ends does not add up.
     """
-    # If there is no starts return nothing
-    if len(starts) == 0:
-        raise EmptyChoppingError
+    if len(intervals) == 0:
+        raise EmptyChoppingError("No intervals found")
 
-    # The same with no ends
-    if len(ends) == 0:
-        raise EmptyChoppingError
-
-    # If the first end is lower than the first start
-    # we should drop the first end
-    try:
-        while ends[0] < starts[0]:
-            ends = ends[1:]
-    except IndexError as ex:
-        raise EmptyChoppingError from ex
-
-    # If we have a beat at the end without an end we remove
-    # that one
-    try:
-        while starts[-1] > ends[-1]:
-            starts = starts[:-1]
-    except IndexError as ex:
-        raise EmptyChoppingError from ex
-
-    # And we should check this one more time
-    if len(ends) == 0:
-        raise EmptyChoppingError
-
-    if len(ends) != len(starts):
-        raise InvalidChoppingError(
-            f"Unequal number of starts {len(starts)} and ends {len(ends)}",
-        )
-    return starts, ends
+    for interval in intervals:
+        if interval[0] >= interval[1]:
+            raise InvalidChoppingError(f"Interval {interval} is not allowed")
 
 
 def locate_chop_points(
@@ -537,7 +510,7 @@ def locate_chop_points(
     # Data with zeros at the threshold
     data_spline_thresh = UnivariateSpline(
         time,
-        utils.normalize_signal(data) - threshold_factor,
+        utils.normalize_signal(utils.filt(data)) - threshold_factor,
         s=0,
     )
     # Localization of the zeros
@@ -606,13 +579,12 @@ def chop_data_with_pacing(
     """
 
     # Find indices for start of each pacing
-    starts, ends = pacing_to_start_ends(time, pacing, extend_front, extend_end)
+    intervals = pacing_to_start_ends(time, pacing, extend_front, extend_end)
 
-    chopped_data, chopped_times, chopped_pacing = chop_from_start_ends(
+    chopped_data, chopped_times, chopped_pacing = chop_intervals(
         data,
         time,
-        starts,
-        ends,
+        intervals,
         pacing=pacing,
         N=None,
         max_window=max_window,
@@ -652,7 +624,7 @@ def pacing_to_start_ends(
     extend_front: float,
     extend_end: float,
     add_final: bool = True,
-) -> Tuple[Array, Array]:
+) -> List[Interval]:
     """Convert an array of pacing amplitudes to
     start and end points
 
@@ -672,8 +644,8 @@ def pacing_to_start_ends(
 
     Returns
     -------
-    Tuple[Array, Array]
-        starts, ends
+    List[Interval]
+        List with intervals
     """
     start_pace_idx = np.where(np.diff(np.array(pacing, dtype=float)) > 0)[0].tolist()
     N = len(time)
@@ -685,4 +657,5 @@ def pacing_to_start_ends(
     starts = time[indices[:-1]]
     ends = time[indices[1:]]
 
-    return filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
+    intervals = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
+    return intervals

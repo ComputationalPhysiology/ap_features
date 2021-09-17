@@ -50,23 +50,29 @@ def test_chop_data(chopped_data):
 
 
 @pytest.mark.parametrize(
-    "starts, ends, extend_front, extend_end, new_starts, new_ends",
+    "starts, ends, extend_front, extend_end, expected_intervals",
     [
         (
             [69.40241445, 1628.85895293, 3074.24891969, 4641.53700245],
             [811.77991702, 2380.96124084, 3826.5365545],
             None,
             None,
-            [1282.2151135, 2727.60508026],
-            [2727.60508026, 4173.18039393],
+            [
+                (0, 1158.423756445),
+                (1282.2151135, 2727.60508026),
+                (2727.60508026, 4173.18039393),
+            ],
         ),
         (
             [69.40241445, 1628.85895293, 3074.24891969, 4641.53700245],
             [811.77991702, 2380.96124084, 3826.5365545],
             0,
             0,
-            [69.40241445, 1628.85895293, 3074.24891969],
-            [811.77991702, 2380.96124084, 3826.5365545],
+            [
+                (69.40241445, 811.77991702),
+                (1628.85895293, 2380.96124084),
+                (3074.24891969, 3826.5365545),
+            ],
         ),
     ],
 )
@@ -75,17 +81,15 @@ def test_filter_start_ends_in_chopping(
     ends,
     extend_front,
     extend_end,
-    new_starts,
-    new_ends,
+    expected_intervals,
 ):
-    s, e = apf.chopping.filter_start_ends_in_chopping(
+    intervals = apf.chopping.filter_start_ends_in_chopping(
         starts,
         ends,
         extend_front,
         extend_end,
     )
-    assert np.isclose(s, new_starts).all()
-    assert np.isclose(e, new_ends).all()
+    assert all([np.isclose(i, e).all() for i, e in zip(intervals, expected_intervals)])
 
 
 @pytest.mark.parametrize(
@@ -103,25 +107,42 @@ def test_filter_start_ends_in_chopping_raises_on_empty(starts, ends):
 
 
 @pytest.mark.parametrize(
-    "starts, ends",
-    [([1, 2, 3], [2.5])],
+    "extend, intervals, default, value",
+    [
+        (None, [], 200, 200),
+        (None, [(1, 1)], 200, 200),
+        (100, [], 200, 100),
+        (None, [(100, 200), (300, 400), (500, 600)], 200, 50),
+    ],
 )
-def test_filter_start_ends_in_chopping_raises_on_invalid(starts, ends):
-    with pytest.raises(apf.chopping.InvalidChoppingError):
-        apf.chopping.filter_start_ends_in_chopping(starts, ends)
+def test_get_extend_value(extend, intervals, default, value):
+    assert np.isclose(
+        apf.chopping.get_extend_value(extend, intervals, default),
+        value,
+    )
 
 
 @pytest.mark.parametrize(
-    "extend, starts, ends, default, value",
+    "starts, ends, expected_intervals",
     [
-        (None, [], [], 200, 200),
-        (None, [1], [1], 200, 200),
-        (100, [], [], 200, 100),
-        (None, [100, 300, 500], [200, 400, 600], 200, 50),
+        ([1, 3], [2, 4], [(1, 2), (3, 4)]),
+        ([1, 3, 5], [2, 4, 6], [(1, 2), (3, 4), (5, 6)]),
+        ([1, 3, 5], [2, 4], [(1, 2), (3, 4)]),
+        ([1, 3], [2, 4, 6], [(1, 2), (3, 4)]),
+        ([3, 5], [2, 4, 6], [(3, 4), (5, 6)]),
+        ([1, 3, 5], [4, 6], [(1, 4), (3, 6)]),
     ],
 )
-def test_get_extend_value(extend, starts, ends, default, value):
-    assert np.isclose(
-        apf.chopping.get_extend_value(extend, starts, ends, default),
-        value,
-    )
+def test_create_interval(starts, ends, expected_intervals):
+    intervals = apf.chopping.create_intervals(starts, ends)
+    assert intervals == expected_intervals
+
+
+def test_check_interval_raises_EmptyChoppingError():
+    with pytest.raises(apf.chopping.EmptyChoppingError):
+        apf.chopping.check_intervals([])
+
+
+def test_check_interval_raises_InvalidChoppingError():
+    with pytest.raises(apf.chopping.InvalidChoppingError):
+        apf.chopping.check_intervals([(1, 2), (4, 3)])
