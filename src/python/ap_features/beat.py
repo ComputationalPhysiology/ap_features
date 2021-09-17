@@ -1,3 +1,4 @@
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Sequence
@@ -269,6 +270,8 @@ class Beats(Trace):
         background_correction_method: BC = BC.none,
         zero_index: Optional[int] = None,
         backend: Backend = Backend.c,
+        intervals: Optional[List[chopping.Interval]] = None,
+        chopping_options: Optional[Dict[str, float]] = None,
     ) -> None:
         self._background = background.correct_background(
             x=t,
@@ -289,22 +292,19 @@ class Beats(Trace):
             )
         self._zero_index = zero_index
 
-    def chop(self, **options) -> Sequence[Beat]:
-        """Chop signal into individual beats.
-        You can also pass in any options that should
-        be provided to the chopping algorithm.
+        self.chopping_options = chopping.default_chopping_options()
+        if chopping_options is not None:
+            self.chopping_options.update(chopping_options)
+        if intervals is not None:
+            self.chopping_options["intervals"] = intervals
 
-        Returns
-        -------
-        Sequence[Beat]
-            A list of chopped beats
-        """
-        c = chopping.chop_data(data=self.y, time=self.t, pacing=self.pacing, **options)
-        self._beats = [
-            Beat(t=t, y=y, pacing=p, parent=self, beat_number=i)
-            for i, (t, y, p) in enumerate(zip(c.times, c.data, c.pacing))
-        ]
-        return self._beats
+    @property
+    def chopped_data(self) -> chopping.ChoppedData:
+        if not hasattr(self, "_chopped_data"):
+            self._chopped_data = chopping.chop_data(
+                data=self.y, time=self.t, pacing=self.pacing, **self.chopping_options
+            )
+        return self._chopped_data
 
     def filter_beats(
         self,
@@ -409,9 +409,27 @@ class Beats(Trace):
 
     @property
     def beats(self) -> Sequence[Beat]:
+        """Chop signal into individual beats.
+        You can also pass in any options that should
+        be provided to the chopping algorithm.
+
+        Returns
+        -------
+        Sequence[Beat]
+            A list of chopped beats
+        """
         if not hasattr(self, "_beats"):
-            self.chop()
+            c = self.chopped_data
+            self._beats = [
+                Beat(t=t, y=y, pacing=p, parent=self, beat_number=i)
+                for i, (t, y, p) in enumerate(zip(c.times, c.data, c.pacing))
+            ]
         return self._beats
+
+    @property
+    def intervals(self) -> List[Beat]:
+        """A ist of time intervals for each beat"""
+        return self.chopped_data.intervals
 
     @property
     def num_beats(self) -> int:

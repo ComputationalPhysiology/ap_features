@@ -12,7 +12,7 @@ from .utils import Array
 
 logger = logging.getLogger(__name__)
 
-ChoppedData = namedtuple("ChoppedData", "data, times, pacing, parameters")
+ChoppedData = namedtuple("ChoppedData", "data, times, pacing, parameters, intervals")
 ChoppingParameters = namedtuple("ChoppingParameters", "use_pacing_info")
 Interval = namedtuple("Interval", "start, end")
 
@@ -39,7 +39,7 @@ def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
 
     if np.isnan(data).any():
         # If the array contains nan values we should not analyze it
-        return ChoppedData(data=[], times=[], pacing=[], parameters={})
+        return ChoppedData(data=[], times=[], pacing=[], parameters={}, intervals=[])
 
     pacing = kwargs.pop("pacing", np.zeros(len(time)))
     ignore_pacing = kwargs.pop("ignore_pacing", False)
@@ -60,6 +60,19 @@ class InvalidChoppingError(RuntimeError):
     pass
 
 
+def default_chopping_options():
+    return dict(
+        threshold_factor=0.5,
+        min_window=50,
+        max_window=2000,
+        N=None,
+        extend_front=None,
+        extend_end=None,
+        ignore_pacing=False,
+        intervals=None,
+    )
+
+
 def chop_data_without_pacing(
     data: Array,
     time: Array,
@@ -69,6 +82,7 @@ def chop_data_without_pacing(
     N: Optional[int] = None,
     extend_front: Optional[float] = None,
     extend_end: Optional[float] = None,
+    intervals: Optional[List[Interval]] = None,
     **kwargs,
 ) -> ChoppedData:
 
@@ -174,26 +188,34 @@ def chop_data_without_pacing(
     )
     logger.debug(f"Use chopping parameters: {chop_pars}")
 
-    try:
-        intervals, zeros = find_start_and_ends(
-            time=time,
-            data=data,
-            threshold_factor=threshold_factor,
-            min_window=min_window,
-            extend_front=extend_front,
-            extend_end=extend_end,
-        )
-    except EmptyChoppingError:
-        return ChoppedData(data=[], times=[], pacing=[], parameters=chop_pars)
+    if intervals is None:
+        try:
+            intervals, zeros = find_start_and_ends(
+                time=time,
+                data=data,
+                threshold_factor=threshold_factor,
+                min_window=min_window,
+                extend_front=extend_front,
+                extend_end=extend_end,
+            )
+        except EmptyChoppingError:
+            return ChoppedData(
+                data=[],
+                times=[],
+                pacing=[],
+                parameters=chop_pars,
+                intervals=[],
+            )
 
-    if len(zeros) <= 3:
-        ## Just return the original data
-        return ChoppedData(
-            data=[data],
-            times=[time],
-            pacing=[np.zeros_like(data)],
-            parameters=chop_pars,
-        )
+        if len(zeros) <= 3:
+            ## Just return the original data
+            return ChoppedData(
+                data=[data],
+                times=[time],
+                pacing=[np.zeros_like(data)],
+                parameters=chop_pars,
+                intervals=intervals,
+            )
 
     # Storage
     chopped_data, chopped_times, chopped_pacing = chop_intervals(
@@ -211,6 +233,7 @@ def chop_data_without_pacing(
         times=chopped_times,
         pacing=chopped_pacing,
         parameters=chop_pars,
+        intervals=intervals,
     )
 
 
@@ -426,6 +449,8 @@ def filter_start_ends_in_chopping(
 
     intervals = extend_intervals(intervals, extend_front, extend_end)
 
+    check_intervals(intervals)
+
     return intervals
 
 
@@ -438,7 +463,7 @@ def get_extend_value(
     ends = [interval[1] for interval in intervals]
     if extend is None:
         try:
-            value = float(np.min(np.subtract(starts[1:], ends[:-1])) / 2)
+            value = max(float(np.min(np.subtract(starts[1:], ends[:-1])) / 2), 0)
         except (IndexError, ValueError):
             value = default
     else:
@@ -536,6 +561,7 @@ def chop_data_with_pacing(
     extend_end: float = 0,
     min_window: float = 300,
     max_window: float = 2000,
+    intervals: Optional[List[Interval]] = None,
     **kwargs,
 ) -> ChoppedData:
     """
@@ -577,8 +603,9 @@ def chop_data_with_pacing(
     default value of zero).
     """
 
-    # Find indices for start of each pacing
-    intervals = pacing_to_start_ends(time, pacing, extend_front, extend_end)
+    if intervals is None:
+        # Find indices for start of each pacing
+        intervals = pacing_to_start_ends(time, pacing, extend_front, extend_end)
 
     chopped_data, chopped_times, chopped_pacing = chop_intervals(
         data,
@@ -597,6 +624,7 @@ def chop_data_with_pacing(
         times=chopped_times,
         pacing=chopped_pacing,
         parameters=chop_pars,
+        intervals=intervals,
     )
 
 
