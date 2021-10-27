@@ -1,6 +1,6 @@
 __author__ = """Henrik Finsberg"""
 __email__ = "henriknf@simula.no"
-__version__ = "2021.0.2"
+__version__ = "2021.0.3"
 
 
 from . import background, chopping, features, average
