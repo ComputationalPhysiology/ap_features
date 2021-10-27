@@ -235,5 +235,31 @@ def test_list_cost_function_terms():
     assert lst[apf.NUM_COST_TERMS // 2] == "Ca_max"
 
 
-def test_tau():
-    pass
+@pytest.mark.parametrize(
+    "a, tau",
+    [
+        (0.1, 319.4724869136086),
+        (0.3, 193.91125351445308),
+        (0.5, 131.1866357539183),
+        (0.7, 84.85669333330526),
+        (0.9, 41.08344683897343),
+    ],
+)
+def test_tau(a, tau, calcium_trace):
+    t, y = calcium_trace
+    assert np.isclose(apf.features.tau(t, y, a), tau)
+
+
+@pytest.mark.parametrize(
+    "p, int_p",
+    [
+        (10, 4.522984104069413),
+        (30, 24.622790520357395),
+        (50, 56.081175857097925),
+        (70, 99.92180272118017),
+        (90, 162.06786223150803),
+    ],
+)
+def test_integrate_apd(p, int_p, calcium_trace):
+    t, y = calcium_trace
+    assert np.isclose(apf.features.integrate_apd(y, t, p), int_p)

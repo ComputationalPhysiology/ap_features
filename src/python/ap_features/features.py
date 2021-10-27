@@ -192,6 +192,9 @@ def apd(
 
     assert backend in Backend.__members__
 
+    if isinstance(factor, float) and 0 < factor < 1:
+        # Factor should be multiplied with 100
+        factor = int(factor * 100)
     _check_factor(factor)
 
     y = np.array(V)
@@ -782,7 +785,7 @@ def maximum_upstroke_velocity(y, t=None, use_spline=True, normalize=False):
     return max_upstroke_vel
 
 
-def integrate_apd(y, t=None, percent=0.3, use_spline=True, normalize=False):
+def integrate_apd(y, t=None, factor=30, use_spline=True, normalize=False):
     r"""
     Compute the integral of the signals above
     the APD p line
@@ -793,6 +796,8 @@ def integrate_apd(y, t=None, percent=0.3, use_spline=True, normalize=False):
         The signal
     t : array
         The time points
+    factor: int
+        Which APD line, by default 0.3
     use_spline : bool
         Use spline interpolation
         (Default : True)
@@ -830,18 +835,26 @@ def integrate_apd(y, t=None, percent=0.3, use_spline=True, normalize=False):
     if t is None:
         t = range(len(y))
 
-    coords, vals = apd(y, percent, t, return_coords=True, use_spline=use_spline)
+    if isinstance(factor, float) and 0 < factor < 1:
+        # Factor should be multiplied with 100
+        factor = int(factor * 100)
+    _check_factor(factor)
+
+    x1, x2 = _apd(factor, y, t, use_spline=use_spline)
+
+    g = UnivariateSpline(t, y, s=0, k=3)
 
     if use_spline:
-        Y = y - vals[0]
+        Y = y - g(x1)
         f = UnivariateSpline(t, Y, s=0, k=3)
-        integral = f.integral(*coords)
+        integral = f.integral(x1, x2)
 
     else:
-        Y = y - vals[-1]
+        val_th = np.min(y) + (1 - factor / 100) * (np.max(y) - np.min(y))
+        Y = y - val_th
 
-        t1 = t.tolist().index(coords[0])
-        t2 = t.tolist().index(coords[1]) + 1
+        t1 = t.tolist().index(x1)
+        t2 = t.tolist().index(x2) + 1
 
         integral = np.sum(np.multiply(Y[t1:t2], np.diff(t)[t1:t2]))
 
