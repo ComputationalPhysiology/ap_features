@@ -11,6 +11,7 @@ from . import average
 from . import background
 from . import chopping
 from . import features
+from . import filters as _filters
 from . import utils
 from .background import BackgroundCorrection as BC
 from .utils import Array
@@ -209,7 +210,7 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
 
 def filter_beats(
     beats: Sequence[Beat],
-    filters: Sequence[features.Filters],
+    filters: Sequence[_filters.Filters],
     x: float = 1.0,
 ) -> Sequence[Beat]:
     """Filter beats based of similiarities of the filters
@@ -218,7 +219,7 @@ def filter_beats(
     ----------
     beats : Sequence[Beat]
         List of beats
-    filters : Sequence[features.Filters]
+    filters : Sequence[_filters.Filters]
         List of filters
     x : float, optional
         How many standard deviations away from the mean
@@ -232,7 +233,7 @@ def filter_beats(
 
     Raises
     ------
-    features.InvalidFilter
+    _filters.InvalidFilter
         If a filter in the list of filters is not valid.
 
     """
@@ -242,8 +243,8 @@ def filter_beats(
     bad_indices: Set[int] = set()
     # Compute the features of all beats
     for f in filters:
-        if f not in features.Filters.__members__:
-            raise features.InvalidFilter(f"Invalid filter {f}")
+        if f not in _filters.Filters.__members__:
+            raise _filters.InvalidFilter(f"Invalid filter {f}")
         if f.startswith("apd"):
             apds = [beat.apd(int(f[3:])) for beat in beats]
 
@@ -252,12 +253,12 @@ def filter_beats(
                 bad_indices.union(set(np.where(apd < 0 for apd in apds)[0]))
 
             feature_list.append(apds)
-        if f == features.Filters.length:
+        if f == _filters.Filters.length:
             feature_list.append([len(beat) for beat in beats])
-        if f == features.Filters.time_to_peak:
+        if f == _filters.Filters.time_to_peak:
             feature_list.append([len(beat) for beat in beats])
 
-    indices = features.filter_signals(feature_list, x)
+    indices = _filters.filter_signals(feature_list, x)
     return [beats[index] for index in indices]
 
 
@@ -308,7 +309,7 @@ class Beats(Trace):
 
     def filter_beats(
         self,
-        filters: Sequence[features.Filters],
+        filters: Sequence[_filters.Filters],
         x: float = 1.0,
     ) -> Sequence[Beat]:
         """Get a subset of the chopped beats based on
@@ -316,7 +317,7 @@ class Beats(Trace):
 
             Parameters
             ----------
-            filters : Sequence[features.Filters]
+            filters : Sequence[_filters.Filters]
                 A list of filters that should be used for filtering
             x : float, optional
             How many standard deviations away from the mean
@@ -369,7 +370,7 @@ class Beats(Trace):
 
     def average_beat(
         self,
-        filters: Optional[Sequence[features.Filters]] = None,
+        filters: Optional[Sequence[_filters.Filters]] = None,
         N: int = 200,
         x: float = 1.0,
     ) -> Beat:
@@ -378,7 +379,7 @@ class Beats(Trace):
 
         Parameters
         ----------
-        filters : Optional[Sequence[features.Filters]], optional
+        filters : Optional[Sequence[_filters.Filters]], optional
             A list of filters that should be used to decide
             which beats that should be included in the
             averaging, by default None
