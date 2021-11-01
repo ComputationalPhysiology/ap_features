@@ -162,7 +162,6 @@ def _apd(
             inds = t[np.where(np.diff(np.sign(y)))[0]]
     else:
         inds = t[np.where(np.diff(np.sign(y)))[0]]
-
     if len(inds) == 0:
         logger.warning("Warning: no root was found for APD {}".format(factor))
         x1 = x2 = 0
@@ -214,7 +213,7 @@ def apd_coords(
     y1 = g(x1)
     y2 = g(x2)
 
-    yth = np.min(y) + (1 - factor) * (np.max(y) - np.min(y))
+    yth = np.min(y) + (1 - factor / 100) * (np.max(y) - np.min(y))
 
     return APDCoords(x1, x2, y1, y2, yth)
 
@@ -581,7 +580,7 @@ def max_relative_upstroke_velocity(
     a max and min value of 1 and 0 respectively.
     If sigmoid fit is True
     Fit the normalize trace to a sigmoid function and compte the
-
+    maximum derivate of the sigmoid
     else:
     5. Compute the successive differences in amplitude (i.e delta y)
     and report the maximum value of these

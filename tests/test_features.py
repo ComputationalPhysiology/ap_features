@@ -9,24 +9,6 @@ import pytest
 here = os.path.dirname(os.path.abspath(__file__))
 
 
-@pytest.fixture(scope="session")
-def triangle_signal():
-    x = np.arange(301, dtype=float)
-
-    y = np.zeros(301, dtype=float)
-    y[:101] = np.linspace(0, 1, 101)
-    y[101:201] = np.linspace(1, 0, 101)[1:]
-    return (x, y)
-
-
-@pytest.fixture(scope="session")
-def synthetic_data(num_parameter_sets=1):
-    data = np.load(os.path.join(here, "data.npy"), allow_pickle=True).item()
-    cost = np.load(os.path.join(here, "cost_terms.npy"))
-    trace = np.array([data["v"], data["ca"]])
-    return trace, data["t"], cost
-
-
 @pytest.mark.parametrize(
     "factor, backend",
     it.product(range(10, 95, 5), cost_terms.Backend),
@@ -223,6 +205,72 @@ def test_tau(a, tau, calcium_trace):
         (90, 162.06786223150803),
     ],
 )
-def test_integrate_apd(p, int_p, calcium_trace):
+def test_integrate_apd_use_spline(p, int_p, calcium_trace):
     t, y = calcium_trace
     assert np.isclose(apf.features.integrate_apd(y, t, p), int_p)
+
+
+@pytest.mark.parametrize(
+    "factor, use_spline",
+    it.product(range(10, 90, 5), [True, False]),
+)
+def test_apd_coords(factor, use_spline, triangle_signal):
+    x, y = triangle_signal
+    apd_coords = apf.features.apd_coords(factor, y, x, use_spline=use_spline)
+    # breakpoint()
+    assert np.isclose(apd_coords.x1, 100 - factor, atol=1)
+    assert np.isclose(apd_coords.x2, 100 + factor, atol=1)
+    assert np.isclose(apd_coords.y1, 1 - factor / 100, atol=0.1)
+    assert np.isclose(apd_coords.y2, 1 - factor / 100, atol=0.1)
+    assert np.isclose(apd_coords.yth, 1 - factor / 100)
+
+
+@pytest.mark.parametrize("factor", range(10, 90, 5))
+def test_upstroke(factor, triangle_signal):
+    x, y = triangle_signal
+    assert np.isclose(apf.features.upstroke(x, y, a=factor / 100), factor)
+
+
+def test_beating_frequency(multiple_beats):
+    x, y = multiple_beats
+    beats = apf.Beats(y, x).beats
+    times = [beat.t for beat in beats]
+    assert np.isclose(apf.features.beating_frequency(times), 12.671594508975712)
+
+
+def test_beating_frequency_from_peaks(multiple_beats):
+    x, y = multiple_beats
+    beats = apf.Beats(y, x).beats
+    times = [beat.t for beat in beats]
+    signals = [beat.y for beat in beats]
+    assert np.isclose(
+        apf.features.beating_frequency_from_peaks(signals, times),
+        12.8,
+        atol=0.2,
+    ).all()
+
+
+def test_max_relative_upstroke_velocity_sigmoid(calcium_trace):
+    x, y = calcium_trace
+    max_up = apf.features.max_relative_upstroke_velocity(x, y, sigmoid_fit=True)
+    assert np.isclose(max_up.value, 0.03523266321708668)
+    assert np.isclose(max_up.x0, 23.41210719885557)
+
+
+def test_max_relative_upstroke_velocity_no_sigmoid(calcium_trace):
+    x, y = calcium_trace
+    max_up = apf.features.max_relative_upstroke_velocity(x, y, sigmoid_fit=False)
+    assert np.isclose(max_up.value, 0.03773708905899542)
+    assert np.isclose(max_up.index, 16)
+
+
+def test_maximum_upstroke_velocity_use_spline(calcium_trace):
+    x, y = calcium_trace
+    max_up = apf.features.maximum_upstroke_velocity(y, t=x, use_spline=True)
+    assert np.isclose(max_up, 0.037779410987573904)
+
+
+def test_maximum_upstroke_velocity(calcium_trace):
+    x, y = calcium_trace
+    max_up = apf.features.maximum_upstroke_velocity(y, t=x, use_spline=False)
+    assert np.isclose(max_up, 0.03282385532831371)
