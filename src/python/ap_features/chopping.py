@@ -7,6 +7,7 @@ from typing import Tuple
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
+from . import filters
 from . import utils
 from .utils import Array
 
@@ -534,7 +535,7 @@ def locate_chop_points(
     # Data with zeros at the threshold
     data_spline_thresh = UnivariateSpline(
         time,
-        utils.normalize_signal(utils.filt(data)) - threshold_factor,
+        utils.normalize_signal(filters.filt(data)) - threshold_factor,
         s=0,
     )
     # Localization of the zeros

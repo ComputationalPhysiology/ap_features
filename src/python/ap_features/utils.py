@@ -154,16 +154,25 @@ def list_cost_function_terms():
     return list_cost_function_terms_trace("V") + list_cost_function_terms_trace("Ca")
 
 
-def filt(y, kernel_size=None):
+def find_pacing_period(pacing_data, pacing_amp=5):
     """
-    Filer signal using a median filter.
-    Default kernel_size is 3
+    Find period of pacing in pacing data
+
+    Arguments
+    ---------
+    pacing_data : array
+        The pacing data
+    pacing_amp : float
+        The stimulus amplitude
+
     """
-    if kernel_size is None:
-        kernel_size = 3
 
-    logger.debug("\nFilter image")
-    from scipy.signal import medfilt
+    periods = []
+    pace = np.where(pacing_data == pacing_amp)[0]
+    for i, j in zip(pace[:-1], pace[1:]):
+        if not j == i + 1:
+            periods.append(j - i)
+    if len(periods) > 0:
+        return int(np.median(periods))
 
-    smooth_trace = medfilt(y, kernel_size)
-    return smooth_trace
+    return 0.0

@@ -80,43 +80,6 @@ def test_compare_python_matlab(synthetic_data):
         i += 1
 
 
-@pytest.mark.parametrize(
-    "arr, x, expected_output",
-    [
-        ([1, 2, 3, 4, 5], 1, [1, 2, 3]),
-        ([1, 1, 1], 1, [0, 1, 2]),
-        ([0, 1, 1, 1], 1, [1, 2, 3]),
-        ([], 1, []),
-        ([1], 1, [0]),
-    ],
-)
-def test_within_x_std(arr, x, expected_output):
-    output = apf.features.within_x_std(arr, x)
-    assert len(output) == len(expected_output)
-    assert np.isclose(output, expected_output).all()
-
-
-def test_filter_signals_dict():
-    data = {"apd30": [1, 2, 3, 4, 5], "length": [1, 1, 1, 3, 0]}
-
-    output = apf.features.filter_signals(data, x=1.0)
-    assert output == [1, 2]
-
-
-def test_filter_signals_list():
-    data = [[1, 2, 3, 4, 5], [1, 1, 1, 3, 0]]
-
-    output = apf.features.filter_signals(data, x=1.0)
-    assert output == [1, 2]
-
-
-def test_filter_signales_raises_RuntimeError_on_unequal_lengths():
-    data = {"apd30": [1, 2, 3, 4, 5], "length": [1, 1, 1, 0]}
-
-    with pytest.raises(RuntimeError):
-        apf.features.filter_signals(data, x=1.0)
-
-
 def test_compare_c_matlab(synthetic_data):
 
     arr, t, expected_cost = synthetic_data
