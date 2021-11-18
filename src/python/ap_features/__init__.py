@@ -2,14 +2,32 @@ __author__ = """Henrik Finsberg"""
 __email__ = "henriknf@simula.no"
 __version__ = "2021.0.4"
 
+import logging as _logging
 
-from . import background, chopping, features, average, filters
+from . import background, chopping, features, average, filters, _c, _numba
 from ._c import NUM_COST_TERMS
 from ._numba import transpose_trace_array
 from .beat import Beat, Beats, Trace, BeatCollection, StateCollection, State
 from .features import all_cost_terms, apd, apd_up_xy, cost_terms, cost_terms_trace
 from .utils import Backend, list_cost_function_terms, list_cost_function_terms_trace
 from .average import average_and_interpolate, average_list
+
+
+def set_log_level(level=_logging.INFO):
+    for logger in [
+        _c.logger,
+        _numba.logger,
+        background.logger,
+        chopping.logger,
+        features.logger,
+        filters.logger,
+        lib.logger,
+        utils.logger,
+    ]:
+        logger.setLevel(level)
+
+
+set_log_level()
 
 __all__ = [
     "features",
