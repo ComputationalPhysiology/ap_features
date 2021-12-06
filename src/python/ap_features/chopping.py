@@ -13,7 +13,10 @@ from .utils import Array
 
 logger = logging.getLogger(__name__)
 
-ChoppedData = namedtuple("ChoppedData", "data, times, pacing, parameters, intervals")
+ChoppedData = namedtuple(
+    "ChoppedData",
+    "data, times, pacing, parameters, intervals, upstroke_times",
+)
 ChoppingParameters = namedtuple("ChoppingParameters", "use_pacing_info")
 Interval = namedtuple("Interval", "start, end")
 
@@ -40,7 +43,14 @@ def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
 
     if np.isnan(data).any():
         # If the array contains nan values we should not analyze it
-        return ChoppedData(data=[], times=[], pacing=[], parameters={}, intervals=[])
+        return ChoppedData(
+            data=[],
+            times=[],
+            pacing=[],
+            parameters={},
+            intervals=[],
+            upstroke_times=[],
+        )
 
     pacing = kwargs.pop("pacing", np.zeros(len(time)))
     ignore_pacing = kwargs.pop("ignore_pacing", False)
@@ -191,7 +201,7 @@ def chop_data_without_pacing(
 
     if intervals is None:
         try:
-            intervals, zeros = find_start_and_ends(
+            intervals, upstroke_times = find_start_and_ends(
                 time=time,
                 data=data,
                 threshold_factor=threshold_factor,
@@ -206,9 +216,10 @@ def chop_data_without_pacing(
                 pacing=[],
                 parameters=chop_pars,
                 intervals=[],
+                upstroke_times=[],
             )
 
-        if len(zeros) <= 3:
+        if len(upstroke_times) <= 2:
             ## Just return the original data
             return ChoppedData(
                 data=[data],
@@ -216,7 +227,11 @@ def chop_data_without_pacing(
                 pacing=[np.zeros_like(data)],
                 parameters=chop_pars,
                 intervals=intervals,
+                upstroke_times=upstroke_times,
             )
+    else:
+        # Use the start of each interval as zero
+        upstroke_times = [interval[0] for interval in intervals]
 
     # Storage
     chopped_data, chopped_times, chopped_pacing = chop_intervals(
@@ -235,6 +250,7 @@ def chop_data_without_pacing(
         pacing=chopped_pacing,
         parameters=chop_pars,
         intervals=intervals,
+        upstroke_times=upstroke_times,
     )
 
 
@@ -355,8 +371,8 @@ def find_start_and_ends(
 
     Returns
     -------
-    Tuple[Array, Array, Array]
-        starts, ends, zeros
+    Tuple[List[Interval], Array]
+        (starts, ends) for interval, and upstroke times
 
     Raises
     ------
@@ -374,7 +390,7 @@ def find_start_and_ends(
     intervals = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
     intervals = cutoff_final_interval(intervals, time[-1])
 
-    return intervals, zeros
+    return intervals, starts
 
 
 def create_intervals(starts: Array, ends: Array) -> List[Interval]:
@@ -606,7 +622,14 @@ def chop_data_with_pacing(
 
     if intervals is None:
         # Find indices for start of each pacing
-        intervals = pacing_to_start_ends(time, pacing, extend_front, extend_end)
+        intervals, upstroke_times = pacing_to_start_ends(
+            time,
+            pacing,
+            extend_front,
+            extend_end,
+        )
+    else:
+        upstroke_times = [interval[0] for interval in intervals]
 
     chopped_data, chopped_times, chopped_pacing = chop_intervals(
         data,
@@ -626,6 +649,7 @@ def chop_data_with_pacing(
         pacing=chopped_pacing,
         parameters=chop_pars,
         intervals=intervals,
+        upstroke_times=upstroke_times,
     )
 
 
@@ -652,7 +676,7 @@ def pacing_to_start_ends(
     extend_front: float,
     extend_end: float,
     add_final: bool = True,
-) -> List[Interval]:
+) -> Tuple[List[Interval], Array]:
     """Convert an array of pacing amplitudes to
     start and end points
 
@@ -672,8 +696,9 @@ def pacing_to_start_ends(
 
     Returns
     -------
-    List[Interval]
-        List with intervals
+    Tuple[List[Interval], Array]
+        (starts, ends) for interval, and upstroke times
+
     """
     start_pace_idx = np.where(np.diff(np.array(pacing, dtype=float)) > 0)[0].tolist()
     N = len(time)
@@ -686,4 +711,4 @@ def pacing_to_start_ends(
     ends = time[indices[1:]]
 
     intervals = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
-    return intervals
+    return intervals, starts
