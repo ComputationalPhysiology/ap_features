@@ -21,6 +21,27 @@ ChoppingParameters = namedtuple("ChoppingParameters", "use_pacing_info")
 Interval = namedtuple("Interval", "start, end")
 
 
+def find_start_end_index(
+    time_stamps: Array,
+    start: float,
+    end: float,
+) -> Tuple[int, int]:
+    start_index = 0
+    end_index = len(time_stamps)
+    if start > 0:
+        try:
+            start_index = next(i for i, v in enumerate(time_stamps) if v >= start)
+        except StopIteration:
+            pass
+
+    if end != -1:
+        try:
+            end_index = next(i for i, v in enumerate(time_stamps) if v >= end)
+        except StopIteration:
+            pass
+    return start_index, end_index
+
+
 def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
     """Chop data into individual beats
 

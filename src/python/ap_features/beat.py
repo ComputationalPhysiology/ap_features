@@ -64,6 +64,16 @@ class Trace:
         except Exception:
             return False
 
+    def slice(self, start: float, end: float, copy: bool = True) -> "Trace":
+        f = np.copy if copy else lambda x: x
+        start_index, end_index = chopping.find_start_end_index(self.t, start, end)
+        return self.__class__(
+            y=f(self.y)[start_index:end_index],
+            t=f(self.t)[start_index:end_index],
+            pacing=f(self.pacing)[start_index:end_index],
+            backend=self._backend,
+        )
+
 
 class Beat(Trace):
     def __init__(
