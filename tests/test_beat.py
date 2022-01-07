@@ -202,3 +202,32 @@ def test_corrected_apd_with_no_parent_raises_RuntimeError(real_beats):
         clean_beat.capd(50)
     beat_rate = real_beats.beat_rate
     assert np.isclose(first_beat.capd(50), clean_beat.capd(50, beat_rate=beat_rate))
+
+
+def test_beats_slice(real_beats):
+    # Slice 6 time steps (each time step is 10 ms)
+    sliced_beats = real_beats.slice(1000, 1051)
+    assert len(sliced_beats) == 6
+    assert np.isclose(sliced_beats.t[0], 1000, atol=1)
+    assert np.isclose(sliced_beats.t[-1], 1050, atol=1)
+
+
+def test_beats_remove_spikes():
+    spike_pt = 2
+    spike_dur = 4
+    N = 10
+    pacing = np.zeros(N)
+    pacing[spike_pt + 1] = 1
+
+    trace = apf.Beats(np.arange(N), t=np.arange(N), pacing=pacing)
+    new_trace = trace.remove_spikes(spike_dur)
+
+    assert all(
+        new_trace.y
+        == np.concatenate(
+            (np.arange(spike_pt), np.arange(spike_pt + spike_dur, N)),
+        ),
+    )
+
+    assert len(new_trace) == N - spike_dur
+    assert len(new_trace.y) == len(new_trace.t) == len(new_trace.pacing)

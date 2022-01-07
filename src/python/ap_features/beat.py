@@ -54,6 +54,9 @@ class Trace:
     def pacing(self) -> np.ndarray:
         return self._pacing
 
+    def __len__(self):
+        return len(self.y)
+
     def __eq__(self, other) -> bool:
         try:
             return (
@@ -100,9 +103,6 @@ class Beat(Trace):
     @property
     def y_normalized(self):
         return utils.normalize_signal(self.y, self.y_rest)
-
-    def __len__(self):
-        return len(self.y)
 
     @property
     def y_rest(self):
@@ -332,6 +332,29 @@ class Beats(Trace):
                 data=self.y, time=self.t, pacing=self.pacing, **self.chopping_options
             )
         return self._chopped_data
+
+    def remove_spikes(self, spike_duration: int, copy: bool = True) -> "Beats":
+        spike_points = _filters.find_spike_points(
+            self.pacing,
+            spike_duration=spike_duration,
+        )
+        t = np.delete(self.t, spike_points)
+        y = np.delete(self.y, spike_points)
+        pacing = np.delete(self.pacing, spike_points)
+
+        background_correction_method = background.BackgroundCorrection.none
+        if self.background_correction is not None:
+            background_correction_method = self.background_correction.method
+        return Beats(
+            y=y,
+            t=t,
+            pacing=pacing,
+            background_correction_method=background_correction_method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
 
     def filter_beats(
         self,

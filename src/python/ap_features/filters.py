@@ -2,6 +2,7 @@ import logging
 from enum import Enum
 from typing import Any
 from typing import Dict
+from typing import List
 from typing import Sequence
 from typing import Tuple
 from typing import Union
@@ -145,33 +146,40 @@ def remove_points(
     return x_new, y_new
 
 
-def remove_spikes(y, pacing, spike_duration=7):
+def find_spike_points(pacing, spike_duration: int = 7) -> List[int]:
     """
-    Remove spikes from signal
+    Remove spikes from signal due to pacing.
 
-    Arguments
-    ---------
-    y : array
-        The signal where you want to remove spikes
+    We assume that there is a spike starting at the
+    time of pacing and the spike dissapears after
+    some duration. These points will be deleted
+    from the signal
+
+    Parameters
+    ----------
     pacing : array
         The pacing amplitude of same length as y
-    """
+    spike_duration: int
+        Duration of the spikes
 
-    msg = (
-        "Pacing and signal must be of equal length, "
-        "got len(y) = {}, len(pacing) = {}"
-    ).format(len(y), len(pacing))
-    assert len(y) == len(pacing), msg
+    Returns
+    -------
+    np.ndarray
+        A list of indices containing the spikes
+
+    """
+    if spike_duration == 0:
+        return []
 
     # Find time of pacing
     (inds,) = np.where(np.diff(np.array(pacing, dtype=float)) > 0)
 
     if len(inds) == 0:
         logger.warning("No pacing found. Spike removal not possible.")
-        return y
+        return []
 
     spike_points = np.concatenate(
         [np.arange(i, i + spike_duration) for i in inds],
     ).astype(int)
 
-    return np.delete(y, spike_points)
+    return spike_points

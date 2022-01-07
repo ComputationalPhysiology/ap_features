@@ -7,7 +7,10 @@ import numpy as np
 
 from .utils import Array
 
-Background = namedtuple("Background", ["x", "y", "corrected", "background", "F0"])
+Background = namedtuple(
+    "Background",
+    ["x", "y", "corrected", "background", "F0", "method"],
+)
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +50,14 @@ def correct_background(
     if method == BackgroundCorrection.subtract:
         F0 = 1
     corrected = (1 / F0) * (y - bkg)
-    return Background(x=x, y=y, corrected=corrected, background=bkg, F0=F0)
+    return Background(
+        x=x,
+        y=y,
+        corrected=corrected,
+        background=bkg,
+        F0=F0,
+        method=method,
+    )
 
 
 def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
@@ -74,7 +84,14 @@ def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
     bkg = background(x, y, **kwargs)
     F0 = bkg[0]
     corrected = (1 / F0) * (y - bkg)
-    return Background(x=x, y=y, corrected=corrected, background=bkg, F0=F0)
+    return Background(
+        x=x,
+        y=y,
+        corrected=corrected,
+        background=bkg,
+        F0=F0,
+        method="full",
+    )
 
 
 def background(
