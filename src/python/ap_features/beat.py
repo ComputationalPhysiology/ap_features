@@ -132,6 +132,22 @@ class Beat(Trace):
         """
         return features.apd(factor=factor, V=self.y, t=self.t, v_r=self.y_rest)
 
+    def capd(
+        self,
+        factor: int,
+        beat_rate: Optional[float] = None,
+        formula: str = "friderica",
+    ) -> float:
+
+        if beat_rate is None:
+            if self.parent is None:
+                raise RuntimeError(
+                    "Cannot compute corrected APD. Please provide beat_rate",
+                )
+            beat_rate = self.parent.beat_rate
+        apd = self.apd(factor)
+        return features.corrected_apd(apd, beat_rate=beat_rate, formula=formula)
+
     def tau(self, a: float) -> float:
         """Decay time. Time for the signal amplitude to go from maxium to
         (1 - a) * 100 % of maximum
@@ -355,7 +371,7 @@ class Beats(Trace):
         per mininute, which is simply 60 divided
         by the beating frequency
         """
-        return 60 / self.beating_frequency
+        return 60 * self.beating_frequency
 
     @property
     def beat_rates(self) -> List[float]:

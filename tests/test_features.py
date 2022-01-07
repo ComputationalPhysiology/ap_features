@@ -1,10 +1,12 @@
 import itertools as it
 import os
 
-import ap_features as apf
-import ap_features as cost_terms
 import numpy as np
 import pytest
+
+import ap_features as apf
+import ap_features as cost_terms
+
 
 here = os.path.dirname(os.path.abspath(__file__))
 

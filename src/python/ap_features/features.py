@@ -798,8 +798,19 @@ def corrected_apd(apd, beat_rate, formula="friderica"):
 
         APD (RR)^{-1/2}
 
+    where :math:`RR` is the R-R interaval in an ECG. For an action potential
+    this would be equivalent to the inverse of the beating frequency (or 60
+    divided by the beat rate)
+
+    .. rubric::
+
+        Luo, Shen, et al. "A comparison of commonly used QT correction formulae:
+        the effect of heart rate on the QTc of normal ECGs." Journal of
+        electrocardiology 37 (2004): 81-90.
+
     """
 
+    formula = formula.lower()
     formulas = ["friderica", "bazett"]
     msg = f"Expected formula to be one of {formulas}, got {formula}"
     assert formula in formulas, msg

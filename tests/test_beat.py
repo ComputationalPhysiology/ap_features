@@ -1,8 +1,9 @@
-import ap_features as apf
 import dask.array as da
 import h5py
 import numpy as np
 import pytest
+
+import ap_features as apf
 from ap_features.beat import Beat
 
 
@@ -141,3 +142,63 @@ def test_state_collection_cost_terms(statecollection, state, NUM_TRACES):
     c2 = statecollection.cost_terms
     for i in range(NUM_TRACES):
         assert (abs(c2[i, :] - c1) < 1e-12).all()
+
+
+def test_beats_backgroud(real_trace):
+    beats_no_backgroud = apf.Beats(
+        real_trace.y,
+        real_trace.t,
+        real_trace.pacing,
+        "none",
+    )
+    beats_full_backgroud = apf.Beats(
+        real_trace.y,
+        real_trace.t,
+        real_trace.pacing,
+        "full",
+    )
+    beats_subtract_backgroud = apf.Beats(
+        real_trace.y,
+        real_trace.t,
+        real_trace.pacing,
+        "subtract",
+    )
+
+    assert (
+        beats_full_backgroud.y.max()
+        < beats_subtract_backgroud.y.max()
+        < beats_no_backgroud.y.max()
+    )
+
+    # These values should be close to zero
+    assert abs(beats_full_backgroud.y.min()) < 1
+    assert abs(beats_full_backgroud.y.max()) < 1
+    assert abs(beats_subtract_backgroud.y.min()) < 1
+
+
+def test_corrected_apd(real_beats):
+
+    # Freqeuncy should be close to 1.5Hz
+    assert abs(real_beats.beating_frequency - 1.5) < 0.01
+    # The beat rate should be 60*1.5 = 90
+    assert abs(real_beats.beat_rate - 90) < 1
+
+    first_beat: apf.Beat = real_beats.beats[0]
+    apd50 = first_beat.apd(50)
+    capd50 = first_beat.capd(50)
+
+    # Frequency is higher than 1 so capd should be larger than apd
+    assert capd50 > apd50
+
+    # If beat rate is 60 (i.e 1 Hz) then cAPD = APD
+    apd50_2 = first_beat.capd(50, beat_rate=60)
+    assert np.isclose(apd50, apd50_2)
+
+
+def test_corrected_apd_with_no_parent_raises_RuntimeError(real_beats):
+    first_beat: apf.Beat = real_beats.beats[0]
+    clean_beat = apf.Beat(first_beat.y, first_beat.t)
+    with pytest.raises(RuntimeError):
+        clean_beat.capd(50)
+    beat_rate = real_beats.beat_rate
+    assert np.isclose(first_beat.capd(50), clean_beat.capd(50, beat_rate=beat_rate))
