@@ -300,7 +300,7 @@ class Beats(Trace):
         intervals: Optional[List[chopping.Interval]] = None,
         chopping_options: Optional[Dict[str, float]] = None,
     ) -> None:
-        self._background = background.correct_background(
+        self.background_correction = background.correct_background(
             x=t,
             y=y,
             method=background_correction_method,
@@ -463,14 +463,16 @@ class Beats(Trace):
         return len(self.beats)
 
     @property
-    def background(self) -> Optional[background.Background]:
-        return self._background
+    def background(self) -> Optional[np.ndarray]:
+        if self.background_correction is None:
+            return None
+        return self.background_correction.background
 
     @property
     def y(self) -> np.ndarray:
         y = super().y
-        if self.background is not None:
-            y = self.background.corrected
+        if self.background_correction is not None:
+            y = self.background_correction.corrected
         if self._zero_index is not None:
             y = y - y[self._zero_index]
         return y
