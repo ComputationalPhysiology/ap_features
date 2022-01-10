@@ -373,7 +373,23 @@ class Beats(Trace):
             intervals=self.chopping_options.get("intervals"),
         )
 
+    def filter(self, kernel_size: int = 3, copy: bool = True) -> "Beats":
+        y = _filters.filt(self._y, kernel_size=kernel_size)
+        f = np.copy if copy else lambda x: x
+        return Beats(
+            y=f(y),
+            t=f(self.t),
+            pacing=f(self.pacing),
+            background_correction_method=self.background_correction.method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
+
     def remove_spikes(self, spike_duration: int) -> "Beats":
+        if spike_duration == 0:
+            return self
         spike_points = _filters.find_spike_points(
             self.pacing,
             spike_duration=spike_duration,
@@ -382,9 +398,7 @@ class Beats(Trace):
         y = np.delete(self.y, spike_points)
         pacing = np.delete(self.pacing, spike_points)
 
-        background_correction_method = background.BackgroundCorrection.none
-        if self.background_correction is not None:
-            background_correction_method = self.background_correction.method
+        background_correction_method = self.background_correction.method
         return Beats(
             y=y,
             t=t,
@@ -526,16 +540,12 @@ class Beats(Trace):
         return len(self.beats)
 
     @property
-    def background(self) -> Optional[np.ndarray]:
-        if self.background_correction is None:
-            return None
+    def background(self) -> np.ndarray:
         return self.background_correction.background
 
     @property
     def y(self) -> np.ndarray:
-        y = super().y
-        if self.background_correction is not None:
-            y = self.background_correction.corrected
+        y = self.background_correction.corrected
         if self._zero_index is not None:
             y = y - y[self._zero_index]
         return y

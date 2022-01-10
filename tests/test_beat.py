@@ -253,3 +253,13 @@ def test_beat_chop_data(real_trace):
     y0 = chopped_data.data[0]
     i = next(i for i, p in enumerate(real_trace.pacing) if p > 0)
     assert np.isclose(chopped_data.data[0], real_trace.y[i - 2 : i - 2 + len(y0)]).all()
+
+
+def test_beat_filter(real_trace):
+    trace = apf.Beats(real_trace.y, real_trace.t, real_trace.pacing)
+    filtered_trace = apf.Beats(real_trace.y, real_trace.t, real_trace.pacing).filter(
+        kernel_size=3,
+    )
+    diff = np.abs(trace.y - filtered_trace.y)
+    assert np.isclose(np.min(diff), 0)
+    assert np.max(diff) < np.abs(np.diff(trace.y)).max()

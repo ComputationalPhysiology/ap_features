@@ -1,7 +1,6 @@
 import logging
 from collections import namedtuple
 from enum import Enum
-from typing import Optional
 
 import numpy as np
 
@@ -30,7 +29,7 @@ class BackgroundCostFunction(str, Enum):
 
 def correct_background(
     x: Array, y: Array, method: BackgroundCorrection, **kwargs
-) -> Optional[Background]:
+) -> Background:
 
     methods = tuple(BackgroundCorrection.__members__.keys())
     if method not in methods:
@@ -40,7 +39,14 @@ def correct_background(
         raise ValueError(f"Size of x ({len(x)}) and y ({len(y)}) did not match")
 
     if method == BackgroundCorrection.none:
-        return None
+        return Background(
+            x=x,
+            y=y,
+            corrected=y,
+            background=np.zeros_like(y),
+            F0=1,
+            method=method,
+        )
 
     bkg = background(x, y, **kwargs)
 
