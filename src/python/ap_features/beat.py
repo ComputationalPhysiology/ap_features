@@ -328,12 +328,52 @@ class Beats(Trace):
     @property
     def chopped_data(self) -> chopping.ChoppedData:
         if not hasattr(self, "_chopped_data"):
-            self._chopped_data = chopping.chop_data(
-                data=self.y, time=self.t, pacing=self.pacing, **self.chopping_options
-            )
+            self._chopped_data = self.chop_data(**self.chopping_options)
         return self._chopped_data
 
-    def remove_spikes(self, spike_duration: int, copy: bool = True) -> "Beats":
+    def chop_data(
+        self,
+        threshold_factor=0.5,
+        min_window=50,
+        max_window=2000,
+        N=None,
+        extend_front=None,
+        extend_end=None,
+        ignore_pacing=False,
+        intervals=None,
+    ):
+        return chopping.chop_data(
+            data=self.y,
+            time=self.t,
+            pacing=self.pacing,
+            threshold_factor=threshold_factor,
+            min_window=min_window,
+            max_window=max_window,
+            N=N,
+            extend_front=extend_front,
+            extend_end=extend_end,
+            ignore_pacing=ignore_pacing,
+            intervals=intervals,
+        )
+
+    def correct_background(
+        self,
+        background_correction_method: BC,
+        copy: bool = True,
+    ) -> "Beats":
+        f = np.copy if copy else lambda x: x
+        return Beats(
+            y=f(self.y),
+            t=f(self.t),
+            pacing=f(self.pacing),
+            background_correction_method=background_correction_method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
+
+    def remove_spikes(self, spike_duration: int) -> "Beats":
         spike_points = _filters.find_spike_points(
             self.pacing,
             spike_duration=spike_duration,

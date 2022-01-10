@@ -231,3 +231,25 @@ def test_beats_remove_spikes():
 
     assert len(new_trace) == N - spike_dur
     assert len(new_trace.y) == len(new_trace.t) == len(new_trace.pacing)
+
+
+def test_beat_corrected_background(real_trace: apf.Beats):
+    trace = apf.Beats(real_trace.y, real_trace.t, real_trace.pacing)
+    corrected1 = trace.correct_background(apf.BC.full)
+    corrected2 = apf.Beats(real_trace.y, real_trace.t, real_trace.pacing, apf.BC.full)
+
+    assert corrected1 == corrected2
+    assert np.isclose(corrected1.background, corrected2.background).all()
+
+
+def test_beat_chop_data(real_trace):
+    trace = apf.Beats(real_trace.y, real_trace.t, real_trace.pacing)
+    chopped_data = trace.chopped_data
+
+    assert len(chopped_data.intervals) == 9
+    assert len(chopped_data.data) == 9
+
+    # First beat should be idendical
+    y0 = chopped_data.data[0]
+    i = next(i for i, p in enumerate(real_trace.pacing) if p > 0)
+    assert np.isclose(chopped_data.data[0], real_trace.y[i - 2 : i - 2 + len(y0)]).all()
