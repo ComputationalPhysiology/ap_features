@@ -149,4 +149,4 @@ def real_trace():
 def real_beats(real_trace):
     import ap_features as apf
 
-    return apf.Beats(real_trace.y, real_trace.t, real_trace.pacing, "full")
+    return apf.Beats(real_trace.y, real_trace.t, real_trace.pacing)

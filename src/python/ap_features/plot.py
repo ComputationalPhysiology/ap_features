@@ -1,8 +1,7 @@
 from functools import wraps
 from typing import List
-from typing import Union
 
-from . import beat
+from . import beat as _beat
 
 
 def has_matplotlib() -> bool:
@@ -25,19 +24,38 @@ def require_matplotlib(f):
 
 @require_matplotlib
 def plot_beat(
-    beat: Union[beat.Beat, beat.Beats],
+    beat: _beat.Trace,
     include_pacing: bool = False,
+    include_background: bool = False,
+    ylabel: str = "",
     fname: str = "",
 ):
     import matplotlib.pyplot as plt
 
+    y = beat.y
+    if include_background:
+        assert isinstance(beat, _beat.Beats), "Can only plot background for Beats"
+        y = beat.original_y
+
     fig, ax = plt.subplots()
-    ax.plot(beat.t, beat.y)
+    (line,) = ax.plot(beat.t, y)
     ax.set_xlabel("Time (ms)")
+    lines = [line]
+    labels = ["trace"]
+
     if include_pacing:
         ax2 = ax.twinx()
-        ax2.plot(beat.t, beat.pacing, color="r")
-    fig.savefig(fname)
+        (line,) = ax2.plot(beat.t, beat.pacing, color="r")
+        lines.append(line)
+        labels.append("pacing")
+    if include_background:
+        (line,) = ax.plot(beat.t, beat.background)  # type: ignore
+        lines.append(line)
+        labels.append("background")
+
+    ax.set_ylabel(ylabel)
+    if len(lines) > 1:
+        ax.legend(lines, labels, loc="best")
     if fname != "":
         fig.savefig(fname)
     else:
@@ -46,7 +64,7 @@ def plot_beat(
 
 @require_matplotlib
 def poincare_from_beats(
-    beats: List[beat.Beat],
+    beats: List[_beat.Beat],
     apds: List[int],
     fname: str = "",
 ) -> None:
@@ -55,7 +73,7 @@ def poincare_from_beats(
 
     Arguments
     ---------
-    beats : List[beat.Beat]
+    beats : List[_beat.Beat]
         List of beats
     apds : list
         List of APDs to be used, e.g [30, 50, 80]
@@ -99,7 +117,7 @@ def poincare_from_beats(
 
 
 def poincare(
-    trace: beat.Beats,
+    trace: _beat.Beats,
     apds: List[int],
     fname: str = "",
 ) -> None:

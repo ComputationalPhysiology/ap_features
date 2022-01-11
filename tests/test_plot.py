@@ -22,3 +22,9 @@ def test_plot_beat_no_pacing(real_beats):
 @image_comparison(baseline_images=["simple_beat_with_pacing"], extensions=["png"])
 def test_plot_beat_with_pacing(real_beats):
     plot.plot_beat(real_beats, include_pacing=True)
+
+
+@image_comparison(baseline_images=["simple_beat_with_background"], extensions=["png"])
+def test_plot_beat_with_background(real_beats):
+    trace = real_beats.correct_background("full")
+    plot.plot_beat(trace, include_background=True)

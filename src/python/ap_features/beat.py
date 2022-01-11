@@ -12,6 +12,7 @@ from . import background
 from . import chopping
 from . import features
 from . import filters as _filters
+from . import plot
 from . import utils
 from .background import BackgroundCorrection as BC
 from .utils import Array
@@ -75,6 +76,21 @@ class Trace:
             t=f(self.t)[start_index:end_index],
             pacing=f(self.pacing)[start_index:end_index],
             backend=self._backend,
+        )
+
+    def plot(
+        self,
+        fname: str = "",
+        include_pacing: bool = False,
+        include_background: bool = False,
+        ylabel: str = "",
+    ):
+        plot.plot_beat(
+            self,
+            include_pacing=include_pacing,
+            include_background=include_background,
+            ylabel=ylabel,
+            fname=fname,
         )
 
 
