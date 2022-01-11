@@ -1,6 +1,8 @@
 from functools import wraps
 from typing import List
 
+import numpy as np
+
 from . import beat as _beat
 
 
@@ -20,6 +22,25 @@ def require_matplotlib(f):
         return f(*args, **kwds)
 
     return wrapper
+
+
+def savefig(fig, fname: str) -> None:
+    """Save figure if fname is not
+    an empty string
+
+    Parameters
+    ----------
+    fig : matplotlib.Figure
+        The figure
+    fname : str
+        The path
+    """
+    import matplotlib.pyplot as plt
+
+    if fname != "":
+        fig.savefig(fname)
+    else:
+        plt.show()
 
 
 @require_matplotlib
@@ -56,10 +77,40 @@ def plot_beat(
     ax.set_ylabel(ylabel)
     if len(lines) > 1:
         ax.legend(lines, labels, loc="best")
-    if fname != "":
-        fig.savefig(fname)
-    else:
-        plt.show()
+
+    savefig(fig, fname=fname)
+
+
+def plot_beats_from_beat(
+    trace: _beat.Beats,
+    ylabel: str = "",
+    align: bool = False,
+    fname: str = "",
+):
+    plot_beats(trace.beats, ylabel=ylabel, align=align, fname=fname)
+
+
+@require_matplotlib
+def plot_beats(
+    beats: List[_beat.Beat],
+    ylabel: str = "",
+    align: bool = False,
+    fname: str = "",
+) -> None:
+
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots()
+    for beat in beats:
+        t = np.copy(beat.t)
+        if align:
+            t[:] -= t[0]
+
+        ax.plot(t, beat.y)
+    ax.set_xlabel("Time (ms)")
+    ax.set_ylabel(ylabel)
+
+    savefig(fig, fname=fname)
 
 
 @require_matplotlib
@@ -109,10 +160,8 @@ def poincare_from_beats(
     ax.grid()
     ax.set_xlabel("APD(n-1)[ms]")
     ax.set_ylabel("APD(n) [ms]")
-    if fname != "":
-        fig.savefig(fname)
-    else:
-        plt.show()
+
+    savefig(fig, fname=fname)
     return None
 
 

@@ -287,3 +287,21 @@ def test_chopped_data_to_beats(real_trace):
     assert (first_beat.y == chopped_data.data[0]).all()
     assert (first_beat.t == chopped_data.times[0]).all()
     assert (first_beat.pacing == chopped_data.pacing[0]).all()
+
+
+def test_ensure_time_unit(real_beats):
+    beat: apf.Beat = real_beats.beats[0]
+    time_orig = np.copy(beat.t)
+    assert beat.time_unit == "ms"
+
+    beat.ensure_time_unit("ms")
+    assert beat.time_unit == "ms"
+    assert (np.isclose(time_orig, beat.t)).all()
+
+    beat.ensure_time_unit("s")
+    assert beat.time_unit == "s"
+    assert (np.isclose(time_orig, 1000.0 * beat.t)).all()
+
+    beat.ensure_time_unit("ms")
+    assert beat.time_unit == "ms"
+    assert (np.isclose(time_orig, beat.t)).all()

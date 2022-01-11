@@ -44,6 +44,25 @@ class Trace:
         return f"{self.__class__.__name__}(t={self.t.shape}, y={self.y.shape})"
 
     @property
+    def time_unit(self) -> str:
+        """The time unit 'ms' or 's'"""
+        return utils.time_unit(self.t)
+
+    def ensure_time_unit(self, unit: str) -> None:
+        """Convert time to milliseconds or seconds
+
+        Parameters
+        ----------
+        unit : str
+            A string with 'ms' or 's'
+        """
+        assert unit in ["ms", "s"], f"Expected unit to be 'ms' or 's', got {unit}"
+
+        if self.time_unit != unit:
+            unitfactor = 1 / 1000.0 if unit == "s" else 1000.0
+            self.t[:] *= unitfactor
+
+    @property
     def t(self) -> np.ndarray:
         return self._t
 
@@ -143,26 +162,70 @@ class Beat(Trace):
         """
         return self._parent
 
-    def apd(self, factor: int) -> float:
+    def apd(self, factor: int, use_spline: bool = True) -> float:
         """The action potential duration
 
         Parameters
         ----------
         factor : int
             Integer between 0 and 100
+        use_spline : bool, optional
+            Use spline interpolation, by default True.
 
         Returns
         -------
         float
             action potential duration
         """
-        return features.apd(factor=factor, V=self.y, t=self.t, v_r=self.y_rest)
+        return features.apd(
+            factor=factor,
+            V=self.y,
+            t=self.t,
+            v_r=self.y_rest,
+            use_spline=use_spline,
+        )
+
+    def triangulation(
+        self,
+        low: int = 30,
+        high: int = 80,
+        use_spline: bool = True,
+    ) -> float:
+        r"""Compute the triangulation
+
+        .. math::
+
+            \mathrm{APD} \; p_{\mathrm{high}} - \mathrm{APD} \; p_{\mathrm{low}}
+
+        Parameters
+        ----------
+        low : int, optional
+            Lower APD value, by default 30
+        high : int, optional
+            Higher APD value, by default 80
+        use_spline : bool, optional
+            Use spline interpolation, by default True.
+
+        Returns
+        -------
+        float
+            The triangulatons
+        """
+        return features.triangulation(
+            V=self.y,
+            t=self.t,
+            low=low,
+            high=high,
+            v_r=self.y_rest,
+            use_spline=use_spline,
+        )
 
     def capd(
         self,
         factor: int,
         beat_rate: Optional[float] = None,
         formula: str = "friderica",
+        use_spline: bool = True,
     ) -> float:
 
         if beat_rate is None:
@@ -171,7 +234,7 @@ class Beat(Trace):
                     "Cannot compute corrected APD. Please provide beat_rate",
                 )
             beat_rate = self.parent.beat_rate
-        apd = self.apd(factor)
+        apd = self.apd(factor=factor, use_spline=use_spline)
         return features.corrected_apd(apd, beat_rate=beat_rate, formula=formula)
 
     def tau(self, a: float) -> float:
@@ -211,6 +274,39 @@ class Beat(Trace):
         pacing = self.pacing if use_pacing else None
         return features.time_to_peak(x=self.t, y=self.y, pacing=pacing)
 
+    def integrate_apd(
+        self,
+        factor: float,
+        use_spline: bool = True,
+        normalize: bool = False,
+    ) -> float:
+        """Compute the integral of the signals above
+        the APD p line
+
+        Parameters
+        ----------
+        factor : float
+            Which APD line
+        use_spline : bool, optional
+            Use spline interpolation, by default True
+        normalize : bool, optional
+            If true normalize signal first, so that max value is 1.0,
+            and min value is zero before performing the computation,
+            by default False
+
+        Returns
+        -------
+        float
+            [description]
+        """
+        return features.integrate_apd(
+            t=self.t,
+            y=self.y,
+            factor=factor,
+            use_spline=use_spline,
+            normalize=normalize,
+        )
+
     def upstroke(self, a: float) -> float:
         """Compute the time from (1-a)*100 % signal
         amplitude to peak. For example if if a = 0.8
@@ -228,6 +324,59 @@ class Beat(Trace):
             The upstroke value
         """
         return features.upstroke(x=self.t, y=self.y, a=a)
+
+    def maximum_upstroke_velocity(
+        self,
+        use_spline: bool = True,
+        normalize: bool = False,
+    ) -> float:
+        """Compute maximum upstroke velocity
+
+        Parameters
+        ----------
+        use_spline : bool, optional
+            Use spline interpolation, by default True
+        normalize : bool, optional
+            If true normalize signal first, so that max value is 1.0,
+            and min value is zero before performing the computation,
+            by default False
+
+        Returns
+        -------
+        float
+            The maximum upstroke velocity
+        """
+        return features.maximum_upstroke_velocity(
+            t=self.t,
+            y=self.y,
+            use_spline=use_spline,
+            normalize=normalize,
+        )
+
+    def maximum_relative_upstroke_velocity(
+        self,
+        upstroke_duration: int = 50,
+        sigmoid_fit: bool = True,
+    ):
+        """Estimate maximum relative upstroke velocity
+
+        Parameters
+        ----------
+        upstroke_duration : int
+            Duration in milliseconds of upstroke (Default: 50).
+            This does not have to be exact up should at least be
+            longer than the upstroke.
+        sigmoid_fit : bool
+            If True then use a sigmoid function to fit the data
+            of the upstroke and report the maximum derivate of
+            the sigmoid as the maximum upstroke.
+        """
+        return features.max_relative_upstroke_velocity(
+            t=self.t,
+            y=self.y,
+            upstroke_duration=upstroke_duration,
+            sigmoid_fit=sigmoid_fit,
+        )
 
     def apd_up(self, factor_x, factor_y):
         pass
@@ -340,6 +489,9 @@ class Beats(Trace):
             self.chopping_options.update(chopping_options)
         if intervals is not None:
             self.chopping_options["intervals"] = intervals
+
+    def plot_beats(self, ylabel: str = "", align: bool = False, fname: str = ""):
+        plot.plot_beats_from_beat(self, ylabel=ylabel, align=align, fname=fname)
 
     @property
     def chopped_data(self) -> chopping.ChoppedData:

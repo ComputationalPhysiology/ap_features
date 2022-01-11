@@ -28,3 +28,21 @@ def test_plot_beat_with_pacing(real_beats):
 def test_plot_beat_with_background(real_beats):
     trace = real_beats.correct_background("full")
     plot.plot_beat(trace, include_background=True)
+
+
+@image_comparison(baseline_images=["beats"], extensions=["png"])
+def test_plot_beats(real_beats):
+    trace = real_beats.correct_background("full")
+    plot.plot_beats(trace.beats)
+
+
+@image_comparison(baseline_images=["beats"], extensions=["png"])
+def test_plot_beats_from_beat(real_beats):
+    trace = real_beats.correct_background("full")
+    plot.plot_beats_from_beat(trace)
+
+
+@image_comparison(baseline_images=["beats_aligned"], extensions=["png"])
+def test_plot_beats_aligned(real_beats):
+    trace = real_beats.correct_background("full")
+    plot.plot_beats(trace.beats, align=True)

@@ -29,6 +29,62 @@ class UnequalLengthError(RuntimeError):
     pass
 
 
+def triangulation(
+    V: Array,
+    t: Array,
+    low: int = 30,
+    high: int = 80,
+    v_r: Optional[float] = None,
+    use_spline: bool = True,
+    backend: Backend = Backend.python,
+) -> float:
+    r"""Compute triangulation, i.e
+
+    .. math::
+
+        \mathrm{APD} \; p_{\mathrm{high}} - \mathrm{APD} \; p_{\mathrm{low}}
+
+    Parameters
+    ----------
+    V : Array
+        The signal
+    t : Array
+        The time stamps
+    low : int, optional
+        Lower APD value, by default 30
+    high : int, optional
+        Higher APD value, by default 80
+    v_r : Optional[float], optional
+        Resting value, by default None. Only applicablle for python Backend.
+    use_spline : bool, optional
+        Use spline interpolation, by default True.
+        Only applicable for python Backend.
+    backend : utils.Backend, optional
+        Which backend to use by default Backend.python.
+        Choices, 'python', 'c', 'numba'
+
+
+
+    Returns
+    -------
+    float
+        The triangulation
+    """
+    apd_low = apd(factor=low, V=V, t=t, v_r=v_r, use_spline=use_spline, backend=backend)
+    apd_high = apd(
+        factor=low,
+        V=V,
+        t=t,
+        v_r=v_r,
+        use_spline=use_spline,
+        backend=backend,
+    )
+    tri = apd_high - apd_low
+    if tri < 0:
+        tri = np.nan
+    return tri
+
+
 def apd(
     factor: int,
     V: Array,
@@ -54,7 +110,7 @@ def apd(
         Resting value, by default None. Only applicablle for python Backend.
     use_spline : bool, optional
         Use spline interpolation, by default True.
-        Only applicablle for python Backend.
+        Only applicable for python Backend.
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
@@ -637,7 +693,12 @@ def max_relative_upstroke_velocity(
     )
 
 
-def maximum_upstroke_velocity(y, t=None, use_spline=True, normalize=False):
+def maximum_upstroke_velocity(
+    y: Array,
+    t: Optional[Array] = None,
+    use_spline: bool = True,
+    normalize: bool = False,
+) -> float:
     r"""
     Compute maximum upstroke velocity
 
