@@ -4,7 +4,18 @@ __version__ = "2021.0.5"
 
 import logging as _logging
 
-from . import background, chopping, features, average, filters, lib, utils, _c, _numba
+from . import (
+    background,
+    chopping,
+    features,
+    average,
+    filters,
+    lib,
+    utils,
+    _c,
+    _numba,
+    plot,
+)
 from ._c import NUM_COST_TERMS
 from ._numba import transpose_trace_array
 from .beat import Beat, Beats, Trace, BeatCollection, StateCollection, State
@@ -56,4 +67,5 @@ __all__ = [
     "average_list",
     "filters",
     "BC",
+    "plot",
 ]

@@ -235,15 +235,15 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
 
 
 def filter_beats(
-    beats: Sequence[Beat],
+    beats: List[Beat],
     filters: Sequence[_filters.Filters],
     x: float = 1.0,
-) -> Sequence[Beat]:
+) -> List[Beat]:
     """Filter beats based of similiarities of the filters
 
     Parameters
     ----------
-    beats : Sequence[Beat]
+    beats : List[Beat]
         List of beats
     filters : Sequence[_filters.Filters]
         List of filters
@@ -254,7 +254,7 @@ def filter_beats(
 
     Returns
     -------
-    Sequence[Beat]
+    List[Beat]
         A list of filtered beats
 
     Raises
@@ -438,7 +438,7 @@ class Beats(Trace):
         self,
         filters: Sequence[_filters.Filters],
         x: float = 1.0,
-    ) -> Sequence[Beat]:
+    ) -> List[Beat]:
         """Get a subset of the chopped beats based on
             similarities in different features.
 
@@ -453,7 +453,7 @@ class Beats(Trace):
 
         Returns
         -------
-        Sequence[Beat]
+        List[Beat]
             A list of filtered beats
         """
         return filter_beats(self.beats, filters=filters, x=x)
@@ -536,14 +536,14 @@ class Beats(Trace):
         return Beat(y=avg.y, t=avg.x, pacing=avg_pacing.y, parent=self)
 
     @property
-    def beats(self) -> Sequence[Beat]:
+    def beats(self) -> List[Beat]:
         """Chop signal into individual beats.
         You can also pass in any options that should
         be provided to the chopping algorithm.
 
         Returns
         -------
-        Sequence[Beat]
+        List[Beat]
             A list of chopped beats
         """
         if not hasattr(self, "_beats"):

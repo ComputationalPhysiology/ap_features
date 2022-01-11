@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+from matplotlib.testing.conftest import mpl_test_settings  # noqa: F401
 from scipy.integrate import solve_ivp
 from scipy.signal import find_peaks
 
