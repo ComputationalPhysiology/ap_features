@@ -263,3 +263,14 @@ def test_beat_filter(real_trace):
     diff = np.abs(trace.y - filtered_trace.y)
     assert np.isclose(np.min(diff), 0)
     assert np.max(diff) < np.abs(np.diff(trace.y)).max()
+
+
+def test_beat_remove_points(real_trace):
+    trace = apf.Beats(real_trace.y, real_trace.t, real_trace.pacing)
+    t_start = 1000
+    t_end = 2000
+    new_trace = trace.remove_points(t_start, t_end)
+    t_diff = t_end - t_start
+    dt = 10
+    assert abs(abs(new_trace.t[-1] - trace.t[-1]) - t_diff) < dt + 1
+    assert abs(len(trace) - len(new_trace)) <= (t_diff / dt) + 1

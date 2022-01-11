@@ -373,6 +373,30 @@ class Beats(Trace):
             intervals=self.chopping_options.get("intervals"),
         )
 
+    def remove_points(self, t_start: float, t_end: float) -> "Beats":
+        t, y = _filters.remove_points(
+            x=np.copy(self.t),
+            y=np.copy(self._y),
+            t_start=t_start,
+            t_end=t_end,
+        )
+        _, pacing = _filters.remove_points(
+            x=np.copy(self.t),
+            y=np.copy(self.pacing),
+            t_start=t_start,
+            t_end=t_end,
+        )
+        return Beats(
+            y=y,
+            t=t,
+            pacing=pacing,
+            background_correction_method=self.background_correction.method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
+
     def filter(self, kernel_size: int = 3, copy: bool = True) -> "Beats":
         y = _filters.filt(self._y, kernel_size=kernel_size)
         f = np.copy if copy else lambda x: x

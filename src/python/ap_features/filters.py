@@ -120,7 +120,6 @@ def remove_points(
             f"Expected x and y to have same length, got len(x) = {len(x)} and len(y) = {len(y)}",
         )
 
-    print(max(x), min(x), t_start, t_end)
     start = next(i for i, t in enumerate(x) if t > t_start) - 1
     try:
         end = next(i for i, t in enumerate(x) if t > t_end)
