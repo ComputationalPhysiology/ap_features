@@ -274,3 +274,16 @@ def test_beat_remove_points(real_trace):
     dt = 10
     assert abs(abs(new_trace.t[-1] - trace.t[-1]) - t_diff) < dt + 1
     assert abs(len(trace) - len(new_trace)) <= (t_diff / dt) + 1
+
+
+def test_chopped_data_to_beats(real_trace):
+    trace = apf.Beats(real_trace.y, real_trace.t, real_trace.pacing)
+    chopped_data = trace.chopped_data
+    beats = apf.beat.chopped_data_to_beats(chopped_data, parent=trace)
+
+    assert len(beats) == len(chopped_data.data)
+    first_beat = beats[0]
+    assert first_beat.parent == trace
+    assert (first_beat.y == chopped_data.data[0]).all()
+    assert (first_beat.t == chopped_data.times[0]).all()
+    assert (first_beat.pacing == chopped_data.pacing[0]).all()

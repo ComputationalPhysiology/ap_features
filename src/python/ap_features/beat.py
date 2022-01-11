@@ -547,11 +547,7 @@ class Beats(Trace):
             A list of chopped beats
         """
         if not hasattr(self, "_beats"):
-            c = self.chopped_data
-            self._beats = [
-                Beat(t=t, y=y, pacing=p, parent=self, beat_number=i)
-                for i, (t, y, p) in enumerate(zip(c.times, c.data, c.pacing))
-            ]
+            self._beats = chopped_data_to_beats(self.chopped_data, parent=self)
         return self._beats
 
     @property
@@ -616,6 +612,32 @@ class BeatCollection(Trace):
             The parent BeatSeries
         """
         return self._parent
+
+
+def chopped_data_to_beats(
+    chopped_data: chopping.ChoppedData,
+    parent: Optional[Beats] = None,
+) -> List[Beat]:
+    """Convert a ChoppedData object to a list of Beats
+
+    Parameters
+    ----------
+    chopped_data : chopping.ChoppedData
+        The chopped data
+    parent : Optional[Beats], optional
+        Parent trace, by default None
+
+    Returns
+    -------
+    List[Beat]
+        List of Beats
+    """
+    return [
+        Beat(t=t, y=y, pacing=p, parent=parent, beat_number=i)
+        for i, (t, y, p) in enumerate(
+            zip(chopped_data.times, chopped_data.data, chopped_data.pacing),
+        )
+    ]
 
 
 class BeatSeriesCollection(Trace):
