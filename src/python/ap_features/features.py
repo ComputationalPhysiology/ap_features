@@ -72,7 +72,7 @@ def triangulation(
     """
     apd_low = apd(factor=low, V=V, t=t, v_r=v_r, use_spline=use_spline, backend=backend)
     apd_high = apd(
-        factor=low,
+        factor=high,
         V=V,
         t=t,
         v_r=v_r,
