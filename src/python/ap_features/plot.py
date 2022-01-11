@@ -1,18 +1,36 @@
+from functools import wraps
 from typing import List
 from typing import Union
 
 from . import beat
 
 
+def has_matplotlib() -> bool:
+    try:
+        import matplotlib.pyplot  # noqa: F401
+    except (ImportError, ModuleNotFoundError):
+        return False
+    return True
+
+
+def require_matplotlib(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        if not has_matplotlib():
+            return None
+        return f(*args, **kwds)
+
+    return wrapper
+
+
+@require_matplotlib
 def plot_beat(
     beat: Union[beat.Beat, beat.Beats],
     include_pacing: bool = False,
     fname: str = "",
 ):
-    try:
-        import matplotlib.pyplot as plt
-    except ImportError:
-        return None
+    import matplotlib.pyplot as plt
+
     fig, ax = plt.subplots()
     ax.plot(beat.t, beat.y)
     ax.set_xlabel("Time (ms)")
@@ -26,6 +44,7 @@ def plot_beat(
         plt.show()
 
 
+@require_matplotlib
 def poincare_from_beats(
     beats: List[beat.Beat],
     apds: List[int],
@@ -61,10 +80,7 @@ def poincare_from_beats(
         # Not possible to plot poincare plot with 1 or zero elements
         return None
 
-    try:
-        import matplotlib.pyplot as plt
-    except ImportError:
-        return None
+    import matplotlib.pyplot as plt
 
     apds_points = {k: [beat.apd(k) for beat in beats] for k in apds}
 
