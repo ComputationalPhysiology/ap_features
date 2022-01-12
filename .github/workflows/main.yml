@@ -29,3 +29,14 @@ jobs:
       - name: Test with pytest
         run: |
           make test
+      - uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.9'
+          path: ./coverage.xml
+      - name: Coverage report
+        uses: codecov/codecov-action@v1
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.9'
+        with:
+          fail_ci_if_error: true
+          files: ./coverage.xml
