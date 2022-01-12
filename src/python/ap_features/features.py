@@ -200,8 +200,8 @@ def apd(
 
 def apd_point(
     factor: float,
-    V: np.ndarray,
-    t: np.ndarray,
+    V: Array,
+    t: Array,
     v_r: Optional[float] = None,
     use_spline=True,
 ) -> Tuple[float, float]:

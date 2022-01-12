@@ -1,3 +1,4 @@
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -18,6 +19,17 @@ from . import utils
 from .background import BackgroundCorrection as BC
 from .utils import Array
 from .utils import Backend
+
+
+def identity(x: Any, y: Any = None, z: Any = None) -> Any:
+    return x
+
+
+def copy_function(copy: bool):
+    if copy:
+        return np.copy
+    else:
+        return identity
 
 
 class Trace:
@@ -89,7 +101,7 @@ class Trace:
             return False
 
     def slice(self, start: float, end: float, copy: bool = True) -> "Trace":
-        f = np.copy if copy else lambda x: x
+        f = copy_function(copy)
         start_index, end_index = chopping.find_start_end_index(self.t, start, end)
         return self.__class__(
             y=f(self.y)[start_index:end_index],
@@ -662,7 +674,7 @@ class Beats(Trace):
         background_correction_method: BC,
         copy: bool = True,
     ) -> "Beats":
-        f = np.copy if copy else lambda x: x
+        f = copy_function(copy)
         return Beats(
             y=f(self.y),
             t=f(self.t),
@@ -700,7 +712,7 @@ class Beats(Trace):
 
     def filter(self, kernel_size: int = 3, copy: bool = True) -> "Beats":
         y = _filters.filt(self._y, kernel_size=kernel_size)
-        f = np.copy if copy else lambda x: x
+        f = copy_function(copy)
         return Beats(
             y=f(y),
             t=f(self.t),
