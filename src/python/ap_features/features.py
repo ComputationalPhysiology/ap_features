@@ -878,10 +878,28 @@ def integrate_apd(y, t=None, factor=30, use_spline=True, normalize=False):
     return integral
 
 
-def corrected_apd(apd, beat_rate, formula="friderica"):
+def corrected_apd(apd: float, beat_rate: float, formula: str = "friderica"):
     """Correct the given APD (or any QT measurement) for the beat rate.
     normally the faster the HR (or the shorter the RR interval),
     the shorter the QT interval, and vice versa
+
+    Parameters
+    ----------
+    apd: float
+        The action potential duration
+    beat_rate : float
+        The beat rate (number of beats per minute)
+    formule : str, optional
+        Formule for computing th corrected APD, either
+        'friderica' or 'bazett', by default 'friderica',
+
+    Returns
+    -------
+    float
+        The corrected APD
+
+    Notes
+    -----
 
     Friderica formula (default):
 
@@ -917,6 +935,70 @@ def corrected_apd(apd, beat_rate, formula="friderica"):
         return np.multiply(apd, pow(RR, -1 / 3))
     else:
         return np.multiply(apd, pow(RR, -1 / 2))
+
+
+def detect_ead(
+    y: Array,
+    sigma: float = 1,
+    prominence_level: float = 0.07,
+) -> Tuple[bool, Optional[int]]:
+    """Detect (Early afterdepolarizations) EADs
+    based on peak prominence.
+
+    Parameters
+    ----------
+    y : Array
+        The signal that you want to detect EADs
+    sigma : float
+        Standard deviation in the gaussian smoothing kernal
+        Default: 1.0
+    prominence_level: float
+        How prominent a peak should be in order to be
+        characterized as an EAD. This value shold be
+        between 0 and 1, with a greater value being
+        more prominent. Defaulta: 0.07
+
+    Returns
+    -------
+    bool:
+        Flag indicating if an EAD is found or not
+    int or None:
+        Index where we found the EAD. If no EAD is found then
+        this will be None. I more than one peaks are found then
+        only the first will be returned.
+
+    Notes
+    -----
+    Given a signal :math:`y` we want to determine wether we have
+    an EAD present in the signal. `EADs <https://en.wikipedia.org/wiki/Afterdepolarization>`_
+    are abnormal depolarizations happening after the upstroke in an action potential.
+
+    We assume that an EAD occurs betweeen the maximum value of the signal
+    (i.e the peak) and the next minimum value (i.e when the signal is at rest)
+
+    To remove noisy patterns we first smooth the signal
+    with a gaussian filter. Then we take out only the part
+    of the signal that is between its maximum and the next
+    minimum values. Then we find the peaks with a
+    `Topographic Prominence <https://en.wikipedia.org/wiki/Topographic_prominence>`_
+    greather than the given prominence level
+
+    """
+    from scipy.ndimage import gaussian_filter1d
+    from scipy.signal import find_peaks
+
+    y = np.array(y)
+    idx_max = int(np.argmax(y))
+    idx_min = idx_max + int(np.argmin(y[idx_max:]))
+
+    y_tmp = y[idx_max:idx_min] - y[idx_min]
+    if len(y_tmp) == 0:
+        return False, None
+
+    y_smooth = gaussian_filter1d(y_tmp / np.max(y_tmp), sigma)
+    peaks, props = find_peaks(y_smooth, prominence=prominence_level)
+
+    return len(peaks) > 0, None if len(peaks) == 0 else int(peaks[0] + idx_max)
 
 
 def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.ndarray:

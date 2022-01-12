@@ -98,6 +98,14 @@ class Trace:
             backend=self._backend,
         )
 
+    def copy(self):
+        return self.__class__(
+            y=np.copy(self.y),
+            t=np.copy(self.t),
+            pacing=np.copy(self.pacing),
+            backend=self._backend,
+        )
+
     def plot(
         self,
         fname: str = "",
@@ -413,6 +421,42 @@ class Beat(Trace):
             y=self.y,
             upstroke_duration=upstroke_duration,
             sigmoid_fit=sigmoid_fit,
+        )
+
+    def detect_ead(
+        self,
+        sigma: float = 1,
+        prominence_level: float = 0.07,
+    ) -> Tuple[bool, Optional[int]]:
+        """Detect (Early afterdepolarizations) EADs
+        based on peak prominence.
+
+        Parameters
+        ----------
+        y : Array
+            The signal that you want to detect EADs
+        sigma : float
+            Standard deviation in the gaussian smoothing kernal
+            Default: 1.0
+        prominence_level: float
+            How prominent a peak should be in order to be
+            characterized as an EAD. This value shold be
+            between 0 and 1, with a greater value being
+            more prominent. Defaulta: 0.07
+
+        Returns
+        -------
+        bool:
+            Flag indicating if an EAD is found or not
+        int or None:
+            Index where we found the EAD. If no EAD is found then
+            this will be None. I more than one peaks are found then
+            only the first will be returned.
+        """
+        return features.detect_ead(
+            self.y,
+            sigma=sigma,
+            prominence_level=prominence_level,
         )
 
     def apd_up(self, factor_x, factor_y):

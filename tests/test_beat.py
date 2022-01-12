@@ -1,8 +1,9 @@
-import ap_features as apf
 import dask.array as da
 import h5py
 import numpy as np
 import pytest
+
+import ap_features as apf
 from ap_features.beat import Beat
 
 
@@ -308,9 +309,30 @@ def test_ensure_time_unit(real_beats):
 @pytest.mark.parametrize(
     "corrected_apd, expected_output",
     [
-        (True, (506.3406185975174, 279.28104523570016)),
+        (True, (-34.613263202359164, 386.6834901571444)),
         (False, (-27.795433438981334, 337.76067618613905)),
     ],
 )
 def test_apd_slope(corrected_apd, expected_output, real_beats):
-    slope, const = real_beats.apd_slope(80, corrected_apd=corrected_apd)
+    output = real_beats.apd_slope(80, corrected_apd=corrected_apd)
+    assert np.isclose(output, expected_output).all()
+
+
+def test_detect_ead_no_ead(real_beats):
+    beat: apf.Beat = real_beats.beats[0]
+    has_ead, index = beat.detect_ead()
+    assert has_ead is False
+    assert index is None
+
+
+def test_detect_ead_with_ead(real_beats):
+    beat: apf.Beat = real_beats.beats[0].copy()
+
+    # Add artifial EAD
+    bump = np.zeros_like(beat.t)
+    bump[25:30] = 3
+    beat.y[:] += bump
+
+    has_ead, index = beat.detect_ead()
+    assert has_ead is True
+    assert index == 26
