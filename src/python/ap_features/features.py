@@ -918,7 +918,6 @@ def corrected_apd(apd: float, beat_rate: float, formula: str = "friderica"):
     divided by the beat rate)
 
     .. rubric::
-
         Luo, Shen, et al. "A comparison of commonly used QT correction formulae:
         the effect of heart rate on the QTc of normal ECGs." Journal of
         electrocardiology 37 (2004): 81-90.

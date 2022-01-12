@@ -741,13 +741,13 @@ class Beats(Trace):
         x: float = 1.0,
     ) -> List[Beat]:
         """Get a subset of the chopped beats based on
-            similarities in different features.
+        similarities in different features.
 
-            Parameters
-            ----------
-            filters : Sequence[_filters.Filters]
-                A list of filters that should be used for filtering
-            x : float, optional
+        Parameters
+        ----------
+        filters : Sequence[_filters.Filters]
+            A list of filters that should be used for filtering
+        x : float, optional
             How many standard deviations away from the mean
             the different beats should be to be
             included, by default 1.0
@@ -756,6 +756,7 @@ class Beats(Trace):
         -------
         List[Beat]
             A list of filtered beats
+
         """
         return filter_beats(self.beats, filters=filters, x=x)
 
