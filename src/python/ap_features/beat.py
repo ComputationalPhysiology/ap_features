@@ -226,6 +226,7 @@ class Beat(Trace):
         beat_rate: Optional[float] = None,
         formula: str = "friderica",
         use_spline: bool = True,
+        use_median_beat_rate: bool = False,
     ) -> float:
 
         if beat_rate is None:
@@ -233,7 +234,16 @@ class Beat(Trace):
                 raise RuntimeError(
                     "Cannot compute corrected APD. Please provide beat_rate",
                 )
-            beat_rate = self.parent.beat_rate
+            if self._beat_number is None or self._beat_number >= len(
+                self.parent.beat_rates,
+            ):
+                use_median_beat_rate = True
+
+            if use_median_beat_rate:
+                beat_rate = self.parent.beat_rate
+            else:
+                beat_rate = self.parent.beat_rates[self._beat_number]  # type: ignore
+
         apd = self.apd(factor=factor, use_spline=use_spline)
         return features.corrected_apd(apd, beat_rate=beat_rate, formula=formula)
 
@@ -661,7 +671,7 @@ class Beats(Trace):
         List[float]
             List of beat rates
         """
-        return [60 / bf for bf in self.beating_frequencies]
+        return [60 * bf for bf in self.beating_frequencies]
 
     def average_beat(
         self,

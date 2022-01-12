@@ -200,7 +200,7 @@ def test_corrected_apd_with_no_parent_raises_RuntimeError(real_beats):
     clean_beat = apf.Beat(first_beat.y, first_beat.t)
     with pytest.raises(RuntimeError):
         clean_beat.capd(50)
-    beat_rate = real_beats.beat_rate
+    beat_rate = real_beats.beat_rates[0]
     assert np.isclose(first_beat.capd(50), clean_beat.capd(50, beat_rate=beat_rate))
 
 
