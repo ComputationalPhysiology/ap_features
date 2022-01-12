@@ -186,7 +186,6 @@ def test_corrected_apd(real_beats):
     first_beat: apf.Beat = real_beats.beats[0]
     apd50 = first_beat.apd(50)
     capd50 = first_beat.capd(50)
-
     # Frequency is higher than 1 so capd should be larger than apd
     assert capd50 > apd50
 
@@ -305,3 +304,14 @@ def test_ensure_time_unit(real_beats):
     beat.ensure_time_unit("ms")
     assert beat.time_unit == "ms"
     assert (np.isclose(time_orig, beat.t)).all()
+
+
+@pytest.mark.parametrize(
+    "corrected_apd, expected_output",
+    [
+        (True, (506.3406185975174, 279.28104523570016)),
+        (False, (-27.795433438981334, 337.76067618613905)),
+    ],
+)
+def test_apd_slope(corrected_apd, expected_output, real_beats):
+    slope, const = real_beats.apd_slope(80, corrected_apd=corrected_apd)

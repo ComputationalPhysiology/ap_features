@@ -3,6 +3,7 @@ from typing import List
 from typing import Optional
 from typing import Sequence
 from typing import Set
+from typing import Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
@@ -162,7 +163,32 @@ class Beat(Trace):
         """
         return self._parent
 
-    def apd(self, factor: int, use_spline: bool = True) -> float:
+    def apd_point(self, factor: float, use_spline: bool = True) -> Tuple[float, float]:
+        """Return the first and second intersection
+        of the APD p line
+
+        Parameters
+        ----------
+        factor : int
+            The APD
+        use_spline : bool, optional
+            Use spline interpolation or not, by default True
+
+        Returns
+        -------
+        Tuple[float, float]
+            Two poits corresonding to the first and second
+            intersection of the APD p line
+        """
+        return features.apd_point(
+            factor=factor,
+            V=self.y,
+            t=self.t,
+            v_r=self.y_rest,
+            use_spline=use_spline,
+        )
+
+    def apd(self, factor: float, use_spline: bool = True) -> float:
         """The action potential duration
 
         Parameters
@@ -222,7 +248,7 @@ class Beat(Trace):
 
     def capd(
         self,
-        factor: int,
+        factor: float,
         beat_rate: Optional[float] = None,
         formula: str = "friderica",
         use_spline: bool = True,
@@ -463,6 +489,51 @@ def filter_beats(
     return [beats[index] for index in indices]
 
 
+def apd_slope(
+    beats: List[Beat],
+    factor: float,
+    corrected_apd: bool = False,
+) -> Tuple[float, float]:
+    """Compute a linear interpolation of the apd values for each beat.
+    This is useful in order to see if there is a correlation between
+    the APD values and the beat number. If the resulting the slope
+    is relatively close to zero there is no such dependency.
+
+    Parameters
+    ----------
+    beats : List[Beat]
+        List of beats
+    factor : float
+        The apd value
+    corrected_apd : bool, optional
+        Whether to use corrected or regular apd, by default False
+
+    Returns
+    -------
+    Tuple[float, float]
+        A tuple with the (constant, slope) for the linear interpolation.
+        The slope here can be interpreted as the change in APD per minute.
+    """
+
+    apd_first_points = []
+    apds = []
+    for beat in beats:
+        beat.ensure_time_unit("ms")
+        apd_first_points.append(beat.apd_point(factor=factor)[0])
+        apd = beat.capd(factor=factor) if corrected_apd else beat.apd(factor)
+        apds.append(apd)
+
+    if len(apds) > 0:
+        slope, const = np.polyfit(apd_first_points, apds, deg=1)
+        # Covert to dAPD / min
+        slope *= 1000 * 60
+    else:
+        slope = np.nan
+        const = np.nan
+
+    return slope, const
+
+
 class Beats(Trace):
     def __init__(
         self,
@@ -508,6 +579,13 @@ class Beats(Trace):
         if not hasattr(self, "_chopped_data"):
             self._chopped_data = self.chop_data(**self.chopping_options)
         return self._chopped_data
+
+    def apd_slope(
+        self,
+        factor: float,
+        corrected_apd: bool = False,
+    ) -> Tuple[float, float]:
+        return apd_slope(self.beats, factor=factor, corrected_apd=corrected_apd)
 
     def chop_data(
         self,

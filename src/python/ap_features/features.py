@@ -86,7 +86,7 @@ def triangulation(
 
 
 def apd(
-    factor: int,
+    factor: float,
     V: Array,
     t: Array,
     v_r: Optional[float] = None,
@@ -181,7 +181,7 @@ def apd(
 
     if backend == Backend.python:
         try:
-            x1, x2 = _apd(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
+            x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
         except RuntimeError:
             # Return a number that indicate that something went wrong
             return -1
@@ -192,13 +192,40 @@ def apd(
         return _numba.apd(V=y, T=x, factor=factor)
 
 
-def _apd(
-    factor: int,
+def apd_point(
+    factor: float,
     V: np.ndarray,
     t: np.ndarray,
     v_r: Optional[float] = None,
     use_spline=True,
 ) -> Tuple[float, float]:
+    """Return the first and second intersection
+    of the APD p line
+
+    Parameters
+    ----------
+    factor : int
+        The APD line
+    V : np.ndarray
+        The signal
+    t : np.ndarray
+        The time stamps
+    v_r : Optional[float], optional
+        The resting value, by default None
+    use_spline : bool, optional
+        Use spline iterpolation or not, by default True
+
+    Returns
+    -------
+    Tuple[float, float]
+        Two poits corresonding to the first and second
+        intersection of the APD p line
+
+    Raises
+    ------
+    RuntimeError
+        If spline interpolation failes
+    """
 
     _check_factor(factor)
     y = utils.normalize_signal(V, v_r) - (1 - factor / 100)
@@ -208,7 +235,10 @@ def _apd(
         try:
             f = UnivariateSpline(t, y, s=0, k=3)
         except Exception as ex:
-            msg = f"Unable to compute APD {factor * 100}. Please change your settings, {ex}"
+            msg = (
+                f"Unable to compute APD {factor * 100} using spline interpolation. "
+                f"Please change your settings, {ex}"
+            )
             logger.warning(msg)
             raise RuntimeError(msg)
 
@@ -233,7 +263,7 @@ def _apd(
 
 
 def apd_coords(
-    factor: int,
+    factor: float,
     V: Array,
     t: Array,
     v_r: Optional[float] = None,
@@ -264,7 +294,7 @@ def apd_coords(
     _check_factor(factor)
     y = np.array(V)
     x = np.array(t)
-    x1, x2 = _apd(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
+    x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
     g = UnivariateSpline(x, y, s=0)
     y1 = g(x1)
     y2 = g(x2)
@@ -777,7 +807,7 @@ def integrate_apd(y, t=None, factor=30, use_spline=True, normalize=False):
         The signal
     t : array
         The time points
-    factor: int
+    factor: float
         Which APD line, by default 0.3
     use_spline : bool
         Use spline interpolation
@@ -821,7 +851,7 @@ def integrate_apd(y, t=None, factor=30, use_spline=True, normalize=False):
         factor = int(factor * 100)
     _check_factor(factor)
 
-    x1, x2 = _apd(factor, y, t, use_spline=use_spline)
+    x1, x2 = apd_point(factor, y, t, use_spline=use_spline)
 
     g = UnivariateSpline(t, y, s=0, k=3)
 
