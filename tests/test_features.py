@@ -214,7 +214,7 @@ def test_integrate_apd_use_spline(p, int_p, calcium_trace):
 
 @pytest.mark.parametrize(
     "use_spline, tri",
-    [(True, 176.50929695961645), (False, 171.7171717171717)],
+    [(True, 156.22306861466004), (False, 151.51515151515153)],
 )
 def test_triangulation(use_spline, tri, calcium_trace):
     t, y = calcium_trace

@@ -218,10 +218,11 @@ class Beat(Trace):
         use_spline: bool = True,
     ) -> float:
         r"""Compute the triangulation
-
-        .. math::
-
-            \mathrm{APD} \; p_{\mathrm{high}} - \mathrm{APD} \; p_{\mathrm{low}}
+        which is the last intersection of the
+        :math:`\mathrm{APD} \; p_{\mathrm{high}}`
+        line minus the last intersection of the
+        :math:`\mathrm{APD} \; p_{\mathrm{low}}`
+        line
 
         Parameters
         ----------

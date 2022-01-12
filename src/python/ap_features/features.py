@@ -38,11 +38,12 @@ def triangulation(
     use_spline: bool = True,
     backend: Backend = Backend.python,
 ) -> float:
-    r"""Compute triangulation, i.e
-
-    .. math::
-
-        \mathrm{APD} \; p_{\mathrm{high}} - \mathrm{APD} \; p_{\mathrm{low}}
+    r"""Compute the triangulation
+    which is the last intersection of the
+    :math:`\mathrm{APD} \; p_{\mathrm{high}}`
+    line minus the last intersection of the
+    :math:`\mathrm{APD} \; p_{\mathrm{low}}`
+    line
 
     Parameters
     ----------
@@ -70,16 +71,21 @@ def triangulation(
     float
         The triangulation
     """
-    apd_low = apd(factor=low, V=V, t=t, v_r=v_r, use_spline=use_spline, backend=backend)
-    apd_high = apd(
+    apd_low_point = apd_point(
+        factor=low,
+        V=V,
+        t=t,
+        v_r=v_r,
+        use_spline=use_spline,
+    )
+    apd_high_point = apd_point(
         factor=high,
         V=V,
         t=t,
         v_r=v_r,
         use_spline=use_spline,
-        backend=backend,
     )
-    tri = apd_high - apd_low
+    tri = apd_high_point[-1] - apd_low_point[-1]
     if tri < 0:
         tri = np.nan
     return tri
