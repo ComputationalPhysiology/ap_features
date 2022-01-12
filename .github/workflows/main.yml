@@ -30,9 +30,9 @@ jobs:
         run: |
           make test
       - uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.9' && github.ref == 'refs/heads/master'
         with:
           name: coverage-report
-          if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.9' && github.ref == 'refs/heads/master'
           path: ./coverage.xml
       - name: Coverage report
         uses: codecov/codecov-action@v1
