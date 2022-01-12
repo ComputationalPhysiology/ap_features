@@ -492,6 +492,35 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
     return new_list
 
 
+def average_beat(
+    beats: List[Beat],
+    N: int = 200,
+    filters: Sequence[_filters.Filters] = None,
+    x: float = 1.0,
+) -> Beat:
+    if len(beats) == 0:
+        raise ValueError("Cannot average an empty list")
+    if filters is not None:
+        beats = filter_beats(beats, filters=filters, x=x)
+    xs = [beat.t - beat.t[0] for beat in beats]
+    ys = [beat.y for beat in beats]
+    avg = average.average_and_interpolate(ys, xs, N)
+
+    pacing_avg = np.interp(
+        np.linspace(
+            np.min(beats[0].t),
+            np.max(beats[0].t),
+            N,
+        ),
+        beats[0].t,
+        beats[0].pacing,
+    )
+
+    pacing_avg[pacing_avg <= 2.5] = 0.0
+    pacing_avg[pacing_avg > 2.5] = 5.0
+    return Beat(y=avg.y, t=avg.x, pacing=pacing_avg, parent=beats[0].parent)
+
+
 def filter_beats(
     beats: List[Beat],
     filters: Sequence[_filters.Filters],
@@ -523,6 +552,8 @@ def filter_beats(
     """
     if len(filters) == 0:
         return beats
+    if len(beats) == 0:
+        raise ValueError("Cannot apply filter to empty list")
     feature_list: List[List[float]] = []
     bad_indices: Set[int] = set()
     # Compute the features of all beats
@@ -838,16 +869,7 @@ class Beats(Trace):
         Beat
             An average beat.
         """
-        beats = self.beats
-
-        if filters is not None:
-            beats = self.filter_beats(filters=filters, x=x)
-        xs = [beat.t - beat.t[0] for beat in beats]
-        ys = [beat.y for beat in beats]
-        ps = [beat.pacing for beat in beats]
-        avg = average.average_and_interpolate(ys, xs, N)
-        avg_pacing = average.average_and_interpolate(ps, xs, N)
-        return Beat(y=avg.y, t=avg.x, pacing=avg_pacing.y, parent=self)
+        return average_beat(beats=self.beats, N=N, filters=filters, x=x)
 
     @property
     def beats(self) -> List[Beat]:
