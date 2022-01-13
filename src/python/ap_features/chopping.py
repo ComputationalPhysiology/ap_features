@@ -17,8 +17,28 @@ ChoppedData = namedtuple(
     "ChoppedData",
     "data, times, pacing, parameters, intervals, upstroke_times",
 )
-ChoppingParameters = namedtuple("ChoppingParameters", "use_pacing_info")
 Interval = namedtuple("Interval", "start, end")
+
+
+def find_start_end_index(
+    time_stamps: Array,
+    start: float,
+    end: float,
+) -> Tuple[int, int]:
+    start_index = 0
+    end_index = len(time_stamps)
+    if start > 0:
+        try:
+            start_index = next(i for i, v in enumerate(time_stamps) if v >= start)
+        except StopIteration:
+            pass
+
+    if end != -1:
+        try:
+            end_index = next(i for i, v in enumerate(time_stamps) if v >= end)
+        except StopIteration:
+            pass
+    return start_index, end_index
 
 
 def chop_data(data: Array, time: Array, **kwargs) -> ChoppedData:
@@ -194,9 +214,16 @@ def chop_data_without_pacing(
     """
     logger.debug("Chopping without pacing")
 
-    chop_pars = ChoppingParameters(
-        use_pacing_info=False,
-    )
+    chop_pars = {
+        "use_pacing_info": False,
+        "threshold_factor": threshold_factor,
+        "min_window": min_window,
+        "max_window": max_window,
+        "N": N,
+        "extend_front": extend_front,
+        "extend_end": extend_end,
+        "intervals": intervals,
+    }
     logger.debug(f"Use chopping parameters: {chop_pars}")
 
     if intervals is None:
@@ -641,7 +668,7 @@ def chop_data_with_pacing(
         min_window=min_window,
     )
 
-    chop_pars = ChoppingParameters(use_pacing_info=True)
+    chop_pars = {"use_pacing_info": True}
 
     return ChoppedData(
         data=chopped_data,

@@ -9,3 +9,4 @@ chapters:
   - file: AUTHORS
   - file: CONTRIBUTING
   - file: ap_features
+  - file: modules

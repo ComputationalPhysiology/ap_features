@@ -1,8 +1,10 @@
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Sequence
 from typing import Set
+from typing import Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
@@ -12,10 +14,22 @@ from . import background
 from . import chopping
 from . import features
 from . import filters as _filters
+from . import plot
 from . import utils
 from .background import BackgroundCorrection as BC
 from .utils import Array
 from .utils import Backend
+
+
+def identity(x: Any, y: Any = None, z: Any = None) -> Any:
+    return x
+
+
+def copy_function(copy: bool):
+    if copy:
+        return np.copy
+    else:
+        return identity
 
 
 class Trace:
@@ -43,6 +57,25 @@ class Trace:
         return f"{self.__class__.__name__}(t={self.t.shape}, y={self.y.shape})"
 
     @property
+    def time_unit(self) -> str:
+        """The time unit 'ms' or 's'"""
+        return utils.time_unit(self.t)
+
+    def ensure_time_unit(self, unit: str) -> None:
+        """Convert time to milliseconds or seconds
+
+        Parameters
+        ----------
+        unit : str
+            A string with 'ms' or 's'
+        """
+        assert unit in ["ms", "s"], f"Expected unit to be 'ms' or 's', got {unit}"
+
+        if self.time_unit != unit:
+            unitfactor = 1 / 1000.0 if unit == "s" else 1000.0
+            self.t[:] *= unitfactor
+
+    @property
     def t(self) -> np.ndarray:
         return self._t
 
@@ -54,6 +87,9 @@ class Trace:
     def pacing(self) -> np.ndarray:
         return self._pacing
 
+    def __len__(self):
+        return len(self.y)
+
     def __eq__(self, other) -> bool:
         try:
             return (
@@ -63,6 +99,59 @@ class Trace:
             )
         except Exception:
             return False
+
+    def slice(self, start: float, end: float, copy: bool = True) -> "Trace":
+        f = copy_function(copy)
+        start_index, end_index = chopping.find_start_end_index(self.t, start, end)
+        return self.__class__(
+            y=f(self.y)[start_index:end_index],
+            t=f(self.t)[start_index:end_index],
+            pacing=f(self.pacing)[start_index:end_index],
+            backend=self._backend,
+        )
+
+    def copy(self):
+        return self.__class__(
+            y=np.copy(self.y),
+            t=np.copy(self.t),
+            pacing=np.copy(self.pacing),
+            backend=self._backend,
+        )
+
+    def plot(
+        self,
+        fname: str = "",
+        include_pacing: bool = False,
+        include_background: bool = False,
+        ylabel: str = "",
+    ):
+        plot.plot_beat(
+            self,
+            include_pacing=include_pacing,
+            include_background=include_background,
+            ylabel=ylabel,
+            fname=fname,
+        )
+
+    def as_spline(self, k: int = 3, s: Optional[int] = None) -> UnivariateSpline:
+        """[summary]
+
+        Parameters
+        ----------
+        k : int, optional
+            Degree of the smoothing spline.  Must be 1 <= `k` <= 5.
+            Default is `k` = 3, a cubic spline, by default 3.
+        s : float or None, optional
+            Positive smoothing factor used to choose the number of knots.
+            If 0, spline will interpolate through all data points,
+            by default 0
+
+        Returns
+        -------
+        UnivariateSpline
+            A spline representation of the trace
+        """
+        return UnivariateSpline(x=self.t, y=self.y, k=k, s=s)
 
 
 class Beat(Trace):
@@ -91,9 +180,6 @@ class Beat(Trace):
     def y_normalized(self):
         return utils.normalize_signal(self.y, self.y_rest)
 
-    def __len__(self):
-        return len(self.y)
-
     @property
     def y_rest(self):
         return self._y_rest
@@ -117,20 +203,116 @@ class Beat(Trace):
         """
         return self._parent
 
-    def apd(self, factor: int) -> float:
+    def apd_point(self, factor: float, use_spline: bool = True) -> Tuple[float, float]:
+        """Return the first and second intersection
+        of the APD p line
+
+        Parameters
+        ----------
+        factor : int
+            The APD
+        use_spline : bool, optional
+            Use spline interpolation or not, by default True
+
+        Returns
+        -------
+        Tuple[float, float]
+            Two poits corresonding to the first and second
+            intersection of the APD p line
+        """
+        return features.apd_point(
+            factor=factor,
+            V=self.y,
+            t=self.t,
+            v_r=self.y_rest,
+            use_spline=use_spline,
+        )
+
+    def apd(self, factor: float, use_spline: bool = True) -> float:
         """The action potential duration
 
         Parameters
         ----------
         factor : int
             Integer between 0 and 100
+        use_spline : bool, optional
+            Use spline interpolation, by default True.
 
         Returns
         -------
         float
             action potential duration
         """
-        return features.apd(factor=factor, V=self.y, t=self.t, v_r=self.y_rest)
+        return features.apd(
+            factor=factor,
+            V=self.y,
+            t=self.t,
+            v_r=self.y_rest,
+            use_spline=use_spline,
+        )
+
+    def triangulation(
+        self,
+        low: int = 30,
+        high: int = 80,
+        use_spline: bool = True,
+    ) -> float:
+        r"""Compute the triangulation
+        which is the last intersection of the
+        :math:`\mathrm{APD} \; p_{\mathrm{high}}`
+        line minus the last intersection of the
+        :math:`\mathrm{APD} \; p_{\mathrm{low}}`
+        line
+
+        Parameters
+        ----------
+        low : int, optional
+            Lower APD value, by default 30
+        high : int, optional
+            Higher APD value, by default 80
+        use_spline : bool, optional
+            Use spline interpolation, by default True.
+
+        Returns
+        -------
+        float
+            The triangulatons
+        """
+        return features.triangulation(
+            V=self.y,
+            t=self.t,
+            low=low,
+            high=high,
+            v_r=self.y_rest,
+            use_spline=use_spline,
+        )
+
+    def capd(
+        self,
+        factor: float,
+        beat_rate: Optional[float] = None,
+        formula: str = "friderica",
+        use_spline: bool = True,
+        use_median_beat_rate: bool = False,
+    ) -> float:
+
+        if beat_rate is None:
+            if self.parent is None:
+                raise RuntimeError(
+                    "Cannot compute corrected APD. Please provide beat_rate",
+                )
+            if self._beat_number is None or self._beat_number >= len(
+                self.parent.beat_rates,
+            ):
+                use_median_beat_rate = True
+
+            if use_median_beat_rate:
+                beat_rate = self.parent.beat_rate
+            else:
+                beat_rate = self.parent.beat_rates[self._beat_number]  # type: ignore
+
+        apd = self.apd(factor=factor, use_spline=use_spline)
+        return features.corrected_apd(apd, beat_rate=beat_rate, formula=formula)
 
     def tau(self, a: float) -> float:
         """Decay time. Time for the signal amplitude to go from maxium to
@@ -169,6 +351,39 @@ class Beat(Trace):
         pacing = self.pacing if use_pacing else None
         return features.time_to_peak(x=self.t, y=self.y, pacing=pacing)
 
+    def integrate_apd(
+        self,
+        factor: float,
+        use_spline: bool = True,
+        normalize: bool = False,
+    ) -> float:
+        """Compute the integral of the signals above
+        the APD p line
+
+        Parameters
+        ----------
+        factor : float
+            Which APD line
+        use_spline : bool, optional
+            Use spline interpolation, by default True
+        normalize : bool, optional
+            If true normalize signal first, so that max value is 1.0,
+            and min value is zero before performing the computation,
+            by default False
+
+        Returns
+        -------
+        float
+            [description]
+        """
+        return features.integrate_apd(
+            t=self.t,
+            y=self.y,
+            factor=factor,
+            use_spline=use_spline,
+            normalize=normalize,
+        )
+
     def upstroke(self, a: float) -> float:
         """Compute the time from (1-a)*100 % signal
         amplitude to peak. For example if if a = 0.8
@@ -186,6 +401,95 @@ class Beat(Trace):
             The upstroke value
         """
         return features.upstroke(x=self.t, y=self.y, a=a)
+
+    def maximum_upstroke_velocity(
+        self,
+        use_spline: bool = True,
+        normalize: bool = False,
+    ) -> float:
+        """Compute maximum upstroke velocity
+
+        Parameters
+        ----------
+        use_spline : bool, optional
+            Use spline interpolation, by default True
+        normalize : bool, optional
+            If true normalize signal first, so that max value is 1.0,
+            and min value is zero before performing the computation,
+            by default False
+
+        Returns
+        -------
+        float
+            The maximum upstroke velocity
+        """
+        return features.maximum_upstroke_velocity(
+            t=self.t,
+            y=self.y,
+            use_spline=use_spline,
+            normalize=normalize,
+        )
+
+    def maximum_relative_upstroke_velocity(
+        self,
+        upstroke_duration: int = 50,
+        sigmoid_fit: bool = True,
+    ):
+        """Estimate maximum relative upstroke velocity
+
+        Parameters
+        ----------
+        upstroke_duration : int
+            Duration in milliseconds of upstroke (Default: 50).
+            This does not have to be exact up should at least be
+            longer than the upstroke.
+        sigmoid_fit : bool
+            If True then use a sigmoid function to fit the data
+            of the upstroke and report the maximum derivate of
+            the sigmoid as the maximum upstroke.
+        """
+        return features.max_relative_upstroke_velocity(
+            t=self.t,
+            y=self.y,
+            upstroke_duration=upstroke_duration,
+            sigmoid_fit=sigmoid_fit,
+        )
+
+    def detect_ead(
+        self,
+        sigma: float = 1,
+        prominence_level: float = 0.07,
+    ) -> Tuple[bool, Optional[int]]:
+        """Detect (Early afterdepolarizations) EADs
+        based on peak prominence.
+
+        Parameters
+        ----------
+        y : Array
+            The signal that you want to detect EADs
+        sigma : float
+            Standard deviation in the gaussian smoothing kernal
+            Default: 1.0
+        prominence_level: float
+            How prominent a peak should be in order to be
+            characterized as an EAD. This value shold be
+            between 0 and 1, with a greater value being
+            more prominent. Defaulta: 0.07
+
+        Returns
+        -------
+        bool:
+            Flag indicating if an EAD is found or not
+        int or None:
+            Index where we found the EAD. If no EAD is found then
+            this will be None. I more than one peaks are found then
+            only the first will be returned.
+        """
+        return features.detect_ead(
+            self.y,
+            sigma=sigma,
+            prominence_level=prominence_level,
+        )
 
     def apd_up(self, factor_x, factor_y):
         pass
@@ -208,16 +512,45 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
     return new_list
 
 
+def average_beat(
+    beats: List[Beat],
+    N: int = 200,
+    filters: Sequence[_filters.Filters] = None,
+    x: float = 1.0,
+) -> Beat:
+    if len(beats) == 0:
+        raise ValueError("Cannot average an empty list")
+    if filters is not None:
+        beats = filter_beats(beats, filters=filters, x=x)
+    xs = [beat.t - beat.t[0] for beat in beats]
+    ys = [beat.y for beat in beats]
+    avg = average.average_and_interpolate(ys, xs, N)
+
+    pacing_avg = np.interp(
+        np.linspace(
+            np.min(beats[0].t),
+            np.max(beats[0].t),
+            N,
+        ),
+        beats[0].t,
+        beats[0].pacing,
+    )
+
+    pacing_avg[pacing_avg <= 2.5] = 0.0
+    pacing_avg[pacing_avg > 2.5] = 5.0
+    return Beat(y=avg.y, t=avg.x, pacing=pacing_avg, parent=beats[0].parent)
+
+
 def filter_beats(
-    beats: Sequence[Beat],
+    beats: List[Beat],
     filters: Sequence[_filters.Filters],
     x: float = 1.0,
-) -> Sequence[Beat]:
+) -> List[Beat]:
     """Filter beats based of similiarities of the filters
 
     Parameters
     ----------
-    beats : Sequence[Beat]
+    beats : List[Beat]
         List of beats
     filters : Sequence[_filters.Filters]
         List of filters
@@ -228,7 +561,7 @@ def filter_beats(
 
     Returns
     -------
-    Sequence[Beat]
+    List[Beat]
         A list of filtered beats
 
     Raises
@@ -239,6 +572,8 @@ def filter_beats(
     """
     if len(filters) == 0:
         return beats
+    if len(beats) == 0:
+        raise ValueError("Cannot apply filter to empty list")
     feature_list: List[List[float]] = []
     bad_indices: Set[int] = set()
     # Compute the features of all beats
@@ -262,6 +597,51 @@ def filter_beats(
     return [beats[index] for index in indices]
 
 
+def apd_slope(
+    beats: List[Beat],
+    factor: float,
+    corrected_apd: bool = False,
+) -> Tuple[float, float]:
+    """Compute a linear interpolation of the apd values for each beat.
+    This is useful in order to see if there is a correlation between
+    the APD values and the beat number. If the resulting the slope
+    is relatively close to zero there is no such dependency.
+
+    Parameters
+    ----------
+    beats : List[Beat]
+        List of beats
+    factor : float
+        The apd value
+    corrected_apd : bool, optional
+        Whether to use corrected or regular apd, by default False
+
+    Returns
+    -------
+    Tuple[float, float]
+        A tuple with the (constant, slope) for the linear interpolation.
+        The slope here can be interpreted as the change in APD per minute.
+    """
+
+    apd_first_points = []
+    apds = []
+    for beat in beats:
+        beat.ensure_time_unit("ms")
+        apd_first_points.append(beat.apd_point(factor=factor)[0])
+        apd = beat.capd(factor=factor) if corrected_apd else beat.apd(factor)
+        apds.append(apd)
+
+    if len(apds) > 0:
+        slope, const = np.polyfit(apd_first_points, apds, deg=1)
+        # Covert to dAPD / min
+        slope *= 1000 * 60
+    else:
+        slope = np.nan
+        const = np.nan
+
+    return slope, const
+
+
 class Beats(Trace):
     def __init__(
         self,
@@ -274,7 +654,7 @@ class Beats(Trace):
         intervals: Optional[List[chopping.Interval]] = None,
         chopping_options: Optional[Dict[str, float]] = None,
     ) -> None:
-        self._background = background.correct_background(
+        self.background_correction = background.correct_background(
             x=t,
             y=y,
             method=background_correction_method,
@@ -299,35 +679,147 @@ class Beats(Trace):
         if intervals is not None:
             self.chopping_options["intervals"] = intervals
 
+    def plot_beats(self, ylabel: str = "", align: bool = False, fname: str = ""):
+        plot.plot_beats_from_beat(self, ylabel=ylabel, align=align, fname=fname)
+
     @property
     def chopped_data(self) -> chopping.ChoppedData:
         if not hasattr(self, "_chopped_data"):
-            self._chopped_data = chopping.chop_data(
-                data=self.y, time=self.t, pacing=self.pacing, **self.chopping_options
-            )
+            self._chopped_data = self.chop_data(**self.chopping_options)
         return self._chopped_data
+
+    def apd_slope(
+        self,
+        factor: float,
+        corrected_apd: bool = False,
+    ) -> Tuple[float, float]:
+        return apd_slope(self.beats, factor=factor, corrected_apd=corrected_apd)
+
+    def chop_data(
+        self,
+        threshold_factor=0.5,
+        min_window=50,
+        max_window=2000,
+        N=None,
+        extend_front=None,
+        extend_end=None,
+        ignore_pacing=False,
+        intervals=None,
+    ):
+        return chopping.chop_data(
+            data=self.y,
+            time=self.t,
+            pacing=self.pacing,
+            threshold_factor=threshold_factor,
+            min_window=min_window,
+            max_window=max_window,
+            N=N,
+            extend_front=extend_front,
+            extend_end=extend_end,
+            ignore_pacing=ignore_pacing,
+            intervals=intervals,
+        )
+
+    def correct_background(
+        self,
+        background_correction_method: BC,
+        copy: bool = True,
+    ) -> "Beats":
+        f = copy_function(copy)
+        return Beats(
+            y=f(self.y),
+            t=f(self.t),
+            pacing=f(self.pacing),
+            background_correction_method=background_correction_method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
+
+    def remove_points(self, t_start: float, t_end: float) -> "Beats":
+        t, y = _filters.remove_points(
+            x=np.copy(self.t),
+            y=np.copy(self._y),
+            t_start=t_start,
+            t_end=t_end,
+        )
+        _, pacing = _filters.remove_points(
+            x=np.copy(self.t),
+            y=np.copy(self.pacing),
+            t_start=t_start,
+            t_end=t_end,
+        )
+        return Beats(
+            y=y,
+            t=t,
+            pacing=pacing,
+            background_correction_method=self.background_correction.method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
+
+    def filter(self, kernel_size: int = 3, copy: bool = True) -> "Beats":
+        y = _filters.filt(self._y, kernel_size=kernel_size)
+        f = copy_function(copy)
+        return Beats(
+            y=f(y),
+            t=f(self.t),
+            pacing=f(self.pacing),
+            background_correction_method=self.background_correction.method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
+
+    def remove_spikes(self, spike_duration: int) -> "Beats":
+        if spike_duration == 0:
+            return self
+        spike_points = _filters.find_spike_points(
+            self.pacing,
+            spike_duration=spike_duration,
+        )
+        t = np.delete(self.t, spike_points)
+        y = np.delete(self.y, spike_points)
+        pacing = np.delete(self.pacing, spike_points)
+
+        background_correction_method = self.background_correction.method
+        return Beats(
+            y=y,
+            t=t,
+            pacing=pacing,
+            background_correction_method=background_correction_method,
+            zero_index=self._zero_index,
+            backend=self._backend,
+            chopping_options=self.chopping_options,
+            intervals=self.chopping_options.get("intervals"),
+        )
 
     def filter_beats(
         self,
         filters: Sequence[_filters.Filters],
         x: float = 1.0,
-    ) -> Sequence[Beat]:
+    ) -> List[Beat]:
         """Get a subset of the chopped beats based on
-            similarities in different features.
+        similarities in different features.
 
-            Parameters
-            ----------
-            filters : Sequence[_filters.Filters]
-                A list of filters that should be used for filtering
-            x : float, optional
+        Parameters
+        ----------
+        filters : Sequence[_filters.Filters]
+            A list of filters that should be used for filtering
+        x : float, optional
             How many standard deviations away from the mean
             the different beats should be to be
             included, by default 1.0
 
         Returns
         -------
-        Sequence[Beat]
+        List[Beat]
             A list of filtered beats
+
         """
         return filter_beats(self.beats, filters=filters, x=x)
 
@@ -355,7 +847,7 @@ class Beats(Trace):
         per mininute, which is simply 60 divided
         by the beating frequency
         """
-        return 60 / self.beating_frequency
+        return 60 * self.beating_frequency
 
     @property
     def beat_rates(self) -> List[float]:
@@ -366,7 +858,7 @@ class Beats(Trace):
         List[float]
             List of beat rates
         """
-        return [60 / bf for bf in self.beating_frequencies]
+        return [60 * bf for bf in self.beating_frequencies]
 
     def average_beat(
         self,
@@ -397,34 +889,21 @@ class Beats(Trace):
         Beat
             An average beat.
         """
-        beats = self.beats
-
-        if filters is not None:
-            beats = self.filter_beats(filters=filters, x=x)
-        xs = [beat.t - beat.t[0] for beat in beats]
-        ys = [beat.y for beat in beats]
-        ps = [beat.pacing for beat in beats]
-        avg = average.average_and_interpolate(ys, xs, N)
-        avg_pacing = average.average_and_interpolate(ps, xs, N)
-        return Beat(y=avg.y, t=avg.x, pacing=avg_pacing.y, parent=self)
+        return average_beat(beats=self.beats, N=N, filters=filters, x=x)
 
     @property
-    def beats(self) -> Sequence[Beat]:
+    def beats(self) -> List[Beat]:
         """Chop signal into individual beats.
         You can also pass in any options that should
         be provided to the chopping algorithm.
 
         Returns
         -------
-        Sequence[Beat]
+        List[Beat]
             A list of chopped beats
         """
         if not hasattr(self, "_beats"):
-            c = self.chopped_data
-            self._beats = [
-                Beat(t=t, y=y, pacing=p, parent=self, beat_number=i)
-                for i, (t, y, p) in enumerate(zip(c.times, c.data, c.pacing))
-            ]
+            self._beats = chopped_data_to_beats(self.chopped_data, parent=self)
         return self._beats
 
     @property
@@ -437,14 +916,12 @@ class Beats(Trace):
         return len(self.beats)
 
     @property
-    def background(self) -> Optional[background.Background]:
-        return self._background
+    def background(self) -> np.ndarray:
+        return self.background_correction.background
 
     @property
     def y(self) -> np.ndarray:
-        y = super().y
-        if self.background is not None:
-            y = self.background.corrected
+        y = self.background_correction.corrected
         if self._zero_index is not None:
             y = y - y[self._zero_index]
         return y
@@ -491,6 +968,32 @@ class BeatCollection(Trace):
             The parent BeatSeries
         """
         return self._parent
+
+
+def chopped_data_to_beats(
+    chopped_data: chopping.ChoppedData,
+    parent: Optional[Beats] = None,
+) -> List[Beat]:
+    """Convert a ChoppedData object to a list of Beats
+
+    Parameters
+    ----------
+    chopped_data : chopping.ChoppedData
+        The chopped data
+    parent : Optional[Beats], optional
+        Parent trace, by default None
+
+    Returns
+    -------
+    List[Beat]
+        List of Beats
+    """
+    return [
+        Beat(t=t, y=y, pacing=p, parent=parent, beat_number=i)
+        for i, (t, y, p) in enumerate(
+            zip(chopped_data.times, chopped_data.data, chopped_data.pacing),
+        )
+    ]
 
 
 class BeatSeriesCollection(Trace):

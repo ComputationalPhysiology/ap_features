@@ -19,7 +19,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          make dev
+          python -m pip install -e ".[test]"
       - name: Lint with flake8
         run: |
           make lint
@@ -29,3 +29,14 @@ jobs:
       - name: Test with pytest
         run: |
           make test
+      - uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.9' && github.ref == 'refs/heads/master'
+        with:
+          name: coverage-report
+          path: ./coverage.xml
+      - name: Coverage report
+        uses: codecov/codecov-action@v1
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.9' && github.ref == 'refs/heads/master'
+        with:
+          fail_ci_if_error: true
+          files: ./coverage.xml

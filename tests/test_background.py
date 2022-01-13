@@ -39,7 +39,7 @@ def test_background(a, method):
 
     assert np.isclose(estimated_background, bkg, rtol=1e-3).all()
     if method == background.BackgroundCorrection.none:
-        assert corrected is None
+        assert np.isclose(corrected.corrected, signal).all()
     elif method == background.BackgroundCorrection.subtract:
         assert np.isclose(corrected.corrected, y, atol=1e-1).all()
     else:

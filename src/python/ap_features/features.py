@@ -29,8 +29,70 @@ class UnequalLengthError(RuntimeError):
     pass
 
 
+def triangulation(
+    V: Array,
+    t: Array,
+    low: int = 30,
+    high: int = 80,
+    v_r: Optional[float] = None,
+    use_spline: bool = True,
+    backend: Backend = Backend.python,
+) -> float:
+    r"""Compute the triangulation
+    which is the last intersection of the
+    :math:`\mathrm{APD} \; p_{\mathrm{high}}`
+    line minus the last intersection of the
+    :math:`\mathrm{APD} \; p_{\mathrm{low}}`
+    line
+
+    Parameters
+    ----------
+    V : Array
+        The signal
+    t : Array
+        The time stamps
+    low : int, optional
+        Lower APD value, by default 30
+    high : int, optional
+        Higher APD value, by default 80
+    v_r : Optional[float], optional
+        Resting value, by default None. Only applicablle for python Backend.
+    use_spline : bool, optional
+        Use spline interpolation, by default True.
+        Only applicable for python Backend.
+    backend : utils.Backend, optional
+        Which backend to use by default Backend.python.
+        Choices, 'python', 'c', 'numba'
+
+
+
+    Returns
+    -------
+    float
+        The triangulation
+    """
+    apd_low_point = apd_point(
+        factor=low,
+        V=V,
+        t=t,
+        v_r=v_r,
+        use_spline=use_spline,
+    )
+    apd_high_point = apd_point(
+        factor=high,
+        V=V,
+        t=t,
+        v_r=v_r,
+        use_spline=use_spline,
+    )
+    tri = apd_high_point[-1] - apd_low_point[-1]
+    if tri < 0:
+        tri = np.nan
+    return tri
+
+
 def apd(
-    factor: int,
+    factor: float,
     V: Array,
     t: Array,
     v_r: Optional[float] = None,
@@ -54,7 +116,7 @@ def apd(
         Resting value, by default None. Only applicablle for python Backend.
     use_spline : bool, optional
         Use spline interpolation, by default True.
-        Only applicablle for python Backend.
+        Only applicable for python Backend.
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
@@ -125,7 +187,7 @@ def apd(
 
     if backend == Backend.python:
         try:
-            x1, x2 = _apd(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
+            x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
         except RuntimeError:
             # Return a number that indicate that something went wrong
             return -1
@@ -136,13 +198,40 @@ def apd(
         return _numba.apd(V=y, T=x, factor=factor)
 
 
-def _apd(
-    factor: int,
-    V: np.ndarray,
-    t: np.ndarray,
+def apd_point(
+    factor: float,
+    V: Array,
+    t: Array,
     v_r: Optional[float] = None,
     use_spline=True,
 ) -> Tuple[float, float]:
+    """Return the first and second intersection
+    of the APD p line
+
+    Parameters
+    ----------
+    factor : int
+        The APD line
+    V : np.ndarray
+        The signal
+    t : np.ndarray
+        The time stamps
+    v_r : Optional[float], optional
+        The resting value, by default None
+    use_spline : bool, optional
+        Use spline iterpolation or not, by default True
+
+    Returns
+    -------
+    Tuple[float, float]
+        Two poits corresonding to the first and second
+        intersection of the APD p line
+
+    Raises
+    ------
+    RuntimeError
+        If spline interpolation failes
+    """
 
     _check_factor(factor)
     y = utils.normalize_signal(V, v_r) - (1 - factor / 100)
@@ -152,7 +241,10 @@ def _apd(
         try:
             f = UnivariateSpline(t, y, s=0, k=3)
         except Exception as ex:
-            msg = f"Unable to compute APD {factor * 100}. Please change your settings, {ex}"
+            msg = (
+                f"Unable to compute APD {factor * 100} using spline interpolation. "
+                f"Please change your settings, {ex}"
+            )
             logger.warning(msg)
             raise RuntimeError(msg)
 
@@ -177,7 +269,7 @@ def _apd(
 
 
 def apd_coords(
-    factor: int,
+    factor: float,
     V: Array,
     t: Array,
     v_r: Optional[float] = None,
@@ -208,7 +300,7 @@ def apd_coords(
     _check_factor(factor)
     y = np.array(V)
     x = np.array(t)
-    x1, x2 = _apd(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
+    x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
     g = UnivariateSpline(x, y, s=0)
     y1 = g(x1)
     y2 = g(x2)
@@ -637,7 +729,12 @@ def max_relative_upstroke_velocity(
     )
 
 
-def maximum_upstroke_velocity(y, t=None, use_spline=True, normalize=False):
+def maximum_upstroke_velocity(
+    y: Array,
+    t: Optional[Array] = None,
+    use_spline: bool = True,
+    normalize: bool = False,
+) -> float:
     r"""
     Compute maximum upstroke velocity
 
@@ -716,7 +813,7 @@ def integrate_apd(y, t=None, factor=30, use_spline=True, normalize=False):
         The signal
     t : array
         The time points
-    factor: int
+    factor: float
         Which APD line, by default 0.3
     use_spline : bool
         Use spline interpolation
@@ -760,7 +857,7 @@ def integrate_apd(y, t=None, factor=30, use_spline=True, normalize=False):
         factor = int(factor * 100)
     _check_factor(factor)
 
-    x1, x2 = _apd(factor, y, t, use_spline=use_spline)
+    x1, x2 = apd_point(factor, y, t, use_spline=use_spline)
 
     g = UnivariateSpline(t, y, s=0, k=3)
 
@@ -781,10 +878,28 @@ def integrate_apd(y, t=None, factor=30, use_spline=True, normalize=False):
     return integral
 
 
-def corrected_apd(apd, beat_rate, formula="friderica"):
+def corrected_apd(apd: float, beat_rate: float, formula: str = "friderica"):
     """Correct the given APD (or any QT measurement) for the beat rate.
     normally the faster the HR (or the shorter the RR interval),
     the shorter the QT interval, and vice versa
+
+    Parameters
+    ----------
+    apd: float
+        The action potential duration
+    beat_rate : float
+        The beat rate (number of beats per minute)
+    formule : str, optional
+        Formule for computing th corrected APD, either
+        'friderica' or 'bazett', by default 'friderica',
+
+    Returns
+    -------
+    float
+        The corrected APD
+
+    Notes
+    -----
 
     Friderica formula (default):
 
@@ -798,8 +913,18 @@ def corrected_apd(apd, beat_rate, formula="friderica"):
 
         APD (RR)^{-1/2}
 
+    where :math:`RR` is the R-R interaval in an ECG. For an action potential
+    this would be equivalent to the inverse of the beating frequency (or 60
+    divided by the beat rate)
+
+    .. rubric::
+        Luo, Shen, et al. "A comparison of commonly used QT correction formulae:
+        the effect of heart rate on the QTc of normal ECGs." Journal of
+        electrocardiology 37 (2004): 81-90.
+
     """
 
+    formula = formula.lower()
     formulas = ["friderica", "bazett"]
     msg = f"Expected formula to be one of {formulas}, got {formula}"
     assert formula in formulas, msg
@@ -809,6 +934,70 @@ def corrected_apd(apd, beat_rate, formula="friderica"):
         return np.multiply(apd, pow(RR, -1 / 3))
     else:
         return np.multiply(apd, pow(RR, -1 / 2))
+
+
+def detect_ead(
+    y: Array,
+    sigma: float = 1,
+    prominence_level: float = 0.07,
+) -> Tuple[bool, Optional[int]]:
+    """Detect (Early afterdepolarizations) EADs
+    based on peak prominence.
+
+    Parameters
+    ----------
+    y : Array
+        The signal that you want to detect EADs
+    sigma : float
+        Standard deviation in the gaussian smoothing kernal
+        Default: 1.0
+    prominence_level: float
+        How prominent a peak should be in order to be
+        characterized as an EAD. This value shold be
+        between 0 and 1, with a greater value being
+        more prominent. Defaulta: 0.07
+
+    Returns
+    -------
+    bool:
+        Flag indicating if an EAD is found or not
+    int or None:
+        Index where we found the EAD. If no EAD is found then
+        this will be None. I more than one peaks are found then
+        only the first will be returned.
+
+    Notes
+    -----
+    Given a signal :math:`y` we want to determine wether we have
+    an EAD present in the signal. `EADs <https://en.wikipedia.org/wiki/Afterdepolarization>`_
+    are abnormal depolarizations happening after the upstroke in an action potential.
+
+    We assume that an EAD occurs betweeen the maximum value of the signal
+    (i.e the peak) and the next minimum value (i.e when the signal is at rest)
+
+    To remove noisy patterns we first smooth the signal
+    with a gaussian filter. Then we take out only the part
+    of the signal that is between its maximum and the next
+    minimum values. Then we find the peaks with a
+    `Topographic Prominence <https://en.wikipedia.org/wiki/Topographic_prominence>`_
+    greather than the given prominence level
+
+    """
+    from scipy.ndimage import gaussian_filter1d
+    from scipy.signal import find_peaks
+
+    y = np.array(y)
+    idx_max = int(np.argmax(y))
+    idx_min = idx_max + int(np.argmin(y[idx_max:]))
+
+    y_tmp = y[idx_max:idx_min] - y[idx_min]
+    if len(y_tmp) == 0:
+        return False, None
+
+    y_smooth = gaussian_filter1d(y_tmp / np.max(y_tmp), sigma)
+    peaks, props = find_peaks(y_smooth, prominence=prominence_level)
+
+    return len(peaks) > 0, None if len(peaks) == 0 else int(peaks[0] + idx_max)
 
 
 def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.ndarray:

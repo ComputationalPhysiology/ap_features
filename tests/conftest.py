@@ -1,7 +1,9 @@
+from collections import namedtuple
 from pathlib import Path
 
 import numpy as np
 import pytest
+from matplotlib.testing.conftest import mpl_test_settings  # noqa: F401
 from scipy.integrate import solve_ivp
 from scipy.signal import find_peaks
 
@@ -129,8 +131,22 @@ def triangle_signal():
 
 
 @pytest.fixture(scope="session")
-def synthetic_data(num_parameter_sets=1):
+def synthetic_data():
     data = np.load(here.joinpath("data.npy"), allow_pickle=True).item()
     cost = np.load(here.joinpath("cost_terms.npy"))
     trace = np.array([data["v"], data["ca"]])
     return trace, data["t"], cost
+
+
+@pytest.fixture(scope="session")
+def real_trace():
+    data = np.load(here.joinpath("real_data.npy"), allow_pickle=True).item()
+    Data = namedtuple("Data", "t, y, pacing")
+    return Data(**data)
+
+
+@pytest.fixture(scope="session")
+def real_beats(real_trace):
+    import ap_features as apf
+
+    return apf.Beats(real_trace.y, real_trace.t, real_trace.pacing)

@@ -3,21 +3,22 @@ import numpy as np
 import pytest
 
 
-def test_remove_spikes():
+@pytest.mark.parametrize("spike_dur", [0, 1, 4, 8])
+def test_find_spike_points(spike_dur):
     spike_pt = 2
     N = 10
     pacing = np.zeros(N)
     pacing[spike_pt + 1] = 1
     arr = np.arange(N)
 
-    for spike_dur in [0, 1, 4, 8]:
-        arr1 = apf.filters.remove_spikes(arr, pacing, spike_dur)
-        assert all(
-            arr1
-            == np.concatenate(
-                (np.arange(spike_pt), np.arange(spike_pt + spike_dur, N)),
-            ),
-        )
+    spike_points = apf.filters.find_spike_points(pacing, spike_dur)
+    arr1 = np.delete(arr, spike_points)
+    assert all(
+        arr1
+        == np.concatenate(
+            (np.arange(spike_pt), np.arange(spike_pt + spike_dur, N)),
+        ),
+    )
 
 
 def test_remove_points():

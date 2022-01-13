@@ -1,13 +1,15 @@
 import logging
 from collections import namedtuple
 from enum import Enum
-from typing import Optional
 
 import numpy as np
 
 from .utils import Array
 
-Background = namedtuple("Background", ["x", "y", "corrected", "background", "F0"])
+Background = namedtuple(
+    "Background",
+    ["x", "y", "corrected", "background", "F0", "method"],
+)
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +29,7 @@ class BackgroundCostFunction(str, Enum):
 
 def correct_background(
     x: Array, y: Array, method: BackgroundCorrection, **kwargs
-) -> Optional[Background]:
+) -> Background:
 
     methods = tuple(BackgroundCorrection.__members__.keys())
     if method not in methods:
@@ -37,7 +39,14 @@ def correct_background(
         raise ValueError(f"Size of x ({len(x)}) and y ({len(y)}) did not match")
 
     if method == BackgroundCorrection.none:
-        return None
+        return Background(
+            x=x,
+            y=y,
+            corrected=y,
+            background=np.zeros_like(y),
+            F0=1,
+            method=method,
+        )
 
     bkg = background(x, y, **kwargs)
 
@@ -47,7 +56,14 @@ def correct_background(
     if method == BackgroundCorrection.subtract:
         F0 = 1
     corrected = (1 / F0) * (y - bkg)
-    return Background(x=x, y=y, corrected=corrected, background=bkg, F0=F0)
+    return Background(
+        x=x,
+        y=y,
+        corrected=corrected,
+        background=bkg,
+        F0=F0,
+        method=method,
+    )
 
 
 def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
@@ -74,7 +90,14 @@ def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
     bkg = background(x, y, **kwargs)
     F0 = bkg[0]
     corrected = (1 / F0) * (y - bkg)
-    return Background(x=x, y=y, corrected=corrected, background=bkg, F0=F0)
+    return Background(
+        x=x,
+        y=y,
+        corrected=corrected,
+        background=bkg,
+        F0=F0,
+        method="full",
+    )
 
 
 def background(

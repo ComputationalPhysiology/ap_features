@@ -4,13 +4,25 @@ __version__ = "2021.0.5"
 
 import logging as _logging
 
-from . import background, chopping, features, average, filters, lib, utils, _c, _numba
+from . import (
+    background,
+    chopping,
+    features,
+    average,
+    filters,
+    lib,
+    utils,
+    _c,
+    _numba,
+    plot,
+)
 from ._c import NUM_COST_TERMS
 from ._numba import transpose_trace_array
 from .beat import Beat, Beats, Trace, BeatCollection, StateCollection, State
 from .features import all_cost_terms, apd, apd_up_xy, cost_terms, cost_terms_trace
 from .utils import Backend, list_cost_function_terms, list_cost_function_terms_trace
 from .average import average_and_interpolate, average_list
+from .background import BackgroundCorrection as BC
 
 
 def set_log_level(level=_logging.INFO):
@@ -54,4 +66,6 @@ __all__ = [
     "average_and_interpolate",
     "average_list",
     "filters",
+    "BC",
+    "plot",
 ]
