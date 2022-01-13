@@ -133,6 +133,26 @@ class Trace:
             fname=fname,
         )
 
+    def as_spline(self, k: int = 3, s: Optional[int] = None) -> UnivariateSpline:
+        """[summary]
+
+        Parameters
+        ----------
+        k : int, optional
+            Degree of the smoothing spline.  Must be 1 <= `k` <= 5.
+            Default is `k` = 3, a cubic spline, by default 3.
+        s : float or None, optional
+            Positive smoothing factor used to choose the number of knots.
+            If 0, spline will interpolate through all data points,
+            by default 0
+
+        Returns
+        -------
+        UnivariateSpline
+            A spline representation of the trace
+        """
+        return UnivariateSpline(x=self.t, y=self.y, k=k, s=s)
+
 
 class Beat(Trace):
     def __init__(

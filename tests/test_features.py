@@ -1,10 +1,11 @@
 import itertools as it
 import os
 
-import ap_features as apf
-import ap_features as cost_terms
 import numpy as np
 import pytest
+
+import ap_features as apf
+import ap_features as cost_terms
 
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -288,3 +289,14 @@ def test_maximum_upstroke_velocity(calcium_trace):
     x, y = calcium_trace
     max_up = apf.features.maximum_upstroke_velocity(y, t=x, use_spline=False)
     assert np.isclose(max_up, 0.03282385532831371)
+
+
+@pytest.mark.parametrize(
+    "factor",
+    range(10, 90, 5),
+)
+def test_apd_point_triangle_signal(factor, triangle_signal):
+    x, y = triangle_signal
+    x0, x1 = apf.features.apd_point(factor=factor, V=y, t=x, use_spline=True)
+    assert np.isclose(x0, 100 - factor)
+    assert np.isclose(x1, 100 + factor)
