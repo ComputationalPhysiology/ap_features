@@ -151,5 +151,5 @@ requirements = ["numpy", "numba", "tqdm"]
 
 setup(
     ext_modules=[get_extension()],
-    version="2021.0.5",
+    version="2022.0.0",
 )
