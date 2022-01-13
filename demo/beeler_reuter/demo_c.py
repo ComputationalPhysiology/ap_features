@@ -1,8 +1,7 @@
+import ap_features as apf
 import cmodel
 import matplotlib.pyplot as plt
 import numpy as np
-
-import ap_features as apf
 
 
 def main():

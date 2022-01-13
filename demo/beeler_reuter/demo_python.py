@@ -1,9 +1,8 @@
+import ap_features as apf
 import beeler_reuter_1977_version06 as model
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
-
-import ap_features as apf
 
 
 def main():

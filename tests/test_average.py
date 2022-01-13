@@ -1,7 +1,6 @@
+import ap_features as apf
 import numpy as np
 import pytest
-
-import ap_features as apf
 
 
 @pytest.mark.parametrize(
