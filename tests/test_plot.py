@@ -1,5 +1,6 @@
-from ap_features import plot
 from matplotlib.testing.decorators import image_comparison
+
+from ap_features import plot
 
 
 @image_comparison(baseline_images=["poincare"], extensions=["png"])

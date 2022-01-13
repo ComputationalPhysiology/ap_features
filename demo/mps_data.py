@@ -1,6 +1,7 @@
-import ap_features as apf
 import matplotlib.pyplot as plt
 import mps
+
+import ap_features as apf
 
 
 def print_beats_info(beats):
