@@ -18,7 +18,7 @@ def test_background(a, method):
     b = -1.5
     c = 100.0
 
-    bkg = a * x ** 2 + b * x + c
+    bkg = a * x**2 + b * x + c
     signal = y + bkg
 
     estimated_background = background.background(x, signal)

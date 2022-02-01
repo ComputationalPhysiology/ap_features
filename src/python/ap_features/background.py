@@ -212,7 +212,7 @@ def background(
     zp = np.ones(N)  # Previous estimation
 
     # Iterate
-    while np.sum((z - zp) ** 2) / np.sum(zp ** 2) > 1e-9:
+    while np.sum((z - zp) ** 2) / np.sum(zp**2) > 1e-9:
 
         it = it + 1  # Iteration number
         zp = z  # Previous estimation
