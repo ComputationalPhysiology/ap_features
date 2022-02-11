@@ -131,7 +131,9 @@ def all_cost_terms(
     assert t.shape[0] == arr.shape[0]
     num_trace_points = t.shape[0]
 
-    from ._numba import transpose_trace_array
+    from ._numba import transpose_trace_array, check_numba
+
+    check_numba()
 
     traces = transpose_trace_array(arr[...])
     num_sets = traces.shape[0]

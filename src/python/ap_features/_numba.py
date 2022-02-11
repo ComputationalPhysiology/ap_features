@@ -1,4 +1,5 @@
 import logging
+import warnings
 from typing import Optional
 
 import numpy as np
@@ -7,7 +8,10 @@ from ._c import NUM_COST_TERMS
 
 try:
     from numba import njit, prange
+
+    has_numba = True
 except ImportError:
+    has_numba = False
 
     # In case numba is not install we create a dummy decorator
     def njit(*args, **kwargs):
@@ -25,6 +29,16 @@ except ImportError:
     prange = range
 
 logger = logging.getLogger(__name__)
+
+
+def check_numba():
+    if not has_numba:
+        warnings.warn(
+            "You are calling a numba method without having numba installed. "
+            "This might lead to a reduced performance. To fix this problem "
+            "please install numba - 'python -m pip install numba'",
+            ImportWarning,
+        )
 
 
 @njit
