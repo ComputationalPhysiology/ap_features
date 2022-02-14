@@ -195,6 +195,7 @@ def apd(
     elif backend == Backend.c:
         return _c.apd(y=y, t=x, factor=factor)
     else:
+        _numba.check_numba()
         return _numba.apd(V=y, T=x, factor=factor)
 
 
@@ -626,6 +627,7 @@ def apd_up_xy(
     if backend == Backend.c:
         return _c.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
     if backend == Backend.numba:
+        _numba.check_numba()
         return _numba.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
 
     y_norm = utils.normalize_signal(y)
@@ -1010,6 +1012,7 @@ def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.nda
         )
 
     if backend == Backend.numba:
+        _numba.check_numba()
         return _numba.cost_terms_trace(y=y, t=t)
 
     # Use C backend
@@ -1034,6 +1037,7 @@ def cost_terms(
         )
 
     if backend == Backend.numba:
+        _numba.check_numba()
         return _numba.cost_terms(v=v, ca=ca, t_v=t_v, t_ca=t_ca)
 
     # Use C backend
@@ -1066,6 +1070,7 @@ def all_cost_terms(
             "Method currently not implemented for python backend (and will probably not be)",
         )
     if backend == Backend.numba:
+        _numba.check_numba()
         return _numba.all_cost_terms(arr=arr, t=t, mask=mask)
 
     # Use C backend
