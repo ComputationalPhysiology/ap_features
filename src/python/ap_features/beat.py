@@ -197,6 +197,10 @@ class Beat(Trace):
     def y_rest(self):
         return self._y_rest
 
+    def as_beats(self) -> "Beats":
+        """Convert trace from Beat to Beats"""
+        return Beats(y=self.y, t=self.y, pacing=self.pacing)
+
     def is_valid(self):
         """Check if intersection with APD50 line gives two
         points
@@ -691,6 +695,10 @@ class Beats(Trace):
             self.chopping_options.update(chopping_options)
         if intervals is not None:
             self.chopping_options["intervals"] = intervals
+
+    def as_beat(self) -> "Beat":
+        """Convert trace from Beats to Beat"""
+        return Beat(y=self.y, t=self.t, pacing=self.pacing)
 
     def plot_beats(self, ylabel: str = "", align: bool = False, fname: str = ""):
         plot.plot_beats_from_beat(self, ylabel=ylabel, align=align, fname=fname)
