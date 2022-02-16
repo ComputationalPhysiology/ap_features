@@ -47,11 +47,24 @@ class Trace:
         self._y = utils.numpyfy(y)
         if pacing is None:
             pacing = np.zeros_like(self._t)  # type: ignore
-
         self._pacing = utils.numpyfy(pacing)
+        self._validate_array_sizes()
 
         assert backend in Backend
         self._backend = backend
+
+    def _validate_array_sizes(self):
+
+        if self.y.size != self.t.size:
+            raise ValueError(
+                f"Expected y (size={self.y.size}) and "
+                "t (size={self.t.size}) to have same size",
+            )
+        if self.y.size != self.pacing.size:
+            raise ValueError(
+                f"Expected y (size={self.y.size}) and "
+                "pacing (size={self.pacing.size}) to have same size",
+            )
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(t={self.t.shape}, y={self.y.shape})"

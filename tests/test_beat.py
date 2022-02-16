@@ -59,6 +59,16 @@ def statecollection(request, state_collection_data):
     yield from handle_request_param(request, t, y, apf.StateCollection)
 
 
+def test_invalid_size_time():
+    with pytest.raises(ValueError):
+        apf.Trace([0, 1], [0, 1, 2])
+
+
+def test_invalid_size_pacing():
+    with pytest.raises(ValueError):
+        apf.Trace([0, 1, 2], [0, 1, 2], pacing=[0, 1])
+
+
 def test_trace(single_beat, trace):
     t, y = single_beat
 
