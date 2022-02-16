@@ -55,15 +55,15 @@ class Trace:
 
     def _validate_array_sizes(self):
 
-        if self.y.size != self.t.size:
+        if self._y.size != self._t.size:
             raise ValueError(
-                f"Expected y (size={self.y.size}) and "
-                "t (size={self.t.size}) to have same size",
+                f"Expected y (size={self._y.size}) and "
+                "t (size={self._t.size}) to have same size",
             )
-        if self.y.size != self.pacing.size:
+        if self._y.size != self._pacing.size:
             raise ValueError(
-                f"Expected y (size={self.y.size}) and "
-                "pacing (size={self.pacing.size}) to have same size",
+                f"Expected y (size={self._y.size}) and "
+                "pacing (size={self._pacing.size}) to have same size",
             )
 
     def __repr__(self) -> str:
