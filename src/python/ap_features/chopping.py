@@ -336,7 +336,10 @@ def chop_intervals(
         if N is None:
             # Find the correct time points
             s_idx = next(i for i, si in enumerate(time) if si >= s - eps)
-            e_idx = next(i for i, ei in enumerate(time) if ei >= e - eps)
+            try:
+                e_idx = next(i for i, ei in enumerate(time) if ei >= e - eps)
+            except StopIteration:
+                e_idx = len(time) - 1
             t = time[s_idx - 1 : e_idx + 1]
 
         else:
