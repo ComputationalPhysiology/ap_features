@@ -247,7 +247,7 @@ def test_beating_frequency(multiple_beats):
     times = [beat.t for beat in beats]
     assert np.isclose(
         apf.features.beating_frequency(times),
-        12.671594508975712,
+        12.909632571996026,
         atol=0.2,
     )
 

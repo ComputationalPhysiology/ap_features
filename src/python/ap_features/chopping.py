@@ -246,7 +246,7 @@ def chop_data_without_pacing(
                 upstroke_times=[],
             )
 
-        if len(upstroke_times) <= 2:
+        if len(upstroke_times) < 2:
             ## Just return the original data
             return ChoppedData(
                 data=[data],
@@ -340,7 +340,7 @@ def chop_intervals(
                 e_idx = next(i for i, ei in enumerate(time) if ei >= e - eps)
             except StopIteration:
                 e_idx = len(time) - 1
-            t = time[s_idx - 1 : e_idx + 1]
+            t = time[max(s_idx - 1, 0) : e_idx + 1]
 
         else:
             t = np.linspace(s, e, N)
