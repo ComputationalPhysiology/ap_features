@@ -129,8 +129,8 @@ def get_extension():
 
     extra_compile_args = []
     extra_link_args = []
-    disable_openmp = "DISABLE_OPENMP" in os.environ
-    if not disable_openmp and check_for_openmp():
+    enable_openmp = "ENABLE_OPENMP" in os.environ
+    if enable_openmp and check_for_openmp():
         extra_compile_args = get_openmp_compile_args()
         extra_link_args = get_openmp_link_args()
 
