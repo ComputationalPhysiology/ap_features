@@ -531,6 +531,25 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
     return new_list
 
 
+def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
+    xs = [beat.t - beat.t[0] for beat in beats]
+    ys = [beat.y for beat in beats]
+    new_beats = [Beat(yi, xi) for (xi, yi) in zip(xs, ys)]
+    apd_points = [b.apd_point(apd_point)[0] for b in new_beats]
+    apd_points = np.subtract(apd_points, min(apd_points))
+    xs = [xi - p for (xi, p) in zip(xs, apd_points)]
+
+    start = max(map(min, xs))  # Should be 0
+    end = min(map(max, xs))
+    X = np.linspace(start, end, N)
+    ys = [
+        average.interpolate(np.linspace(start, end, N), xi, yi)
+        for (xi, yi) in zip(xs, ys)
+    ]
+
+    return [Beat(yi, X, parent=parent) for yi in ys]
+
+
 def average_beat(
     beats: List[Beat],
     N: int = 200,
@@ -541,9 +560,8 @@ def average_beat(
         raise ValueError("Cannot average an empty list")
     if filters is not None:
         beats = filter_beats(beats, filters=filters, x=x)
-    xs = [beat.t - beat.t[0] for beat in beats]
-    ys = [beat.y for beat in beats]
-    avg = average.average_and_interpolate(ys, xs, N)
+    beats = align_beats(beats, N=N)
+    avg = average.average_and_interpolate([b.y for b in beats], [b.t for b in beats], N)
 
     pacing_avg = np.interp(
         np.linspace(
@@ -913,6 +931,9 @@ class Beats(Trace):
             An average beat.
         """
         return average_beat(beats=self.beats, N=N, filters=filters, x=x)
+
+    def aligned_beats(self, N=200) -> List[Beat]:
+        return align_beats(self.beats, N=N, parent=self)
 
     @property
     def beats(self) -> List[Beat]:
