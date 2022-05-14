@@ -33,6 +33,8 @@ def copy_function(copy: bool):
 
 
 class Trace:
+    __slots__ = ("_t", "_y", "_pacing", "_backend")
+
     def __init__(
         self,
         y: Array,
