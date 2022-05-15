@@ -532,13 +532,15 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
 
 
 def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
+
+    if len(beats) == 0:
+        return beats
     xs = [beat.t - beat.t[0] for beat in beats]
     ys = [beat.y for beat in beats]
     new_beats = [Beat(yi, xi) for (xi, yi) in zip(xs, ys)]
     apd_points = [b.apd_point(apd_point)[0] for b in new_beats]
     apd_points = np.subtract(apd_points, min(apd_points))
     xs = [xi - p for (xi, p) in zip(xs, apd_points)]
-
     start = max(map(min, xs))  # Should be 0
     end = min(map(max, xs))
     X = np.linspace(start, end, N)
