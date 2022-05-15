@@ -23,7 +23,7 @@ def test_apds_triangle_signal(factor, backend, triangle_signal):
 
 @pytest.mark.parametrize(
     "factor_x, factor_y, backend",
-    it.product(range(10, 95, 5), range(10, 95, 5), apf.Backend),
+    it.product(range(10, 95, 20), range(10, 95, 20), apf.Backend),
 )
 def test_apdxy_triangle_signal(factor_x, factor_y, backend, triangle_signal):
     x, y = triangle_signal
