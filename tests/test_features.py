@@ -2,7 +2,6 @@ import itertools as it
 import os
 
 import ap_features as apf
-import ap_features as cost_terms
 import numpy as np
 import pytest
 
@@ -12,12 +11,13 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 @pytest.mark.parametrize(
     "factor, backend",
-    it.product(range(10, 95, 5), cost_terms.Backend),
+    it.product(range(10, 95, 5), apf.Backend),
 )
 def test_apds_triangle_signal(factor, backend, triangle_signal):
     x, y = triangle_signal
 
-    apd = cost_terms.apd(V=y, t=x, factor=factor, backend=backend)
+    apd = apf.apd(V=y, t=x, factor=factor, backend=backend)
+
     assert abs(apd - 2 * factor) < 1e-10
 
 
@@ -37,20 +37,20 @@ def test_apdxy_triangle_signal(factor_x, factor_y, backend, triangle_signal):
 
 
 def test_number_of_cost_terms():
-    assert cost_terms.NUM_COST_TERMS == len(cost_terms.list_cost_function_terms())
+    assert apf.NUM_COST_TERMS == len(apf.list_cost_function_terms())
 
 
 def test_number_of_cost_terms_trace():
-    assert cost_terms.NUM_COST_TERMS // 2 == len(
-        cost_terms.list_cost_function_terms_trace(),
+    assert apf.NUM_COST_TERMS // 2 == len(
+        apf.list_cost_function_terms_trace(),
     )
 
 
 def test_compare_python_matlab(synthetic_data):
 
     arr, t, expected_cost = synthetic_data
-    cost = cost_terms.cost_terms(v=arr[0, :], ca=arr[1, :], t_v=t, t_ca=t)
-    lst = cost_terms.list_cost_function_terms()
+    cost = apf.cost_terms(v=arr[0, :], ca=arr[1, :], t_v=t, t_ca=t)
+    lst = apf.list_cost_function_terms()
 
     i = 0
     for ri in expected_cost:
