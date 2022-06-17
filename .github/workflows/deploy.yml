@@ -15,7 +15,7 @@ env:
   CIBW_BEFORE_ALL_MACOS: bash build_utils/build_libomp.sh
 
 jobs:
-  build_wheels_ubuntu:
+  build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -48,7 +48,7 @@ jobs:
           path: dist/*.tar.gz
 
   upload_pypi:
-    needs: [build_wheels_ubuntu, build_wheels_windows, build_wheels_mac, build_sdist]
+    needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     # upload to PyPI on every tag starting with 'v'
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
