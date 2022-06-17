@@ -1,0 +1,1322 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index &#8212; Action potential features</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Action potential features</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Action Potential features
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="INSTALL.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="demo_fitzhugh_nagumo.html">
+   Demo - Fitzhugh-Nagumo neural model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="AUTHORS.html">
+   Credits
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="CONTRIBUTING.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ap_features.html">
+   ap_features package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="modules.html">
+   ap_features
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ap_features.html">
+     ap_features package
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <a href="https://www.simula.no/research/projects/department-computational-physiology">Computational Physiology at Simula</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features/issues/new?title=Issue%20on%20page%20%2Fgenindex.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCostFunction.ah">ah (ap_features.background.BackgroundCostFunction attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.align_beats">align_beats() (in module ap_features.beat)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.aligned_beats">aligned_beats() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.aligned_beats">(ap_features.Beats method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.all_cost_terms">all_cost_terms() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.features.all_cost_terms">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.average
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.average">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.background
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.background">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.beat
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.beat">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.chopping
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.chopping">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.features
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.features">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.filters
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.filters">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.lib
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.lib">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.plot
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.plot">module</a>
+</li>
+      </ul></li>
+      <li>
+    ap_features.utils
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features.utils">module</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.apd">apd() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.apd">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.apd">(in module ap_features)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.apd">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.filters.Filters.apd30">apd30 (ap_features.filters.Filters attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.filters.Filters.apd50">apd50 (ap_features.filters.Filters attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.filters.Filters.apd70">apd70 (ap_features.filters.Filters attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.filters.Filters.apd80">apd80 (ap_features.filters.Filters attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.filters.Filters.apd90">apd90 (ap_features.filters.Filters attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.apd_coords">apd_coords() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.apd_point">apd_point() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.apd_point">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.apd_point">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.apd_slope">apd_slope() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.apd_slope">(ap_features.Beats method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.apd_slope">(in module ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.apd_up">apd_up() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.apd_up">(ap_features.beat.Beat method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.apd_up_xy">apd_up_xy() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.features.apd_up_xy">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.features.APDCoords">APDCoords (class in ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.as_beat">as_beat() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.as_beat">(ap_features.Beats method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.as_beats">as_beats() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.as_beats">(ap_features.beat.Beat method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.Trace.as_spline">as_spline() (ap_features.beat.Trace method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Trace.as_spline">(ap_features.Trace method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCostFunction.atq">atq (ap_features.background.BackgroundCostFunction attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.average.Average">Average (class in ap_features.average)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.average_and_interpolate">average_and_interpolate() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.average.average_and_interpolate">(in module ap_features.average)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.average_beat">average_beat() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.average_beat">(ap_features.Beats method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.average_beat">(in module ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.average_list">average_list() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.average.average_list">(in module ap_features.average)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.Backend">Backend (class in ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.utils.Backend">(class in ap_features.utils)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.background.Background.background">background (ap_features.background.Background attribute)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beats.background">(ap_features.beat.Beats property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.Beats.background">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.background.Background">Background (class in ap_features.background)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.background">background() (in module ap_features.background)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCorrection">BackgroundCorrection (class in ap_features.background)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCostFunction">BackgroundCostFunction (class in ap_features.background)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.BC">BC (in module ap_features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat">Beat (class in ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat">(class in ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.beat_rate">beat_rate (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.beat_rate">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.Beats.beat_rates">beat_rates (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.beat_rates">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.BeatCollection">BeatCollection (class in ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.BeatCollection">(class in ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.beating_frequencies">beating_frequencies (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.beating_frequencies">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.beating_frequency">beating_frequency (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.beating_frequency">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.features.beating_frequency">beating_frequency() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.beating_frequency_from_peaks">beating_frequency_from_peaks() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.beats">beats (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.beats">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beats">Beats (class in ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beats">(class in ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.BeatSeriesCollection">BeatSeriesCollection (class in ap_features.beat)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.Backend.c">c (ap_features.Backend attribute)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.utils.Backend.c">(ap_features.utils.Backend attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.capd">capd() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.capd">(ap_features.beat.Beat method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.check_intervals">check_intervals() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.chop_data">chop_data() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.chop_data">(ap_features.Beats method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.chopping.chop_data">(in module ap_features.chopping)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.chop_data_with_pacing">chop_data_with_pacing() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.chop_data_without_pacing">chop_data_without_pacing() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.chop_intervals">chop_intervals() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.chopped_data">chopped_data (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.chopped_data">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.chopped_data_to_beats">chopped_data_to_beats() (in module ap_features.beat)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.ChoppedData">ChoppedData (class in ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.average.clean_data">clean_data() (in module ap_features.average)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Trace.copy">copy() (ap_features.beat.Trace method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Trace.copy">(ap_features.Trace method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.copy_function">copy_function() (in module ap_features.beat)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.correct_background">correct_background() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.correct_background">(ap_features.Beats method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.background.correct_background">(in module ap_features.background)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.background.Background.corrected">corrected (ap_features.background.Background attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.corrected_apd">corrected_apd() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.cost_terms">cost_terms (ap_features.Beat property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.cost_terms">(ap_features.beat.Beat property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.State.cost_terms">(ap_features.beat.State property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.StateCollection.cost_terms">(ap_features.beat.StateCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.State.cost_terms">(ap_features.State property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.StateCollection.cost_terms">(ap_features.StateCollection property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.cost_terms">cost_terms() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.features.cost_terms">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.cost_terms_trace">cost_terms_trace() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.features.cost_terms_trace">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.create_intervals">create_intervals() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.average.create_longest_time_array">create_longest_time_array() (in module ap_features.average)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.cutoff_final_interval">cutoff_final_interval() (in module ap_features.chopping)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.chopping.ChoppedData.data">data (ap_features.chopping.ChoppedData attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.default_chopping_options">default_chopping_options() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.detect_ead">detect_ead() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.detect_ead">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.detect_ead">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.features.Upstroke.dt">dt (ap_features.features.Upstroke attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.chopping.EmptyChoppingError">EmptyChoppingError</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.Interval.end">end (ap_features.chopping.Interval attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.Trace.ensure_time_unit">ensure_time_unit() (ap_features.beat.Trace method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Trace.ensure_time_unit">(ap_features.Trace method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.extend_intervals">extend_intervals() (in module ap_features.chopping)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.background.Background.F0">F0 (ap_features.background.Background attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.filters.filt">filt() (in module ap_features.filters)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.filter">filter() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.filter">(ap_features.Beats method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.filter_beats">filter_beats() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.filter_beats">(ap_features.Beats method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.filter_beats">(in module ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.filters.filter_signals">filter_signals() (in module ap_features.filters)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.filter_start_ends_in_chopping">filter_start_ends_in_chopping() (in module ap_features.chopping)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.filters.Filters">Filters (class in ap_features.filters)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.find_pacing_indices">find_pacing_indices() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.utils.find_pacing_period">find_pacing_period() (in module ap_features.utils)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.filters.find_spike_points">find_spike_points() (in module ap_features.filters)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.find_start_and_ends">find_start_and_ends() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.find_start_end_index">find_start_end_index() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.find_upstroke_values">find_upstroke_values() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCorrection.full">full (ap_features.background.BackgroundCorrection attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.full_background_correction">full_background_correction() (in module ap_features.background)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.chopping.get_extend_value">get_extend_value() (in module ap_features.chopping)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.plot.has_matplotlib">has_matplotlib() (in module ap_features.plot)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.identity">identity() (in module ap_features.beat)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.Upstroke.index">index (ap_features.features.Upstroke attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.integrate_apd">integrate_apd() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.integrate_apd">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.integrate_apd">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.average.interpolate">interpolate() (in module ap_features.average)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.utils.interpolate">(in module ap_features.utils)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.utils.intersection">intersection() (in module ap_features.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.chopping.Interval">Interval (class in ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.intervals">intervals (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.intervals">(ap_features.Beats property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.chopping.ChoppedData.intervals">(ap_features.chopping.ChoppedData attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.InvalidChoppingError">InvalidChoppingError</a>
+</li>
+      <li><a href="ap_features.html#ap_features.filters.InvalidFilter">InvalidFilter</a>
+</li>
+      <li><a href="ap_features.html#ap_features.average.InvalidSubSignalError">InvalidSubSignalError</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.is_valid">is_valid() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.is_valid">(ap_features.beat.Beat method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.filters.Filters.length">length (ap_features.filters.Filters attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.list_cost_function_terms">list_cost_function_terms() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.utils.list_cost_function_terms">(in module ap_features.utils)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.list_cost_function_terms_trace">list_cost_function_terms_trace() (in module ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.utils.list_cost_function_terms_trace">(in module ap_features.utils)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.lib.load_library">load_library() (in module ap_features.lib)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.locate_chop_points">locate_chop_points() (in module ap_features.chopping)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.StateCollection.mask">mask (ap_features.beat.StateCollection property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.StateCollection.mask">(ap_features.StateCollection property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.features.max_relative_upstroke_velocity">max_relative_upstroke_velocity() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.maximum_relative_upstroke_velocity">maximum_relative_upstroke_velocity() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.maximum_relative_upstroke_velocity">(ap_features.beat.Beat method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.maximum_upstroke_velocity">maximum_upstroke_velocity() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.maximum_upstroke_velocity">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.maximum_upstroke_velocity">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.background.Background.method">method (ap_features.background.Background attribute)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="ap_features.html#module-ap_features">ap_features</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.average">ap_features.average</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.background">ap_features.background</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.beat">ap_features.beat</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.chopping">ap_features.chopping</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.features">ap_features.features</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.filters">ap_features.filters</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.lib">ap_features.lib</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.plot">ap_features.plot</a>
+</li>
+        <li><a href="ap_features.html#module-ap_features.utils">ap_features.utils</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCorrection.none">none (ap_features.background.BackgroundCorrection attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.utils.normalize_signal">normalize_signal() (in module ap_features.utils)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.num_beats">num_beats (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.BeatSeriesCollection.num_beats">(ap_features.beat.BeatSeriesCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.StateSeriesCollection.num_beats">(ap_features.beat.StateSeriesCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.Beats.num_beats">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.State.num_states">num_states (ap_features.beat.State property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.StateCollection.num_states">(ap_features.beat.StateCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.State.num_states">(ap_features.State property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.StateCollection.num_states">(ap_features.StateCollection property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.BeatCollection.num_traces">num_traces (ap_features.beat.BeatCollection property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.StateCollection.num_traces">(ap_features.beat.StateCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.BeatCollection.num_traces">(ap_features.BeatCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.StateCollection.num_traces">(ap_features.StateCollection property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Backend.numba">numba (ap_features.Backend attribute)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.utils.Backend.numba">(ap_features.utils.Backend attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.utils.numpyfy">numpyfy() (in module ap_features.utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.Beats.original_y">original_y (ap_features.beat.Beats property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.original_y">(ap_features.Beats property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.Trace.pacing">pacing (ap_features.beat.Trace property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.chopping.ChoppedData.pacing">(ap_features.chopping.ChoppedData attribute)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.Trace.pacing">(ap_features.Trace property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.pacing_to_start_ends">pacing_to_start_ends() (in module ap_features.chopping)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.ChoppedData.parameters">parameters (ap_features.chopping.ChoppedData attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.parent">parent (ap_features.Beat property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.parent">(ap_features.beat.Beat property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.BeatCollection.parent">(ap_features.beat.BeatCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.StateCollection.parent">(ap_features.beat.StateCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.BeatCollection.parent">(ap_features.BeatCollection property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.StateCollection.parent">(ap_features.StateCollection property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.Trace.plot">plot() (ap_features.beat.Trace method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Trace.plot">(ap_features.Trace method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.plot.plot_beat">plot_beat() (in module ap_features.plot)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.plot_beats">plot_beats() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.plot_beats">(ap_features.Beats method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.plot.plot_beats">(in module ap_features.plot)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.plot.plot_beats_from_beat">plot_beats_from_beat() (in module ap_features.plot)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.plot.poincare">poincare() (in module ap_features.plot)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.plot.poincare_from_beats">poincare_from_beats() (in module ap_features.plot)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Backend.python">python (ap_features.Backend attribute)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.utils.Backend.python">(ap_features.utils.Backend attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.remove_bad_indices">remove_bad_indices() (in module ap_features.beat)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Beats.remove_points">remove_points() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.remove_points">(ap_features.Beats method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.filters.remove_points">(in module ap_features.filters)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.Beats.remove_spikes">remove_spikes() (ap_features.beat.Beats method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Beats.remove_spikes">(ap_features.Beats method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.plot.require_matplotlib">require_matplotlib() (in module ap_features.plot)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.plot.savefig">savefig() (in module ap_features.plot)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCostFunction.sh">sh (ap_features.background.BackgroundCostFunction attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.Upstroke.sigmoid">sigmoid (ap_features.features.Upstroke attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.sign_change">sign_change() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Trace.slice">slice() (ap_features.beat.Trace method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Trace.slice">(ap_features.Trace method)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.Interval.start">start (ap_features.chopping.Interval attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.State">State (class in ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.State">(class in ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.StateCollection">StateCollection (class in ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.StateCollection">(class in ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.beat.StateSeriesCollection">StateSeriesCollection (class in ap_features.beat)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCostFunction.stq">stq (ap_features.background.BackgroundCostFunction attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.background.BackgroundCorrection.subtract">subtract (ap_features.background.BackgroundCorrection attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.beat.Trace.t">t (ap_features.beat.Trace property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Trace.t">(ap_features.Trace property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.tau">tau() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.tau">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.tau">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.features.Upstroke.time_APD20_to_APD80">time_APD20_to_APD80 (ap_features.features.Upstroke attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.filters.Filters.time_to_peak">time_to_peak (ap_features.filters.Filters attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.time_to_peak">time_to_peak() (in module ap_features.features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.beat.Trace.time_unit">time_unit (ap_features.beat.Trace property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.Trace.time_unit">(ap_features.Trace property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.utils.time_unit">time_unit() (in module ap_features.utils)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.chopping.ChoppedData.times">times (ap_features.chopping.ChoppedData attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Trace">Trace (class in ap_features)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Trace">(class in ap_features.beat)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.transpose_trace_array">transpose_trace_array() (in module ap_features)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.triangulation">triangulation() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.triangulation">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.triangulation">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.ttp">ttp() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.ttp">(ap_features.beat.Beat method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.features.UnequalLengthError">UnequalLengthError</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.Upstroke.upstroke">upstroke (ap_features.features.Upstroke attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.Upstroke">Upstroke (class in ap_features.features)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.Beat.upstroke">upstroke() (ap_features.Beat method)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.upstroke">(ap_features.beat.Beat method)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.features.upstroke">(in module ap_features.features)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.chopping.ChoppedData.upstroke_times">upstroke_times (ap_features.chopping.ChoppedData attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.utils.valid_index">valid_index() (in module ap_features.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.features.Upstroke.value">value (ap_features.features.Upstroke attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.filters.within_x_std">within_x_std() (in module ap_features.filters)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.average.Average.x">x (ap_features.average.Average attribute)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.background.Background.x">(ap_features.background.Background attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.features.Upstroke.x0">x0 (ap_features.features.Upstroke attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.features.APDCoords.x1">x1 (ap_features.features.APDCoords attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.APDCoords.x2">x2 (ap_features.features.APDCoords attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.average.Average.xs">xs (ap_features.average.Average attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.average.Average.y">y (ap_features.average.Average attribute)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.background.Background.y">(ap_features.background.Background attribute)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.Beats.y">(ap_features.beat.Beats property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.beat.Trace.y">(ap_features.beat.Trace property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.Beats.y">(ap_features.Beats property)</a>
+</li>
+        <li><a href="ap_features.html#ap_features.Trace.y">(ap_features.Trace property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.features.APDCoords.y1">y1 (ap_features.features.APDCoords attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ap_features.html#ap_features.features.APDCoords.y2">y2 (ap_features.features.APDCoords attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.Beat.y_normalized">y_normalized (ap_features.Beat property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.y_normalized">(ap_features.beat.Beat property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.Beat.y_rest">y_rest (ap_features.Beat property)</a>
+
+      <ul>
+        <li><a href="ap_features.html#ap_features.beat.Beat.y_rest">(ap_features.beat.Beat property)</a>
+</li>
+      </ul></li>
+      <li><a href="ap_features.html#ap_features.average.Average.ys">ys (ap_features.average.Average attribute)</a>
+</li>
+      <li><a href="ap_features.html#ap_features.features.APDCoords.yth">yth (ap_features.features.APDCoords attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Henrik Finsberg og Kristian Hustad<br/>
+  
+      &copy; Copyright 2021.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
