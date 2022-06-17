@@ -8,7 +8,7 @@ on:
       - "v*"
 
 env:
-  CIBW_BUILD: "cp37-*"
+  CIBW_BUILD: "cp3{8,9,10}-*"
 
 jobs:
   build_wheels:
