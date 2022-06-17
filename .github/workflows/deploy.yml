@@ -10,8 +10,8 @@ on:
 env:
   CIBW_SKIP: "pp* cp27-* cp36-*"
   CIBW_ARCHS_WINDOWS: "auto"
-  CIBW_ARCHS_LINUX: "auto aarch64"
-  CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
+  CIBW_ARCHS_LINUX: "auto"
+  CIBW_ARCHS_MACOS: "x86_64 arm64"
   CIBW_BEFORE_ALL_MACOS: bash build_utils/build_libomp.sh
 
 jobs:
