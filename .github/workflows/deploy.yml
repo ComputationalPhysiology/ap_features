@@ -8,15 +8,35 @@ on:
       - "v*"
 
 env:
-  CIBW_BUILD: "cp3{8,9,10}-*"
+  CIBW_BUILD: cp3{7,8,9,"10"}-*
 
 jobs:
-  build_wheels:
+  build_wheels_ubuntu:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v1.11.0
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
+
+  build_wheels_windows:
+    name: Build wheels for ${{matrix.arch}} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        arch: [win32, win_amd64]
 
     steps:
       - uses: actions/checkout@v2
@@ -31,8 +51,12 @@ jobs:
           path: ./wheelhouse/*.whl
 
   build_wheels_mac:
-    name: Build wheels on mac
-    runs-on: macos-latest
+    name: Build wheels for ${{matrix.arch}} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+        arch: [x86_64, arm64]
 
     steps:
       - uses: actions/checkout@v2
@@ -63,7 +87,7 @@ jobs:
           path: dist/*.tar.gz
 
   upload_pypi:
-    needs: [build_wheels, build_wheels_mac, build_sdist]
+    needs: [build_wheels_ubuntu, build_wheels_windows, build_wheels_mac, build_sdist]
     runs-on: ubuntu-latest
     # upload to PyPI on every tag starting with 'v'
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
