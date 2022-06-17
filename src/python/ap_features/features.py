@@ -199,6 +199,17 @@ def apd(
         return _numba.apd(V=y, T=x, factor=factor)
 
 
+def sign_change(y: np.ndarray) -> np.ndarray:
+    s = np.sign(y)
+
+    # If we have many zero values just use these instead
+    num_zeros = len(s[s == 0])
+    if num_zeros > 1:
+        return np.where(s == 0)[0]
+
+    return np.where(np.diff(np.sign(y)))[0]
+
+
 def apd_point(
     factor: float,
     V: Array,
@@ -251,10 +262,11 @@ def apd_point(
 
         inds = f.roots()
         if len(inds) == 1:
+
             # Safety guard for strange interpolations
-            inds = t[np.where(np.diff(np.sign(y)))[0]]
+            inds = t[sign_change(y)]
     else:
-        inds = t[np.where(np.diff(np.sign(y)))[0]]
+        inds = t[sign_change(y)]
     if len(inds) == 0:
         logger.warning("Warning: no root was found for APD {}".format(factor))
         x1 = x2 = 0
