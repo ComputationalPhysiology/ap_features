@@ -42,7 +42,7 @@ Note that the documentation is written using [`jupyterbook`](https://jupyterbook
 
 
 ## License
-* Free software: GNU General Public License v3
+* Free software: LGPLv2.1
 
 ## Source Code
 * <https://github.com/ComputationalPhysiology/ap_features>
