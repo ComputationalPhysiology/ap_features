@@ -894,9 +894,27 @@ intersection of the APD p line</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ap_features.beat.Beat.apd_up">
-<span class="sig-name descname"><span class="pre">apd_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ap_features.beat.Beat.apd_up" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="ap_features.beat.Beat.apd_up_xy">
+<span class="sig-name descname"><span class="pre">apd_up_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ap_features.beat.Beat.apd_up_xy" title="Permalink to this definition">#</a></dt>
+<dd><p>Find the duration between first intersection (i.e
+during the upstroke) of two APD lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factor_x</strong> (<em>int</em>) – First APD line (value between 0 and 100)</p></li>
+<li><p><strong>factor_y</strong> (<em>int</em>) – Second APD line (value between 0 and 100)</p></li>
+<li><p><strong>backend</strong> (<a class="reference internal" href="#ap_features.utils.Backend" title="ap_features.utils.Backend"><em>utils.Backend</em></a><em>, </em><em>optional</em>) – Which backend to use by default Backend.python.
+Choices, ‘python’, ‘c’, ‘numba’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The time between <cite>factor_x</cite> to <cite>factor_y</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Beat.as_beats">
@@ -907,7 +925,39 @@ intersection of the APD p line</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Beat.capd">
 <span class="sig-name descname"><span class="pre">capd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beat_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'friderica'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_spline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_median_beat_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#ap_features.beat.Beat.capd" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Correct the given APD (or any QT measurement) for the beat rate.
+normally the faster the HR (or the shorter the RR interval),
+the shorter the QT interval, and vice versa</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factor</strong> (<em>int</em>) – Integer between 0 and 100</p></li>
+<li><p><strong>beat_rate</strong> (<em>float</em>) – The beat rate (number of beats per minute)</p></li>
+<li><p><strong>formula</strong> (<em>str</em><em>, </em><em>optional</em>) – Formula for computing th corrected APD, either
+‘friderica’ or ‘bazett’, by default ‘friderica’,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The corrected APD</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Friderica formula (default):</p>
+<div class="math notranslate nohighlight">
+\[APD (RR)^{-1/3}\]</div>
+<p>Bazett formula:</p>
+<div class="math notranslate nohighlight">
+\[APD (RR)^{-1/2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interaval in an ECG. For an action potential
+this would be equivalent to the inverse of the beating frequency (or 60
+divided by the beat rate)</p>
+<p class="rubric">Luo, Shen, et al. “A comparison of commonly used QT correction formulae:
+the effect of heart rate on the QTc of normal ECGs.” Journal of
+electrocardiology 37 (2004): 81-90.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Beat.cost_terms">
@@ -3047,9 +3097,27 @@ intersection of the APD p line</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ap_features.Beat.apd_up">
-<span class="sig-name descname"><span class="pre">apd_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ap_features.Beat.apd_up" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="ap_features.Beat.apd_up_xy">
+<span class="sig-name descname"><span class="pre">apd_up_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ap_features.Beat.apd_up_xy" title="Permalink to this definition">#</a></dt>
+<dd><p>Find the duration between first intersection (i.e
+during the upstroke) of two APD lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factor_x</strong> (<em>int</em>) – First APD line (value between 0 and 100)</p></li>
+<li><p><strong>factor_y</strong> (<em>int</em>) – Second APD line (value between 0 and 100)</p></li>
+<li><p><strong>backend</strong> (<a class="reference internal" href="#ap_features.utils.Backend" title="ap_features.utils.Backend"><em>utils.Backend</em></a><em>, </em><em>optional</em>) – Which backend to use by default Backend.python.
+Choices, ‘python’, ‘c’, ‘numba’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The time between <cite>factor_x</cite> to <cite>factor_y</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Beat.as_beats">
@@ -3060,7 +3128,39 @@ intersection of the APD p line</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Beat.capd">
 <span class="sig-name descname"><span class="pre">capd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beat_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'friderica'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_spline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_median_beat_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#ap_features.Beat.capd" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Correct the given APD (or any QT measurement) for the beat rate.
+normally the faster the HR (or the shorter the RR interval),
+the shorter the QT interval, and vice versa</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factor</strong> (<em>int</em>) – Integer between 0 and 100</p></li>
+<li><p><strong>beat_rate</strong> (<em>float</em>) – The beat rate (number of beats per minute)</p></li>
+<li><p><strong>formula</strong> (<em>str</em><em>, </em><em>optional</em>) – Formula for computing th corrected APD, either
+‘friderica’ or ‘bazett’, by default ‘friderica’,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The corrected APD</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Friderica formula (default):</p>
+<div class="math notranslate nohighlight">
+\[APD (RR)^{-1/3}\]</div>
+<p>Bazett formula:</p>
+<div class="math notranslate nohighlight">
+\[APD (RR)^{-1/2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interaval in an ECG. For an action potential
+this would be equivalent to the inverse of the beating frequency (or 60
+divided by the beat rate)</p>
+<p class="rubric">Luo, Shen, et al. “A comparison of commonly used QT correction formulae:
+the effect of heart rate on the QTc of normal ECGs.” Journal of
+electrocardiology 37 (2004): 81-90.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Beat.cost_terms">
