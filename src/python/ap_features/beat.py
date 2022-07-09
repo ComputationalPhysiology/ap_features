@@ -140,7 +140,7 @@ class Trace:
         include_background: bool = False,
         ylabel: str = "",
     ):
-        plot.plot_beat(
+        return plot.plot_beat(
             self,
             include_pacing=include_pacing,
             include_background=include_background,
@@ -314,6 +314,49 @@ class Beat(Trace):
         use_spline: bool = True,
         use_median_beat_rate: bool = False,
     ) -> float:
+        """Correct the given APD (or any QT measurement) for the beat rate.
+        normally the faster the HR (or the shorter the RR interval),
+        the shorter the QT interval, and vice versa
+
+        Parameters
+        ----------
+        factor : int
+            Integer between 0 and 100
+        beat_rate : float
+            The beat rate (number of beats per minute)
+        formula : str, optional
+            Formula for computing th corrected APD, either
+            'friderica' or 'bazett', by default 'friderica',
+
+        Returns
+        -------
+        float
+            The corrected APD
+
+        Notes
+        -----
+
+        Friderica formula (default):
+
+        .. math::
+
+            APD (RR)^{-1/3}
+
+        Bazett formula:
+
+        .. math::
+
+            APD (RR)^{-1/2}
+
+        where :math:`RR` is the R-R interaval in an ECG. For an action potential
+        this would be equivalent to the inverse of the beating frequency (or 60
+        divided by the beat rate)
+
+        .. rubric::
+            Luo, Shen, et al. "A comparison of commonly used QT correction formulae:
+            the effect of heart rate on the QTc of normal ECGs." Journal of
+            electrocardiology 37 (2004): 81-90.
+        """
 
         if beat_rate is None:
             if self.parent is None:
@@ -510,8 +553,27 @@ class Beat(Trace):
             prominence_level=prominence_level,
         )
 
-    def apd_up(self, factor_x, factor_y):
-        pass
+    def apd_up_xy(self, factor_x, factor_y):
+        """Find the duration between first intersection (i.e
+        during the upstroke) of two APD lines
+
+        Arguments
+        ---------
+        factor_x: int
+            First APD line (value between 0 and 100)
+        factor_y: int
+            Second APD line (value between 0 and 100)
+        backend : utils.Backend, optional
+            Which backend to use by default Backend.python.
+            Choices, 'python', 'c', 'numba'
+
+        Returns
+        -------
+        float:
+            The time between `factor_x` to `factor_y`
+
+        """
+        return features.apd_up_xy(self.y, self.y, factor_x=factor_x, factor_y=factor_y)
 
     @property
     def cost_terms(self):
