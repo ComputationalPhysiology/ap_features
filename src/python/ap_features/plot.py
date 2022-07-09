@@ -35,12 +35,9 @@ def savefig(fig, fname: str) -> None:
     fname : str
         The path
     """
-    import matplotlib.pyplot as plt
 
     if fname != "":
         fig.savefig(fname)
-    else:
-        plt.show()
 
 
 @require_matplotlib
@@ -79,6 +76,7 @@ def plot_beat(
         ax.legend(lines, labels, loc="best")
 
     savefig(fig, fname=fname)
+    return fig, ax
 
 
 def plot_beats_from_beat(
@@ -87,7 +85,7 @@ def plot_beats_from_beat(
     align: bool = False,
     fname: str = "",
 ):
-    plot_beats(trace.beats, ylabel=ylabel, align=align, fname=fname)
+    return plot_beats(trace.beats, ylabel=ylabel, align=align, fname=fname)
 
 
 @require_matplotlib
@@ -96,7 +94,7 @@ def plot_beats(
     ylabel: str = "",
     align: bool = False,
     fname: str = "",
-) -> None:
+):
 
     import matplotlib.pyplot as plt
 
@@ -111,6 +109,7 @@ def plot_beats(
     ax.set_ylabel(ylabel)
 
     savefig(fig, fname=fname)
+    return fig, ax
 
 
 @require_matplotlib
@@ -118,7 +117,7 @@ def poincare_from_beats(
     beats: List[_beat.Beat],
     apds: List[int],
     fname: str = "",
-) -> None:
+):
     """
     Create poincare plots for given APDs
 
@@ -162,14 +161,14 @@ def poincare_from_beats(
     ax.set_ylabel("APD(n) [ms]")
 
     savefig(fig, fname=fname)
-    return None
+    return fig, ax
 
 
 def poincare(
     trace: _beat.Beats,
     apds: List[int],
     fname: str = "",
-) -> None:
+):
     """
     Create poincare plots for given APDs
 
