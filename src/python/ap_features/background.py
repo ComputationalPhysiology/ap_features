@@ -79,7 +79,7 @@ def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
     x : Array
         Time points
     y : Array
-        Fluorecense amplitude
+        Fluorescence amplitude
 
     Returns
     -------
@@ -110,7 +110,7 @@ def background(
     r"""Compute an estimation of the background (aka baseline)
     in chemical spectra. The background is estimated by a polynomial
     with order using a cost-function and a threshold parameter.
-    This is a reimplementation of a MATLAB script that
+    This is a re-implementation of a MATLAB script that
     can be found `here <https://se.mathworks.com/matlabcentral
     /fileexchange/27429-background-correction>`_
 
@@ -202,7 +202,7 @@ def background(
     T = np.vander(x_norm, order + 1)
     Tinv = np.linalg.pinv(T.T.dot(T)).dot(T.T)
 
-    # Initialisation (least-squares estimation)
+    # Initialization (least-squares estimation)
     a = Tinv.dot(y_norm)
     z = T.dot(a)
 

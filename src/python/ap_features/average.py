@@ -18,10 +18,10 @@ class InvalidSubSignalError(RuntimeError):
 
 def average_list(signals: Sequence[Array]) -> Array:
     """Get average of signals.
-    Assume that signals are alinged, but
+    Assume that signals are aligned, but
     they dont have to be of the same length.
     If they have different length then the output
-    average will have the same lenght as the longest
+    average will have the same length as the longest
     array
 
     Parameters
@@ -41,14 +41,14 @@ def average_list(signals: Sequence[Array]) -> Array:
     if len(signals) == 1:
         return signals[0]
 
-    # Check is they have the same lenght
+    # Check is they have the same length
     if all([len(s) == len(signals[0]) for s in signals[1:]]):
         # Then it is easy to take the average
         average = np.mean(signals, 0)  # type:ignore
 
     else:
-        # We need to take into account the possibilty
-        # the the subsignals have different lenght
+        # We need to take into account the possibility
+        # the the sub-signals have different length
         def avg(x):
             x = [i for i in x if i]
             if len(x) == 0:
@@ -65,7 +65,7 @@ def clean_data(
     xs: Optional[Sequence[Array]],
 ) -> Tuple[Sequence[Array], Sequence[Array]]:
     """Make sure `xs` and `ys` have the
-    correct shapes and remove empty subsignals
+    correct shapes and remove empty sub-signals
 
     Parameters
     ----------
@@ -82,7 +82,7 @@ def clean_data(
     Note
     ----
     The order you send in the array will be the
-    same as the order it is retured. Apart from
+    same as the order it is returned. Apart from
     this fact, the order doesn't matter.
 
     Raises
@@ -90,7 +90,7 @@ def clean_data(
     InvalidSubSignalError
         If the length of `xs` and `ys` don't agree
     InvalidSubSignalError
-        If the length of one of the subsignals of `xs`
+        If the length of one of the sub-signals of `xs`
         and `ys` don't agree.
     """
     new_xs = []
@@ -101,14 +101,14 @@ def clean_data(
 
     if len(xs) != len(ys):
         raise InvalidSubSignalError(
-            "Expected Xs and Ys has to be of same lenght. "
+            "Expected Xs and Ys has to be of same length. "
             f"Got len(xs) = {len(xs)}, len(ys) = {len(ys)}",
         )
 
     for i, (x, y) in enumerate(zip(xs, ys)):
         if len(x) != len(y):
             raise InvalidSubSignalError(
-                "Expected X and Y has to be of same lenght. "
+                "Expected X and Y has to be of same length. "
                 f"Got len(x) = {len(x)}, len(y) = {len(y)} for index {i}",
             )
         if len(x) == 0:
@@ -121,7 +121,7 @@ def clean_data(
 
 
 def interpolate(X: Array, x: Array, y: Array) -> np.ndarray:
-    """Interapolate array
+    """Interpolate array
 
     Parameters
     ----------
@@ -153,15 +153,15 @@ def interpolate(X: Array, x: Array, y: Array) -> np.ndarray:
 
 
 def create_longest_time_array(xs: Sequence[Array], N: int) -> np.ndarray:
-    """Given a list of subsignals create a new array of length
+    """Given a list of sub-signals create a new array of length
     `N` that cover all values
 
     Parameters
     ----------
     xs : Sequence[Array]
-        List of monotonic sub subsignal
+        List of monotonic sub sub-signal
     N : int
-        Size of output arrayu
+        Size of output array
 
     Returns
     -------
@@ -179,7 +179,7 @@ def average_and_interpolate(
     N: int = 200,
 ) -> Average:
     """
-    Get the avagere of list of signals assuming that
+    Get the average of list of signals assuming that
     they align at the same x value
 
     Parameters
@@ -189,7 +189,7 @@ def average_and_interpolate(
     xs : Array
         The x-values
     N : int
-        Lenght of output array (Default: 200)
+        Length of output array (Default: 200)
 
     Returns
     -------

@@ -103,7 +103,7 @@ def normalize_signal(V, v_r=None):
 
     """
 
-    # Maximum valu
+    # Maximum value
     v_max = np.max(V)
 
     # Baseline or resting value
@@ -116,7 +116,7 @@ def normalize_signal(V, v_r=None):
 def time_unit(time_stamps):
 
     dt = np.mean(np.diff(time_stamps))
-    # Assume dt is larger than 0.5 ms and smallar than 0.5 seconds
+    # Assume dt is larger than 0.5 ms and smaller than 0.5 seconds
     unit = "ms" if dt > 0.5 else "s"
     return unit
 

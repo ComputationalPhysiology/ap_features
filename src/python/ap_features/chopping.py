@@ -130,10 +130,10 @@ def chop_data_without_pacing(
     threshold_factor : float
         Thresholds for where the signal should be chopped (Default: 0.3)
     extend_front : scalar
-        Extend the start of each subsignal this many milliseconds
+        Extend the start of each sub-signal this many milliseconds
         before the threshold is detected. Default: 300 ms
     extend_end : scalar
-        Extend the end of each subsignal this many milliseconds.
+        Extend the end of each sub-signal this many milliseconds.
         Default 60 ms.
     min_window : scalar
         Length of minimum window
@@ -155,7 +155,7 @@ def chop_data_without_pacing(
     to chop the signal into different beats. Suppose we have the
     signal :math:`y(t),
     t \in [0, T]`, where we assume that filtering and background correction
-    have allready been applied. Suppose we have :math:`N` sub-signals,
+    have already been applied. Suppose we have :math:`N` sub-signals,
     :math:`z_1, z_2, \cdots, z_N`, each representing one beat. Let
     :math:`\tau_i = [\tau_i^0, \tau_i^1], i = 1, \cdots N` be
     non-empty intervals corresponding to the support of each sub-signal
@@ -205,7 +205,7 @@ def chop_data_without_pacing(
 
     Note that we need to also make sure that all beats have a start and an end.
 
-    6. Extend each subsignal at the beginning and end, i,e
+    6. Extend each sub-signal at the beginning and end, i,e
        if :math:`a,b \geq 0`, define
 
     .. math::
@@ -304,7 +304,7 @@ def chop_intervals(
         Pacing amplitude, by default None
     N : Optional[int], optional
         Number of points in each chopped signal, by default None.
-        If this is differnt from None then each signal will be
+        If this is different from None then each signal will be
         interpolated so that it has N points
     max_window : float, optional
         Maximum allowed size of a chopped signal, by default 2000
@@ -393,7 +393,7 @@ def find_start_and_ends(
     threshold_factor : float
         Threshold for where to chop
     min_window : float
-        Lenght of minimum chopped signal
+        Length of minimum chopped signal
     extend_front : Optional[float]
         How many ms the signal should be extended at the front
     extend_end : Optional[float]
@@ -424,10 +424,10 @@ def find_start_and_ends(
 
 
 def create_intervals(starts: Array, ends: Array) -> List[Interval]:
-    remaing_ends = (e for e in sorted(ends))
+    remaining_ends = (e for e in sorted(ends))
     intervals = []
     for start in sorted(starts):
-        for end in remaing_ends:
+        for end in remaining_ends:
             if end > start:
                 intervals.append(Interval(start, end))
                 break
@@ -520,7 +520,7 @@ def get_extend_value(
 
 def check_intervals(intervals: List[Interval]) -> None:
     """Check starts and ends and make sure that
-    they are consitent
+    they are consistent
 
     Parameters
     ----------
@@ -556,20 +556,20 @@ def locate_chop_points(
     min_window: float = 50,
     eps: float = 0.1,
 ) -> Tuple[Array, Array, Array]:
-    """Find the ponts where to chop
+    """Find the points where to chop
 
     Parameters
     ----------
     time : Array
         Time stamps
     data : Array
-        The signal amplitide
+        The signal amplitude
     threshold_factor : float
-        The thresold for where to chop
+        The threshold for where to chop
     min_window : float, optional
-        Mininmum allow size of signal in ms, by default 50
+        Minimum allow size of signal in ms, by default 50
     eps : float, optional
-        Perterbation use to find the sign of the signal
+        Perturbation use to find the sign of the signal
         derivative, by default 0.1
 
     Returns
@@ -623,10 +623,10 @@ def chop_data_with_pacing(
     pacing : Array
         The pacing amplitude
     extend_front : float
-        Extend the start of each subsignal this many milliseconds
+        Extend the start of each sub-signal this many milliseconds
         before the threshold is detected. Default: 0 ms
     extend_end : float
-        Extend the end of each subsignal this many milliseconds.
+        Extend the end of each sub-signal this many milliseconds.
         Default 0 ms.
     min_window : float
         Minimum size of chopped signal
@@ -635,8 +635,8 @@ def chop_data_with_pacing(
 
     Returns
     -------
-    ChoppeData
-        Named tuple with the choppped data
+    ChoppedData
+        Named tuple with the chopped data
 
 
     Notes
@@ -715,13 +715,13 @@ def pacing_to_start_ends(
     time : Array
         Time stamps
     pacing : Array
-        Array of pacing amplitides
+        Array of pacing amplitudes
     extend_front : float
         How many ms you want to extend the array in front
     extend_end : float
-        How many ms you want to exten the array at the end
+        How many ms you want to extend the array at the end
     add_final : bool, optional
-        Wheter you want to add a final end point for the
+        Whether you want to add a final end point for the
         last index, by default True
 
     Returns

@@ -236,7 +236,7 @@ class Beat(Trace):
         Returns
         -------
         Tuple[float, float]
-            Two poits corresonding to the first and second
+            Two points corresponding to the first and second
             intersection of the APD p line
         """
         return features.apd_point(
@@ -295,7 +295,7 @@ class Beat(Trace):
         Returns
         -------
         float
-            The triangulatons
+            The triangulations
         """
         return features.triangulation(
             V=self.y,
@@ -348,7 +348,7 @@ class Beat(Trace):
 
             APD (RR)^{-1/2}
 
-        where :math:`RR` is the R-R interaval in an ECG. For an action potential
+        where :math:`RR` is the R-R interval in an ECG. For an action potential
         this would be equivalent to the inverse of the beating frequency (or 60
         divided by the beat rate)
 
@@ -377,7 +377,7 @@ class Beat(Trace):
         return features.corrected_apd(apd, beat_rate=beat_rate, formula=formula)
 
     def tau(self, a: float) -> float:
-        """Decay time. Time for the signal amplitude to go from maxium to
+        """Decay time. Time for the signal amplitude to go from maximum to
         (1 - a) * 100 % of maximum
 
         Parameters
@@ -522,7 +522,7 @@ class Beat(Trace):
         sigma: float = 1,
         prominence_level: float = 0.07,
     ) -> Tuple[bool, Optional[int]]:
-        """Detect (Early afterdepolarizations) EADs
+        """Detect (Early after depolarizations) EADs
         based on peak prominence.
 
         Parameters
@@ -530,13 +530,13 @@ class Beat(Trace):
         y : Array
             The signal that you want to detect EADs
         sigma : float
-            Standard deviation in the gaussian smoothing kernal
+            Standard deviation in the gaussian smoothing kernel
             Default: 1.0
         prominence_level: float
             How prominent a peak should be in order to be
-            characterized as an EAD. This value shold be
+            characterized as an EAD. This value should be
             between 0 and 1, with a greater value being
-            more prominent. Defaulta: 0.07
+            more prominent. Default: 0.07
 
         Returns
         -------
@@ -647,7 +647,7 @@ def filter_beats(
     filters: Sequence[_filters.Filters],
     x: float = 1.0,
 ) -> List[Beat]:
-    """Filter beats based of similiarities of the filters
+    """Filter beats based of similarities of the filters
 
     Parameters
     ----------
@@ -755,6 +755,44 @@ class Beats(Trace):
         intervals: Optional[List[chopping.Interval]] = None,
         chopping_options: Optional[Dict[str, float]] = None,
     ) -> None:
+        """Initializer for `Beats` class
+
+        Parameters
+        ----------
+        y : Array
+            The amplitude of the array
+        t : Array
+            The time stamps
+        pacing : Optional[Array], optional
+            An optional array of pacing amplitude values, by default None.
+            If provided, it can be used to better chop the data
+            into individual beats.
+        background_correction_method : BC, optional
+            Method to perform background correction, by default BC.none.
+            Possible methods are "full", "subtract" and "none".
+            See `ap_features.background.correct_background` for more info.
+        zero_index : Optional[int], optional
+            Index where the value should be forced to be zero, by default None.
+            This will make sure that the array at the given index is zero, and
+            by subtracting the value at that index from all other values in the
+            array.
+        backend : Backend, optional
+            Backend to use for heavy computations, by default Backend.c.
+            Possible options are "c", "numba" and "python". Note that
+            most functions will be implemented in python / numpy anyway.
+        intervals : Optional[List[chopping.Interval]], optional
+            Optional ist of tuples containing start and ends of each beat
+            to be used for chopping, by default None.
+        chopping_options : Optional[Dict[str, float]], optional
+            Parameters to be used for chopping trace into individual beats,
+            by default None. See `ap_features.chopping.chop_data_without_pacing`
+            and `ap_features.chopping.chop_data_with_pacing` for more info.
+
+        Raises
+        ------
+        RuntimeError
+            If invalid zero_index is provided
+        """
         self.background_correction = background.correct_background(
             x=t,
             y=y,
@@ -949,7 +987,7 @@ class Beats(Trace):
     @property
     def beat_rate(self) -> float:
         """The beat rate, i.e number of beats
-        per mininute, which is simply 60 divided
+        per minute, which is simply 60 divided
         by the beating frequency
         """
         return 60 * self.beating_frequency
@@ -983,7 +1021,7 @@ class Beats(Trace):
         N : int, optional
             Length of output signal, by default 200.
             Note that the output signal will be interpolated so
-            that it has this length. This is done beacause the
+            that it has this length. This is done because the
             different beats might have different lengths.
         x : float, optional
             The number of standard deviations used in the

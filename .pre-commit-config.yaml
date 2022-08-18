@@ -38,3 +38,9 @@ repos:
     rev: v0.971
     hooks:
       - id: mypy
+
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v6.3.2
+    hooks:
+      - id: cspell
+        files: src/|docs/(.+).md|docs/source/(.+).ipynb|tests|README.md

@@ -155,20 +155,20 @@ def test_state_collection_cost_terms(statecollection, state, NUM_TRACES):
         assert (abs(c2[i, :] - c1) < 1e-12).all()
 
 
-def test_beats_backgroud(real_trace):
-    beats_no_backgroud = apf.Beats(
+def test_beats_background(real_trace):
+    beats_no_background = apf.Beats(
         real_trace.y,
         real_trace.t,
         real_trace.pacing,
         "none",
     )
-    beats_full_backgroud = apf.Beats(
+    beats_full_background = apf.Beats(
         real_trace.y,
         real_trace.t,
         real_trace.pacing,
         "full",
     )
-    beats_subtract_backgroud = apf.Beats(
+    beats_subtract_background = apf.Beats(
         real_trace.y,
         real_trace.t,
         real_trace.pacing,
@@ -176,20 +176,20 @@ def test_beats_backgroud(real_trace):
     )
 
     assert (
-        beats_full_backgroud.y.max()
-        < beats_subtract_backgroud.y.max()
-        < beats_no_backgroud.y.max()
+        beats_full_background.y.max()
+        < beats_subtract_background.y.max()
+        < beats_no_background.y.max()
     )
 
     # These values should be close to zero
-    assert abs(beats_full_backgroud.y.min()) < 1
-    assert abs(beats_full_backgroud.y.max()) < 1
-    assert abs(beats_subtract_backgroud.y.min()) < 1
+    assert abs(beats_full_background.y.min()) < 1
+    assert abs(beats_full_background.y.max()) < 1
+    assert abs(beats_subtract_background.y.min()) < 1
 
 
 def test_corrected_apd(real_beats):
 
-    # Freqeuncy should be close to 1.5Hz
+    # Frequency should be close to 1.5Hz
     assert abs(real_beats.beating_frequency - 1.5) < 0.01
     # The beat rate should be 60*1.5 = 90
     assert abs(real_beats.beat_rate - 90) < 1
@@ -259,7 +259,7 @@ def test_beat_chop_data(real_trace):
     assert len(chopped_data.intervals) == 9
     assert len(chopped_data.data) == 9
 
-    # First beat should be idendical
+    # First beat should be identical
     y0 = chopped_data.data[0]
     i = next(i for i, p in enumerate(real_trace.pacing) if p > 0)
     assert np.isclose(chopped_data.data[0], real_trace.y[i - 2 : i - 2 + len(y0)]).all()
@@ -339,7 +339,7 @@ def test_detect_ead_no_ead(real_beats):
 def test_detect_ead_with_ead(real_beats):
     beat: apf.Beat = real_beats.beats[0].copy()
 
-    # Add artifial EAD
+    # Add artificial EAD
     bump = np.zeros_like(beat.t)
     bump[25:30] = 3
     beat.y[:] += bump

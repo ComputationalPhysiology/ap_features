@@ -19,15 +19,13 @@ python -m pip install ap_features
 See [installation instructions](https://computationalphysiology.github.io/ap_features/INSTALL.html) for more options.
 
 
-
-
 ## Available features
 The list of currently implemented features are as follows
 - Action potential duration (APD)
 - Corrected action potential duration (cAPD)
-- Decay time (Time for the signal amplitude to go from maxium to (1 - a) * 100 % of maximum)
+- Decay time (Time for the signal amplitude to go from maximum to (1 - a) * 100 % of maximum)
 - Time to peak (ttp)
-- Upstrok time (time from (1-a)*100 % signal amplitude to peak)
+- Upstroke time (time from (1-a)*100 % signal amplitude to peak)
 - Beating frequency
 - APD up (The duration between first intersections of two APD lines)
 - Maximum relative upstroke velocity

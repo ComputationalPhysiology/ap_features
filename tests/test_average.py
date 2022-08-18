@@ -56,11 +56,11 @@ def test_average_and_interpolate_different_length(length, num_beats):
     assert np.isclose(avg.y, np.mean(ys)).all()
 
 
-def test_raises_Error_on_differet_number_of_signals():
+def test_raises_Error_on_different_number_of_signals():
     with pytest.raises(apf.average.InvalidSubSignalError):
         apf.average_and_interpolate([[1], [1]], [[1]])
 
 
-def test_raises_Error_on_differen_signal_lengths():
+def test_raises_Error_on_different_signal_lengths():
     with pytest.raises(apf.average.InvalidSubSignalError):
         apf.average_and_interpolate([[1], [1, 2]], [[1], [2]])

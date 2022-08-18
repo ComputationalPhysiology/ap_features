@@ -52,7 +52,7 @@ def filter_signals(
     all_indices = []
     for v in values:
         indices = within_x_std(v, x, center)
-        # If no indices are with the tolerace then we just
+        # If no indices are with the tolerance then we just
         # include everything
         all_indices.append(indices if len(indices) > 0 else np.arange(N))
 
@@ -150,7 +150,7 @@ def find_spike_points(pacing, spike_duration: int = 7) -> List[int]:
     Remove spikes from signal due to pacing.
 
     We assume that there is a spike starting at the
-    time of pacing and the spike dissapears after
+    time of pacing and the spike disappears after
     some duration. These points will be deleted
     from the signal
 

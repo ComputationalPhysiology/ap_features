@@ -72,7 +72,7 @@ def test_filter_signals_list():
     assert output == [1, 2]
 
 
-def test_filter_signales_raises_RuntimeError_on_unequal_lengths():
+def test_filter_signals_raises_RuntimeError_on_unequal_lengths():
     data = {"apd30": [1, 2, 3, 4, 5], "length": [1, 1, 1, 0]}
 
     with pytest.raises(RuntimeError):

@@ -46,9 +46,9 @@ def test_background(a, method):
         assert np.isclose(corrected.corrected, y / bkg[0], atol=1e-1).all()
 
 
-def test_invalid_backgroud_raises_ValueError():
+def test_invalid_background_raises_ValueError():
     with pytest.raises(ValueError):
-        background.correct_background(np.zeros(10), np.zeros(10), method="gmsadokg")
+        background.correct_background(np.zeros(10), np.zeros(10), method="invalid")
 
 
 def test_different_length_raises_ValueError():

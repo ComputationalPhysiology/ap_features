@@ -56,7 +56,7 @@ def triangulation(
     high : int, optional
         Higher APD value, by default 80
     v_r : Optional[float], optional
-        Resting value, by default None. Only applicablle for python Backend.
+        Resting value, by default None. Only applicable for python Backend.
     use_spline : bool, optional
         Use spline interpolation, by default True.
         Only applicable for python Backend.
@@ -113,7 +113,7 @@ def apd(
     t : Array
         The time stamps
     v_r : Optional[float], optional
-        Resting value, by default None. Only applicablle for python Backend.
+        Resting value, by default None. Only applicable for python Backend.
     use_spline : bool, optional
         Use spline interpolation, by default True.
         Only applicable for python Backend.
@@ -130,7 +130,7 @@ def apd(
     .. Note::
 
         If the signal has more intersection than two with the
-        APX_X line, then the first and second occurence will be used.
+        APX_X line, then the first and second occurrence will be used.
 
 
     Raises
@@ -183,7 +183,7 @@ def apd(
     y = np.array(V)
     x = np.array(t)
     if y.shape != x.shape:
-        raise ValueError("The signal and time are not of same lenght")
+        raise ValueError("The signal and time are not of same length")
 
     if backend == Backend.python:
         try:
@@ -231,18 +231,18 @@ def apd_point(
     v_r : Optional[float], optional
         The resting value, by default None
     use_spline : bool, optional
-        Use spline iterpolation or not, by default True
+        Use spline interpolation or not, by default True
 
     Returns
     -------
     Tuple[float, float]
-        Two poits corresonding to the first and second
+        Two points corresponding to the first and second
         intersection of the APD p line
 
     Raises
     ------
     RuntimeError
-        If spline interpolation failes
+        If spline interpolation fails
     """
 
     _check_factor(factor)
@@ -300,10 +300,10 @@ def apd_coords(
     t : Array
         The time stamps
     v_r : Optional[float], optional
-        Resting value, by default None. Only applicablle for python Backend.
+        Resting value, by default None. Only applicable for python Backend.
     use_spline : bool, optional
         Use spline interpolation, by default True.
-        Only applicablle for python Backend.
+        Only applicable for python Backend.
 
     Returns
     -------
@@ -330,7 +330,7 @@ def tau(
     backend: Backend = Backend.python,
 ) -> float:
     """
-    Decay time. Time for the signal amplitude to go from maxium to
+    Decay time. Time for the signal amplitude to go from maximum to
     (1 - a) * 100 % of maximum
 
     Parameters
@@ -460,7 +460,7 @@ def upstroke(
     y : Array
         The signal
     a : float, optional
-        Fraction of signal amplitide, by default 0.8
+        Fraction of signal amplitude, by default 0.8
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'c', 'numba'
@@ -524,12 +524,12 @@ def beating_frequency(times: List[Array], unit: str = "ms") -> float:
     if len(times) == 0:
         return np.nan
     # Get chopped data
-    # Find the average lenght of each beat in time
+    # Find the average length of each beat in time
     t_mean = np.mean([ti[-1] - ti[0] for ti in times])
     # Convert to seconds
     if unit == "ms":
         t_mean /= 1000.0
-    # Return the freqency
+    # Return the frequency
     return 1.0 / t_mean
 
 
@@ -696,7 +696,7 @@ def max_relative_upstroke_velocity(
 
     # Interpolate to 1ms precision
     t0, y0 = utils.interpolate(t, y, dt=1.0)
-    # Find values beloning to upstroke
+    # Find values belonging to upstroke
     upstroke = find_upstroke_values(t0, y0, upstroke_duration=upstroke_duration)
     dt = np.mean(np.diff(t))
     if len(upstroke) == 0:
@@ -799,7 +799,7 @@ def maximum_upstroke_velocity(
     if t is None:
         t = range(len(y))
 
-    msg = "The signal and time are not of same lenght"
+    msg = "The signal and time are not of same length"
     assert len(t) == len(y), msg
 
     # Normalize
@@ -903,8 +903,8 @@ def corrected_apd(apd: float, beat_rate: float, formula: str = "friderica"):
         The action potential duration
     beat_rate : float
         The beat rate (number of beats per minute)
-    formule : str, optional
-        Formule for computing th corrected APD, either
+    formula : str, optional
+        Formula for computing th corrected APD, either
         'friderica' or 'bazett', by default 'friderica',
 
     Returns
@@ -927,7 +927,7 @@ def corrected_apd(apd: float, beat_rate: float, formula: str = "friderica"):
 
         APD (RR)^{-1/2}
 
-    where :math:`RR` is the R-R interaval in an ECG. For an action potential
+    where :math:`RR` is the R-R interval in an ECG. For an action potential
     this would be equivalent to the inverse of the beating frequency (or 60
     divided by the beat rate)
 
@@ -955,7 +955,7 @@ def detect_ead(
     sigma: float = 1,
     prominence_level: float = 0.07,
 ) -> Tuple[bool, Optional[int]]:
-    """Detect (Early afterdepolarizations) EADs
+    """Detect (Early after depolarizations) EADs
     based on peak prominence.
 
     Parameters
@@ -963,13 +963,13 @@ def detect_ead(
     y : Array
         The signal that you want to detect EADs
     sigma : float
-        Standard deviation in the gaussian smoothing kernal
+        Standard deviation in the gaussian smoothing kernel
         Default: 1.0
     prominence_level: float
         How prominent a peak should be in order to be
-        characterized as an EAD. This value shold be
+        characterized as an EAD. This value should be
         between 0 and 1, with a greater value being
-        more prominent. Defaulta: 0.07
+        more prominent. Default: 0.07
 
     Returns
     -------
@@ -986,7 +986,7 @@ def detect_ead(
     an EAD present in the signal. `EADs <https://en.wikipedia.org/wiki/Afterdepolarization>`_
     are abnormal depolarizations happening after the upstroke in an action potential.
 
-    We assume that an EAD occurs betweeen the maximum value of the signal
+    We assume that an EAD occurs between the maximum value of the signal
     (i.e the peak) and the next minimum value (i.e when the signal is at rest)
 
     To remove noisy patterns we first smooth the signal
@@ -994,7 +994,7 @@ def detect_ead(
     of the signal that is between its maximum and the next
     minimum values. Then we find the peaks with a
     `Topographic Prominence <https://en.wikipedia.org/wiki/Topographic_prominence>`_
-    greather than the given prominence level
+    greater than the given prominence level
 
     """
     from scipy.ndimage import gaussian_filter1d

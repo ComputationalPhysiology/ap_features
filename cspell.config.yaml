@@ -1,0 +1,9 @@
+dictionaryDefinitions:
+  - name: ap_features
+    path: .cspell_dict.txt
+    addWords: true
+dictionaries:
+  - ap_features
+ignoreWords: []
+words:
+  - Finsberg
