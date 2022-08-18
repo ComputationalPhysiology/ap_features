@@ -520,14 +520,14 @@ title="Print to PDF"
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.average.average_and_interpolate">
 <span class="sig-prename descclassname"><span class="pre">ap_features.average.</span></span><span class="sig-name descname"><span class="pre">average_and_interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ap_features.average.Average" title="ap_features.average.Average"><span class="pre">ap_features.average.Average</span></a></span></span><a class="headerlink" href="#ap_features.average.average_and_interpolate" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the avagere of list of signals assuming that
+<dd><p>Get the average of list of signals assuming that
 they align at the same x value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ys</strong> (<em>Array</em>) – The signal values</p></li>
 <li><p><strong>xs</strong> (<em>Array</em>) – The x-values</p></li>
-<li><p><strong>N</strong> (<em>int</em>) – Lenght of output array (Default: 200)</p></li>
+<li><p><strong>N</strong> (<em>int</em>) – Length of output array (Default: 200)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -544,10 +544,10 @@ they align at the same x value</p>
 <dt class="sig sig-object py" id="ap_features.average.average_list">
 <span class="sig-prename descclassname"><span class="pre">ap_features.average.</span></span><span class="sig-name descname"><span class="pre">average_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.average.average_list" title="Permalink to this definition">#</a></dt>
 <dd><p>Get average of signals.
-Assume that signals are alinged, but
+Assume that signals are aligned, but
 they dont have to be of the same length.
 If they have different length then the output
-average will have the same lenght as the longest
+average will have the same length as the longest
 array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -566,7 +566,7 @@ array</p>
 <dt class="sig sig-object py" id="ap_features.average.clean_data">
 <span class="sig-prename descclassname"><span class="pre">ap_features.average.</span></span><span class="sig-name descname"><span class="pre">clean_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.average.clean_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Make sure <cite>xs</cite> and <cite>ys</cite> have the
-correct shapes and remove empty subsignals</p>
+correct shapes and remove empty sub-signals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -584,14 +584,14 @@ correct shapes and remove empty subsignals</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The order you send in the array will be the
-same as the order it is retured. Apart from
+same as the order it is returned. Apart from
 this fact, the order doesn’t matter.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference internal" href="#ap_features.average.InvalidSubSignalError" title="ap_features.average.InvalidSubSignalError"><strong>InvalidSubSignalError</strong></a> – If the length of <cite>xs</cite> and <cite>ys</cite> don’t agree</p></li>
-<li><p><a class="reference internal" href="#ap_features.average.InvalidSubSignalError" title="ap_features.average.InvalidSubSignalError"><strong>InvalidSubSignalError</strong></a> – If the length of one of the subsignals of <cite>xs</cite>
+<li><p><a class="reference internal" href="#ap_features.average.InvalidSubSignalError" title="ap_features.average.InvalidSubSignalError"><strong>InvalidSubSignalError</strong></a> – If the length of one of the sub-signals of <cite>xs</cite>
     and <cite>ys</cite> don’t agree.</p></li>
 </ul>
 </dd>
@@ -601,13 +601,13 @@ this fact, the order doesn’t matter.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.average.create_longest_time_array">
 <span class="sig-prename descclassname"><span class="pre">ap_features.average.</span></span><span class="sig-name descname"><span class="pre">create_longest_time_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#ap_features.average.create_longest_time_array" title="Permalink to this definition">#</a></dt>
-<dd><p>Given a list of subsignals create a new array of length
+<dd><p>Given a list of sub-signals create a new array of length
 <cite>N</cite> that cover all values</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xs</strong> (<em>Sequence</em><em>[</em><em>Array</em><em>]</em>) – List of monotonic sub subsignal</p></li>
-<li><p><strong>N</strong> (<em>int</em>) – Size of output arrayu</p></li>
+<li><p><strong>xs</strong> (<em>Sequence</em><em>[</em><em>Array</em><em>]</em>) – List of monotonic sub sub-signal</p></li>
+<li><p><strong>N</strong> (<em>int</em>) – Size of output array</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -622,7 +622,7 @@ this fact, the order doesn’t matter.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.average.interpolate">
 <span class="sig-prename descclassname"><span class="pre">ap_features.average.</span></span><span class="sig-name descname"><span class="pre">interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#ap_features.average.interpolate" title="Permalink to this definition">#</a></dt>
-<dd><p>Interapolate array</p>
+<dd><p>Interpolate array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -747,7 +747,7 @@ values</p></li>
 <dd><p>Compute an estimation of the background (aka baseline)
 in chemical spectra. The background is estimated by a polynomial
 with order using a cost-function and a threshold parameter.
-This is a reimplementation of a MATLAB script that
+This is a re-implementation of a MATLAB script that
 can be found <a class="reference external" href="https://se.mathworks.com/matlabcentral/fileexchange/27429-background-correction">here</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -832,7 +832,7 @@ keyword arguments.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>Array</em>) – Time points</p></li>
-<li><p><strong>y</strong> (<em>Array</em>) – Fluorecense amplitude</p></li>
+<li><p><strong>y</strong> (<em>Array</em>) – Fluorescence amplitude</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -884,7 +884,7 @@ of the APD p line</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Two poits corresonding to the first and second
+<dd class="field-even"><p>Two points corresponding to the first and second
 intersection of the APD p line</p>
 </dd>
 <dt class="field-odd">Return type</dt>
@@ -951,7 +951,7 @@ the shorter the QT interval, and vice versa</p>
 <p>Bazett formula:</p>
 <div class="math notranslate nohighlight">
 \[APD (RR)^{-1/2}\]</div>
-<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interaval in an ECG. For an action potential
+<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interval in an ECG. For an action potential
 this would be equivalent to the inverse of the beating frequency (or 60
 divided by the beat rate)</p>
 <p class="rubric">Luo, Shen, et al. “A comparison of commonly used QT correction formulae:
@@ -967,18 +967,18 @@ electrocardiology 37 (2004): 81-90.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Beat.detect_ead">
 <span class="sig-name descname"><span class="pre">detect_ead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prominence_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.07</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.beat.Beat.detect_ead" title="Permalink to this definition">#</a></dt>
-<dd><p>Detect (Early afterdepolarizations) EADs
+<dd><p>Detect (Early after depolarizations) EADs
 based on peak prominence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>Array</em>) – The signal that you want to detect EADs</p></li>
-<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation in the gaussian smoothing kernal
+<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation in the gaussian smoothing kernel
 Default: 1.0</p></li>
 <li><p><strong>prominence_level</strong> (<em>float</em>) – How prominent a peak should be in order to be
-characterized as an EAD. This value shold be
+characterized as an EAD. This value should be
 between 0 and 1, with a greater value being
-more prominent. Defaulta: 0.07</p></li>
+more prominent. Default: 0.07</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1082,7 +1082,7 @@ object then this will return those Beats</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Beat.tau">
 <span class="sig-name descname"><span class="pre">tau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#ap_features.beat.Beat.tau" title="Permalink to this definition">#</a></dt>
-<dd><p>Decay time. Time for the signal amplitude to go from maxium to
+<dd><p>Decay time. Time for the signal amplitude to go from maximum to
 (1 - a) * 100 % of maximum</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1115,7 +1115,7 @@ line</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The triangulatons</p>
+<dd class="field-even"><p>The triangulations</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>float</p>
@@ -1247,7 +1247,7 @@ which beats that should be included in the
 averaging, by default None</p></li>
 <li><p><strong>N</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of output signal, by default 200.
 Note that the output signal will be interpolated so
-that it has this length. This is done beacause the
+that it has this length. This is done because the
 different beats might have different lengths.</p></li>
 <li><p><strong>x</strong> (<em>float</em><em>, </em><em>optional</em>) – The number of standard deviations used in the
 filtering, by default 1.0</p></li>
@@ -1271,7 +1271,7 @@ filtering, by default 1.0</p></li>
 <dt class="sig sig-object py" id="ap_features.beat.Beats.beat_rate">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">beat_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#ap_features.beat.Beats.beat_rate" title="Permalink to this definition">#</a></dt>
 <dd><p>The beat rate, i.e number of beats
-per mininute, which is simply 60 divided
+per minute, which is simply 60 divided
 by the beating frequency</p>
 </dd></dl>
 
@@ -1613,7 +1613,7 @@ The slope here can be interpreted as the change in APD per minute.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.beat.filter_beats">
 <span class="sig-prename descclassname"><span class="pre">ap_features.beat.</span></span><span class="sig-name descname"><span class="pre">filter_beats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ap_features.beat.Beat" title="ap_features.beat.Beat"><span class="pre">ap_features.beat.Beat</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ap_features.filters.Filters" title="ap_features.filters.Filters"><span class="pre">ap_features.filters.Filters</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ap_features.beat.Beat" title="ap_features.beat.Beat"><span class="pre">ap_features.beat.Beat</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.beat.filter_beats" title="Permalink to this definition">#</a></dt>
-<dd><p>Filter beats based of similiarities of the filters</p>
+<dd><p>Filter beats based of similarities of the filters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1725,7 +1725,7 @@ included, by default 1.0</p></li>
 <dt class="sig sig-object py" id="ap_features.chopping.check_intervals">
 <span class="sig-prename descclassname"><span class="pre">ap_features.chopping.</span></span><span class="sig-name descname"><span class="pre">check_intervals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intervals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ap_features.chopping.Interval" title="ap_features.chopping.Interval"><span class="pre">ap_features.chopping.Interval</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ap_features.chopping.check_intervals" title="Permalink to this definition">#</a></dt>
 <dd><p>Check starts and ends and make sure that
-they are consitent</p>
+they are consistent</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1778,19 +1778,19 @@ they are consitent</p>
 <li><p><strong>data</strong> (<em>Array</em>) – The data to be chopped</p></li>
 <li><p><strong>time</strong> (<em>Array</em>) – The time stamps for the data</p></li>
 <li><p><strong>pacing</strong> (<em>Array</em>) – The pacing amplitude</p></li>
-<li><p><strong>extend_front</strong> (<em>float</em>) – Extend the start of each subsignal this many milliseconds
+<li><p><strong>extend_front</strong> (<em>float</em>) – Extend the start of each sub-signal this many milliseconds
 before the threshold is detected. Default: 0 ms</p></li>
-<li><p><strong>extend_end</strong> (<em>float</em>) – Extend the end of each subsignal this many milliseconds.
+<li><p><strong>extend_end</strong> (<em>float</em>) – Extend the end of each sub-signal this many milliseconds.
 Default 0 ms.</p></li>
 <li><p><strong>min_window</strong> (<em>float</em>) – Minimum size of chopped signal</p></li>
 <li><p><strong>max_window</strong> (<em>float</em>) – Minimum size of chopped signal</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Named tuple with the choppped data</p>
+<dd class="field-even"><p>Named tuple with the chopped data</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ChoppeData</p>
+<dd class="field-odd"><p><a class="reference internal" href="#ap_features.chopping.ChoppedData" title="ap_features.chopping.ChoppedData">ChoppedData</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -1814,9 +1814,9 @@ default value of zero).</p>
 <li><p><strong>time</strong> (<em>list</em><em> or </em><em>array</em>) – The time points. If none is provided time will be
 just the indices.</p></li>
 <li><p><strong>threshold_factor</strong> (<em>float</em>) – Thresholds for where the signal should be chopped (Default: 0.3)</p></li>
-<li><p><strong>extend_front</strong> (<em>scalar</em>) – Extend the start of each subsignal this many milliseconds
+<li><p><strong>extend_front</strong> (<em>scalar</em>) – Extend the start of each sub-signal this many milliseconds
 before the threshold is detected. Default: 300 ms</p></li>
-<li><p><strong>extend_end</strong> (<em>scalar</em>) – Extend the end of each subsignal this many milliseconds.
+<li><p><strong>extend_end</strong> (<em>scalar</em>) – Extend the end of each sub-signal this many milliseconds.
 Default 60 ms.</p></li>
 <li><p><strong>min_window</strong> (<em>scalar</em>) – Length of minimum window</p></li>
 <li><p><strong>max_window</strong> (<em>scalar</em>) – Length of maximum window</p></li>
@@ -1836,7 +1836,7 @@ and in order to e.g compute properties from an average beat, we need a way
 to chop the signal into different beats. Suppose we have the
 signal <span class="math notranslate nohighlight">\(y(t),
 t \in [0, T]\)</span>, where we assume that filtering and background correction
-have allready been applied. Suppose we have <span class="math notranslate nohighlight">\(N\)</span> sub-signals,
+have already been applied. Suppose we have <span class="math notranslate nohighlight">\(N\)</span> sub-signals,
 <span class="math notranslate nohighlight">\(z_1, z_2, \cdots, z_N\)</span>, each representing one beat. Let
 <span class="math notranslate nohighlight">\(\tau_i = [\tau_i^0, \tau_i^1], i = 1, \cdots N\)</span> be
 non-empty intervals corresponding to the support of each sub-signal
@@ -1879,7 +1879,7 @@ to subsequent time stamps are greater than <span class="math notranslate nohighl
 := \{ t \in  \mathcal{T}_1 : h(t + \delta) &lt; 0 \} \\\end{split}\]</div>
 <p>Note that we need to also make sure that all beats have a start and an end.</p>
 <ol class="arabic simple" start="6">
-<li><p>Extend each subsignal at the beginning and end, i,e
+<li><p>Extend each sub-signal at the beginning and end, i,e
 if <span class="math notranslate nohighlight">\(a,b \geq 0\)</span>, define</p></li>
 </ol>
 <div class="math notranslate nohighlight">
@@ -1899,7 +1899,7 @@ if <span class="math notranslate nohighlight">\(a,b \geq 0\)</span>, define</p><
 <li><p><strong>intervals</strong> (<em>List</em><em>[</em><a class="reference internal" href="#ap_features.chopping.Interval" title="ap_features.chopping.Interval"><em>Interval</em></a><em>]</em>) – List of intervals with start and ends</p></li>
 <li><p><strong>pacing</strong> (<em>Optional</em><em>[</em><em>Array</em><em>]</em><em>, </em><em>optional</em>) – Pacing amplitude, by default None</p></li>
 <li><p><strong>N</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Number of points in each chopped signal, by default None.
-If this is differnt from None then each signal will be
+If this is different from None then each signal will be
 interpolated so that it has N points</p></li>
 <li><p><strong>max_window</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum allowed size of a chopped signal, by default 2000</p></li>
 <li><p><strong>min_window</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum allowed size of a chopped signal, by default 50</p></li>
@@ -1996,7 +1996,7 @@ from a low to a high values</p>
 <li><p><strong>time</strong> (<em>Array</em>) – Array of time stamps</p></li>
 <li><p><strong>data</strong> (<em>Array</em>) – Signal amplitude</p></li>
 <li><p><strong>threshold_factor</strong> (<em>float</em>) – Threshold for where to chop</p></li>
-<li><p><strong>min_window</strong> (<em>float</em>) – Lenght of minimum chopped signal</p></li>
+<li><p><strong>min_window</strong> (<em>float</em>) – Length of minimum chopped signal</p></li>
 <li><p><strong>extend_front</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – How many ms the signal should be extended at the front</p></li>
 <li><p><strong>extend_end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – How many ms the signal should be extended at the end</p></li>
 </ul>
@@ -2026,15 +2026,15 @@ from a low to a high values</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.chopping.locate_chop_points">
 <span class="sig-prename descclassname"><span class="pre">ap_features.chopping.</span></span><span class="sig-name descname"><span class="pre">locate_chop_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.chopping.locate_chop_points" title="Permalink to this definition">#</a></dt>
-<dd><p>Find the ponts where to chop</p>
+<dd><p>Find the points where to chop</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> (<em>Array</em>) – Time stamps</p></li>
-<li><p><strong>data</strong> (<em>Array</em>) – The signal amplitide</p></li>
-<li><p><strong>threshold_factor</strong> (<em>float</em>) – The thresold for where to chop</p></li>
-<li><p><strong>min_window</strong> (<em>float</em><em>, </em><em>optional</em>) – Mininmum allow size of signal in ms, by default 50</p></li>
-<li><p><strong>eps</strong> (<em>float</em><em>, </em><em>optional</em>) – Perterbation use to find the sign of the signal
+<li><p><strong>data</strong> (<em>Array</em>) – The signal amplitude</p></li>
+<li><p><strong>threshold_factor</strong> (<em>float</em>) – The threshold for where to chop</p></li>
+<li><p><strong>min_window</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum allow size of signal in ms, by default 50</p></li>
+<li><p><strong>eps</strong> (<em>float</em><em>, </em><em>optional</em>) – Perturbation use to find the sign of the signal
 derivative, by default 0.1</p></li>
 </ul>
 </dd>
@@ -2056,10 +2056,10 @@ start and end points</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> (<em>Array</em>) – Time stamps</p></li>
-<li><p><strong>pacing</strong> (<em>Array</em>) – Array of pacing amplitides</p></li>
+<li><p><strong>pacing</strong> (<em>Array</em>) – Array of pacing amplitudes</p></li>
 <li><p><strong>extend_front</strong> (<em>float</em>) – How many ms you want to extend the array in front</p></li>
-<li><p><strong>extend_end</strong> (<em>float</em>) – How many ms you want to exten the array at the end</p></li>
-<li><p><strong>add_final</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wheter you want to add a final end point for the
+<li><p><strong>extend_end</strong> (<em>float</em>) – How many ms you want to extend the array at the end</p></li>
+<li><p><strong>add_final</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether you want to add a final end point for the
 last index, by default True</p></li>
 </ul>
 </dd>
@@ -2183,7 +2183,7 @@ to potential is down to resting potential.</p>
 <li><p><strong>factor</strong> (<em>int</em>) – The APD factor between 0 and 100</p></li>
 <li><p><strong>V</strong> (<em>Array</em>) – The signal</p></li>
 <li><p><strong>t</strong> (<em>Array</em>) – The time stamps</p></li>
-<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicablle for python Backend.</p></li>
+<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicable for python Backend.</p></li>
 <li><p><strong>use_spline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use spline interpolation, by default True.
 Only applicable for python Backend.</p></li>
 <li><p><strong>backend</strong> (<a class="reference internal" href="#ap_features.utils.Backend" title="ap_features.utils.Backend"><em>utils.Backend</em></a><em>, </em><em>optional</em>) – Which backend to use by default Backend.python.
@@ -2194,7 +2194,7 @@ Choices, ‘python’, ‘c’, ‘numba’</p></li>
 <dd class="field-even"><p><ul class="simple">
 <li><p><em>float</em> – The action potential duration</p></li>
 <li><p><em>.. Note::</em> – If the signal has more intersection than two with the
-APX_X line, then the first and second occurence will be used.</p></li>
+APX_X line, then the first and second occurrence will be used.</p></li>
 </ul>
 </p>
 </dd>
@@ -2241,9 +2241,9 @@ two (or more) elements. In this case we define</p>
 <li><p><strong>factor</strong> (<em>int</em>) – The APD factor between 0 and 100</p></li>
 <li><p><strong>V</strong> (<em>Array</em>) – The signal</p></li>
 <li><p><strong>t</strong> (<em>Array</em>) – The time stamps</p></li>
-<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicablle for python Backend.</p></li>
+<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicable for python Backend.</p></li>
 <li><p><strong>use_spline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use spline interpolation, by default True.
-Only applicablle for python Backend.</p></li>
+Only applicable for python Backend.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -2267,18 +2267,18 @@ of the APD p line</p>
 <li><p><strong>V</strong> (<em>np.ndarray</em>) – The signal</p></li>
 <li><p><strong>t</strong> (<em>np.ndarray</em>) – The time stamps</p></li>
 <li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – The resting value, by default None</p></li>
-<li><p><strong>use_spline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use spline iterpolation or not, by default True</p></li>
+<li><p><strong>use_spline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use spline interpolation or not, by default True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Two poits corresonding to the first and second
+<dd class="field-even"><p>Two points corresponding to the first and second
 intersection of the APD p line</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Tuple[float, float]</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>RuntimeError</strong> – If spline interpolation failes</p>
+<dd class="field-even"><p><strong>RuntimeError</strong> – If spline interpolation fails</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2362,7 +2362,7 @@ the shorter the QT interval, and vice versa</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>apd</strong> (<em>float</em>) – The action potential duration</p></li>
 <li><p><strong>beat_rate</strong> (<em>float</em>) – The beat rate (number of beats per minute)</p></li>
-<li><p><strong>formule</strong> (<em>str</em><em>, </em><em>optional</em>) – Formule for computing th corrected APD, either
+<li><p><strong>formula</strong> (<em>str</em><em>, </em><em>optional</em>) – Formula for computing th corrected APD, either
 ‘friderica’ or ‘bazett’, by default ‘friderica’,</p></li>
 </ul>
 </dd>
@@ -2380,7 +2380,7 @@ the shorter the QT interval, and vice versa</p>
 <p>Bazett formula:</p>
 <div class="math notranslate nohighlight">
 \[APD (RR)^{-1/2}\]</div>
-<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interaval in an ECG. For an action potential
+<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interval in an ECG. For an action potential
 this would be equivalent to the inverse of the beating frequency (or 60
 divided by the beat rate)</p>
 <p class="rubric">Luo, Shen, et al. “A comparison of commonly used QT correction formulae:
@@ -2401,18 +2401,18 @@ electrocardiology 37 (2004): 81-90.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.features.detect_ead">
 <span class="sig-prename descclassname"><span class="pre">ap_features.features.</span></span><span class="sig-name descname"><span class="pre">detect_ead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prominence_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.07</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.features.detect_ead" title="Permalink to this definition">#</a></dt>
-<dd><p>Detect (Early afterdepolarizations) EADs
+<dd><p>Detect (Early after depolarizations) EADs
 based on peak prominence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>Array</em>) – The signal that you want to detect EADs</p></li>
-<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation in the gaussian smoothing kernal
+<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation in the gaussian smoothing kernel
 Default: 1.0</p></li>
 <li><p><strong>prominence_level</strong> (<em>float</em>) – How prominent a peak should be in order to be
-characterized as an EAD. This value shold be
+characterized as an EAD. This value should be
 between 0 and 1, with a greater value being
-more prominent. Defaulta: 0.07</p></li>
+more prominent. Default: 0.07</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -2429,14 +2429,14 @@ only the first will be returned.</p></li>
 <p>Given a signal <span class="math notranslate nohighlight">\(y\)</span> we want to determine wether we have
 an EAD present in the signal. <a class="reference external" href="https://en.wikipedia.org/wiki/Afterdepolarization">EADs</a>
 are abnormal depolarizations happening after the upstroke in an action potential.</p>
-<p>We assume that an EAD occurs betweeen the maximum value of the signal
+<p>We assume that an EAD occurs between the maximum value of the signal
 (i.e the peak) and the next minimum value (i.e when the signal is at rest)</p>
 <p>To remove noisy patterns we first smooth the signal
 with a gaussian filter. Then we take out only the part
 of the signal that is between its maximum and the next
 minimum values. Then we find the peaks with a
 <a class="reference external" href="https://en.wikipedia.org/wiki/Topographic_prominence">Topographic Prominence</a>
-greather than the given prominence level</p>
+greater than the given prominence level</p>
 </dd></dl>
 
 <dl class="py function">
@@ -2563,7 +2563,7 @@ above each derivative is approximated using a forward difference, i.e</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.features.tau">
 <span class="sig-prename descclassname"><span class="pre">ap_features.features.</span></span><span class="sig-name descname"><span class="pre">tau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ap_features.utils.Backend" title="ap_features.utils.Backend"><span class="pre">ap_features.utils.Backend</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Backend.python</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#ap_features.features.tau" title="Permalink to this definition">#</a></dt>
-<dd><p>Decay time. Time for the signal amplitude to go from maxium to
+<dd><p>Decay time. Time for the signal amplitude to go from maximum to
 (1 - a) * 100 % of maximum</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2627,7 +2627,7 @@ line</p>
 <li><p><strong>t</strong> (<em>Array</em>) – The time stamps</p></li>
 <li><p><strong>low</strong> (<em>int</em><em>, </em><em>optional</em>) – Lower APD value, by default 30</p></li>
 <li><p><strong>high</strong> (<em>int</em><em>, </em><em>optional</em>) – Higher APD value, by default 80</p></li>
-<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicablle for python Backend.</p></li>
+<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicable for python Backend.</p></li>
 <li><p><strong>use_spline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use spline interpolation, by default True.
 Only applicable for python Backend.</p></li>
 <li><p><strong>backend</strong> (<a class="reference internal" href="#ap_features.utils.Backend" title="ap_features.utils.Backend"><em>utils.Backend</em></a><em>, </em><em>optional</em>) – Which backend to use by default Backend.python.
@@ -2655,7 +2655,7 @@ of APD80 to the upstroke.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>Array</em>) – The time stamps</p></li>
 <li><p><strong>y</strong> (<em>Array</em>) – The signal</p></li>
-<li><p><strong>a</strong> (<em>float</em><em>, </em><em>optional</em>) – Fraction of signal amplitide, by default 0.8</p></li>
+<li><p><strong>a</strong> (<em>float</em><em>, </em><em>optional</em>) – Fraction of signal amplitude, by default 0.8</p></li>
 <li><p><strong>backend</strong> (<a class="reference internal" href="#ap_features.utils.Backend" title="ap_features.utils.Backend"><em>utils.Backend</em></a><em>, </em><em>optional</em>) – Which backend to use by default Backend.python.
 Choices, ‘python’, ‘c’, ‘numba’</p></li>
 </ul>
@@ -2740,7 +2740,7 @@ Default kernel_size is 3</p>
 <span class="sig-prename descclassname"><span class="pre">ap_features.filters.</span></span><span class="sig-name descname"><span class="pre">find_spike_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.filters.find_spike_points" title="Permalink to this definition">#</a></dt>
 <dd><p>Remove spikes from signal due to pacing.</p>
 <p>We assume that there is a spike starting at the
-time of pacing and the spike dissapears after
+time of pacing and the spike disappears after
 some duration. These points will be deleted
 from the signal</p>
 <dl class="field-list simple">
@@ -3087,7 +3087,7 @@ of the APD p line</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Two poits corresonding to the first and second
+<dd class="field-even"><p>Two points corresponding to the first and second
 intersection of the APD p line</p>
 </dd>
 <dt class="field-odd">Return type</dt>
@@ -3154,7 +3154,7 @@ the shorter the QT interval, and vice versa</p>
 <p>Bazett formula:</p>
 <div class="math notranslate nohighlight">
 \[APD (RR)^{-1/2}\]</div>
-<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interaval in an ECG. For an action potential
+<p>where <span class="math notranslate nohighlight">\(RR\)</span> is the R-R interval in an ECG. For an action potential
 this would be equivalent to the inverse of the beating frequency (or 60
 divided by the beat rate)</p>
 <p class="rubric">Luo, Shen, et al. “A comparison of commonly used QT correction formulae:
@@ -3170,18 +3170,18 @@ electrocardiology 37 (2004): 81-90.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Beat.detect_ead">
 <span class="sig-name descname"><span class="pre">detect_ead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prominence_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.07</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.Beat.detect_ead" title="Permalink to this definition">#</a></dt>
-<dd><p>Detect (Early afterdepolarizations) EADs
+<dd><p>Detect (Early after depolarizations) EADs
 based on peak prominence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>Array</em>) – The signal that you want to detect EADs</p></li>
-<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation in the gaussian smoothing kernal
+<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation in the gaussian smoothing kernel
 Default: 1.0</p></li>
 <li><p><strong>prominence_level</strong> (<em>float</em>) – How prominent a peak should be in order to be
-characterized as an EAD. This value shold be
+characterized as an EAD. This value should be
 between 0 and 1, with a greater value being
-more prominent. Defaulta: 0.07</p></li>
+more prominent. Default: 0.07</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -3285,7 +3285,7 @@ object then this will return those Beats</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Beat.tau">
 <span class="sig-name descname"><span class="pre">tau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#ap_features.Beat.tau" title="Permalink to this definition">#</a></dt>
-<dd><p>Decay time. Time for the signal amplitude to go from maxium to
+<dd><p>Decay time. Time for the signal amplitude to go from maximum to
 (1 - a) * 100 % of maximum</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3318,7 +3318,7 @@ line</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The triangulatons</p>
+<dd class="field-even"><p>The triangulations</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>float</p>
@@ -3439,7 +3439,7 @@ which beats that should be included in the
 averaging, by default None</p></li>
 <li><p><strong>N</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of output signal, by default 200.
 Note that the output signal will be interpolated so
-that it has this length. This is done beacause the
+that it has this length. This is done because the
 different beats might have different lengths.</p></li>
 <li><p><strong>x</strong> (<em>float</em><em>, </em><em>optional</em>) – The number of standard deviations used in the
 filtering, by default 1.0</p></li>
@@ -3463,7 +3463,7 @@ filtering, by default 1.0</p></li>
 <dt class="sig sig-object py" id="ap_features.Beats.beat_rate">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">beat_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#ap_features.Beats.beat_rate" title="Permalink to this definition">#</a></dt>
 <dd><p>The beat rate, i.e number of beats
-per mininute, which is simply 60 divided
+per minute, which is simply 60 divided
 by the beating frequency</p>
 </dd></dl>
 
@@ -3749,7 +3749,7 @@ to potential is down to resting potential.</p>
 <li><p><strong>factor</strong> (<em>int</em>) – The APD factor between 0 and 100</p></li>
 <li><p><strong>V</strong> (<em>Array</em>) – The signal</p></li>
 <li><p><strong>t</strong> (<em>Array</em>) – The time stamps</p></li>
-<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicablle for python Backend.</p></li>
+<li><p><strong>v_r</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Resting value, by default None. Only applicable for python Backend.</p></li>
 <li><p><strong>use_spline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use spline interpolation, by default True.
 Only applicable for python Backend.</p></li>
 <li><p><strong>backend</strong> (<a class="reference internal" href="#ap_features.utils.Backend" title="ap_features.utils.Backend"><em>utils.Backend</em></a><em>, </em><em>optional</em>) – Which backend to use by default Backend.python.
@@ -3760,7 +3760,7 @@ Choices, ‘python’, ‘c’, ‘numba’</p></li>
 <dd class="field-even"><p><ul class="simple">
 <li><p><em>float</em> – The action potential duration</p></li>
 <li><p><em>.. Note::</em> – If the signal has more intersection than two with the
-APX_X line, then the first and second occurence will be used.</p></li>
+APX_X line, then the first and second occurrence will be used.</p></li>
 </ul>
 </p>
 </dd>
@@ -3822,14 +3822,14 @@ Choices, ‘python’, ‘c’, ‘numba’</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="ap_features.average_and_interpolate">
 <span class="sig-prename descclassname"><span class="pre">ap_features.</span></span><span class="sig-name descname"><span class="pre">average_and_interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ap_features.average.Average" title="ap_features.average.Average"><span class="pre">ap_features.average.Average</span></a></span></span><a class="headerlink" href="#ap_features.average_and_interpolate" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the avagere of list of signals assuming that
+<dd><p>Get the average of list of signals assuming that
 they align at the same x value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ys</strong> (<em>Array</em>) – The signal values</p></li>
 <li><p><strong>xs</strong> (<em>Array</em>) – The x-values</p></li>
-<li><p><strong>N</strong> (<em>int</em>) – Lenght of output array (Default: 200)</p></li>
+<li><p><strong>N</strong> (<em>int</em>) – Length of output array (Default: 200)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -3846,10 +3846,10 @@ they align at the same x value</p>
 <dt class="sig sig-object py" id="ap_features.average_list">
 <span class="sig-prename descclassname"><span class="pre">ap_features.</span></span><span class="sig-name descname"><span class="pre">average_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ap_features.average_list" title="Permalink to this definition">#</a></dt>
 <dd><p>Get average of signals.
-Assume that signals are alinged, but
+Assume that signals are aligned, but
 they dont have to be of the same length.
 If they have different length then the output
-average will have the same lenght as the longest
+average will have the same length as the longest
 array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
