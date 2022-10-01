@@ -1,0 +1,1575 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ap_features.beat &#8212; Action potential features</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Action potential features</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../README.html">
+                    Action Potential features
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../INSTALL.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../demo_fitzhugh_nagumo.html">
+   Demo - Fitzhugh-Nagumo neural model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../AUTHORS.html">
+   Credits
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../CONTRIBUTING.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../ap_features.html">
+   ap_features package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../modules.html">
+   ap_features
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ap_features.html">
+     ap_features package
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <a href="https://www.simula.no/research/projects/department-computational-physiology">Computational Physiology at Simula</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features/issues/new?title=Issue%20on%20page%20%2F_modules/ap_features/beat.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for ap_features.beat</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">UnivariateSpline</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">average</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">background</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">chopping</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">features</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">filters</span> <span class="k">as</span> <span class="n">_filters</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">plot</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">.background</span> <span class="kn">import</span> <span class="n">BackgroundCorrection</span> <span class="k">as</span> <span class="n">BC</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Array</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Backend</span>
+
+
+<div class="viewcode-block" id="identity"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.identity">[docs]</a><span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="copy_function"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.copy_function">[docs]</a><span class="k">def</span> <span class="nf">copy_function</span><span class="p">(</span><span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">identity</span></div>
+
+
+<div class="viewcode-block" id="Trace"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace">[docs]</a><span class="k">class</span> <span class="nc">Trace</span><span class="p">:</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_t&quot;</span><span class="p">,</span> <span class="s2">&quot;_y&quot;</span><span class="p">,</span> <span class="s2">&quot;_pacing&quot;</span><span class="p">,</span> <span class="s2">&quot;_backend&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span>
+        <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_t</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">numpyfy</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">numpyfy</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pacing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pacing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pacing</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">numpyfy</span><span class="p">(</span><span class="n">pacing</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_array_sizes</span><span class="p">()</span>
+
+        <span class="k">assert</span> <span class="n">backend</span> <span class="ow">in</span> <span class="n">Backend</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="n">backend</span>
+
+    <span class="k">def</span> <span class="nf">_validate_array_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected y (size=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">)</span><span class="si">}</span><span class="s2">) and &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;t (size=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="p">)</span><span class="si">}</span><span class="s2">) to have same size&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pacing</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected y (size=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">)</span><span class="si">}</span><span class="s2">) and &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;pacing (size=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pacing</span><span class="p">)</span><span class="si">}</span><span class="s2">) to have same size&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(t=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, y=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">time_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The time unit &#39;ms&#39; or &#39;s&#39;&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">time_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Trace.ensure_time_unit"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.ensure_time_unit">[docs]</a>    <span class="k">def</span> <span class="nf">ensure_time_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert time to milliseconds or seconds</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        unit : str</span>
+<span class="sd">            A string with &#39;ms&#39; or &#39;s&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;Expected unit to be &#39;ms&#39; or &#39;s&#39;, got </span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_unit</span> <span class="o">!=</span> <span class="n">unit</span><span class="p">:</span>
+            <span class="n">unitfactor</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">1000.0</span> <span class="k">if</span> <span class="n">unit</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span> <span class="k">else</span> <span class="mf">1000.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[:]</span> <span class="o">*=</span> <span class="n">unitfactor</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_t</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pacing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pacing</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">pacing</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="Trace.slice"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Trace&quot;</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">copy_function</span><span class="p">(</span><span class="n">copy</span><span class="p">)</span>
+        <span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span> <span class="o">=</span> <span class="n">chopping</span><span class="o">.</span><span class="n">find_start_end_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">],</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">],</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">)[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">],</span>
+            <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Trace.copy"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">),</span>
+            <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Trace.plot"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">include_pacing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_background</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">plot</span><span class="o">.</span><span class="n">plot_beat</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">include_pacing</span><span class="o">=</span><span class="n">include_pacing</span><span class="p">,</span>
+            <span class="n">include_background</span><span class="o">=</span><span class="n">include_background</span><span class="p">,</span>
+            <span class="n">ylabel</span><span class="o">=</span><span class="n">ylabel</span><span class="p">,</span>
+            <span class="n">fname</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Trace.as_spline"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.as_spline">[docs]</a>    <span class="k">def</span> <span class="nf">as_spline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnivariateSpline</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;[summary]</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k : int, optional</span>
+<span class="sd">            Degree of the smoothing spline.  Must be 1 &lt;= `k` &lt;= 5.</span>
+<span class="sd">            Default is `k` = 3, a cubic spline, by default 3.</span>
+<span class="sd">        s : float or None, optional</span>
+<span class="sd">            Positive smoothing factor used to choose the number of knots.</span>
+<span class="sd">            If 0, spline will interpolate through all data points,</span>
+<span class="sd">            by default 0</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        UnivariateSpline</span>
+<span class="sd">            A spline representation of the trace</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Beat"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat">[docs]</a><span class="k">class</span> <span class="nc">Beat</span><span class="p">(</span><span class="n">Trace</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_rest</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Beats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+        <span class="n">beat_number</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Expected shape of &#39;t&#39; and &#39;y&#39; to be the same. got &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">(t) and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">(y)&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y_rest</span> <span class="o">=</span> <span class="n">y_rest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beat_number</span> <span class="o">=</span> <span class="n">beat_number</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y_normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize_signal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_rest</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y_rest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_rest</span>
+
+<div class="viewcode-block" id="Beat.as_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.as_beats">[docs]</a>    <span class="k">def</span> <span class="nf">as_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beats&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert trace from Beat to Beats&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Beats</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.is_valid"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if intersection with APD50 line gives two</span>
+<span class="sd">        points</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_normalized</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">roots</span><span class="p">()</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">2</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Beats&quot;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;If the beat comes from several Beats</span>
+<span class="sd">        object then this will return those Beats</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Beats</span>
+<span class="sd">            The parent Beats</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span>
+
+<div class="viewcode-block" id="Beat.apd_point"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.apd_point">[docs]</a>    <span class="k">def</span> <span class="nf">apd_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return the first and second intersection</span>
+<span class="sd">        of the APD p line</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factor : int</span>
+<span class="sd">            The APD</span>
+<span class="sd">        use_spline : bool, optional</span>
+<span class="sd">            Use spline interpolation or not, by default True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple[float, float]</span>
+<span class="sd">            Two points corresponding to the first and second</span>
+<span class="sd">            intersection of the APD p line</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">apd_point</span><span class="p">(</span>
+            <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span>
+            <span class="n">V</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">v_r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_rest</span><span class="p">,</span>
+            <span class="n">use_spline</span><span class="o">=</span><span class="n">use_spline</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.apd"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.apd">[docs]</a>    <span class="k">def</span> <span class="nf">apd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The action potential duration</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factor : int</span>
+<span class="sd">            Integer between 0 and 100</span>
+<span class="sd">        use_spline : bool, optional</span>
+<span class="sd">            Use spline interpolation, by default True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            action potential duration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span>
+            <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span>
+            <span class="n">V</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">v_r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_rest</span><span class="p">,</span>
+            <span class="n">use_spline</span><span class="o">=</span><span class="n">use_spline</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.triangulation"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.triangulation">[docs]</a>    <span class="k">def</span> <span class="nf">triangulation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">low</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="n">high</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span>
+        <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the triangulation</span>
+<span class="sd">        which is the last intersection of the</span>
+<span class="sd">        :math:`\mathrm{APD} \; p_{\mathrm{high}}`</span>
+<span class="sd">        line minus the last intersection of the</span>
+<span class="sd">        :math:`\mathrm{APD} \; p_{\mathrm{low}}`</span>
+<span class="sd">        line</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        low : int, optional</span>
+<span class="sd">            Lower APD value, by default 30</span>
+<span class="sd">        high : int, optional</span>
+<span class="sd">            Higher APD value, by default 80</span>
+<span class="sd">        use_spline : bool, optional</span>
+<span class="sd">            Use spline interpolation, by default True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The triangulations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">triangulation</span><span class="p">(</span>
+            <span class="n">V</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">low</span><span class="o">=</span><span class="n">low</span><span class="p">,</span>
+            <span class="n">high</span><span class="o">=</span><span class="n">high</span><span class="p">,</span>
+            <span class="n">v_r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_rest</span><span class="p">,</span>
+            <span class="n">use_spline</span><span class="o">=</span><span class="n">use_spline</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.capd"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.capd">[docs]</a>    <span class="k">def</span> <span class="nf">capd</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">beat_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">formula</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;friderica&quot;</span><span class="p">,</span>
+        <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">use_median_beat_rate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Correct the given APD (or any QT measurement) for the beat rate.</span>
+<span class="sd">        normally the faster the HR (or the shorter the RR interval),</span>
+<span class="sd">        the shorter the QT interval, and vice versa</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factor : int</span>
+<span class="sd">            Integer between 0 and 100</span>
+<span class="sd">        beat_rate : float</span>
+<span class="sd">            The beat rate (number of beats per minute)</span>
+<span class="sd">        formula : str, optional</span>
+<span class="sd">            Formula for computing th corrected APD, either</span>
+<span class="sd">            &#39;friderica&#39; or &#39;bazett&#39;, by default &#39;friderica&#39;,</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The corrected APD</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        Friderica formula (default):</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            APD (RR)^{-1/3}</span>
+
+<span class="sd">        Bazett formula:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            APD (RR)^{-1/2}</span>
+
+<span class="sd">        where :math:`RR` is the R-R interval in an ECG. For an action potential</span>
+<span class="sd">        this would be equivalent to the inverse of the beating frequency (or 60</span>
+<span class="sd">        divided by the beat rate)</span>
+
+<span class="sd">        .. rubric::</span>
+<span class="sd">            Luo, Shen, et al. &quot;A comparison of commonly used QT correction formulae:</span>
+<span class="sd">            the effect of heart rate on the QTc of normal ECGs.&quot; Journal of</span>
+<span class="sd">            electrocardiology 37 (2004): 81-90.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">beat_rate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot compute corrected APD. Please provide beat_rate&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beat_number</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beat_number</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">beat_rates</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="n">use_median_beat_rate</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="n">use_median_beat_rate</span><span class="p">:</span>
+                <span class="n">beat_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">beat_rate</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">beat_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">beat_rates</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_beat_number</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+
+        <span class="n">apd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span> <span class="n">use_spline</span><span class="o">=</span><span class="n">use_spline</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">corrected_apd</span><span class="p">(</span><span class="n">apd</span><span class="p">,</span> <span class="n">beat_rate</span><span class="o">=</span><span class="n">beat_rate</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.tau"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.tau">[docs]</a>    <span class="k">def</span> <span class="nf">tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Decay time. Time for the signal amplitude to go from maximum to</span>
+<span class="sd">        (1 - a) * 100 % of maximum</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        a : float</span>
+<span class="sd">            The value for which you want to estimate the time decay</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Decay time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.ttp"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.ttp">[docs]</a>    <span class="k">def</span> <span class="nf">ttp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_pacing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Computed the time to peak from pacing is</span>
+<span class="sd">        triggered to maximum amplitude. Note, if pacing</span>
+<span class="sd">        is not provided it will compute the time from</span>
+<span class="sd">        the beginning of the trace (which might not be consistent)</span>
+<span class="sd">        to the peak.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        use_pacing : bool, optional</span>
+<span class="sd">            If pacing is available compute time to</span>
+<span class="sd">            peak from start of packing, by default True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Time to peak</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pacing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pacing</span> <span class="k">if</span> <span class="n">use_pacing</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">time_to_peak</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.integrate_apd"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.integrate_apd">[docs]</a>    <span class="k">def</span> <span class="nf">integrate_apd</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compute the integral of the signals above</span>
+<span class="sd">        the APD p line</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factor : float</span>
+<span class="sd">            Which APD line</span>
+<span class="sd">        use_spline : bool, optional</span>
+<span class="sd">            Use spline interpolation, by default True</span>
+<span class="sd">        normalize : bool, optional</span>
+<span class="sd">            If true normalize signal first, so that max value is 1.0,</span>
+<span class="sd">            and min value is zero before performing the computation,</span>
+<span class="sd">            by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">integrate_apd</span><span class="p">(</span>
+            <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span>
+            <span class="n">use_spline</span><span class="o">=</span><span class="n">use_spline</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.upstroke"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.upstroke">[docs]</a>    <span class="k">def</span> <span class="nf">upstroke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compute the time from (1-a)*100 % signal</span>
+<span class="sd">        amplitude to peak. For example if if a = 0.8</span>
+<span class="sd">        if will compute the time from the starting value</span>
+<span class="sd">        of APD80 to the upstroke.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        a : float</span>
+<span class="sd">            Fraction of signal amplitude</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The upstroke value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">upstroke</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.maximum_upstroke_velocity"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.maximum_upstroke_velocity">[docs]</a>    <span class="k">def</span> <span class="nf">maximum_upstroke_velocity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compute maximum upstroke velocity</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        use_spline : bool, optional</span>
+<span class="sd">            Use spline interpolation, by default True</span>
+<span class="sd">        normalize : bool, optional</span>
+<span class="sd">            If true normalize signal first, so that max value is 1.0,</span>
+<span class="sd">            and min value is zero before performing the computation,</span>
+<span class="sd">            by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The maximum upstroke velocity</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">maximum_upstroke_velocity</span><span class="p">(</span>
+            <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">use_spline</span><span class="o">=</span><span class="n">use_spline</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.maximum_relative_upstroke_velocity"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.maximum_relative_upstroke_velocity">[docs]</a>    <span class="k">def</span> <span class="nf">maximum_relative_upstroke_velocity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">upstroke_duration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">sigmoid_fit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Estimate maximum relative upstroke velocity</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        upstroke_duration : int</span>
+<span class="sd">            Duration in milliseconds of upstroke (Default: 50).</span>
+<span class="sd">            This does not have to be exact up should at least be</span>
+<span class="sd">            longer than the upstroke.</span>
+<span class="sd">        sigmoid_fit : bool</span>
+<span class="sd">            If True then use a sigmoid function to fit the data</span>
+<span class="sd">            of the upstroke and report the maximum derivate of</span>
+<span class="sd">            the sigmoid as the maximum upstroke.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">max_relative_upstroke_velocity</span><span class="p">(</span>
+            <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">upstroke_duration</span><span class="o">=</span><span class="n">upstroke_duration</span><span class="p">,</span>
+            <span class="n">sigmoid_fit</span><span class="o">=</span><span class="n">sigmoid_fit</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.detect_ead"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.detect_ead">[docs]</a>    <span class="k">def</span> <span class="nf">detect_ead</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">prominence_level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.07</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Detect (Early after depolarizations) EADs</span>
+<span class="sd">        based on peak prominence.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : Array</span>
+<span class="sd">            The signal that you want to detect EADs</span>
+<span class="sd">        sigma : float</span>
+<span class="sd">            Standard deviation in the gaussian smoothing kernel</span>
+<span class="sd">            Default: 1.0</span>
+<span class="sd">        prominence_level: float</span>
+<span class="sd">            How prominent a peak should be in order to be</span>
+<span class="sd">            characterized as an EAD. This value should be</span>
+<span class="sd">            between 0 and 1, with a greater value being</span>
+<span class="sd">            more prominent. Default: 0.07</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool:</span>
+<span class="sd">            Flag indicating if an EAD is found or not</span>
+<span class="sd">        int or None:</span>
+<span class="sd">            Index where we found the EAD. If no EAD is found then</span>
+<span class="sd">            this will be None. I more than one peaks are found then</span>
+<span class="sd">            only the first will be returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">detect_ead</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+            <span class="n">prominence_level</span><span class="o">=</span><span class="n">prominence_level</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beat.apd_up_xy"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.apd_up_xy">[docs]</a>    <span class="k">def</span> <span class="nf">apd_up_xy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor_x</span><span class="p">,</span> <span class="n">factor_y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find the duration between first intersection (i.e</span>
+<span class="sd">        during the upstroke) of two APD lines</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        factor_x: int</span>
+<span class="sd">            First APD line (value between 0 and 100)</span>
+<span class="sd">        factor_y: int</span>
+<span class="sd">            Second APD line (value between 0 and 100)</span>
+<span class="sd">        backend : utils.Backend, optional</span>
+<span class="sd">            Which backend to use by default Backend.python.</span>
+<span class="sd">            Choices, &#39;python&#39;, &#39;c&#39;, &#39;numba&#39;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float:</span>
+<span class="sd">            The time between `factor_x` to `factor_y`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">apd_up_xy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">factor_x</span><span class="o">=</span><span class="n">factor_x</span><span class="p">,</span> <span class="n">factor_y</span><span class="o">=</span><span class="n">factor_y</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cost_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="remove_bad_indices"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.remove_bad_indices">[docs]</a><span class="k">def</span> <span class="nf">remove_bad_indices</span><span class="p">(</span><span class="n">feature_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="n">bad_indices</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_indices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">feature_list</span>
+
+    <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">feature_list</span><span class="p">:</span>
+        <span class="n">new_sublist</span> <span class="o">=</span> <span class="n">sublist</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">bad_indices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">del</span> <span class="n">new_sublist</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_sublist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_list</span></div>
+
+
+<div class="viewcode-block" id="align_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.align_beats">[docs]</a><span class="k">def</span> <span class="nf">align_beats</span><span class="p">(</span><span class="n">beats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">],</span> <span class="n">apd_point</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">beats</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">beats</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">beat</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">beat</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">beat</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">]</span>
+    <span class="n">new_beats</span> <span class="o">=</span> <span class="p">[</span><span class="n">Beat</span><span class="p">(</span><span class="n">yi</span><span class="p">,</span> <span class="n">xi</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)]</span>
+    <span class="n">apd_points</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">apd_point</span><span class="p">(</span><span class="n">apd_point</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">new_beats</span><span class="p">]</span>
+    <span class="n">apd_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">apd_points</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">apd_points</span><span class="p">))</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">xi</span> <span class="o">-</span> <span class="n">p</span> <span class="k">for</span> <span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">apd_points</span><span class="p">)]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="n">xs</span><span class="p">))</span>  <span class="c1"># Should be 0</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">max</span><span class="p">,</span> <span class="n">xs</span><span class="p">))</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">average</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">Beat</span><span class="p">(</span><span class="n">yi</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span> <span class="k">for</span> <span class="n">yi</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="average_beat"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.average_beat">[docs]</a><span class="k">def</span> <span class="nf">average_beat</span><span class="p">(</span>
+    <span class="n">beats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">],</span>
+    <span class="n">N</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beat</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">beats</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot average an empty list&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">beats</span> <span class="o">=</span> <span class="n">filter_beats</span><span class="p">(</span><span class="n">beats</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">beats</span> <span class="o">=</span> <span class="n">align_beats</span><span class="p">(</span><span class="n">beats</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">avg</span> <span class="o">=</span> <span class="n">average</span><span class="o">.</span><span class="n">average_and_interpolate</span><span class="p">([</span><span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">t</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">],</span> <span class="n">N</span><span class="p">)</span>
+
+    <span class="n">pacing_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">beats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">beats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
+            <span class="n">N</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">beats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+        <span class="n">beats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pacing</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">pacing_avg</span><span class="p">[</span><span class="n">pacing_avg</span> <span class="o">&lt;=</span> <span class="mf">2.5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">pacing_avg</span><span class="p">[</span><span class="n">pacing_avg</span> <span class="o">&gt;</span> <span class="mf">2.5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>
+    <span class="k">return</span> <span class="n">Beat</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">avg</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">avg</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing_avg</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">beats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="filter_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.filter_beats">[docs]</a><span class="k">def</span> <span class="nf">filter_beats</span><span class="p">(</span>
+    <span class="n">beats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">],</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="p">],</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Filter beats based of similarities of the filters</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beats : List[Beat]</span>
+<span class="sd">        List of beats</span>
+<span class="sd">    filters : Sequence[_filters.Filters]</span>
+<span class="sd">        List of filters</span>
+<span class="sd">    x : float, optional</span>
+<span class="sd">        How many standard deviations away from the mean</span>
+<span class="sd">        the different beats should be to be</span>
+<span class="sd">        included, by default 1.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[Beat]</span>
+<span class="sd">        A list of filtered beats</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    _filters.InvalidFilter</span>
+<span class="sd">        If a filter in the list of filters is not valid.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">beats</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">beats</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot apply filter to empty list&quot;</span><span class="p">)</span>
+    <span class="n">feature_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bad_indices</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="c1"># Compute the features of all beats</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="o">.</span><span class="n">__members__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">_filters</span><span class="o">.</span><span class="n">InvalidFilter</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid filter </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;apd&quot;</span><span class="p">):</span>
+            <span class="n">apds</span> <span class="o">=</span> <span class="p">[</span><span class="n">beat</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">3</span><span class="p">:]))</span> <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">]</span>
+
+            <span class="c1"># If any apds are negative we should remove that beat</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">apd</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">apd</span> <span class="ow">in</span> <span class="n">apds</span><span class="p">):</span>
+                <span class="n">bad_indices</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">apd</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">apd</span> <span class="ow">in</span> <span class="n">apds</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+
+            <span class="n">feature_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">apds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="o">.</span><span class="n">length</span><span class="p">:</span>
+            <span class="n">feature_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">beat</span><span class="p">)</span> <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="o">.</span><span class="n">time_to_peak</span><span class="p">:</span>
+            <span class="n">feature_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">beat</span><span class="p">)</span> <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">])</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">_filters</span><span class="o">.</span><span class="n">filter_signals</span><span class="p">(</span><span class="n">feature_list</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">beats</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="apd_slope"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.apd_slope">[docs]</a><span class="k">def</span> <span class="nf">apd_slope</span><span class="p">(</span>
+    <span class="n">beats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">],</span>
+    <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">corrected_apd</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Compute a linear interpolation of the apd values for each beat.</span>
+<span class="sd">    This is useful in order to see if there is a correlation between</span>
+<span class="sd">    the APD values and the beat number. If the resulting the slope</span>
+<span class="sd">    is relatively close to zero there is no such dependency.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beats : List[Beat]</span>
+<span class="sd">        List of beats</span>
+<span class="sd">    factor : float</span>
+<span class="sd">        The apd value</span>
+<span class="sd">    corrected_apd : bool, optional</span>
+<span class="sd">        Whether to use corrected or regular apd, by default False</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[float, float]</span>
+<span class="sd">        A tuple with the (constant, slope) for the linear interpolation.</span>
+<span class="sd">        The slope here can be interpreted as the change in APD per minute.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">apd_first_points</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">apds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">:</span>
+        <span class="n">beat</span><span class="o">.</span><span class="n">ensure_time_unit</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+        <span class="n">apd_first_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beat</span><span class="o">.</span><span class="n">apd_point</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">apd</span> <span class="o">=</span> <span class="n">beat</span><span class="o">.</span><span class="n">capd</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span> <span class="k">if</span> <span class="n">corrected_apd</span> <span class="k">else</span> <span class="n">beat</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
+        <span class="n">apds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">apd</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">apds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">slope</span><span class="p">,</span> <span class="n">const</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">apd_first_points</span><span class="p">,</span> <span class="n">apds</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Covert to dAPD / min</span>
+        <span class="n">slope</span> <span class="o">*=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">const</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">slope</span><span class="p">,</span> <span class="n">const</span></div>
+
+
+<div class="viewcode-block" id="Beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats">[docs]</a><span class="k">class</span> <span class="nc">Beats</span><span class="p">(</span><span class="n">Trace</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">background_correction_method</span><span class="p">:</span> <span class="n">BC</span> <span class="o">=</span> <span class="n">BC</span><span class="o">.</span><span class="n">none</span><span class="p">,</span>
+        <span class="n">zero_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">chopping</span><span class="o">.</span><span class="n">Interval</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">chopping_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initializer for `Beats` class</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : Array</span>
+<span class="sd">            The amplitude of the array</span>
+<span class="sd">        t : Array</span>
+<span class="sd">            The time stamps</span>
+<span class="sd">        pacing : Optional[Array], optional</span>
+<span class="sd">            An optional array of pacing amplitude values, by default None.</span>
+<span class="sd">            If provided, it can be used to better chop the data</span>
+<span class="sd">            into individual beats.</span>
+<span class="sd">        background_correction_method : BC, optional</span>
+<span class="sd">            Method to perform background correction, by default BC.none.</span>
+<span class="sd">            Possible methods are &quot;full&quot;, &quot;subtract&quot; and &quot;none&quot;.</span>
+<span class="sd">            See `ap_features.background.correct_background` for more info.</span>
+<span class="sd">        zero_index : Optional[int], optional</span>
+<span class="sd">            Index where the value should be forced to be zero, by default None.</span>
+<span class="sd">            This will make sure that the array at the given index is zero, and</span>
+<span class="sd">            by subtracting the value at that index from all other values in the</span>
+<span class="sd">            array.</span>
+<span class="sd">        backend : Backend, optional</span>
+<span class="sd">            Backend to use for heavy computations, by default Backend.c.</span>
+<span class="sd">            Possible options are &quot;c&quot;, &quot;numba&quot; and &quot;python&quot;. Note that</span>
+<span class="sd">            most functions will be implemented in python / numpy anyway.</span>
+<span class="sd">        intervals : Optional[List[chopping.Interval]], optional</span>
+<span class="sd">            Optional ist of tuples containing start and ends of each beat</span>
+<span class="sd">            to be used for chopping, by default None.</span>
+<span class="sd">        chopping_options : Optional[Dict[str, float]], optional</span>
+<span class="sd">            Parameters to be used for chopping trace into individual beats,</span>
+<span class="sd">            by default None. See `ap_features.chopping.chop_data_without_pacing`</span>
+<span class="sd">            and `ap_features.chopping.chop_data_with_pacing` for more info.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        RuntimeError</span>
+<span class="sd">            If invalid zero_index is provided</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">background_correction</span> <span class="o">=</span> <span class="n">background</span><span class="o">.</span><span class="n">correct_background</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">background_correction_method</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Expected shape of &#39;t&#39; and &#39;y&#39; to be the same got &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">(t) and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">(y)&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">msg</span>
+
+        <span class="k">if</span> <span class="n">zero_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">valid_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="n">zero_index</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid zero index </span><span class="si">{</span><span class="n">zero_index</span><span class="si">}</span><span class="s2"> for array or size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zero_index</span> <span class="o">=</span> <span class="n">zero_index</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span> <span class="o">=</span> <span class="n">chopping</span><span class="o">.</span><span class="n">default_chopping_options</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">chopping_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">chopping_options</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="p">[</span><span class="s2">&quot;intervals&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intervals</span>
+
+<div class="viewcode-block" id="Beats.as_beat"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.as_beat">[docs]</a>    <span class="k">def</span> <span class="nf">as_beat</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beat&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert trace from Beats to Beat&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Beat</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.plot_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.plot_beats">[docs]</a>    <span class="k">def</span> <span class="nf">plot_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">align</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">plot_beats_from_beat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="n">align</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">fname</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">chopped_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">chopping</span><span class="o">.</span><span class="n">ChoppedData</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_chopped_data&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_chopped_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chop_data</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chopped_data</span>
+
+<div class="viewcode-block" id="Beats.apd_slope"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.apd_slope">[docs]</a>    <span class="k">def</span> <span class="nf">apd_slope</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">corrected_apd</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">apd_slope</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beats</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span> <span class="n">corrected_apd</span><span class="o">=</span><span class="n">corrected_apd</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.chop_data"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.chop_data">[docs]</a>    <span class="k">def</span> <span class="nf">chop_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">threshold_factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">min_window</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">max_window</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+        <span class="n">N</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">extend_front</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">extend_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignore_pacing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">chopping</span><span class="o">.</span><span class="n">chop_data</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">,</span>
+            <span class="n">threshold_factor</span><span class="o">=</span><span class="n">threshold_factor</span><span class="p">,</span>
+            <span class="n">min_window</span><span class="o">=</span><span class="n">min_window</span><span class="p">,</span>
+            <span class="n">max_window</span><span class="o">=</span><span class="n">max_window</span><span class="p">,</span>
+            <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+            <span class="n">extend_front</span><span class="o">=</span><span class="n">extend_front</span><span class="p">,</span>
+            <span class="n">extend_end</span><span class="o">=</span><span class="n">extend_end</span><span class="p">,</span>
+            <span class="n">ignore_pacing</span><span class="o">=</span><span class="n">ignore_pacing</span><span class="p">,</span>
+            <span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.correct_background"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.correct_background">[docs]</a>    <span class="k">def</span> <span class="nf">correct_background</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">background_correction_method</span><span class="p">:</span> <span class="n">BC</span><span class="p">,</span>
+        <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beats&quot;</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">copy_function</span><span class="p">(</span><span class="n">copy</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Beats</span><span class="p">(</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">),</span>
+            <span class="n">background_correction_method</span><span class="o">=</span><span class="n">background_correction_method</span><span class="p">,</span>
+            <span class="n">zero_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zero_index</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span>
+            <span class="n">chopping_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="p">,</span>
+            <span class="n">intervals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.remove_points"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.remove_points">[docs]</a>    <span class="k">def</span> <span class="nf">remove_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">t_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beats&quot;</span><span class="p">:</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">_filters</span><span class="o">.</span><span class="n">remove_points</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">),</span>
+            <span class="n">t_start</span><span class="o">=</span><span class="n">t_start</span><span class="p">,</span>
+            <span class="n">t_end</span><span class="o">=</span><span class="n">t_end</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">pacing</span> <span class="o">=</span> <span class="n">_filters</span><span class="o">.</span><span class="n">remove_points</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">),</span>
+            <span class="n">t_start</span><span class="o">=</span><span class="n">t_start</span><span class="p">,</span>
+            <span class="n">t_end</span><span class="o">=</span><span class="n">t_end</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Beats</span><span class="p">(</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span>
+            <span class="n">background_correction_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">background_correction</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+            <span class="n">zero_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zero_index</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span>
+            <span class="n">chopping_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="p">,</span>
+            <span class="n">intervals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.filter"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beats&quot;</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">_filters</span><span class="o">.</span><span class="n">filt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">copy_function</span><span class="p">(</span><span class="n">copy</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Beats</span><span class="p">(</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">),</span>
+            <span class="n">background_correction_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">background_correction</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+            <span class="n">zero_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zero_index</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span>
+            <span class="n">chopping_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="p">,</span>
+            <span class="n">intervals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.remove_spikes"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.remove_spikes">[docs]</a>    <span class="k">def</span> <span class="nf">remove_spikes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spike_duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beats&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">spike_duration</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="n">spike_points</span> <span class="o">=</span> <span class="n">_filters</span><span class="o">.</span><span class="n">find_spike_points</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">,</span>
+            <span class="n">spike_duration</span><span class="o">=</span><span class="n">spike_duration</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">spike_points</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">spike_points</span><span class="p">)</span>
+        <span class="n">pacing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">,</span> <span class="n">spike_points</span><span class="p">)</span>
+
+        <span class="n">background_correction_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">background_correction</span><span class="o">.</span><span class="n">method</span>
+        <span class="k">return</span> <span class="n">Beats</span><span class="p">(</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span>
+            <span class="n">background_correction_method</span><span class="o">=</span><span class="n">background_correction_method</span><span class="p">,</span>
+            <span class="n">zero_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zero_index</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span>
+            <span class="n">chopping_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="p">,</span>
+            <span class="n">intervals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.filter_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.filter_beats">[docs]</a>    <span class="k">def</span> <span class="nf">filter_beats</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="p">],</span>
+        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get a subset of the chopped beats based on</span>
+<span class="sd">        similarities in different features.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filters : Sequence[_filters.Filters]</span>
+<span class="sd">            A list of filters that should be used for filtering</span>
+<span class="sd">        x : float, optional</span>
+<span class="sd">            How many standard deviations away from the mean</span>
+<span class="sd">            the different beats should be to be</span>
+<span class="sd">            included, by default 1.0</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[Beat]</span>
+<span class="sd">            A list of filtered beats</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">filter_beats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beats</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beating_frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get the frequency for each beat</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[float]</span>
+<span class="sd">            List of frequencies</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">signals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">beat</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">beats</span><span class="p">]</span>
+        <span class="n">times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">beat</span><span class="o">.</span><span class="n">t</span> <span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">beats</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">beating_frequency_from_peaks</span><span class="p">(</span><span class="n">signals</span><span class="o">=</span><span class="n">signals</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="n">times</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beating_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The median frequency of all beats&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beating_frequencies</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beat_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The beat rate, i.e number of beats</span>
+<span class="sd">        per minute, which is simply 60 divided</span>
+<span class="sd">        by the beating frequency</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">60</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">beating_frequency</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beat_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Beat rate for all beats</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[float]</span>
+<span class="sd">            List of beat rates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">60</span> <span class="o">*</span> <span class="n">bf</span> <span class="k">for</span> <span class="n">bf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">beating_frequencies</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Beats.average_beat"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.average_beat">[docs]</a>    <span class="k">def</span> <span class="nf">average_beat</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">N</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beat</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compute an average beat based on</span>
+<span class="sd">        aligning the individual beats</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filters : Optional[Sequence[_filters.Filters]], optional</span>
+<span class="sd">            A list of filters that should be used to decide</span>
+<span class="sd">            which beats that should be included in the</span>
+<span class="sd">            averaging, by default None</span>
+<span class="sd">        N : int, optional</span>
+<span class="sd">            Length of output signal, by default 200.</span>
+<span class="sd">            Note that the output signal will be interpolated so</span>
+<span class="sd">            that it has this length. This is done because the</span>
+<span class="sd">            different beats might have different lengths.</span>
+<span class="sd">        x : float, optional</span>
+<span class="sd">            The number of standard deviations used in the</span>
+<span class="sd">            filtering, by default 1.0</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Beat</span>
+<span class="sd">            An average beat.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">average_beat</span><span class="p">(</span><span class="n">beats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">beats</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Beats.aligned_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.aligned_beats">[docs]</a>    <span class="k">def</span> <span class="nf">aligned_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">align_beats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beats</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Chop signal into individual beats.</span>
+<span class="sd">        You can also pass in any options that should</span>
+<span class="sd">        be provided to the chopping algorithm.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[Beat]</span>
+<span class="sd">            A list of chopped beats</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_beats&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_beats</span> <span class="o">=</span> <span class="n">chopped_data_to_beats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chopped_data</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beats</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;A ist of time intervals for each beat&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chopped_data</span><span class="o">.</span><span class="n">intervals</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beats</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">background</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">background_correction</span><span class="o">.</span><span class="n">background</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">background_correction</span><span class="o">.</span><span class="n">corrected</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zero_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_zero_index</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">y</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">original_y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="BeatCollection"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.BeatCollection">[docs]</a><span class="k">class</span> <span class="nc">BeatCollection</span><span class="p">(</span><span class="n">Trace</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;BeatSeriesCollection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Expected first dimension of &#39;y&#39; to be the same as shape of &#39;t&#39; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">(t) and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">(y)&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msg</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Expected shape of y to be 2D, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">D&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;BeatSeriesCollection&quot;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;If the beat comes from a BeatSeries</span>
+<span class="sd">        object then this will return that BeatSeries</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BeatSeries</span>
+<span class="sd">            The parent BeatSeries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span></div>
+
+
+<div class="viewcode-block" id="chopped_data_to_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.chopped_data_to_beats">[docs]</a><span class="k">def</span> <span class="nf">chopped_data_to_beats</span><span class="p">(</span>
+    <span class="n">chopped_data</span><span class="p">:</span> <span class="n">chopping</span><span class="o">.</span><span class="n">ChoppedData</span><span class="p">,</span>
+    <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Beats</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Convert a ChoppedData object to a list of Beats</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    chopped_data : chopping.ChoppedData</span>
+<span class="sd">        The chopped data</span>
+<span class="sd">    parent : Optional[Beats], optional</span>
+<span class="sd">        Parent trace, by default None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[Beat]</span>
+<span class="sd">        List of Beats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">Beat</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">beat_number</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">chopped_data</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">chopped_data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">chopped_data</span><span class="o">.</span><span class="n">pacing</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="BeatSeriesCollection"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.BeatSeriesCollection">[docs]</a><span class="k">class</span> <span class="nc">BeatSeriesCollection</span><span class="p">(</span><span class="n">Trace</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="State"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.State">[docs]</a><span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">Trace</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span>
+        <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Expected first dimension of &#39;y&#39; to be the same as shape of &#39;t&#39; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">(t) and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">(y)&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msg</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Expected shape of y to be D, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">D&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cost_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_states</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">cost_terms</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ca</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">t_v</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">t_ca</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StateCollection"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.StateCollection">[docs]</a><span class="k">class</span> <span class="nc">StateCollection</span><span class="p">(</span><span class="n">Trace</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;StateSeriesCollection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># TODO: Check dimensions</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">parent</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Expected first dimension of &#39;y&#39; to be the same as shape of &#39;t&#39; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">(t) and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">(y)&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msg</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Expected shape of y to be 3D, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">D&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mask</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mask</span>
+
+    <span class="nd">@mask</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">numpyfy</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">mask</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_traces</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mask</span> <span class="o">=</span> <span class="n">mask</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;StateSeriesCollection&quot;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;If the beat comes from a BeatSeries</span>
+<span class="sd">        object then this will return that BeatSeries</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BeatSeries</span>
+<span class="sd">            The parent BeatSeries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cost_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">all_cost_terms</span><span class="p">(</span><span class="n">arr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StateSeriesCollection"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.StateSeriesCollection">[docs]</a><span class="k">class</span> <span class="nc">StateSeriesCollection</span><span class="p">(</span><span class="n">Trace</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Henrik Finsberg og Kristian Hustad<br/>
+  
+      &copy; Copyright 2021.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

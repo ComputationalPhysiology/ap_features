@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ap_features.background &#8212; Action potential features</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Action potential features</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../README.html">
+                    Action Potential features
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../INSTALL.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../demo_fitzhugh_nagumo.html">
+   Demo - Fitzhugh-Nagumo neural model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../AUTHORS.html">
+   Credits
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../CONTRIBUTING.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../ap_features.html">
+   ap_features package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../modules.html">
+   ap_features
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ap_features.html">
+     ap_features package
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <a href="https://www.simula.no/research/projects/department-computational-physiology">Computational Physiology at Simula</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features/issues/new?title=Issue%20on%20page%20%2F_modules/ap_features/background.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for ap_features.background</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Array</span>
+
+<span class="n">Background</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s2">&quot;Background&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;corrected&quot;</span><span class="p">,</span> <span class="s2">&quot;background&quot;</span><span class="p">,</span> <span class="s2">&quot;F0&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BackgroundCorrection"><a class="viewcode-back" href="../../ap_features.html#ap_features.background.BackgroundCorrection">[docs]</a><span class="k">class</span> <span class="nc">BackgroundCorrection</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">full</span> <span class="o">=</span> <span class="s2">&quot;full&quot;</span>
+    <span class="n">subtract</span> <span class="o">=</span> <span class="s2">&quot;subtract&quot;</span>
+    <span class="n">none</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span></div>
+
+
+<div class="viewcode-block" id="BackgroundCostFunction"><a class="viewcode-back" href="../../ap_features.html#ap_features.background.BackgroundCostFunction">[docs]</a><span class="k">class</span> <span class="nc">BackgroundCostFunction</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">sh</span> <span class="o">=</span> <span class="s2">&quot;sh&quot;</span>
+    <span class="n">ah</span> <span class="o">=</span> <span class="s2">&quot;ah&quot;</span>
+    <span class="n">stq</span> <span class="o">=</span> <span class="s2">&quot;stq&quot;</span>
+    <span class="n">atq</span> <span class="o">=</span> <span class="s2">&quot;atq&quot;</span></div>
+
+
+<div class="viewcode-block" id="correct_background"><a class="viewcode-back" href="../../ap_features.html#ap_features.background.correct_background">[docs]</a><span class="k">def</span> <span class="nf">correct_background</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">BackgroundCorrection</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Background</span><span class="p">:</span>
+
+    <span class="n">methods</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">BackgroundCorrection</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid method &#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&#39;, expected one of </span><span class="si">{</span><span class="n">methods</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Size of x (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">) and y (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">) did not match&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="n">BackgroundCorrection</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Background</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">corrected</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">background</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+            <span class="n">F0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">bkg</span> <span class="o">=</span> <span class="n">background</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="n">BackgroundCorrection</span><span class="o">.</span><span class="n">full</span><span class="p">:</span>
+        <span class="n">F0</span> <span class="o">=</span> <span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="n">BackgroundCorrection</span><span class="o">.</span><span class="n">subtract</span><span class="p">:</span>
+        <span class="n">F0</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">corrected</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">F0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">bkg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Background</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+        <span class="n">corrected</span><span class="o">=</span><span class="n">corrected</span><span class="p">,</span>
+        <span class="n">background</span><span class="o">=</span><span class="n">bkg</span><span class="p">,</span>
+        <span class="n">F0</span><span class="o">=</span><span class="n">F0</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="full_background_correction"><a class="viewcode-back" href="../../ap_features.html#ap_features.background.full_background_correction">[docs]</a><span class="k">def</span> <span class="nf">full_background_correction</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Background</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Perform at background correction.</span>
+<span class="sd">    First estimate background :math:`b`, and let</span>
+<span class="sd">    :math:`F_0 = b(0)`. The corrected background is</span>
+<span class="sd">    then :math:`\frac{y - b}{F_0}`. Additional argument</span>
+<span class="sd">    can be passed to background corrected algorithm as</span>
+<span class="sd">    keyword arguments.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : Array</span>
+<span class="sd">        Time points</span>
+<span class="sd">    y : Array</span>
+<span class="sd">        Fluorescence amplitude</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Background</span>
+<span class="sd">        Namedtuple containing the corrected trace and the background.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bkg</span> <span class="o">=</span> <span class="n">background</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">F0</span> <span class="o">=</span> <span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">corrected</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">F0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">bkg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Background</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+        <span class="n">corrected</span><span class="o">=</span><span class="n">corrected</span><span class="p">,</span>
+        <span class="n">background</span><span class="o">=</span><span class="n">bkg</span><span class="p">,</span>
+        <span class="n">F0</span><span class="o">=</span><span class="n">F0</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="background"><a class="viewcode-back" href="../../ap_features.html#ap_features.background.background">[docs]</a><span class="k">def</span> <span class="nf">background</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">cost_function</span><span class="p">:</span> <span class="n">BackgroundCostFunction</span> <span class="o">=</span> <span class="n">BackgroundCostFunction</span><span class="o">.</span><span class="n">atq</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute an estimation of the background (aka baseline)</span>
+<span class="sd">    in chemical spectra. The background is estimated by a polynomial</span>
+<span class="sd">    with order using a cost-function and a threshold parameter.</span>
+<span class="sd">    This is a re-implementation of a MATLAB script that</span>
+<span class="sd">    can be found `here &lt;https://se.mathworks.com/matlabcentral</span>
+<span class="sd">    /fileexchange/27429-background-correction&gt;`_</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : Array</span>
+<span class="sd">        Time stamps</span>
+<span class="sd">    y : Array</span>
+<span class="sd">        Signal</span>
+<span class="sd">    order : int, optional</span>
+<span class="sd">        Polynomial order, by default 2</span>
+<span class="sd">    threshold : float, optional</span>
+<span class="sd">        The threshold parameters, by default 0.01</span>
+<span class="sd">    cost_function : BackgroundCostFunction, optional</span>
+<span class="sd">        Cost function to be minimized, by default BackgroundCostFunction.atq.</span>
+<span class="sd">        The cost functions can have the following forms:</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        The estimated baseline</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The cost function can have the four following values:</span>
+
+<span class="sd">    * sh  - symmetric Huber function :</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            f(x) =  \begin{cases}</span>
+<span class="sd">                    x^2, \; \text{ if } |x| &lt; \text{threshold} \\</span>
+<span class="sd">                    2 \text{threshold}  |x|-\text{threshold}^2,  \; \text{otherwise}</span>
+<span class="sd">                    \end{cases}</span>
+
+<span class="sd">    * ah  - asymmetric Huber function :</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            f(x) =  \begin{cases}</span>
+<span class="sd">                    x^2, \; \text{ if } x &lt; \text{threshold} \\</span>
+<span class="sd">                    2 \text{threshold} x-\text{threshold}^2 , \; \text{otherwise}</span>
+<span class="sd">                    \end{cases}</span>
+
+
+<span class="sd">    * stq - symmetric truncated quadratic :</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            f(x) =  \begin{cases}</span>
+<span class="sd">                    x^2, \; \text{ if } |x| &lt; \text{threshold} \\</span>
+<span class="sd">                    \text{threshold}^2 , \; \text{otherwise}</span>
+<span class="sd">                    \end{cases}</span>
+
+<span class="sd">    * atq - asymmetric truncated quadratic :</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            f(x) =  \begin{cases}</span>
+<span class="sd">                    x^2, \; \text{ if } x &lt; \text{threshold} \\</span>
+<span class="sd">                    \text{threshold}^2 , \; \text{otherwise}</span>
+<span class="sd">                    \end{cases}</span>
+
+
+<span class="sd">    .. rubric:: References</span>
+
+<span class="sd">    [1] Mazet, V., Carteret, C., Brie, D., Idier, J. and Humbert, B.,</span>
+<span class="sd">    2005. Background removal from spectra by designing and minimising</span>
+<span class="sd">    a non-quadratic cost function. Chemometrics and intelligent</span>
+<span class="sd">    laboratory systems, 76(2), pp.121-133.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Rescaling</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x_sorted</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">y_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="n">maxy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y_sorted</span><span class="p">)</span>
+    <span class="n">dely</span> <span class="o">=</span> <span class="p">(</span><span class="n">maxy</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y_sorted</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="c1"># Normalize time</span>
+    <span class="n">x_norm</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">2</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">x_sorted</span><span class="p">,</span> <span class="n">x_sorted</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span>
+            <span class="n">x_sorted</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_sorted</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">y_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">y_sorted</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span> <span class="o">/</span> <span class="n">dely</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># Vandermonde matrix</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vander</span><span class="p">(</span><span class="n">x_norm</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">Tinv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Initialization (least-squares estimation)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y_norm</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="c1">#  Other variables</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.99</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Scale parameter alpha</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Iteration number</span>
+    <span class="n">zp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>  <span class="c1"># Previous estimation</span>
+
+    <span class="c1"># Iterate</span>
+    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">zp</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">zp</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+
+        <span class="n">it</span> <span class="o">=</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Iteration number</span>
+        <span class="n">zp</span> <span class="o">=</span> <span class="n">z</span>  <span class="c1"># Previous estimation</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">y_norm</span> <span class="o">-</span> <span class="n">z</span>  <span class="c1"># Residual</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+
+        <span class="c1"># Estimate d</span>
+        <span class="k">if</span> <span class="n">cost_function</span> <span class="o">==</span> <span class="n">BackgroundCostFunction</span><span class="o">.</span><span class="n">sh</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">+=</span> <span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">res</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">threshold</span><span class="p">]</span> <span class="o">-=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">threshold</span> <span class="o">+</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">threshold</span><span class="p">]</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-=</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">threshold</span>
+
+        <span class="k">elif</span> <span class="n">cost_function</span> <span class="o">==</span> <span class="n">BackgroundCostFunction</span><span class="o">.</span><span class="n">ah</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">+=</span> <span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-=</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">threshold</span>
+        <span class="k">elif</span> <span class="n">cost_function</span> <span class="o">==</span> <span class="n">BackgroundCostFunction</span><span class="o">.</span><span class="n">stq</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">+=</span> <span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-=</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">threshold</span>
+
+        <span class="k">elif</span> <span class="n">cost_function</span> <span class="o">==</span> <span class="n">BackgroundCostFunction</span><span class="o">.</span><span class="n">atq</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">res</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">+=</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-=</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">]</span>
+
+        <span class="c1"># Estimate z</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">Tinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y_norm</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span>  <span class="c1"># Polynomial coefficients a</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># Polynomial</span>
+
+    <span class="c1"># Rescaling</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dely</span> <span class="o">+</span> <span class="n">maxy</span>
+
+    <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">dely</span>  <span class="c1"># + maxy</span>
+    <span class="k">return</span> <span class="n">z</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Henrik Finsberg og Kristian Hustad<br/>
+  
+      &copy; Copyright 2021.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

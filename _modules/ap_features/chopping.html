@@ -1,0 +1,1068 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ap_features.chopping &#8212; Action potential features</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Action potential features</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../README.html">
+                    Action Potential features
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../INSTALL.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../demo_fitzhugh_nagumo.html">
+   Demo - Fitzhugh-Nagumo neural model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../AUTHORS.html">
+   Credits
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../CONTRIBUTING.html">
+   Contributing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../ap_features.html">
+   ap_features package
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../modules.html">
+   ap_features
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../ap_features.html">
+     ap_features package
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <a href="https://www.simula.no/research/projects/department-computational-physiology">Computational Physiology at Simula</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/ComputationalPhysiology/ap_features/issues/new?title=Issue%20on%20page%20%2F_modules/ap_features/chopping.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for ap_features.chopping</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">UnivariateSpline</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">filters</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Array</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">ChoppedData</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s2">&quot;ChoppedData&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data, times, pacing, parameters, intervals, upstroke_times&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">Interval</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Interval&quot;</span><span class="p">,</span> <span class="s2">&quot;start, end&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="find_start_end_index"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.find_start_end_index">[docs]</a><span class="k">def</span> <span class="nf">find_start_end_index</span><span class="p">(</span>
+    <span class="n">time_stamps</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="n">start_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">end_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_stamps</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">start_index</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">time_stamps</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="n">start</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">if</span> <span class="n">end</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">end_index</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">time_stamps</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span></div>
+
+
+<div class="viewcode-block" id="chop_data"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.chop_data">[docs]</a><span class="k">def</span> <span class="nf">chop_data</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChoppedData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Chop data into individual beats</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Array</span>
+<span class="sd">        The signal amplitude</span>
+<span class="sd">    time : Array</span>
+<span class="sd">        Time stamps</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ChoppedData</span>
+<span class="sd">        Data chopped into individual beats</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="c1"># If the array contains nan values we should not analyze it</span>
+        <span class="k">return</span> <span class="n">ChoppedData</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">times</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">pacing</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span>
+            <span class="n">intervals</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">upstroke_times</span><span class="o">=</span><span class="p">[],</span>
+        <span class="p">)</span>
+
+    <span class="n">pacing</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;pacing&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)))</span>
+    <span class="n">ignore_pacing</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ignore_pacing&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ignore_pacing</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="n">pacing</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Chop data without pacing&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">chop_data_without_pacing</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Chop data with pacing&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">chop_data_with_pacing</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">pacing</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmptyChoppingError"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.EmptyChoppingError">[docs]</a><span class="k">class</span> <span class="nc">EmptyChoppingError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="InvalidChoppingError"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.InvalidChoppingError">[docs]</a><span class="k">class</span> <span class="nc">InvalidChoppingError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="default_chopping_options"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.default_chopping_options">[docs]</a><span class="k">def</span> <span class="nf">default_chopping_options</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">threshold_factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">min_window</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">max_window</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+        <span class="n">N</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">extend_front</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">extend_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignore_pacing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="chop_data_without_pacing"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.chop_data_without_pacing">[docs]</a><span class="k">def</span> <span class="nf">chop_data_without_pacing</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">threshold_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">min_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">max_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="n">N</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">extend_front</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">extend_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">intervals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChoppedData</span><span class="p">:</span>
+
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Chop data into beats</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data : list or array</span>
+<span class="sd">        The data that you want to chop</span>
+<span class="sd">    time : list or array</span>
+<span class="sd">        The time points. If none is provided time will be</span>
+<span class="sd">        just the indices.</span>
+<span class="sd">    threshold_factor : float</span>
+<span class="sd">        Thresholds for where the signal should be chopped (Default: 0.3)</span>
+<span class="sd">    extend_front : scalar</span>
+<span class="sd">        Extend the start of each sub-signal this many milliseconds</span>
+<span class="sd">        before the threshold is detected. Default: 300 ms</span>
+<span class="sd">    extend_end : scalar</span>
+<span class="sd">        Extend the end of each sub-signal this many milliseconds.</span>
+<span class="sd">        Default 60 ms.</span>
+<span class="sd">    min_window : scalar</span>
+<span class="sd">        Length of minimum window</span>
+<span class="sd">    max_window : scalar</span>
+<span class="sd">        Length of maximum window</span>
+<span class="sd">    N : int</span>
+<span class="sd">        Length of output signals</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ChoppedData</span>
+<span class="sd">        The chopped data</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The signals extracted from the MPS data consist of data from several beats,</span>
+<span class="sd">    and in order to e.g compute properties from an average beat, we need a way</span>
+<span class="sd">    to chop the signal into different beats. Suppose we have the</span>
+<span class="sd">    signal :math:`y(t),</span>
+<span class="sd">    t \in [0, T]`, where we assume that filtering and background correction</span>
+<span class="sd">    have already been applied. Suppose we have :math:`N` sub-signals,</span>
+<span class="sd">    :math:`z_1, z_2, \cdots, z_N`, each representing one beat. Let</span>
+<span class="sd">    :math:`\tau_i = [\tau_i^0, \tau_i^1], i = 1, \cdots N` be</span>
+<span class="sd">    non-empty intervals corresponding to the support of each sub-signal</span>
+<span class="sd">    ( :math:`\tau_i = \{ t \in [0,T]: z_i(t) \neq 0 \}`), with</span>
+<span class="sd">    :math:`\tau_i^j &lt; \tau_{i+1}^j \forall i` and :math:`\bigcup_{i=1}^N</span>
+<span class="sd">    \tau_i = [0, T]`. Note that the intersection :math:` \tau_i \cap</span>
+<span class="sd">    \tau_{i+1}` can be non-empty. The aim is now to find good candidates</span>
+<span class="sd">    for :math:`\tau_i^j , i = 1 \cdots N, j = 0,1`. We have two different</span>
+<span class="sd">    scenarios, namely with or without pacing information.</span>
+
+<span class="sd">    If pacing information is available we can e.g set :math:`\tau_i^0`</span>
+<span class="sd">    to be 30 ms before each stimulus is applied and :math:`\tau_i^1`</span>
+<span class="sd">    to be 60 ms before the next stimulus is applied.</span>
+
+<span class="sd">    If pacing information is not available then we need to estimate the</span>
+<span class="sd">    beginning and end of each interval. We proceed as follows:</span>
+
+
+<span class="sd">    1.  Choose some threshold value :math:`\eta` (default :math:`\eta = 0.5`),</span>
+<span class="sd">        and compute :math:`y_{\eta}`</span>
+
+<span class="sd">    2. Let :math:`h = y - y_{\eta}`,  and define the set</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathcal{T}_0 = \{ t : h(t) = 0 \}</span>
+
+<span class="sd">    3. Sort the elements of :math:`\mathcal{T}_0` in increasing order,</span>
+<span class="sd">       i.e :math:`\mathcal{T}_0 = (t_1, t_2, \cdots, t_M)`,</span>
+<span class="sd">       with :math:`t_i &lt; t_{i+1}`.</span>
+
+<span class="sd">    4. Select a minimum duration of a beat :math:`\nu` (default</span>
+<span class="sd">       :math:`\nu = 50` ms) and define the set</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathcal{T}_1 = \{t_i \in \mathcal{T}_0 : t_{i+1} - t_i &gt; \eta \}</span>
+
+<span class="sd">    to be be the subset of :math:`\mathcal{T}_0` where the difference between</span>
+<span class="sd">    to subsequent time stamps are greater than :math:`\eta`.</span>
+
+<span class="sd">    5. Let :math:`\delta &gt; 0` (default :math:`\delta` = 0.1 ms), and set</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \{\tilde{\tau_1}^0, \tilde{\tau_2}^0, \cdots,\tilde{\tau_N}^0\}</span>
+<span class="sd">        := \{ t \in  \mathcal{T}_1 : h(t + \delta) &gt; 0 \} \\</span>
+<span class="sd">        \{\tilde{\tau_1}^1, \tilde{\tau_2}^1, \cdots,\tilde{\tau_N}^1\}</span>
+<span class="sd">        := \{ t \in  \mathcal{T}_1 : h(t + \delta) &lt; 0 \} \\</span>
+
+<span class="sd">    Note that we need to also make sure that all beats have a start and an end.</span>
+
+<span class="sd">    6. Extend each sub-signal at the beginning and end, i,e</span>
+<span class="sd">       if :math:`a,b \geq 0`, define</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \tau_i^0 = \tilde{\tau_i}^0 - a \\</span>
+<span class="sd">        \tau_i^1 = \tilde{\tau_i}^1 + b</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Chopping without pacing&quot;</span><span class="p">)</span>
+
+    <span class="n">chop_pars</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;use_pacing_info&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;threshold_factor&quot;</span><span class="p">:</span> <span class="n">threshold_factor</span><span class="p">,</span>
+        <span class="s2">&quot;min_window&quot;</span><span class="p">:</span> <span class="n">min_window</span><span class="p">,</span>
+        <span class="s2">&quot;max_window&quot;</span><span class="p">:</span> <span class="n">max_window</span><span class="p">,</span>
+        <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="n">N</span><span class="p">,</span>
+        <span class="s2">&quot;extend_front&quot;</span><span class="p">:</span> <span class="n">extend_front</span><span class="p">,</span>
+        <span class="s2">&quot;extend_end&quot;</span><span class="p">:</span> <span class="n">extend_end</span><span class="p">,</span>
+        <span class="s2">&quot;intervals&quot;</span><span class="p">:</span> <span class="n">intervals</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Use chopping parameters: </span><span class="si">{</span><span class="n">chop_pars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">intervals</span><span class="p">,</span> <span class="n">upstroke_times</span> <span class="o">=</span> <span class="n">find_start_and_ends</span><span class="p">(</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">threshold_factor</span><span class="o">=</span><span class="n">threshold_factor</span><span class="p">,</span>
+                <span class="n">min_window</span><span class="o">=</span><span class="n">min_window</span><span class="p">,</span>
+                <span class="n">extend_front</span><span class="o">=</span><span class="n">extend_front</span><span class="p">,</span>
+                <span class="n">extend_end</span><span class="o">=</span><span class="n">extend_end</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">EmptyChoppingError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ChoppedData</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">times</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">pacing</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">chop_pars</span><span class="p">,</span>
+                <span class="n">intervals</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">upstroke_times</span><span class="o">=</span><span class="p">[],</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upstroke_times</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1">## Just return the original data</span>
+            <span class="k">return</span> <span class="n">ChoppedData</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">],</span>
+                <span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="n">time</span><span class="p">],</span>
+                <span class="n">pacing</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">data</span><span class="p">)],</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">chop_pars</span><span class="p">,</span>
+                <span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span><span class="p">,</span>
+                <span class="n">upstroke_times</span><span class="o">=</span><span class="n">upstroke_times</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Use the start of each interval as zero</span>
+        <span class="n">upstroke_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">]</span>
+
+    <span class="c1"># Storage</span>
+    <span class="n">chopped_data</span><span class="p">,</span> <span class="n">chopped_times</span><span class="p">,</span> <span class="n">chopped_pacing</span> <span class="o">=</span> <span class="n">chop_intervals</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">time</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+        <span class="n">max_window</span><span class="o">=</span><span class="n">max_window</span><span class="p">,</span>
+        <span class="n">min_window</span><span class="o">=</span><span class="n">min_window</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ChoppedData</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">chopped_data</span><span class="p">,</span>
+        <span class="n">times</span><span class="o">=</span><span class="n">chopped_times</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="o">=</span><span class="n">chopped_pacing</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="n">chop_pars</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span><span class="p">,</span>
+        <span class="n">upstroke_times</span><span class="o">=</span><span class="n">upstroke_times</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="chop_intervals"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.chop_intervals">[docs]</a><span class="k">def</span> <span class="nf">chop_intervals</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">intervals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">],</span>
+    <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">N</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="n">min_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Chop the data based on starts and ends</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Array</span>
+<span class="sd">        The signal amplitude</span>
+<span class="sd">    time : Array</span>
+<span class="sd">        The time stamps</span>
+<span class="sd">    intervals : List[Interval]</span>
+<span class="sd">        List of intervals with start and ends</span>
+<span class="sd">    pacing : Optional[Array], optional</span>
+<span class="sd">        Pacing amplitude, by default None</span>
+<span class="sd">    N : Optional[int], optional</span>
+<span class="sd">        Number of points in each chopped signal, by default None.</span>
+<span class="sd">        If this is different from None then each signal will be</span>
+<span class="sd">        interpolated so that it has N points</span>
+<span class="sd">    max_window : float, optional</span>
+<span class="sd">        Maximum allowed size of a chopped signal, by default 2000</span>
+<span class="sd">    min_window : float, optional</span>
+<span class="sd">        Minimum allowed size of a chopped signal, by default 50</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[List[Array], List[Array], List[Array]]</span>
+<span class="sd">        Chopped data, times, pacing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">chopped_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">chopped_pacing</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">chopped_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">pacing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pacing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+    <span class="c1"># Make a spline interpolation</span>
+    <span class="n">data_spline</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">pacing_spline</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">pacing</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Add a little bit of slack</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-10</span>
+
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">N</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Find the correct time points</span>
+            <span class="n">s_idx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">si</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="k">if</span> <span class="n">si</span> <span class="o">&gt;=</span> <span class="n">s</span> <span class="o">-</span> <span class="n">eps</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">e_idx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ei</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="k">if</span> <span class="n">ei</span> <span class="o">&gt;=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">eps</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="n">e_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">s_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">e_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_window</span><span class="p">:</span>
+            <span class="c1"># Skip this one</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_window</span><span class="p">:</span>
+
+            <span class="n">t_end</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ti</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="n">ti</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_window</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">[:</span><span class="n">t_end</span><span class="p">]</span>
+
+        <span class="n">chopped_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_spline</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+        <span class="n">chopped_pacing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pacing_spline</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+        <span class="n">chopped_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">chopped_data</span><span class="p">,</span> <span class="n">chopped_times</span><span class="p">,</span> <span class="n">chopped_pacing</span></div>
+
+
+<div class="viewcode-block" id="cutoff_final_interval"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.cutoff_final_interval">[docs]</a><span class="k">def</span> <span class="nf">cutoff_final_interval</span><span class="p">(</span><span class="n">intervals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">],</span> <span class="n">end_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">]:</span>
+    <span class="n">new_intervals</span> <span class="o">=</span> <span class="n">intervals</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">final_interval</span> <span class="o">=</span> <span class="n">new_intervals</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">new_intervals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Interval</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">final_interval</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">final_interval</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">end_time</span><span class="p">)),</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_intervals</span></div>
+
+
+<div class="viewcode-block" id="find_start_and_ends"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.find_start_and_ends">[docs]</a><span class="k">def</span> <span class="nf">find_start_and_ends</span><span class="p">(</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">threshold_factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">min_window</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">extend_front</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">extend_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">],</span> <span class="n">Array</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Find the starts and ends of a signal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : Array</span>
+<span class="sd">        Array of time stamps</span>
+<span class="sd">    data : Array</span>
+<span class="sd">        Signal amplitude</span>
+<span class="sd">    threshold_factor : float</span>
+<span class="sd">        Threshold for where to chop</span>
+<span class="sd">    min_window : float</span>
+<span class="sd">        Length of minimum chopped signal</span>
+<span class="sd">    extend_front : Optional[float]</span>
+<span class="sd">        How many ms the signal should be extended at the front</span>
+<span class="sd">    extend_end : Optional[float]</span>
+<span class="sd">        How many ms the signal should be extended at the end</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[List[Interval], Array]</span>
+<span class="sd">        (starts, ends) for interval, and upstroke times</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    EmptyChoppingError</span>
+<span class="sd">        If starts or ends is or become zero</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">zeros</span> <span class="o">=</span> <span class="n">locate_chop_points</span><span class="p">(</span>
+        <span class="n">time</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">threshold_factor</span><span class="p">,</span>
+        <span class="n">min_window</span><span class="o">=</span><span class="n">min_window</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">intervals</span> <span class="o">=</span> <span class="n">filter_start_ends_in_chopping</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">extend_front</span><span class="p">,</span> <span class="n">extend_end</span><span class="p">)</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="n">cutoff_final_interval</span><span class="p">(</span><span class="n">intervals</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">intervals</span><span class="p">,</span> <span class="n">starts</span></div>
+
+
+<div class="viewcode-block" id="create_intervals"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.create_intervals">[docs]</a><span class="k">def</span> <span class="nf">create_intervals</span><span class="p">(</span><span class="n">starts</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">ends</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">]:</span>
+    <span class="n">remaining_ends</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ends</span><span class="p">))</span>
+    <span class="n">intervals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">starts</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">end</span> <span class="ow">in</span> <span class="n">remaining_ends</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">end</span> <span class="o">&gt;</span> <span class="n">start</span><span class="p">:</span>
+                <span class="n">intervals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Interval</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">intervals</span></div>
+
+
+<div class="viewcode-block" id="extend_intervals"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.extend_intervals">[docs]</a><span class="k">def</span> <span class="nf">extend_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">,</span> <span class="n">extend_front</span><span class="p">,</span> <span class="n">extend_end</span><span class="p">):</span>
+    <span class="n">extended_intervals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">:</span>
+        <span class="n">extended_intervals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Interval</span><span class="p">(</span>
+                <span class="n">start</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">extend_front</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">end</span><span class="o">=</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">extend_end</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">extended_intervals</span></div>
+
+
+<div class="viewcode-block" id="filter_start_ends_in_chopping"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.filter_start_ends_in_chopping">[docs]</a><span class="k">def</span> <span class="nf">filter_start_ends_in_chopping</span><span class="p">(</span>
+    <span class="n">starts</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">ends</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">extend_front</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">extend_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Adjust start and ends based on extend_front</span>
+<span class="sd">    and extent_end</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    starts : Array</span>
+<span class="sd">        The start points</span>
+<span class="sd">    ends : Array</span>
+<span class="sd">        The end points</span>
+<span class="sd">    extend_front : Optional[float], optional</span>
+<span class="sd">        How much you want to extent the front. If not provided</span>
+<span class="sd">        it will try to use the half distance between the minimum</span>
+<span class="sd">        start and end, by default None</span>
+<span class="sd">    extend_end : Optional[float], optional</span>
+<span class="sd">        How much you want to extend the end. If not provided</span>
+<span class="sd">        it will try to use the half distance between the minimum</span>
+<span class="sd">        start and end, by default None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[Interval]</span>
+<span class="sd">        List of the filtered intervals</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    EmptyChoppingError</span>
+<span class="sd">        If number of starts or ends become zero.</span>
+<span class="sd">    InvalidChoppingError</span>
+<span class="sd">        If any of the intervals have a start value that</span>
+<span class="sd">        is higher than the end value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">starts</span><span class="p">)</span>
+    <span class="n">ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ends</span><span class="p">)</span>
+
+    <span class="n">intervals</span> <span class="o">=</span> <span class="n">create_intervals</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">)</span>
+
+    <span class="n">check_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span>
+
+    <span class="c1"># Find the length half way between the previous and next point</span>
+    <span class="n">extend_front</span> <span class="o">=</span> <span class="n">get_extend_value</span><span class="p">(</span><span class="n">extend_front</span><span class="p">,</span> <span class="n">intervals</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="n">extend_end</span> <span class="o">=</span> <span class="n">get_extend_value</span><span class="p">(</span><span class="n">extend_end</span><span class="p">,</span> <span class="n">intervals</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+
+    <span class="n">intervals</span> <span class="o">=</span> <span class="n">extend_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">,</span> <span class="n">extend_front</span><span class="p">,</span> <span class="n">extend_end</span><span class="p">)</span>
+
+    <span class="n">check_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">intervals</span></div>
+
+
+<div class="viewcode-block" id="get_extend_value"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.get_extend_value">[docs]</a><span class="k">def</span> <span class="nf">get_extend_value</span><span class="p">(</span>
+    <span class="n">extend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">intervals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">],</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">starts</span> <span class="o">=</span> <span class="p">[</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">]</span>
+    <span class="n">ends</span> <span class="o">=</span> <span class="p">[</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">extend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">starts</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">ends</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">default</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">extend</span>
+    <span class="k">return</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="check_intervals"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.check_intervals">[docs]</a><span class="k">def</span> <span class="nf">check_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Check starts and ends and make sure that</span>
+<span class="sd">    they are consistent</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    starts : Array</span>
+<span class="sd">        List of start points</span>
+<span class="sd">    ends : Array</span>
+<span class="sd">        List of end points</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[Array, Array]</span>
+<span class="sd">        starts, ends</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    EmptyChoppingError</span>
+<span class="sd">        If number of starts or ends become zero.</span>
+<span class="sd">    InvalidChoppingError</span>
+<span class="sd">        If number of starts and ends does not add up.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">EmptyChoppingError</span><span class="p">(</span><span class="s2">&quot;No intervals found&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">InvalidChoppingError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Interval </span><span class="si">{</span><span class="n">interval</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="locate_chop_points"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.locate_chop_points">[docs]</a><span class="k">def</span> <span class="nf">locate_chop_points</span><span class="p">(</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">threshold_factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">min_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Find the points where to chop</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : Array</span>
+<span class="sd">        Time stamps</span>
+<span class="sd">    data : Array</span>
+<span class="sd">        The signal amplitude</span>
+<span class="sd">    threshold_factor : float</span>
+<span class="sd">        The threshold for where to chop</span>
+<span class="sd">    min_window : float, optional</span>
+<span class="sd">        Minimum allow size of signal in ms, by default 50</span>
+<span class="sd">    eps : float, optional</span>
+<span class="sd">        Perturbation use to find the sign of the signal</span>
+<span class="sd">        derivative, by default 0.1</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[Array, Array, Array]</span>
+<span class="sd">        starts, ends, zeros</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Data with zeros at the threshold</span>
+    <span class="n">data_spline_thresh</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span>
+        <span class="n">time</span><span class="p">,</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">normalize_signal</span><span class="p">(</span><span class="n">filters</span><span class="o">.</span><span class="n">filt</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">-</span> <span class="n">threshold_factor</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Localization of the zeros</span>
+    <span class="n">zeros_threshold_</span> <span class="o">=</span> <span class="n">data_spline_thresh</span><span class="o">.</span><span class="n">roots</span><span class="p">()</span>
+
+    <span class="c1"># Remove close indices</span>
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">min_window</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">zeros_threshold_</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">zeros_threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zeros_threshold_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">zeros_threshold_</span><span class="p">[</span><span class="mi">1</span><span class="p">:][</span><span class="n">inds</span><span class="p">])</span>
+
+    <span class="c1"># Find the starts</span>
+    <span class="n">starts</span> <span class="o">=</span> <span class="n">zeros_threshold</span><span class="p">[</span><span class="n">data_spline_thresh</span><span class="p">(</span><span class="n">zeros_threshold</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Find the endpoint where we hit the threshold</span>
+    <span class="n">ends</span> <span class="o">=</span> <span class="n">zeros_threshold</span><span class="p">[</span><span class="n">data_spline_thresh</span><span class="p">(</span><span class="n">zeros_threshold</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">zeros_threshold</span></div>
+
+
+<div class="viewcode-block" id="chop_data_with_pacing"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.chop_data_with_pacing">[docs]</a><span class="k">def</span> <span class="nf">chop_data_with_pacing</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">pacing</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">extend_front</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">extend_end</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">min_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="n">max_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="n">intervals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChoppedData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Chop data based on pacing</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data : Array</span>
+<span class="sd">        The data to be chopped</span>
+<span class="sd">    time : Array</span>
+<span class="sd">        The time stamps for the data</span>
+<span class="sd">    pacing : Array</span>
+<span class="sd">        The pacing amplitude</span>
+<span class="sd">    extend_front : float</span>
+<span class="sd">        Extend the start of each sub-signal this many milliseconds</span>
+<span class="sd">        before the threshold is detected. Default: 0 ms</span>
+<span class="sd">    extend_end : float</span>
+<span class="sd">        Extend the end of each sub-signal this many milliseconds.</span>
+<span class="sd">        Default 0 ms.</span>
+<span class="sd">    min_window : float</span>
+<span class="sd">        Minimum size of chopped signal</span>
+<span class="sd">    max_window : float</span>
+<span class="sd">        Minimum size of chopped signal</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ChoppedData</span>
+<span class="sd">        Named tuple with the chopped data</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    We first find where the pacing for each beat starts by finding</span>
+<span class="sd">    the indices where the pacing amplitude goes form zero to</span>
+<span class="sd">    something positive. Then we iterate over these indices and let</span>
+<span class="sd">    the start of each beat be the start of the pacing (minus `extend_front`,</span>
+<span class="sd">    which has a default value of zero) and the end will be the time of the</span>
+<span class="sd">    beginning of the next beat (plus `extend_end` which is also has as</span>
+<span class="sd">    default value of zero).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Find indices for start of each pacing</span>
+        <span class="n">intervals</span><span class="p">,</span> <span class="n">upstroke_times</span> <span class="o">=</span> <span class="n">pacing_to_start_ends</span><span class="p">(</span>
+            <span class="n">time</span><span class="p">,</span>
+            <span class="n">pacing</span><span class="p">,</span>
+            <span class="n">extend_front</span><span class="p">,</span>
+            <span class="n">extend_end</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">upstroke_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">]</span>
+
+    <span class="n">chopped_data</span><span class="p">,</span> <span class="n">chopped_times</span><span class="p">,</span> <span class="n">chopped_pacing</span> <span class="o">=</span> <span class="n">chop_intervals</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">time</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span>
+        <span class="n">N</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_window</span><span class="o">=</span><span class="n">max_window</span><span class="p">,</span>
+        <span class="n">min_window</span><span class="o">=</span><span class="n">min_window</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">chop_pars</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;use_pacing_info&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">ChoppedData</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">chopped_data</span><span class="p">,</span>
+        <span class="n">times</span><span class="o">=</span><span class="n">chopped_times</span><span class="p">,</span>
+        <span class="n">pacing</span><span class="o">=</span><span class="n">chopped_pacing</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="n">chop_pars</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span><span class="p">,</span>
+        <span class="n">upstroke_times</span><span class="o">=</span><span class="n">upstroke_times</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="find_pacing_indices"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.find_pacing_indices">[docs]</a><span class="k">def</span> <span class="nf">find_pacing_indices</span><span class="p">(</span><span class="n">pacing</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return indices of where the pacing array changes</span>
+<span class="sd">    from a low to a high values</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pacing : list or np.ndarray</span>
+<span class="sd">        The array with pacing amplitude</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        List of indices where the pacing is triggered</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pacing</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="pacing_to_start_ends"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.pacing_to_start_ends">[docs]</a><span class="k">def</span> <span class="nf">pacing_to_start_ends</span><span class="p">(</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">pacing</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">extend_front</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">extend_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">add_final</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">],</span> <span class="n">Array</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Convert an array of pacing amplitudes to</span>
+<span class="sd">    start and end points</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : Array</span>
+<span class="sd">        Time stamps</span>
+<span class="sd">    pacing : Array</span>
+<span class="sd">        Array of pacing amplitudes</span>
+<span class="sd">    extend_front : float</span>
+<span class="sd">        How many ms you want to extend the array in front</span>
+<span class="sd">    extend_end : float</span>
+<span class="sd">        How many ms you want to extend the array at the end</span>
+<span class="sd">    add_final : bool, optional</span>
+<span class="sd">        Whether you want to add a final end point for the</span>
+<span class="sd">        last index, by default True</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[List[Interval], Array]</span>
+<span class="sd">        (starts, ends) for interval, and upstroke times</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start_pace_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pacing</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">add_final</span><span class="p">:</span>
+        <span class="n">start_pace_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">start_pace_idx</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="n">starts</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">ends</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+
+    <span class="n">intervals</span> <span class="o">=</span> <span class="n">filter_start_ends_in_chopping</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">extend_front</span><span class="p">,</span> <span class="n">extend_end</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">intervals</span><span class="p">,</span> <span class="n">starts</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Henrik Finsberg og Kristian Hustad<br/>
+  
+      &copy; Copyright 2021.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
