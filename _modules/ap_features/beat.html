@@ -1082,13 +1082,14 @@ title="Open an issue"
 <span class="sd">        RuntimeError</span>
 <span class="sd">            If invalid zero_index is provided</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">background_correction</span> <span class="o">=</span> <span class="n">background</span><span class="o">.</span><span class="n">correct_background</span><span class="p">(</span>
-            <span class="n">x</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
-            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span>
             <span class="n">method</span><span class="o">=</span><span class="n">background_correction_method</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="n">pacing</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;Expected shape of &#39;t&#39; and &#39;y&#39; to be the same got &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">(t) and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">(y)&quot;</span>
