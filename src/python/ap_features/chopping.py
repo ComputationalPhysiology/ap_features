@@ -731,6 +731,9 @@ def pacing_to_start_ends(
 
     """
     start_pace_idx = np.where(np.diff(np.array(pacing, dtype=float)) > 0)[0].tolist()
+    if pacing[0] > 0:
+        # The data is paced at the very beginning so let us also add the first point
+        start_pace_idx = [0] + start_pace_idx
     N = len(time)
     if add_final:
         start_pace_idx.append(N - 1)
@@ -739,6 +742,5 @@ def pacing_to_start_ends(
     time = np.array(time)
     starts = time[indices[:-1]]
     ends = time[indices[1:]]
-
     intervals = filter_start_ends_in_chopping(starts, ends, extend_front, extend_end)
     return intervals, starts
