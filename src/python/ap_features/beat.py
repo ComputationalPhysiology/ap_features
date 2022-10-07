@@ -793,13 +793,14 @@ class Beats(Trace):
         RuntimeError
             If invalid zero_index is provided
         """
+        super().__init__(y, t, pacing=pacing, backend=backend)
+
         self.background_correction = background.correct_background(
-            x=t,
-            y=y,
+            x=self._t,
+            y=self._y,
             method=background_correction_method,
         )
 
-        super().__init__(y, t, pacing=pacing, backend=backend)
         msg = (
             "Expected shape of 't' and 'y' to be the same got "
             f"{self._t.shape}(t) and {self._y.shape}(y)"
