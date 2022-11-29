@@ -1,9 +1,15 @@
 import ap_features as apf
 import dask.array as da
-import h5py
 import numpy as np
 import pytest
 from ap_features.beat import Beat
+
+try:
+    import h5py
+
+    has_h5py = True
+except ImportError:
+    has_h5py = False
 
 
 def handle_request_param(request, t, y, cls):
@@ -14,12 +20,21 @@ def handle_request_param(request, t, y, cls):
         t_ = da.from_array(t)
         yield cls(y_, t_)
     else:
-        # Create an in memory file
-        fp = h5py.File(name=cls.__name__, mode="w", driver="core", backing_store=False)
-        y_ = fp.create_dataset("y", data=y)
-        t_ = fp.create_dataset("t", data=t)
-        yield cls(y_, t_)
-        fp.close()
+        if has_h5py:
+            # Create an in memory file
+            fp = h5py.File(
+                name=cls.__name__,
+                mode="w",
+                driver="core",
+                backing_store=False,
+            )
+            y_ = fp.create_dataset("y", data=y)
+            t_ = fp.create_dataset("t", data=t)
+            yield cls(y_, t_)
+            fp.close()
+        else:
+            # Fallback to numpy
+            yield cls(y, t)
 
 
 @pytest.fixture(params=["numpy", "dask", "h5py"])
