@@ -617,7 +617,7 @@ def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
 def average_beat(
     beats: List[Beat],
     N: int = 200,
-    filters: Sequence[_filters.Filters] = None,
+    filters: Optional[Sequence[_filters.Filters]] = None,
     x: float = 1.0,
 ) -> Beat:
     if len(beats) == 0:

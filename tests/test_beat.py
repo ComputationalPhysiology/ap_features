@@ -209,7 +209,7 @@ def test_corrected_apd(real_beats):
     # The beat rate should be 60*1.5 = 90
     assert abs(real_beats.beat_rate - 90) < 1
 
-    first_beat: apf.Beat = real_beats.beats[0]
+    first_beat = real_beats.beats[0]
     apd50 = first_beat.apd(50)
     capd50 = first_beat.capd(50)
     # Frequency is higher than 1 so capd should be larger than apd
@@ -221,7 +221,7 @@ def test_corrected_apd(real_beats):
 
 
 def test_corrected_apd_with_no_parent_raises_RuntimeError(real_beats):
-    first_beat: apf.Beat = real_beats.beats[0]
+    first_beat = real_beats.beats[0]
     clean_beat = apf.Beat(first_beat.y, first_beat.t)
     with pytest.raises(RuntimeError):
         clean_beat.capd(50)
@@ -315,7 +315,7 @@ def test_chopped_data_to_beats(real_trace):
 
 
 def test_ensure_time_unit(real_beats):
-    beat: apf.Beat = real_beats.beats[0]
+    beat = real_beats.beats[0]
     time_orig = np.copy(beat.t)
     assert beat.time_unit == "ms"
 
@@ -345,14 +345,14 @@ def test_apd_slope(corrected_apd, expected_output, real_beats):
 
 
 def test_detect_ead_no_ead(real_beats):
-    beat: apf.Beat = real_beats.beats[0]
+    beat = real_beats.beats[0]
     has_ead, index = beat.detect_ead()
     assert has_ead is False
     assert index is None
 
 
 def test_detect_ead_with_ead(real_beats):
-    beat: apf.Beat = real_beats.beats[0].copy()
+    beat = real_beats.beats[0].copy()
 
     # Add artificial EAD
     bump = np.zeros_like(beat.t)
