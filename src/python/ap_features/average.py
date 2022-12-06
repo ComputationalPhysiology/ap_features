@@ -1,5 +1,4 @@
 from collections import namedtuple
-from itertools import zip_longest as izip_longest
 from typing import Optional
 from typing import Sequence
 from typing import Tuple
@@ -14,50 +13,6 @@ Average = namedtuple("Average", ["y", "x", "ys", "xs"])
 
 class InvalidSubSignalError(RuntimeError):
     pass
-
-
-def average_list(signals: Sequence[Array]) -> Array:
-    """Get average of signals.
-    Assume that signals are aligned, but
-    they dont have to be of the same length.
-    If they have different length then the output
-    average will have the same length as the longest
-    array
-
-    Parameters
-    ----------
-    signals : Sequence[Array]
-        The data that you want to average
-
-    Returns
-    -------
-    Array
-        The average signal
-    """
-
-    if len(signals) == 0:
-        return []
-
-    if len(signals) == 1:
-        return signals[0]
-
-    # Check is they have the same length
-    if all([len(s) == len(signals[0]) for s in signals[1:]]):
-        # Then it is easy to take the average
-        average = np.mean(signals, 0)  # type:ignore
-
-    else:
-        # We need to take into account the possibility
-        # the the sub-signals have different length
-        def avg(x):
-            x = [i for i in x if i]
-            if len(x) == 0:
-                return 0.0
-            return sum(x, 0.0) / len(x)
-
-        average = np.array(tuple(map(avg, izip_longest(*signals))))
-
-    return average
 
 
 def clean_data(
@@ -168,6 +123,8 @@ def create_longest_time_array(xs: Sequence[Array], N: int) -> np.ndarray:
     np.ndarray
         Array that cover all values of length `N`
     """
+    if len(xs) == 0:
+        return np.arange(N)
     min_x = np.min([xi[0] for xi in xs])
     max_x = np.max([xi[-1] for xi in xs])
     return np.linspace(min_x, max_x, N)
@@ -199,12 +156,11 @@ def average_and_interpolate(
         The new x-values
 
     """
+
     ys, xs = clean_data(ys, xs)
 
     if len(xs) == 0:
-        y = average_list(ys)
-        x = [] if len(ys) == 0 else np.arange(max([len(i) for i in ys]))
-        return Average(y=y, x=x, xs=xs, ys=ys)
+        xs = [np.arange(0, len(yi)) for yi in ys]
 
     # Construct new time array
     X = create_longest_time_array(xs, N)
@@ -218,13 +174,23 @@ def average_and_interpolate(
     Ys = []
     Xs = []
 
-    for i, (x, y) in enumerate(zip(xs, ys)):
+    Y = np.zeros_like(X)
+    counts = np.zeros_like(X)
+
+    for x, y in zip(xs, ys):
         # Take out relevant piece
-        idx = next(j + 1 for j, xj in enumerate(X) if xj >= x[-1])
+        end_idx = next(j + 1 for j, xj in enumerate(X) if xj >= x[-1])
+        start_idx = next(j for j, xj in enumerate(X) if xj >= x[0])
 
-        Xs.append(X[:idx])
-        Ys.append(interpolate(Xs[-1], x, y))
+        xi = X[start_idx:end_idx]
+        yi = interpolate(xi, x, y)
 
-    Y_avg = average_list(Ys)
+        Y[start_idx:end_idx] += yi
+        counts[start_idx:end_idx] += 1
+
+        Xs.append(xi)
+        Ys.append(yi)
+
+    Y_avg = np.divide(Y, counts, out=np.zeros_like(Y), where=counts != 0)
 
     return Average(y=Y_avg, x=X, ys=Ys, xs=Xs)
