@@ -597,12 +597,21 @@ def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
 
     if len(beats) == 0:
         return beats
-    xs = [beat.t - beat.t[0] for beat in beats]
-    ys = [beat.y for beat in beats]
-    new_beats = [Beat(yi, xi) for (xi, yi) in zip(xs, ys)]
-    apd_points = [b.apd_point(apd_point)[0] for b in new_beats]
-    apd_points = np.subtract(apd_points, min(apd_points))
-    xs = [xi - p for (xi, p) in zip(xs, apd_points)]
+
+    apd_points = [b.apd_point(apd_point) for b in beats]
+    bad_beats = [np.isclose(*p) for p in apd_points]
+
+    # Make sure all beats start at time zero
+    xs = [
+        beat.t - ap[0]
+        for (beat, ap, bad) in zip(beats, apd_points, bad_beats)
+        if not bad
+    ]
+    ys = [beat.y for (beat, bad) in zip(beats, bad_beats) if not bad]
+
+    # Make them start at zero
+    min_x = np.min([np.min(xi) for xi in xs])
+    xs = [xi - min_x for xi in xs]
 
     return [Beat(yi, xi, parent=parent) for (yi, xi) in zip(ys, xs)]
 
@@ -620,8 +629,16 @@ def average_beat(
         beats = filter_beats(beats, filters=filters, x=x)
     beats = align_beats(beats, N=N)
 
+    # import matplotlib.pyplot as plt
+
+    # for b in beats:
+    #     plt.plot(b.t, b.y)
+
     avg = average.average_and_interpolate([b.y for b in beats], [b.t for b in beats], N)
 
+    # plt.figure()
+    # plt.plot(avg.x, avg.y)
+    # plt.show()
     pacing_avg = np.interp(
         np.linspace(
             np.min(beats[0].t),
@@ -634,6 +651,7 @@ def average_beat(
 
     pacing_avg[pacing_avg <= 2.5] = 0.0
     pacing_avg[pacing_avg > 2.5] = 5.0
+
     return Beat(y=avg.y, t=avg.x, pacing=pacing_avg, parent=beats[0].parent)
 
 
