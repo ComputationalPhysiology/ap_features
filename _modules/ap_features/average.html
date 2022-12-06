@@ -288,7 +288,6 @@ title="Open an issue"
                 
   <h1>Source code for ap_features.average</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span> <span class="k">as</span> <span class="n">izip_longest</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
@@ -303,50 +302,6 @@ title="Open an issue"
 
 <div class="viewcode-block" id="InvalidSubSignalError"><a class="viewcode-back" href="../../ap_features.html#ap_features.average.InvalidSubSignalError">[docs]</a><span class="k">class</span> <span class="nc">InvalidSubSignalError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
     <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="average_list"><a class="viewcode-back" href="../../ap_features.html#ap_features.average.average_list">[docs]</a><span class="k">def</span> <span class="nf">average_list</span><span class="p">(</span><span class="n">signals</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Array</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get average of signals.</span>
-<span class="sd">    Assume that signals are aligned, but</span>
-<span class="sd">    they dont have to be of the same length.</span>
-<span class="sd">    If they have different length then the output</span>
-<span class="sd">    average will have the same length as the longest</span>
-<span class="sd">    array</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    signals : Sequence[Array]</span>
-<span class="sd">        The data that you want to average</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    Array</span>
-<span class="sd">        The average signal</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">signals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">signals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">signals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="c1"># Check is they have the same length</span>
-    <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">signals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]):</span>
-        <span class="c1"># Then it is easy to take the average</span>
-        <span class="n">average</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">signals</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># type:ignore</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># We need to take into account the possibility</span>
-        <span class="c1"># the the sub-signals have different length</span>
-        <span class="k">def</span> <span class="nf">avg</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="mf">0.0</span>
-            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-        <span class="n">average</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">avg</span><span class="p">,</span> <span class="n">izip_longest</span><span class="p">(</span><span class="o">*</span><span class="n">signals</span><span class="p">))))</span>
-
-    <span class="k">return</span> <span class="n">average</span></div>
 
 
 <div class="viewcode-block" id="clean_data"><a class="viewcode-back" href="../../ap_features.html#ap_features.average.clean_data">[docs]</a><span class="k">def</span> <span class="nf">clean_data</span><span class="p">(</span>
@@ -457,6 +412,8 @@ title="Open an issue"
 <span class="sd">    np.ndarray</span>
 <span class="sd">        Array that cover all values of length `N`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
     <span class="n">min_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">xi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">])</span>
     <span class="n">max_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">xi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span></div>
@@ -488,12 +445,11 @@ title="Open an issue"
 <span class="sd">        The new x-values</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">clean_data</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">average_list</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">]))</span>
-        <span class="k">return</span> <span class="n">Average</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">xs</span><span class="o">=</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="n">ys</span><span class="p">)</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">yi</span><span class="p">))</span> <span class="k">for</span> <span class="n">yi</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">]</span>
 
     <span class="c1"># Construct new time array</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">create_longest_time_array</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
@@ -507,14 +463,24 @@ title="Open an issue"
     <span class="n">Ys</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">Xs</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)):</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
         <span class="c1"># Take out relevant piece</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">xj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">end_idx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">xj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">start_idx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">xj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-        <span class="n">Xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="n">idx</span><span class="p">])</span>
-        <span class="n">Ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interpolate</span><span class="p">(</span><span class="n">Xs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span><span class="n">end_idx</span><span class="p">]</span>
+        <span class="n">yi</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-    <span class="n">Y_avg</span> <span class="o">=</span> <span class="n">average_list</span><span class="p">(</span><span class="n">Ys</span><span class="p">)</span>
+        <span class="n">Y</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span><span class="n">end_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">yi</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span><span class="n">end_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">Xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+        <span class="n">Ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yi</span><span class="p">)</span>
+
+    <span class="n">Y_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">counts</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Average</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">Y_avg</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="n">Ys</span><span class="p">,</span> <span class="n">xs</span><span class="o">=</span><span class="n">Xs</span><span class="p">)</span></div>
 </pre></div>
