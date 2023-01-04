@@ -522,20 +522,20 @@ contributions are welcome :)</p></li>
 <li><p>Fork the ap_features repo on
 GitHub.</p></li>
 <li><p>Clone your fork locally:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/ap_features.git
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:your_name_here/ap_features.git
 </pre></div>
 </div>
 </li>
 <li><p>Install your local copy into a virtual environment.</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> ap_features/
-$ python -m venv venv
-$ <span class="nb">source</span> venv/bin/activate
-$ python -m pip install -e .
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>ap_features/
+$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
 <li><p>Create a branch for local development:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ git checkout -b name-of-your-bugfix-or-feature
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>name-of-your-bugfix-or-feature
 </pre></div>
 </div>
 <p>Now you can make your changes locally.</p>
@@ -543,17 +543,17 @@ $ python -m pip install -e .
 <li><p>When you’re done making changes, check that your changes pass
 flake8, static type checking and the tests, including testing other Python versions with
 tox:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ make lint
-$ make <span class="nb">type</span>
-$ make <span class="nb">test</span>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>lint
+$<span class="w"> </span>make<span class="w"> </span><span class="nb">type</span>
+$<span class="w"> </span>make<span class="w"> </span><span class="nb">test</span>
 </pre></div>
 </div>
 <p>To get flake8 and tox, just pip install them into your virtualenv.</p>
 </li>
 <li><p>Commit your changes and push your branch to GitHub:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ git add .
-$ git commit -m <span class="s2">&quot;Your detailed description of your changes.&quot;</span>
-$ git push origin name-of-your-bugfix-or-feature
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Your detailed description of your changes.&quot;</span>
+$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>name-of-your-bugfix-or-feature
 </pre></div>
 </div>
 </li>
@@ -575,7 +575,7 @@ Python versions.</p></li>
 <section id="tips">
 <h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">#</a></h2>
 <p>To run a subset of tests starting with <code class="docutils literal notranslate"><span class="pre">test_something</span></code> do:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ python -m pytest -k test_something
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-k<span class="w"> </span>test_something
 </pre></div>
 </div>
 </section>
@@ -583,9 +583,9 @@ Python versions.</p></li>
 <h2>Deploying<a class="headerlink" href="#deploying" title="Permalink to this headline">#</a></h2>
 <p>A reminder for the maintainers on how to deploy. Make sure all your
 changes are committed (including an entry in <a class="reference external" href="http://HISTORY.md">HISTORY.md</a>). Then run:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ bump2version patch <span class="c1"># possible: major / minor / patch</span>
-$ git push
-$ git push --tags
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>bump2version<span class="w"> </span>patch<span class="w"> </span><span class="c1"># possible: major / minor / patch</span>
+$<span class="w"> </span>git<span class="w"> </span>push
+$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>--tags
 </pre></div>
 </div>
 <p>Travis will then deploy to PyPI if tests pass.</p>

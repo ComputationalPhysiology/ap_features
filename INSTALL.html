@@ -415,26 +415,26 @@ virtual environment. You can do this using the built in
 <a class="reference external" href="https://docs.python.org/3/library/venv.html">venv</a> module. It is also
 possible to use the <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>
 package which can be installed with <a class="reference external" href="https://pip.pypa.io">pip</a>.</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ python -m pip install virtualenv
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>virtualenv
 </pre></div>
 </div>
 <p>Now create a virtual environment as follows:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ python -m virtualenv venv
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>virtualenv<span class="w"> </span>venv
 </pre></div>
 </div>
 <p>and activate the virtual environment. For unix users you can use</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">source</span> venv/bin/activate
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>venv/bin/activate
 </pre></div>
 </div>
 <p>and Windows users can use</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ .<span class="se">\v</span>env<span class="se">\S</span>cripts<span class="se">\a</span>ctivate.bat
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="se">\v</span>env<span class="se">\S</span>cripts<span class="se">\a</span>ctivate.bat
 </pre></div>
 </div>
 </section>
 <section id="stable-release">
 <h2>Stable release<a class="headerlink" href="#stable-release" title="Permalink to this headline">#</a></h2>
 <p>To install Action Potential features, run this command in your terminal:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ pip install ap_features
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>ap_features
 </pre></div>
 </div>
 <p>This is the preferred method to install Action Potential features, as it
@@ -449,32 +449,32 @@ can guide you through the process.</p>
 <p>The sources for Action Potential features can be downloaded from the
 <a class="reference external" href="https://github.com/ComputationalPhysiology/ap_features">Github repo</a>.</p>
 <p>You can either clone the public repository:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:ComputationalPhysiology/ap_features.git
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:ComputationalPhysiology/ap_features.git
 </pre></div>
 </div>
 <p>Or download the
 <a class="reference external" href="https://github.com/ComputationalPhysiology/ap_features/tarball/master">tarball</a>:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ curl -OJL https://github.com/ComputationalPhysiology/ap_features/tarball/master
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-OJL<span class="w"> </span>https://github.com/ComputationalPhysiology/ap_features/tarball/master
 </pre></div>
 </div>
 <p>Once you have a copy of the source, you can install it with:</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ python -m pip install .
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
 <p>There is also a way to install the package using the Makefile, i.e</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ make install
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>install
 </pre></div>
 </div>
 <section id="for-developers">
 <h3>For developers<a class="headerlink" href="#for-developers" title="Permalink to this headline">#</a></h3>
 <p>If you plan to develop this package you should also make sure to install
 the development dependencies using the command</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>python -m pip install -e <span class="s2">&quot;.[dev]&quot;</span>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
 </pre></div>
 </div>
 <p>In addition you should also make sure to install the pre-commit hook. All of this can be installed by
 executing the command</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$ make dev
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>dev
 </pre></div>
 </div>
 <p>Note that this will also install the main package in editable mode,

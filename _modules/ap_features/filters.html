@@ -349,7 +349,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="within_x_std"><a class="viewcode-back" href="../../ap_features.html#ap_features.filters.within_x_std">[docs]</a><span class="k">def</span> <span class="nf">within_x_std</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Get the indices in the array that are</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the indices in the array that are</span>
 <span class="sd">    within x standard deviations from the center value</span>
 
 <span class="sd">    Parameters</span>
@@ -380,7 +380,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="filt"><a class="viewcode-back" href="../../ap_features.html#ap_features.filters.filt">[docs]</a><span class="k">def</span> <span class="nf">filt</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filer signal using a median filter.</span>
 <span class="sd">    Default kernel_size is 3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -399,7 +399,7 @@ title="Open an issue"
     <span class="n">t_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove points in x and y between start and end.</span>
 <span class="sd">    Also make sure that the new x starts a zero if</span>
 <span class="sd">    normalize = True</span>
@@ -435,7 +435,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="find_spike_points"><a class="viewcode-back" href="../../ap_features.html#ap_features.filters.find_spike_points">[docs]</a><span class="k">def</span> <span class="nf">find_spike_points</span><span class="p">(</span><span class="n">pacing</span><span class="p">,</span> <span class="n">spike_duration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove spikes from signal due to pacing.</span>
 
 <span class="sd">    We assume that there is a spike starting at the</span>

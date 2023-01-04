@@ -327,7 +327,7 @@ title="Open an issue"
     <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">python</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the triangulation</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the triangulation</span>
 <span class="sd">    which is the last intersection of the</span>
 <span class="sd">    :math:`\mathrm{APD} \; p_{\mathrm{high}}`</span>
 <span class="sd">    line minus the last intersection of the</span>
@@ -388,7 +388,7 @@ title="Open an issue"
     <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">python</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the action potential duration at the given</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the action potential duration at the given</span>
 <span class="sd">    factor repolarization, so that factor = 0</span>
 <span class="sd">    would be zero, and factor = 1 given the time from triggering</span>
 <span class="sd">    to potential is down to resting potential.</span>
@@ -506,7 +506,7 @@ title="Open an issue"
     <span class="n">v_r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">use_spline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Return the first and second intersection</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the first and second intersection</span>
 <span class="sd">    of the APD p line</span>
 
 <span class="sd">    Parameters</span>
@@ -543,7 +543,7 @@ title="Open an issue"
             <span class="n">f</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Unable to compute APD </span><span class="si">{</span><span class="n">factor</span> <span class="o">*</span> <span class="mi">100</span><span class="si">}</span><span class="s2"> using spline interpolation. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Unable to compute APD </span><span class="si">{</span><span class="n">factor</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">}</span><span class="s2"> using spline interpolation. &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;Please change your settings, </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -577,7 +577,7 @@ title="Open an issue"
     <span class="n">v_r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">use_spline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">APDCoords</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the coordinates of the start and stop</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the coordinates of the start and stop</span>
 <span class="sd">        of the APD, and not the duration itself</span>
 
 <span class="sd">    Parameters</span>
@@ -618,7 +618,7 @@ title="Open an issue"
     <span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">python</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decay time. Time for the signal amplitude to go from maximum to</span>
 <span class="sd">    (1 - a) * 100 % of maximum</span>
 
@@ -673,7 +673,7 @@ title="Open an issue"
     <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">python</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Computed the time to peak from pacing is</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computed the time to peak from pacing is</span>
 <span class="sd">    triggered to maximum amplitude. Note, if pacing</span>
 <span class="sd">    is not provided it will compute the time from</span>
 <span class="sd">    the beginning of the trace (which might not be consistent)</span>
@@ -737,7 +737,7 @@ title="Open an issue"
     <span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">python</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Compute the time from (1-a)*100 % signal</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the time from (1-a)*100 % signal</span>
 <span class="sd">    amplitude to peak. For example if if a = 0.8</span>
 <span class="sd">    if will compute the time from the starting value</span>
 <span class="sd">    of APD80 to the upstroke.</span>
@@ -795,7 +795,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="beating_frequency"><a class="viewcode-back" href="../../ap_features.html#ap_features.features.beating_frequency">[docs]</a><span class="k">def</span> <span class="nf">beating_frequency</span><span class="p">(</span><span class="n">times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Returns the approximate beating frequency in Hz by</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the approximate beating frequency in Hz by</span>
 <span class="sd">    finding the average duration of each beat</span>
 
 <span class="sd">    Parameters</span>
@@ -827,7 +827,7 @@ title="Open an issue"
     <span class="n">times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span>
     <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ms&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Returns the beating frequency in Hz by using</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the beating frequency in Hz by using</span>
 <span class="sd">    the peak values of the signals in each beat</span>
 
 <span class="sd">    Parameters</span>
@@ -894,7 +894,7 @@ title="Open an issue"
     <span class="n">factor_y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">python</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Find the duration between first intersection (i.e</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the duration between first intersection (i.e</span>
 <span class="sd">    during the upstroke) of two APD lines</span>
 
 <span class="sd">    Arguments</span>
@@ -948,7 +948,7 @@ title="Open an issue"
     <span class="n">upstroke_duration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
     <span class="n">sigmoid_fit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Upstroke</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Estimate maximum relative upstroke velocity</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate maximum relative upstroke velocity</span>
 
 <span class="sd">    Arguments</span>
 <span class="sd">    ---------</span>
@@ -1038,7 +1038,7 @@ title="Open an issue"
     <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute maximum upstroke velocity</span>
 
 <span class="sd">    Arguments</span>
@@ -1106,7 +1106,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="integrate_apd"><a class="viewcode-back" href="../../ap_features.html#ap_features.features.integrate_apd">[docs]</a><span class="k">def</span> <span class="nf">integrate_apd</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">use_spline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the integral of the signals above</span>
 <span class="sd">    the APD p line</span>
 
@@ -1182,7 +1182,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="corrected_apd"><a class="viewcode-back" href="../../ap_features.html#ap_features.features.corrected_apd">[docs]</a><span class="k">def</span> <span class="nf">corrected_apd</span><span class="p">(</span><span class="n">apd</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">beat_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">formula</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;friderica&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Correct the given APD (or any QT measurement) for the beat rate.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct the given APD (or any QT measurement) for the beat rate.</span>
 <span class="sd">    normally the faster the HR (or the shorter the RR interval),</span>
 <span class="sd">    the shorter the QT interval, and vice versa</span>
 
@@ -1244,7 +1244,7 @@ title="Open an issue"
     <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">prominence_level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.07</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Detect (Early after depolarizations) EADs</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Detect (Early after depolarizations) EADs</span>
 <span class="sd">    based on peak prominence.</span>
 
 <span class="sd">    Parameters</span>

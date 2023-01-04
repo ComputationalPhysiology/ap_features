@@ -362,11 +362,11 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">time_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The time unit &#39;ms&#39; or &#39;s&#39;&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The time unit &#39;ms&#39; or &#39;s&#39;&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">time_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Trace.ensure_time_unit"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.ensure_time_unit">[docs]</a>    <span class="k">def</span> <span class="nf">ensure_time_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Convert time to milliseconds or seconds</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert time to milliseconds or seconds</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -438,7 +438,7 @@ title="Open an issue"
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trace.as_spline"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.as_spline">[docs]</a>    <span class="k">def</span> <span class="nf">as_spline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnivariateSpline</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;[summary]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;[summary]</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -489,11 +489,11 @@ title="Open an issue"
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_rest</span>
 
 <div class="viewcode-block" id="Beat.as_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.as_beats">[docs]</a>    <span class="k">def</span> <span class="nf">as_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beats&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Convert trace from Beat to Beats&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert trace from Beat to Beats&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Beats</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Beat.is_valid"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Check if intersection with APD50 line gives two</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if intersection with APD50 line gives two</span>
 <span class="sd">        points</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_normalized</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
@@ -501,7 +501,7 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Beats&quot;</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;If the beat comes from several Beats</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;If the beat comes from several Beats</span>
 <span class="sd">        object then this will return those Beats</span>
 
 <span class="sd">        Returns</span>
@@ -512,7 +512,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span>
 
 <div class="viewcode-block" id="Beat.apd_point"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.apd_point">[docs]</a>    <span class="k">def</span> <span class="nf">apd_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the first and second intersection</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the first and second intersection</span>
 <span class="sd">        of the APD p line</span>
 
 <span class="sd">        Parameters</span>
@@ -537,7 +537,7 @@ title="Open an issue"
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Beat.apd"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.apd">[docs]</a>    <span class="k">def</span> <span class="nf">apd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The action potential duration</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The action potential duration</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -565,7 +565,7 @@ title="Open an issue"
         <span class="n">high</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span>
         <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the triangulation</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the triangulation</span>
 <span class="sd">        which is the last intersection of the</span>
 <span class="sd">        :math:`\mathrm{APD} \; p_{\mathrm{high}}`</span>
 <span class="sd">        line minus the last intersection of the</span>
@@ -603,7 +603,7 @@ title="Open an issue"
         <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">use_median_beat_rate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Correct the given APD (or any QT measurement) for the beat rate.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Correct the given APD (or any QT measurement) for the beat rate.</span>
 <span class="sd">        normally the faster the HR (or the shorter the RR interval),</span>
 <span class="sd">        the shorter the QT interval, and vice versa</span>
 
@@ -666,7 +666,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">corrected_apd</span><span class="p">(</span><span class="n">apd</span><span class="p">,</span> <span class="n">beat_rate</span><span class="o">=</span><span class="n">beat_rate</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Beat.tau"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.tau">[docs]</a>    <span class="k">def</span> <span class="nf">tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Decay time. Time for the signal amplitude to go from maximum to</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decay time. Time for the signal amplitude to go from maximum to</span>
 <span class="sd">        (1 - a) * 100 % of maximum</span>
 
 <span class="sd">        Parameters</span>
@@ -682,7 +682,7 @@ title="Open an issue"
         <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Beat.ttp"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.ttp">[docs]</a>    <span class="k">def</span> <span class="nf">ttp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_pacing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Computed the time to peak from pacing is</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Computed the time to peak from pacing is</span>
 <span class="sd">        triggered to maximum amplitude. Note, if pacing</span>
 <span class="sd">        is not provided it will compute the time from</span>
 <span class="sd">        the beginning of the trace (which might not be consistent)</span>
@@ -708,7 +708,7 @@ title="Open an issue"
         <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute the integral of the signals above</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the integral of the signals above</span>
 <span class="sd">        the APD p line</span>
 
 <span class="sd">        Parameters</span>
@@ -736,7 +736,7 @@ title="Open an issue"
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Beat.upstroke"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.upstroke">[docs]</a>    <span class="k">def</span> <span class="nf">upstroke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute the time from (1-a)*100 % signal</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the time from (1-a)*100 % signal</span>
 <span class="sd">        amplitude to peak. For example if if a = 0.8</span>
 <span class="sd">        if will compute the time from the starting value</span>
 <span class="sd">        of APD80 to the upstroke.</span>
@@ -758,7 +758,7 @@ title="Open an issue"
         <span class="n">use_spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute maximum upstroke velocity</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute maximum upstroke velocity</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -786,7 +786,7 @@ title="Open an issue"
         <span class="n">upstroke_duration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
         <span class="n">sigmoid_fit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Estimate maximum relative upstroke velocity</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate maximum relative upstroke velocity</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -811,7 +811,7 @@ title="Open an issue"
         <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">prominence_level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.07</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Detect (Early after depolarizations) EADs</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect (Early after depolarizations) EADs</span>
 <span class="sd">        based on peak prominence.</span>
 
 <span class="sd">        Parameters</span>
@@ -843,7 +843,7 @@ title="Open an issue"
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Beat.apd_up_xy"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.apd_up_xy">[docs]</a>    <span class="k">def</span> <span class="nf">apd_up_xy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor_x</span><span class="p">,</span> <span class="n">factor_y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Find the duration between first intersection (i.e</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the duration between first intersection (i.e</span>
 <span class="sd">        during the upstroke) of two APD lines</span>
 
 <span class="sd">        Arguments</span>
@@ -949,7 +949,7 @@ title="Open an issue"
     <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="p">],</span>
     <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Filter beats based of similarities of the filters</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter beats based of similarities of the filters</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1005,7 +1005,7 @@ title="Open an issue"
     <span class="n">factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">corrected_apd</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Compute a linear interpolation of the apd values for each beat.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a linear interpolation of the apd values for each beat.</span>
 <span class="sd">    This is useful in order to see if there is a correlation between</span>
 <span class="sd">    the APD values and the beat number. If the resulting the slope</span>
 <span class="sd">    is relatively close to zero there is no such dependency.</span>
@@ -1057,7 +1057,7 @@ title="Open an issue"
         <span class="n">intervals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">chopping</span><span class="o">.</span><span class="n">Interval</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">chopping_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initializer for `Beats` class</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializer for `Beats` class</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1122,7 +1122,7 @@ title="Open an issue"
             <span class="bp">self</span><span class="o">.</span><span class="n">chopping_options</span><span class="p">[</span><span class="s2">&quot;intervals&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intervals</span>
 
 <div class="viewcode-block" id="Beats.as_beat"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.as_beat">[docs]</a>    <span class="k">def</span> <span class="nf">as_beat</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beat&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Convert trace from Beats to Beat&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert trace from Beats to Beat&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Beat</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">pacing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pacing</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Beats.plot_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beats.plot_beats">[docs]</a>    <span class="k">def</span> <span class="nf">plot_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">align</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -1249,7 +1249,7 @@ title="Open an issue"
         <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">_filters</span><span class="o">.</span><span class="n">Filters</span><span class="p">],</span>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get a subset of the chopped beats based on</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a subset of the chopped beats based on</span>
 <span class="sd">        similarities in different features.</span>
 
 <span class="sd">        Parameters</span>
@@ -1271,7 +1271,7 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">beating_frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get the frequency for each beat</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the frequency for each beat</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1284,12 +1284,12 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">beating_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The median frequency of all beats&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The median frequency of all beats&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beating_frequencies</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">beat_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The beat rate, i.e number of beats</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The beat rate, i.e number of beats</span>
 <span class="sd">        per minute, which is simply 60 divided</span>
 <span class="sd">        by the beating frequency</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1297,7 +1297,7 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">beat_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Beat rate for all beats</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Beat rate for all beats</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1312,7 +1312,7 @@ title="Open an issue"
         <span class="n">N</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beat</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute an average beat based on</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute an average beat based on</span>
 <span class="sd">        aligning the individual beats</span>
 
 <span class="sd">        Parameters</span>
@@ -1342,7 +1342,7 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Chop signal into individual beats.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Chop signal into individual beats.</span>
 <span class="sd">        You can also pass in any options that should</span>
 <span class="sd">        be provided to the chopping algorithm.</span>
 
@@ -1357,7 +1357,7 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;A ist of time intervals for each beat&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A ist of time intervals for each beat&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chopped_data</span><span class="o">.</span><span class="n">intervals</span>
 
     <span class="nd">@property</span>
@@ -1408,7 +1408,7 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;BeatSeriesCollection&quot;</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;If the beat comes from a BeatSeries</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;If the beat comes from a BeatSeries</span>
 <span class="sd">        object then this will return that BeatSeries</span>
 
 <span class="sd">        Returns</span>
@@ -1423,7 +1423,7 @@ title="Open an issue"
     <span class="n">chopped_data</span><span class="p">:</span> <span class="n">chopping</span><span class="o">.</span><span class="n">ChoppedData</span><span class="p">,</span>
     <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Beats</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beat</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Convert a ChoppedData object to a list of Beats</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a ChoppedData object to a list of Beats</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1531,7 +1531,7 @@ title="Open an issue"
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;StateSeriesCollection&quot;</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;If the beat comes from a BeatSeries</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;If the beat comes from a BeatSeries</span>
 <span class="sd">        object then this will return that BeatSeries</span>
 
 <span class="sd">        Returns</span>

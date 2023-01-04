@@ -314,7 +314,7 @@ title="Open an issue"
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Factor has to be between 0 and 100, got </span><span class="si">{</span><span class="n">factor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">factor</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Factor passed to APD calculation is </span><span class="si">{</span><span class="n">factor</span><span class="si">}</span><span class="s2">, did you mean </span><span class="si">{</span><span class="n">factor</span> <span class="o">*</span> <span class="mi">100</span><span class="si">}</span><span class="s2">?&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Factor passed to APD calculation is </span><span class="si">{</span><span class="n">factor</span><span class="si">}</span><span class="s2">, did you mean </span><span class="si">{</span><span class="n">factor</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">}</span><span class="s2">?&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
 
@@ -330,7 +330,7 @@ title="Open an issue"
 <div class="viewcode-block" id="intersection"><a class="viewcode-back" href="../../ap_features.html#ap_features.utils.intersection">[docs]</a><span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Get intersection of all values in</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get intersection of all values in</span>
 <span class="sd">    a dictionary or a list of lists</span>
 
 <span class="sd">    Parameters</span>
@@ -377,7 +377,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="normalize_signal"><a class="viewcode-back" href="../../ap_features.html#ap_features.utils.normalize_signal">[docs]</a><span class="k">def</span> <span class="nf">normalize_signal</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">v_r</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Normalize signal to have maximum value 1</span>
 <span class="sd">    and zero being the value equal to v_r (resting value).</span>
 <span class="sd">    If v_r is not provided the minimum value</span>
@@ -444,7 +444,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="find_pacing_period"><a class="viewcode-back" href="../../ap_features.html#ap_features.utils.find_pacing_period">[docs]</a><span class="k">def</span> <span class="nf">find_pacing_period</span><span class="p">(</span><span class="n">pacing_data</span><span class="p">,</span> <span class="n">pacing_amp</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find period of pacing in pacing data</span>
 
 <span class="sd">    Arguments</span>

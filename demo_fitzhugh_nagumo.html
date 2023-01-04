@@ -428,8 +428,8 @@ title="Print to PDF"
 <p>The FHN Model is an example of a relaxation oscillator because, if the external stimulus  <span class="math notranslate nohighlight">\(I_{\text{ext}}\)</span> exceeds a certain threshold value, the system will exhibit a characteristic excursion in phase space, before the variables <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(w\)</span> relax back to their rest values.</p>
 <p>This behaviour is typical for spike generations (a short, nonlinear elevation of membrane voltage <span class="math notranslate nohighlight">\(v\)</span>, diminished over time by a slower, linear recovery variable <span class="math notranslate nohighlight">\(w\)</span>) in a neuron after stimulation by an external input current.</p>
 <p>The equations for this dynamical system read</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9306f51f-adec-4c8d-92a3-3c247eba3361">
-<span class="eqno">(1)<a class="headerlink" href="#equation-9306f51f-adec-4c8d-92a3-3c247eba3361" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5698a656-5083-4b23-9ac3-6f28f5e970e2">
+<span class="eqno">(1)<a class="headerlink" href="#equation-5698a656-5083-4b23-9ac3-6f28f5e970e2" title="Permalink to this equation">#</a></span>\[\begin{align}
 \dot{v} &amp;= v - \frac{v^3}{3} -w + RI_{\text{ext}} \\
 \tau \dot{w} &amp;= v + a - bw 
 \end{align}\]</div>
@@ -440,10 +440,10 @@ title="Print to PDF"
 <p>Import the necessary pagages</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import ap_features as apf
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.integrate import solve_ivp
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ap_features</span> <span class="k">as</span> <span class="nn">apf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
 </pre></div>
 </div>
 </div>
@@ -451,31 +451,31 @@ from scipy.integrate import solve_ivp
 <p>Define the right hand side of the ODE</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def fitzhugh_nagumo(t, x, a, b, tau, Iext):
-    &quot;&quot;&quot;Time derivative of the Fitzhugh-Nagumo neural model.
-    Parameters
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fitzhugh_nagumo</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">Iext</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Time derivative of the Fitzhugh-Nagumo neural model.</span>
+<span class="sd">    Parameters</span>
 
-    Parameters
-    ----------
-    t : float
-        Time (not used)
-    x : np.ndarray
-        State of size 2 - (Membrane potential, Recovery variable)
-    a : float
-        Parameter in the model
-    b : float
-        Parameter in the model
-    tau : float
-        Time scale
-    Iext : float
-        Constant stimulus current
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float</span>
+<span class="sd">        Time (not used)</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        State of size 2 - (Membrane potential, Recovery variable)</span>
+<span class="sd">    a : float</span>
+<span class="sd">        Parameter in the model</span>
+<span class="sd">    b : float</span>
+<span class="sd">        Parameter in the model</span>
+<span class="sd">    tau : float</span>
+<span class="sd">        Time scale</span>
+<span class="sd">    Iext : float</span>
+<span class="sd">        Constant stimulus current</span>
 
-    Returns
-    -------
-    np.ndarray
-        dx/dt - size 2
-    &quot;&quot;&quot;
-    return np.array([x[0] - x[0] ** 3 - x[1] + Iext, (x[0] - a - b * x[1]) / tau])
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        dx/dt - size 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Iext</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">tau</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -483,18 +483,18 @@ from scipy.integrate import solve_ivp
 <p>Select some parameters and solve the system</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>a = -0.3
-b = 1.4
-tau = 20
-Iext = 0.23
-time = np.linspace(0, 999, 1000)
-res = solve_ivp(
-    fitzhugh_nagumo,
-    [0, 1000],
-    [0, 0],
-    args=(a, b, tau, Iext),
-    t_eval=time,
-)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.3</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">1.4</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">Iext</span> <span class="o">=</span> <span class="mf">0.23</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
+    <span class="n">fitzhugh_nagumo</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">Iext</span><span class="p">),</span>
+    <span class="n">t_eval</span><span class="o">=</span><span class="n">time</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -502,23 +502,23 @@ res = solve_ivp(
 <p>Collect the solutions and create a beats object</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>v = res.y[0, :]
-w = res.y[1, :]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
 
-s = apf.Beats(y=v, t=time)
+<span class="n">s</span> <span class="o">=</span> <span class="n">apf</span><span class="o">.</span><span class="n">Beats</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
-ax.plot(time, v, label=&quot;$v$&quot;)
-ax.plot(time, w, label=&quot;$w$&quot;)
-ax.legend()
-ax.set_xlabel(&quot;Time [ms]&quot;)
-ax.set_title(&quot;Fithugh Nagumo model&quot;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$v$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$w$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Fithugh Nagumo model&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -529,13 +529,17 @@ plt.show()
 <p>We can now chop the trace into indivisual beats</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beats = s.beats
-print(beats)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beats</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">beats</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">beats</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Beat(t=(61,), y=(61,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,)), Beat(t=(81,), y=(81,)), Beat(t=(79,), y=(79,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,)), Beat(t=(79,), y=(79,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,))]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Beat(t=(61,), y=(61,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,)), Beat(t=(80,), y=(80,)), Beat(t=(81,), y=(81,))]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.15/x64/lib/python3.8/site-packages/scipy/interpolate/_fitpack_impl.py:724: RuntimeWarning: The number of zeros exceeds mest
+  warnings.warn(RuntimeWarning(&quot;The number of zeros exceeds mest&quot;))
 </pre></div>
 </div>
 </div>
@@ -543,11 +547,11 @@ print(beats)
 <p>And plot them</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
-for beat in beats:
-    ax.plot(beat.t, beat.y)
-ax.set_title(&quot;Chopped beats&quot;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">beat</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">beat</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">beat</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Chopped beats&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -558,21 +562,21 @@ plt.show()
 <p>We can also plot the action potential duration for each beat</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot some APDs
-fig, ax = plt.subplots()
-apds = [20, 40, 50, 70, 80]
-N = len(apds)
-x = np.arange(N)
-width = 1 / (s.num_beats + 1)
-for i, beat in enumerate(beats):
-    ax.bar(x + i * width, [beat.apd(apd) for apd in apds], width=width)
-ax.set_xticks(x + 0.5 - width)
-ax.set_xticklabels(apds)
-ax.set_ylabel(&quot;Time [ms]&quot;)
-ax.set_xlabel(&quot;APD&quot;)
-ax.grid()
-ax.set_title(&quot;Action potential duration for different beats&quot;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot some APDs</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">apds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">]</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">apds</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">num_beats</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">beat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">beats</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="p">[</span><span class="n">beat</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="n">apd</span><span class="p">)</span> <span class="k">for</span> <span class="n">apd</span> <span class="ow">in</span> <span class="n">apds</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">apds</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;APD&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Action potential duration for different beats&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

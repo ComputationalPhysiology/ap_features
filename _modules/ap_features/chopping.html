@@ -331,7 +331,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="chop_data"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.chop_data">[docs]</a><span class="k">def</span> <span class="nf">chop_data</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChoppedData</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Chop data into individual beats</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chop data into individual beats</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -406,7 +406,7 @@ title="Open an issue"
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChoppedData</span><span class="p">:</span>
 
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Chop data into beats</span>
 
 <span class="sd">    Arguments</span>
@@ -579,7 +579,7 @@ title="Open an issue"
     <span class="n">max_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
     <span class="n">min_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Array</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Chop the data based on starts and ends</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chop the data based on starts and ends</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -671,7 +671,7 @@ title="Open an issue"
     <span class="n">extend_front</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">extend_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">],</span> <span class="n">Array</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Find the starts and ends of a signal.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the starts and ends of a signal.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -741,7 +741,7 @@ title="Open an issue"
     <span class="n">extend_front</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">extend_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Adjust start and ends based on extend_front</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adjust start and ends based on extend_front</span>
 <span class="sd">    and extent_end</span>
 
 <span class="sd">    Parameters</span>
@@ -808,7 +808,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="check_intervals"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.check_intervals">[docs]</a><span class="k">def</span> <span class="nf">check_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Check starts and ends and make sure that</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check starts and ends and make sure that</span>
 <span class="sd">    they are consistent</span>
 
 <span class="sd">    Parameters</span>
@@ -845,7 +845,7 @@ title="Open an issue"
     <span class="n">min_window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
     <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Find the points where to chop</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the points where to chop</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -900,7 +900,7 @@ title="Open an issue"
     <span class="n">intervals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChoppedData</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Chop data based on pacing</span>
 
 <span class="sd">    Arguments</span>
@@ -973,7 +973,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="find_pacing_indices"><a class="viewcode-back" href="../../ap_features.html#ap_features.chopping.find_pacing_indices">[docs]</a><span class="k">def</span> <span class="nf">find_pacing_indices</span><span class="p">(</span><span class="n">pacing</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return indices of where the pacing array changes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return indices of where the pacing array changes</span>
 <span class="sd">    from a low to a high values</span>
 
 <span class="sd">    Parameters</span>
@@ -996,7 +996,7 @@ title="Open an issue"
     <span class="n">extend_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">add_final</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Interval</span><span class="p">],</span> <span class="n">Array</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Convert an array of pacing amplitudes to</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert an array of pacing amplitudes to</span>
 <span class="sd">    start and end points</span>
 
 <span class="sd">    Parameters</span>
