@@ -627,12 +627,11 @@ def average_beat(
         raise ValueError("Cannot average an empty list")
     if filters is not None:
         beats = filter_beats(beats, filters=filters, x=x)
-    beats = align_beats(beats, N=N)
 
-    # import matplotlib.pyplot as plt
-
-    # for b in beats:
-    #     plt.plot(b.t, b.y)
+    try:
+        beats = align_beats(beats, N=N)
+    except Exception:
+        pass
 
     avg = average.average_and_interpolate([b.y for b in beats], [b.t for b in beats], N)
 
