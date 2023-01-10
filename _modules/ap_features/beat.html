@@ -916,12 +916,11 @@ title="Open an issue"
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot average an empty list&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">beats</span> <span class="o">=</span> <span class="n">filter_beats</span><span class="p">(</span><span class="n">beats</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">beats</span> <span class="o">=</span> <span class="n">align_beats</span><span class="p">(</span><span class="n">beats</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
 
-    <span class="c1"># import matplotlib.pyplot as plt</span>
-
-    <span class="c1"># for b in beats:</span>
-    <span class="c1">#     plt.plot(b.t, b.y)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">beats</span> <span class="o">=</span> <span class="n">align_beats</span><span class="p">(</span><span class="n">beats</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
 
     <span class="n">avg</span> <span class="o">=</span> <span class="n">average</span><span class="o">.</span><span class="n">average_and_interpolate</span><span class="p">([</span><span class="n">b</span><span class="o">.</span><span class="n">y</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">t</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beats</span><span class="p">],</span> <span class="n">N</span><span class="p">)</span>
 
