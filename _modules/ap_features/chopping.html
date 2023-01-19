@@ -962,6 +962,12 @@ title="Open an issue"
 
     <span class="n">chop_pars</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;use_pacing_info&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chopped_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Just return the whole trace</span>
+        <span class="n">chopped_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">chopped_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="p">]</span>
+        <span class="n">chopped_pacing</span> <span class="o">=</span> <span class="p">[</span><span class="n">pacing</span><span class="p">]</span>
+
     <span class="k">return</span> <span class="n">ChoppedData</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">chopped_data</span><span class="p">,</span>
         <span class="n">times</span><span class="o">=</span><span class="n">chopped_times</span><span class="p">,</span>
