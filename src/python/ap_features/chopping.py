@@ -673,6 +673,12 @@ def chop_data_with_pacing(
 
     chop_pars = {"use_pacing_info": True}
 
+    if len(chopped_data) == 0:
+        # Just return the whole trace
+        chopped_data = [data]
+        chopped_times = [time]
+        chopped_pacing = [pacing]
+
     return ChoppedData(
         data=chopped_data,
         times=chopped_times,
