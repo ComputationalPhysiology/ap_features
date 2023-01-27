@@ -24,7 +24,7 @@ if(PYTHONINTERP_FOUND)
       if(NOT DEFINED AP_FEATURES_INSTALL_PYTHON_EXT_DIR)
         # Get path for platform-dependent Python modules (since we install a binary library)
         execute_process(
-          COMMAND ${Python3_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(plat_specific=True, prefix='${CMAKE_INSTALL_PREFIX}'))"
+          COMMAND ${Python3_EXECUTABLE} -c "import sys, sysconfig; sys.stdout.write(sysconfig.get_path('platlib', vars={'platbase': '${CMAKE_INSTALL_PREFIX}'}))"
           OUTPUT_VARIABLE AP_FEATURES_INSTALL_PYTHON_EXT_DIR
         )
         set(AP_FEATURES_INSTALL_PYTHON_EXT_DIR ${AP_FEATURES_INSTALL_PYTHON_EXT_DIR}
@@ -34,7 +34,7 @@ if(PYTHONINTERP_FOUND)
       if(NOT DEFINED AP_FEATURES_INSTALL_PYTHON_MODULE_DIR)
         # Get path for pure Python modules
         execute_process(
-          COMMAND ${Python3_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(plat_specific=False, prefix='${CMAKE_INSTALL_PREFIX}'))"
+          COMMAND ${Python3_EXECUTABLE} -c "import sys, sysconfig; sys.stdout.write(sysconfig.get_path('platlib', vars={'platbase': '${CMAKE_INSTALL_PREFIX}'}))"
           OUTPUT_VARIABLE AP_FEATURES_INSTALL_PYTHON_MODULE_DIR
         )
         set(AP_FEATURES_INSTALL_PYTHON_MODULE_DIR ${AP_FEATURES_INSTALL_PYTHON_MODULE_DIR}
@@ -46,7 +46,7 @@ if(PYTHONINTERP_FOUND)
     if(NOT DEFINED AP_FEATURES_INSTALL_PYTHON_EXT_DIR)
       # Get path for platform-dependent Python modules (since we install a binary library)
       execute_process(
-        COMMAND ${PYTHON_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(plat_specific=True, prefix='${CMAKE_INSTALL_PREFIX}'))"
+        COMMAND ${PYTHON_EXECUTABLE} -c "import sys, sysconfig; sys.stdout.write(sysconfig.get_path('platlib', vars={'platbase': '${CMAKE_INSTALL_PREFIX}'}))"
         OUTPUT_VARIABLE AP_FEATURES_INSTALL_PYTHON_EXT_DIR
       )
       set(AP_FEATURES_INSTALL_PYTHON_EXT_DIR ${AP_FEATURES_INSTALL_PYTHON_EXT_DIR}
@@ -56,7 +56,7 @@ if(PYTHONINTERP_FOUND)
     if(NOT DEFINED AP_FEATURES_INSTALL_PYTHON_MODULE_DIR)
       # Get path for pure Python modules
       execute_process(
-        COMMAND ${PYTHON_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib(plat_specific=False, prefix='${CMAKE_INSTALL_PREFIX}'))"
+        COMMAND ${PYTHON_EXECUTABLE} -c "import sys, sysconfig; sys.stdout.write(sysconfig.get_path('platlib', vars={'platbase': '${CMAKE_INSTALL_PREFIX}'}))"
         OUTPUT_VARIABLE AP_FEATURES_INSTALL_PYTHON_MODULE_DIR
       )
       set(AP_FEATURES_INSTALL_PYTHON_MODULE_DIR ${AP_FEATURES_INSTALL_PYTHON_MODULE_DIR}
@@ -74,7 +74,7 @@ if("${PROJECT_BINARY_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
 endif()
 
 set(CMAKE_C_FLAGS_DEBUG "-g -Og -Wall")
-set(CMAKE_C_FLAGS_RELEASE "-O3 -march=native")
+set(CMAKE_C_FLAGS_RELEASE "-O3")
 set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELEASE} -g")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
@@ -88,7 +88,25 @@ endif()
 
 install(TARGETS cost_terms DESTINATION ${AP_FEATURES_INSTALL_PYTHON_MODULE_DIR})
 
-find_package(OpenMP)
+if(APPLE)
+  find_package(OpenMP)
+
+  if(NOT OpenMP_FOUND)
+    # libomp 15.0+ from brew is keg-only, so have to search in other locations.
+    # See https://github.com/Homebrew/homebrew-core/issues/112107#issuecomment-1278042927.
+    execute_process(COMMAND brew --prefix libomp
+      OUTPUT_VARIABLE HOMEBREW_LIBOMP_PREFIX
+      OUTPUT_STRIP_TRAILING_WHITESPACE)
+    set(OpenMP_C_FLAGS "-Xpreprocessor -fopenmp -I${HOMEBREW_LIBOMP_PREFIX}/include")
+    set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp -I${HOMEBREW_LIBOMP_PREFIX}/include")
+    set(OpenMP_C_LIB_NAMES omp)
+    set(OpenMP_CXX_LIB_NAMES omp)
+    set(OpenMP_omp_LIBRARY ${HOMEBREW_LIBOMP_PREFIX}/lib/libomp.dylib)
+    find_package(OpenMP)
+  endif()
+else()
+  find_package(OpenMP)
+endif()
 
 if(OPENMP_FOUND)
   message("OpenMP was found")

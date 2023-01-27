@@ -105,3 +105,7 @@ venv
 virtualenv
 xlabel
 ylabel
+platlib
+platbase
+libomp
+Xpreprocessor
