@@ -11,8 +11,12 @@ def check_for_openmp():
     import os
     import subprocess
     import tempfile
-    from distutils.ccompiler import new_compiler
-    from distutils.errors import CompileError, LinkError
+
+    try:
+        from distutils.ccompiler import new_compiler
+        from distutils.errors import CompileError, LinkError
+    except ImportError:
+        return False
 
     CCODE = """
     #include <omp.h>
