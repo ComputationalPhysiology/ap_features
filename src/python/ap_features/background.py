@@ -1,15 +1,12 @@
 import logging
-from collections import namedtuple
 from enum import Enum
+from typing import NamedTuple
 
 import numpy as np
+from scipy.signal import medfilt
 
 from .utils import Array
 
-Background = namedtuple(
-    "Background",
-    ["x", "y", "corrected", "background", "F0", "method"],
-)
 
 logger = logging.getLogger(__name__)
 
@@ -27,8 +24,29 @@ class BackgroundCostFunction(str, Enum):
     atq = "atq"
 
 
+class Background(NamedTuple):
+    x: Array
+    y: Array
+    y_filt: Array
+    corrected: Array
+    background: Array
+    F0: float
+    method: BackgroundCorrection
+
+
+def get_filtered_signal(y: Array, filter_kernel_size: int = 0) -> Array:
+    if filter_kernel_size == 0:
+        return y
+    else:
+        return medfilt(y, kernel_size=13)
+
+
 def correct_background(
-    x: Array, y: Array, method: BackgroundCorrection, **kwargs
+    x: Array,
+    y: Array,
+    method: BackgroundCorrection,
+    filter_kernel_size: int = 0,
+    **kwargs,
 ) -> Background:
 
     methods = tuple(BackgroundCorrection.__members__.keys())
@@ -38,17 +56,20 @@ def correct_background(
     if len(x) != len(y):
         raise ValueError(f"Size of x ({len(x)}) and y ({len(y)}) did not match")
 
+    y_filt = get_filtered_signal(y, filter_kernel_size=filter_kernel_size)
+
     if method == BackgroundCorrection.none:
         return Background(
             x=x,
             y=y,
+            y_filt=y_filt,
             corrected=y,
             background=np.zeros_like(y),
             F0=1,
             method=method,
         )
 
-    bkg = background(x, y, **kwargs)
+    bkg = background(x, y_filt, **kwargs)
 
     if method == BackgroundCorrection.full:
         F0 = bkg[0]
@@ -59,6 +80,7 @@ def correct_background(
     return Background(
         x=x,
         y=y,
+        y_filt=y_filt,
         corrected=corrected,
         background=bkg,
         F0=F0,
@@ -66,7 +88,9 @@ def correct_background(
     )
 
 
-def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
+def full_background_correction(
+    x: Array, y: Array, filter_kernel_size=0, **kwargs
+) -> Background:
     r"""Perform at background correction.
     First estimate background :math:`b`, and let
     :math:`F_0 = b(0)`. The corrected background is
@@ -86,17 +110,19 @@ def full_background_correction(x: Array, y: Array, **kwargs) -> Background:
     Background
         Namedtuple containing the corrected trace and the background.
     """
+    y_filt = get_filtered_signal(y, filter_kernel_size=filter_kernel_size)
 
-    bkg = background(x, y, **kwargs)
+    bkg = background(x, y_filt, **kwargs)
     F0 = bkg[0]
     corrected = (1 / F0) * (y - bkg)
     return Background(
         x=x,
         y=y,
+        y_filt=y_filt,
         corrected=corrected,
         background=bkg,
         F0=F0,
-        method="full",
+        method=BackgroundCorrection.full,
     )
 
 
@@ -106,6 +132,7 @@ def background(
     order: int = 2,
     threshold: float = 0.01,
     cost_function: BackgroundCostFunction = BackgroundCostFunction.atq,
+    **kwargs,
 ) -> np.ndarray:
     r"""Compute an estimation of the background (aka baseline)
     in chemical spectra. The background is estimated by a polynomial
