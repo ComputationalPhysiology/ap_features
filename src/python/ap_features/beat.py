@@ -1082,7 +1082,7 @@ class Beats(Trace):
     def y(self) -> np.ndarray:
         y = self.background_correction.corrected
         if self._zero_index is not None:
-            y = y - y[self._zero_index]
+            y = np.subtract(y, y[self._zero_index])
         return y
 
     @property
