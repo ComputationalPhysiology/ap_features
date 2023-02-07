@@ -114,7 +114,6 @@ def normalize_signal(V, v_r=None):
 
 
 def time_unit(time_stamps):
-
     dt = np.mean(np.diff(time_stamps))
     # Assume dt is larger than 0.5 ms and smaller than 0.5 seconds
     unit = "ms" if dt > 0.5 else "s"
@@ -122,14 +121,12 @@ def time_unit(time_stamps):
 
 
 def interpolate(t: np.ndarray, trace: np.ndarray, dt: float = 1.0):
-
     f = UnivariateSpline(t, trace, s=0, k=1)
     t0 = np.arange(t[0], t[-1] + dt, dt)
     return t0, f(t0)
 
 
 def list_cost_function_terms_trace(key=""):
-
     apd_key = "APD"
     if key.lower() == "ca":
         apd_key = "CaD"

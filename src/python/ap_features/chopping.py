@@ -116,7 +116,6 @@ def chop_data_without_pacing(
     intervals: Optional[List[Interval]] = None,
     **kwargs,
 ) -> ChoppedData:
-
     r"""
     Chop data into beats
 
@@ -332,7 +331,6 @@ def chop_intervals(
     eps = 1e-10
 
     for s, e in intervals:
-
         if N is None:
             # Find the correct time points
             s_idx = next(i for i, si in enumerate(time) if si >= s - eps)
@@ -353,7 +351,6 @@ def chop_intervals(
             continue
 
         if t[-1] - t[0] > max_window:
-
             t_end = next(i for i, ti in enumerate(t) if ti - t[0] > max_window) + 1
             t = t[:t_end]
 

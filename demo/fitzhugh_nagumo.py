@@ -32,7 +32,6 @@ def fitzhugh_nagumo(t, x, a, b, tau, Iext):
 
 
 def main():
-
     a = -0.3
     b = 1.4
     tau = 20

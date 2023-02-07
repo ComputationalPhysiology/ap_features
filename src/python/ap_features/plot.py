@@ -95,7 +95,6 @@ def plot_beats(
     align: bool = False,
     fname: str = "",
 ):
-
     import matplotlib.pyplot as plt
 
     fig, ax = plt.subplots()

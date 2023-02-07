@@ -43,7 +43,6 @@ def check_numba():
 
 @njit
 def compute_dvdt_for_v(V, T, V_th):
-
     idx_o = 0
     for i, v in enumerate(V):
         if v > V_th:
@@ -138,7 +137,6 @@ def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> flo
 
 @njit
 def compute_integral(V, T, factor):
-
     dt = T[1] - T[0]
 
     # Set up threshold
@@ -176,7 +174,6 @@ def compute_integral(V, T, factor):
 
 @njit
 def peak_and_repolarization(V, T, factor_low, factor_high):
-
     T_half = np.max(T) / 2
     idx_T_half = np.argmin(np.abs(T - T_half))
 
@@ -211,7 +208,6 @@ def compute_dvdt_max(V, T):
 
 @njit
 def apd(V, T, factor):
-
     T_half = T.max() / 2
     idx_T_half = np.argmin(np.abs(T - T_half))
 

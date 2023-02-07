@@ -97,7 +97,6 @@ def cost_terms_trace(y: np.ndarray, t: np.ndarray) -> np.ndarray:
 
 
 def to_c_contigous(y: np.ndarray) -> np.ndarray:
-
     y = numpyfy(y)
     if not y.flags.c_contiguous:
         y = np.ascontiguousarray(y)

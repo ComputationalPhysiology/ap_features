@@ -28,7 +28,6 @@ def chopped_data(request):
 
 
 def test_chop_data(chopped_data):
-
     chopped_data, kwargs = chopped_data
     # assert len(chopped_data.data) == 7
     print([len(c) for c in chopped_data.data])

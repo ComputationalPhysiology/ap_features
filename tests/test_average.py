@@ -85,7 +85,6 @@ def test_empty_average():
     [(1, 1), (2, 2), (1, 0), (0, 1), (5, 10), (10, 5)],
 )
 def test_average_and_interpolate_same_length(length, num_beats):
-
     xs = [np.arange(length) for i in range(num_beats)]
     ys = [i * np.ones(length) for i in range(num_beats)]
     avg = apf.average_and_interpolate(ys, xs, N=length)

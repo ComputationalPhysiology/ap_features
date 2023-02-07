@@ -109,7 +109,6 @@ class CModel:
             ]
 
     def monitor(self, states, t, parameters=None):
-
         parameter_values = self.init_parameters()
         if parameters is not None:
             assert isinstance(parameters, dict)

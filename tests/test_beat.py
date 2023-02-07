@@ -203,7 +203,6 @@ def test_beats_background(real_trace):
 
 
 def test_corrected_apd(real_beats):
-
     # Frequency should be close to 1.5Hz
     assert abs(real_beats.beating_frequency - 1.5) < 0.01
     # The beat rate should be 60*1.5 = 90

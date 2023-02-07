@@ -42,7 +42,6 @@ class Trace:
         pacing: Optional[Array] = None,
         backend: Backend = Backend.c,
     ) -> None:
-
         if t is None:
             t = np.arange(len(y))
         self._t = utils.numpyfy(t)
@@ -56,7 +55,6 @@ class Trace:
         self._backend = backend
 
     def _validate_array_sizes(self):
-
         if len(self._y) != len(self._t):
             raise ValueError(
                 f"Expected y (size={len(self._y)}) and "
@@ -180,7 +178,6 @@ class Beat(Trace):
         backend: Backend = Backend.c,
         beat_number: Optional[int] = None,
     ) -> None:
-
         super().__init__(y, t, pacing=pacing, backend=backend)
         msg = (
             "Expected shape of 't' and 'y' to be the same. got "
@@ -594,7 +591,6 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
 
 
 def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
-
     if len(beats) == 0:
         return beats
 
@@ -622,7 +618,6 @@ def average_beat(
     filters: Optional[Sequence[_filters.Filters]] = None,
     x: float = 1.0,
 ) -> Beat:
-
     if len(beats) == 0:
         raise ValueError("Cannot average an empty list")
     if filters is not None:
@@ -1100,7 +1095,6 @@ class BeatCollection(Trace):
         parent: Optional["BeatSeriesCollection"] = None,
         backend: Backend = Backend.c,
     ) -> None:
-
         super().__init__(y, t, pacing=pacing, backend=backend)
         self._parent = parent
         msg = (
