@@ -1,6 +1,6 @@
 __author__ = """Henrik Finsberg"""
 __email__ = "henriknf@simula.no"
-__version__ = "2023.1.0"
+__version__ = "2023.1.1"
 
 import logging as _logging
 
