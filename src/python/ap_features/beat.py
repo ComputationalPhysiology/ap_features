@@ -763,6 +763,7 @@ class Beats(Trace):
         pacing: Optional[Array] = None,
         background_correction_method: BC = BC.none,
         zero_index: Optional[int] = None,
+        background_correction_kernel: int = 0,
         backend: Backend = Backend.c,
         intervals: Optional[List[chopping.Interval]] = None,
         chopping_options: Optional[Dict[str, float]] = None,
@@ -811,6 +812,7 @@ class Beats(Trace):
             x=self._t,
             y=self._y,
             method=background_correction_method,
+            filter_kernel_size=background_correction_kernel,
         )
 
         msg = (

@@ -49,6 +49,9 @@ def correct_background(
     **kwargs,
 ) -> Background:
 
+    logger.info(
+        f"Correct background using method {method} and filter_kernel_size: {filter_kernel_size}.",
+    )
     methods = tuple(BackgroundCorrection.__members__.keys())
     if method not in methods:
         raise ValueError(f"Invalid method '{method}', expected one of {methods}")
