@@ -337,10 +337,6 @@ title="Open an issue"
     <span class="n">filter_kernel_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Background</span><span class="p">:</span>
-
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Correct background using method </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> and filter_kernel_size: </span><span class="si">{</span><span class="n">filter_kernel_size</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
     <span class="n">methods</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">BackgroundCorrection</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid method &#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&#39;, expected one of </span><span class="si">{</span><span class="n">methods</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -532,7 +528,6 @@ title="Open an issue"
 
     <span class="c1"># Iterate</span>
     <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">zp</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">zp</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">:</span>
-
         <span class="n">it</span> <span class="o">=</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Iteration number</span>
         <span class="n">zp</span> <span class="o">=</span> <span class="n">z</span>  <span class="c1"># Previous estimation</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">y_norm</span> <span class="o">-</span> <span class="n">z</span>  <span class="c1"># Residual</span>

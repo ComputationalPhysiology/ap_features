@@ -403,7 +403,6 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="time_unit"><a class="viewcode-back" href="../../ap_features.html#ap_features.utils.time_unit">[docs]</a><span class="k">def</span> <span class="nf">time_unit</span><span class="p">(</span><span class="n">time_stamps</span><span class="p">):</span>
-
     <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">time_stamps</span><span class="p">))</span>
     <span class="c1"># Assume dt is larger than 0.5 ms and smaller than 0.5 seconds</span>
     <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;ms&quot;</span> <span class="k">if</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="s2">&quot;s&quot;</span>
@@ -411,14 +410,12 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="interpolate"><a class="viewcode-back" href="../../ap_features.html#ap_features.utils.interpolate">[docs]</a><span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">trace</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
-
     <span class="n">f</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dt</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">t0</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="list_cost_function_terms_trace"><a class="viewcode-back" href="../../ap_features.html#ap_features.utils.list_cost_function_terms_trace">[docs]</a><span class="k">def</span> <span class="nf">list_cost_function_terms_trace</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-
     <span class="n">apd_key</span> <span class="o">=</span> <span class="s2">&quot;APD&quot;</span>
     <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;ca&quot;</span><span class="p">:</span>
         <span class="n">apd_key</span> <span class="o">=</span> <span class="s2">&quot;CaD&quot;</span>
