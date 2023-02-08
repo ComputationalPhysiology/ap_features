@@ -249,7 +249,6 @@ def apd_point(
     y = utils.normalize_signal(V, v_r) - (1 - factor / 100)
 
     if use_spline:
-
         try:
             f = UnivariateSpline(t, y, s=0, k=3)
         except Exception as ex:
@@ -262,7 +261,6 @@ def apd_point(
 
         inds = f.roots()
         if len(inds) == 1:
-
             # Safety guard for strange interpolations
             inds = t[sign_change(y)]
     else:
@@ -570,7 +568,6 @@ def find_upstroke_values(
     upstroke_duration: int = 50,
     normalize: bool = True,
 ) -> np.ndarray:
-
     # Find intersection with APD50 line
     y_mid = (np.max(y) + np.min(y)) / 2
     f = UnivariateSpline(t, y - y_mid, s=0, k=3)
@@ -1063,7 +1060,6 @@ def all_cost_terms(
     backend: Backend = Backend.c,
     normalize_time: bool = True,
 ) -> np.ndarray:
-
     arr = numpyfy(arr)
     t = numpyfy(t)
     if not isinstance(arr, np.ndarray):

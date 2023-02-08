@@ -6,7 +6,6 @@ from scipy.integrate import solve_ivp
 
 
 def main():
-
     states = model.init_state_values()
     parameters = model.init_parameter_values()
 

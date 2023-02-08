@@ -5,7 +5,6 @@ import numpy as np
 
 
 def main():
-
     lib = np.ctypeslib.load_library("libbeeler_reuter.dylib", "build/lib")
     model = cmodel.CModel(lib, "beeler_reuter_1977_version06.ode")
 

@@ -47,14 +47,12 @@ def test_number_of_cost_terms_trace():
 
 
 def test_compare_python_matlab(synthetic_data):
-
     arr, t, expected_cost = synthetic_data
     cost = apf.cost_terms(v=arr[0, :], ca=arr[1, :], t_v=t, t_ca=t)
     lst = apf.list_cost_function_terms()
 
     i = 0
     for ri in expected_cost:
-
         if i in np.where(["APD_up" in item or "CaD_up" in item for item in lst])[0]:
             continue
         msg = f"{i}\tPython: {cost[i]}, Matlab {ri}" ""
@@ -64,7 +62,6 @@ def test_compare_python_matlab(synthetic_data):
 
 
 def test_compare_c_matlab(synthetic_data):
-
     arr, t, expected_cost = synthetic_data
 
     cost = apf.cost_terms(
@@ -77,7 +74,6 @@ def test_compare_c_matlab(synthetic_data):
     lst = apf.list_cost_function_terms()
     i = 0
     for ri in expected_cost:
-
         if i in np.where(["APD_up" in item or "CaD_up" in item for item in lst])[0]:
             continue
 
@@ -118,7 +114,6 @@ def test_time_to_peak_with_pacing(y, x, p, expected_ttp):
 
 @pytest.mark.parametrize("backend", ("c", "numba"))
 def test_all_cost_terms(synthetic_data, backend):
-
     arr, t, expected_cost = synthetic_data
     arrs = np.expand_dims(arr, axis=0)
     cost = apf.all_cost_terms(arrs.T, t, backend=backend).squeeze()

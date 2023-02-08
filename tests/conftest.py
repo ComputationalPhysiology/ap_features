@@ -67,7 +67,6 @@ def calcium_trace():
 
 @pytest.fixture(scope="session")
 def multiple_beats():
-
     a = -0.3
     b = 1.4
     tau = 20

@@ -48,10 +48,6 @@ def correct_background(
     filter_kernel_size: int = 0,
     **kwargs,
 ) -> Background:
-
-    logger.info(
-        f"Correct background using method {method} and filter_kernel_size: {filter_kernel_size}.",
-    )
     methods = tuple(BackgroundCorrection.__members__.keys())
     if method not in methods:
         raise ValueError(f"Invalid method '{method}', expected one of {methods}")
@@ -243,7 +239,6 @@ def background(
 
     # Iterate
     while np.sum((z - zp) ** 2) / np.sum(zp**2) > 1e-9:
-
         it = it + 1  # Iteration number
         zp = z  # Previous estimation
         res = y_norm - z  # Residual

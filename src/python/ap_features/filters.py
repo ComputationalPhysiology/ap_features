@@ -34,7 +34,6 @@ def filter_signals(
     x: float = 1,
     center="mean",
 ) -> Sequence[int]:
-
     if len(data) == 0:
         return []
 
