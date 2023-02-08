@@ -1052,6 +1052,7 @@ title="Open an issue"
         <span class="n">pacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">background_correction_method</span><span class="p">:</span> <span class="n">BC</span> <span class="o">=</span> <span class="n">BC</span><span class="o">.</span><span class="n">none</span><span class="p">,</span>
         <span class="n">zero_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">background_correction_kernel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
         <span class="n">intervals</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">chopping</span><span class="o">.</span><span class="n">Interval</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">chopping_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1100,6 +1101,7 @@ title="Open an issue"
             <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="p">,</span>
             <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span>
             <span class="n">method</span><span class="o">=</span><span class="n">background_correction_method</span><span class="p">,</span>
+            <span class="n">filter_kernel_size</span><span class="o">=</span><span class="n">background_correction_kernel</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
