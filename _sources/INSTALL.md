@@ -46,6 +46,12 @@ installation
 guide](http://docs.python-guide.org/en/latest/starting/installation/)
 can guide you through the process.
 
+## Conda
+You can also install `ap_features` using `conda`
+```
+conda install -c conda-forge ap_features
+```
+
 ## From sources
 
 The sources for Action Potential features can be downloaded from the
