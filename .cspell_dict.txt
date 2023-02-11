@@ -20,6 +20,7 @@ Chemometrics
 CMAKE
 cmodel
 codecov
+conda
 contigous
 ctypes
 ctypeslib
@@ -52,6 +53,7 @@ libbeeler
 libcost
 libfile
 libname
+libomp
 linalg
 linestyle
 linspace
@@ -76,6 +78,8 @@ OPENMP
 pcov
 pdist
 pinv
+platbase
+platlib
 polyfit
 popt
 prange
@@ -104,8 +108,5 @@ Vandermonde
 venv
 virtualenv
 xlabel
-ylabel
-platlib
-platbase
-libomp
 Xpreprocessor
+ylabel
