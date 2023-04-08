@@ -15,7 +15,6 @@ here = os.path.dirname(os.path.abspath(__file__))
 )
 def test_apds_triangle_signal(factor, backend, triangle_signal):
     x, y = triangle_signal
-
     apd = apf.apd(V=y, t=x, factor=factor, backend=backend)
 
     assert abs(apd - 2 * factor) < 1e-10

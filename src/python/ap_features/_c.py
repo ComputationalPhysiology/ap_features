@@ -9,12 +9,13 @@ import numpy as np
 import tqdm
 from scipy import interpolate
 
-from .lib import lib
+from . import _libap_features
 from .utils import _check_factor
 from .utils import numpyfy
 
+
 logger = logging.getLogger(__name__)
-NUM_COST_TERMS = lib.get_num_cost_terms()
+NUM_COST_TERMS = _libap_features.get_num_cost_terms()
 
 
 def py_update_progress(progress_bar: Optional[tqdm.tqdm] = None) -> Callable:
@@ -65,26 +66,18 @@ def apd(y: np.ndarray, t: np.ndarray, factor: interpolate) -> float:
     _check_factor(factor)
     y = to_c_contigous(y)
     t = to_c_contigous(t)
-    return lib.apd(
-        np.array(y)[...],
-        np.array(t)[...],
-        int(factor),
-        len(y),
-        np.array(y).copy(),
-    )
+    return _libap_features.apd(np.array(y)[...], np.array(t)[...], int(factor))
 
 
 def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> float:
     y = to_c_contigous(y)
     t = to_c_contigous(t)
 
-    return lib.apd_up_xy(
+    return _libap_features.apd_up_xy(
         np.array(y)[...],
         np.array(t)[...],
         factor_x,
         factor_y,
-        len(t),
-        np.array(y).copy(),
     )
 
 

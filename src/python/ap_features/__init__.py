@@ -10,7 +10,6 @@ from . import (
     features,
     average,
     filters,
-    lib,
     utils,
     _c,
     _numba,
@@ -33,7 +32,6 @@ def set_log_level(level=_logging.INFO):
         chopping.logger,
         features.logger,
         filters.logger,
-        lib.logger,
         utils.logger,
     ]:
         logger.setLevel(level)
