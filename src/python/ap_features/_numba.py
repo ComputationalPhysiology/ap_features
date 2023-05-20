@@ -1,11 +1,10 @@
 import logging
-import warnings
 from typing import Optional
 
+import numba
 import numpy as np
 
 from .utils import NUM_COST_TERMS
-import numba
 
 
 float_3D_array = numba.types.Array(numba.float64, 3, "C")
@@ -60,9 +59,7 @@ def get_t_start(max_idx, V, T, th, t_start=0):
             v_o = V[idx1 + 1]
             t_u = T[idx1]
             t_o = T[idx1 + 1]
-            t_start = (
-                (t_o - t_u) / (v_o - v_u) * (th - (t_o * v_u - t_u * v_o) / (t_o - t_u))
-            )
+            t_start = (t_o - t_u) / (v_o - v_u) * (th - (t_o * v_u - t_u * v_o) / (t_o - t_u))
             break
     return t_start, idx1
 
@@ -77,9 +74,7 @@ def get_t_end(max_idx, V, T, th, t_end=np.inf):
             v_o = V[idx2 - 1]
             t_u = T[idx2]
             t_o = T[idx2 - 1]
-            t_end = (
-                (t_o - t_u) / (v_o - v_u) * (th - (t_o * v_u - t_u * v_o) / (t_o - t_u))
-            )
+            t_end = (t_o - t_u) / (v_o - v_u) * (th - (t_o * v_u - t_u * v_o) / (t_o - t_u))
             break
     return t_end, idx2
 
@@ -233,8 +228,12 @@ def cost_terms_trace(y: np.ndarray, t: np.ndarray) -> np.ndarray:
 
 @numba.njit(
     float_1D_array(
-        float_1D_array, float_1D_array, float_1D_array, float_1D_array, float_1D_array
-    )
+        float_1D_array,
+        float_1D_array,
+        float_1D_array,
+        float_1D_array,
+        float_1D_array,
+    ),
 )
 def _cost_terms(v, ca, t_v, t_ca, R):
     _cost_terms_trace(v, t_v, R[: NUM_COST_TERMS // 2])
@@ -243,7 +242,7 @@ def _cost_terms(v, ca, t_v, t_ca, R):
 
 
 @numba.njit(
-    float_1D_array(float_1D_array, float_1D_array, float_1D_array, float_1D_array)
+    float_1D_array(float_1D_array, float_1D_array, float_1D_array, float_1D_array),
 )
 def cost_terms(
     v: np.ndarray,

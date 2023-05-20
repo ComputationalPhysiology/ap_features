@@ -31,9 +31,7 @@ class CModel:
         return self.ode.state_symbols
 
     def monitor_names(self):
-        return [
-            expr.name for expr in self.ode.intermediates + self.ode.state_expressions
-        ]
+        return [expr.name for expr in self.ode.intermediates + self.ode.state_expressions]
 
     def _init_lib(self):
         """

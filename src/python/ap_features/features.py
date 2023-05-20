@@ -8,7 +8,6 @@ from typing import Tuple
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-
 from . import _numba
 from . import utils
 from .utils import _check_factor
@@ -358,17 +357,16 @@ def tau(
         t_a = r[1]
     elif len(r) == 1:
         logger.warning(
-            (
-                "Only one zero was found when computing tau{}. " "Result might be wrong"
-            ).format(int(a * 100)),
+            ("Only one zero was found when computing tau{}. " "Result might be wrong").format(
+                int(a * 100),
+            ),
         )
         t_a = r[0]
     else:
         logger.warning(
-            (
-                "No zero found when computing tau{}. "
-                "Return the value of time to peak"
-            ).format(int(a * 100)),
+            ("No zero found when computing tau{}. " "Return the value of time to peak").format(
+                int(a * 100),
+            ),
         )
         t_a = x[0]
 
@@ -425,12 +423,7 @@ def time_to_peak(
     else:
         try:
             start_idx = (
-                next(
-                    i
-                    for i, p in enumerate(np.diff(np.array(pacing).astype(float)))
-                    if p > 0
-                )
-                + 1
+                next(i for i, p in enumerate(np.diff(np.array(pacing).astype(float))) if p > 0) + 1
             )
         except StopIteration:
             start_idx = 0
@@ -485,17 +478,15 @@ def upstroke(
         if len(r) == 1:
             logger.warning(
                 (
-                    "Only one zero was found when computing upstroke{}. "
-                    "Result might be wrong"
+                    "Only one zero was found when computing upstroke{}. " "Result might be wrong"
                 ).format(int(a * 100)),
             )
         t_a = r[0]
     else:
         logger.warning(
-            (
-                "No zero found when computing upstroke{}. "
-                "Return the value of time to peak"
-            ).format(int(a * 100)),
+            ("No zero found when computing upstroke{}. " "Return the value of time to peak").format(
+                int(a * 100),
+            ),
         )
         t_a = x[0]
 
@@ -1010,7 +1001,9 @@ def detect_ead(
 
 
 def cost_terms_trace(
-    y: Array, t: Array, backend: Backend = Backend.numba
+    y: Array,
+    t: Array,
+    backend: Backend = Backend.numba,
 ) -> np.ndarray:
     y = numpyfy(y)
     t = numpyfy(t)

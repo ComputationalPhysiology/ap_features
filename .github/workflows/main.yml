@@ -28,7 +28,7 @@ jobs:
       - name: Test with pytest without jit (to get correct coverage)
         run: |
           NUMBA_DISABLE_JIT=1 python3 -m pytest
-        
+
 
       - name: Extract Coverage
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'

@@ -598,11 +598,7 @@ def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
     bad_beats = [np.isclose(*p) for p in apd_points]
 
     # Make sure all beats start at time zero
-    xs = [
-        beat.t - ap[0]
-        for (beat, ap, bad) in zip(beats, apd_points, bad_beats)
-        if not bad
-    ]
+    xs = [beat.t - ap[0] for (beat, ap, bad) in zip(beats, apd_points, bad_beats) if not bad]
     ys = [beat.y for (beat, bad) in zip(beats, bad_beats) if not bad]
 
     # Make them start at zero
@@ -1104,9 +1100,7 @@ class BeatCollection(Trace):
             f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
         )
         assert self.t.size == self.y.shape[0], msg
-        assert (
-            len(self.y.shape) == 2
-        ), f"Expected shape of y to be 2D, got {len(self.y.shape)}D"
+        assert len(self.y.shape) == 2, f"Expected shape of y to be 2D, got {len(self.y.shape)}D"
 
     @property
     def num_traces(self):
@@ -1174,9 +1168,7 @@ class State(Trace):
             f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
         )
         assert self.t.size == self.y.shape[0], msg
-        assert (
-            len(self.y.shape) == 2
-        ), f"Expected shape of y to be D, got {len(self.y.shape)}D"
+        assert len(self.y.shape) == 2, f"Expected shape of y to be D, got {len(self.y.shape)}D"
 
     @property
     def num_states(self):
@@ -1216,9 +1208,7 @@ class StateCollection(Trace):
             f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
         )
         assert self.t.size == self.y.shape[0], msg
-        assert (
-            len(self.y.shape) == 3
-        ), f"Expected shape of y to be 3D, got {len(self.y.shape)}D"
+        assert len(self.y.shape) == 3, f"Expected shape of y to be 3D, got {len(self.y.shape)}D"
         self.mask = mask
 
     @property

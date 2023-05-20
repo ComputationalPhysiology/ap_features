@@ -117,7 +117,9 @@ def test_all_cost_terms(synthetic_data):
     arrs = np.expand_dims(arr, axis=0)
 
     cost = apf.all_cost_terms(
-        np.ascontiguousarray(arrs.T), t, backend="numba"
+        np.ascontiguousarray(arrs.T),
+        t,
+        backend="numba",
     ).squeeze()
 
     lst = apf.list_cost_function_terms()
