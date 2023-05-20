@@ -4,44 +4,19 @@ from typing import Optional
 
 import numpy as np
 
-from ._c import NUM_COST_TERMS
+from .utils import NUM_COST_TERMS
+import numba
 
-try:
-    from numba import njit, prange
 
-    has_numba = True
-except ImportError:
-    has_numba = False
-
-    # In case numba is not install we create a dummy decorator
-    def njit(*args, **kwargs):
-        def _njit(func):
-            def wrapper(*args, **kwargs):
-                return func(*args, **kwargs)
-
-            return wrapper
-
-        if len(args) == 1 and callable(args[0]):
-            return _njit(args[0])
-        else:
-            return _njit
-
-    prange = range
+float_3D_array = numba.types.Array(numba.float64, 3, "C")
+float_2D_array = numba.types.Array(numba.float64, 2, "C")
+float_1D_array = numba.types.Array(numba.float64, 1, "C")
+uint_1D_array = numba.types.Array(numba.uint8, 1, "C")
 
 logger = logging.getLogger(__name__)
 
 
-def check_numba():
-    if not has_numba:
-        warnings.warn(
-            "You are calling a numba method without having numba installed. "
-            "This might lead to a reduced performance. To fix this problem "
-            "please install numba - 'python -m pip install numba'",
-            ImportWarning,
-        )
-
-
-@njit
+@numba.njit(numba.float64(float_1D_array, float_1D_array, numba.float64))
 def compute_dvdt_for_v(V, T, V_th):
     idx_o = 0
     for i, v in enumerate(V):
@@ -55,7 +30,7 @@ def compute_dvdt_for_v(V, T, V_th):
     return (V[idx_o] - V[idx_o - 1]) / (T[idx_o] - T[idx_o - 1])
 
 
-# @njit
+# @numba.njit
 # def compute_APD_from_stim(V, T, t_stim, factor):
 #     T_half = T.max() / 2
 #     idx_T_half = np.argmin(np.abs(T - T_half))
@@ -75,7 +50,7 @@ def compute_dvdt_for_v(V, T, V_th):
 #     return t_end - t_start
 
 
-@njit
+@numba.njit
 def get_t_start(max_idx, V, T, th, t_start=0):
     idx1 = 0
     for n in range(min(max_idx, len(T) - 1)):
@@ -92,7 +67,7 @@ def get_t_start(max_idx, V, T, th, t_start=0):
     return t_start, idx1
 
 
-@njit
+@numba.njit
 def get_t_end(max_idx, V, T, th, t_end=np.inf):
     idx2 = len(T)
     for n in range(max(1, max_idx), len(T)):
@@ -109,7 +84,7 @@ def get_t_end(max_idx, V, T, th, t_end=np.inf):
     return t_end, idx2
 
 
-@njit
+@numba.njit(numba.float64(float_1D_array, float_1D_array, numba.int64, numba.int64))
 def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> float:
     """Compute time from first intersection of
     APDx line to first intersection of APDy line
@@ -135,7 +110,7 @@ def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> flo
     return tx - ty
 
 
-@njit
+@numba.njit(numba.float64(float_1D_array, float_1D_array, numba.int64))
 def compute_integral(V, T, factor):
     dt = T[1] - T[0]
 
@@ -172,7 +147,7 @@ def compute_integral(V, T, factor):
     return integral
 
 
-@njit
+@numba.njit  # (numba.float64(float_1D_array, float_1D_array, numba.int64, numba.int64))
 def peak_and_repolarization(V, T, factor_low, factor_high):
     T_half = np.max(T) / 2
     idx_T_half = np.argmin(np.abs(T - T_half))
@@ -201,12 +176,12 @@ def peak_and_repolarization(V, T, factor_low, factor_high):
     return time_up, time_down
 
 
-@njit
+@numba.njit(numba.float64(float_1D_array, float_1D_array))
 def compute_dvdt_max(V, T):
     return np.max(np.divide(V[1:] - V[:-1], T[1:] - T[:-1]))
 
 
-@njit
+@numba.njit(numba.float64(float_1D_array, float_1D_array, numba.int64))
 def apd(V, T, factor):
     T_half = T.max() / 2
     idx_T_half = np.argmin(np.abs(T - T_half))
@@ -223,13 +198,7 @@ def apd(V, T, factor):
     return t_end - t_start
 
 
-@njit
-def cost_terms_trace(y: np.ndarray, t: np.ndarray) -> np.ndarray:
-    R = np.zeros(NUM_COST_TERMS // 2)
-    return _cost_terms_trace(y, t, R)
-
-
-@njit
+@numba.njit(float_1D_array(float_1D_array, float_1D_array, float_1D_array))
 def _cost_terms_trace(v, t, R):
     # R = np.zeros(24)
     R[:] = np.inf
@@ -256,14 +225,26 @@ def _cost_terms_trace(v, t, R):
     return R
 
 
-@njit
+@numba.njit(float_1D_array(float_1D_array, float_1D_array))
+def cost_terms_trace(y: np.ndarray, t: np.ndarray) -> np.ndarray:
+    R = np.zeros(NUM_COST_TERMS // 2)
+    return _cost_terms_trace(y, t, R)
+
+
+@numba.njit(
+    float_1D_array(
+        float_1D_array, float_1D_array, float_1D_array, float_1D_array, float_1D_array
+    )
+)
 def _cost_terms(v, ca, t_v, t_ca, R):
     _cost_terms_trace(v, t_v, R[: NUM_COST_TERMS // 2])
     _cost_terms_trace(ca, t_ca, R[NUM_COST_TERMS // 2 :])
     return R
 
 
-@njit
+@numba.njit(
+    float_1D_array(float_1D_array, float_1D_array, float_1D_array, float_1D_array)
+)
 def cost_terms(
     v: np.ndarray,
     ca: np.ndarray,
@@ -282,33 +263,36 @@ def all_cost_terms(
 ) -> np.ndarray:
     if mask is None:
         num_parameter_sets = arr.shape[-1]
-        mask = np.zeros(num_parameter_sets)
+        mask = np.zeros(num_parameter_sets, dtype=np.uint8)
     return _all_cost_terms(arr, t, mask, num_w)
 
 
-@njit(parallel=True)
-def _all_cost_terms(arr_, t, mask, num_w):
-    arr = transpose_trace_array(arr_)
-    num_parameter_sets = arr.shape[0]
-    cost = np.zeros((num_parameter_sets, num_w), dtype=np.float64)
-    for i in prange(num_parameter_sets):
-        if mask[i]:
-            cost[i, :] = np.inf
-            continue
-
-        cost[i, :] = cost_terms(v=arr[i, 0, :], ca=arr[i, 1, :], t_v=t, t_ca=t)
-    return cost
-
-
-@njit(parallel=True)
+@numba.njit(float_3D_array(float_3D_array), parallel=True)
 def transpose_trace_array(arr):
     old_shape = arr.shape
     num_trace_points, num_traced_states, num_parameter_sets = old_shape
     new_shape = num_parameter_sets, num_traced_states, num_trace_points
 
     new_arr = np.empty(new_shape, dtype=arr.dtype)
-    for p in prange(num_parameter_sets):
+    for p in numba.prange(num_parameter_sets):
         for s in range(num_traced_states):
             for t in range(num_trace_points):
                 new_arr[p, s, t] = arr[t, s, p]
     return new_arr
+
+
+@numba.njit(
+    float_2D_array(float_3D_array, float_1D_array, uint_1D_array, numba.int64),
+    parallel=True,
+)
+def _all_cost_terms(arr_, t, mask, num_w):
+    arr = transpose_trace_array(arr_)
+    num_parameter_sets = arr.shape[0]
+    cost = np.zeros((num_parameter_sets, num_w), dtype=np.float64)
+    for i in numba.prange(num_parameter_sets):
+        if mask[i]:
+            cost[i, :] = np.inf
+            continue
+
+        cost[i, :] = cost_terms(v=arr[i, 0, :], ca=arr[i, 1, :], t_v=t, t_ca=t)
+    return cost

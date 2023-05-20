@@ -13,9 +13,11 @@ logger = logging.getLogger(__name__)
 
 Array = Union[np.ndarray, List[float], Sequence[float]]
 
+NUM_COST_TERMS = 60
+
 
 class Backend(str, Enum):
-    c = "c"
+    # c = "c"
     numba = "numba"
     python = "python"
 

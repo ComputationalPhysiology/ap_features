@@ -40,7 +40,7 @@ class Trace:
         y: Array,
         t: Optional[Array],
         pacing: Optional[Array] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
     ) -> None:
         if t is None:
             t = np.arange(len(y))
@@ -175,7 +175,7 @@ class Beat(Trace):
         pacing: Optional[Array] = None,
         y_rest: Optional[float] = None,
         parent: Optional["Beats"] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
         beat_number: Optional[int] = None,
     ) -> None:
         super().__init__(y, t, pacing=pacing, backend=backend)
@@ -759,7 +759,7 @@ class Beats(Trace):
         background_correction_method: BC = BC.none,
         zero_index: Optional[int] = None,
         background_correction_kernel: int = 0,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
         intervals: Optional[List[chopping.Interval]] = None,
         chopping_options: Optional[Dict[str, float]] = None,
     ) -> None:
@@ -785,8 +785,8 @@ class Beats(Trace):
             by subtracting the value at that index from all other values in the
             array.
         backend : Backend, optional
-            Backend to use for heavy computations, by default Backend.c.
-            Possible options are "c", "numba" and "python". Note that
+            Backend to use for heavy computations, by default Backend.numba.
+            Possible options are "numba" and "python". Note that
             most functions will be implemented in python / numpy anyway.
         intervals : Optional[List[chopping.Interval]], optional
             Optional ist of tuples containing start and ends of each beat
@@ -1095,7 +1095,7 @@ class BeatCollection(Trace):
         pacing: Optional[Array] = None,
         mask: Optional[Array] = None,
         parent: Optional["BeatSeriesCollection"] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
     ) -> None:
         super().__init__(y, t, pacing=pacing, backend=backend)
         self._parent = parent
@@ -1165,7 +1165,7 @@ class State(Trace):
         y: Array,
         t: Optional[Array],
         pacing: Optional[Array] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
     ) -> None:
         super().__init__(y, t, pacing=pacing, backend=backend)
 
@@ -1190,7 +1190,12 @@ class State(Trace):
         if self.num_states != 2:
             raise NotImplementedError
 
-        return features.cost_terms(v=self[0], ca=self[1], t_v=self.t, t_ca=self.t)
+        return features.cost_terms(
+            v=np.ascontiguousarray(self[0]),
+            ca=np.ascontiguousarray(self[1]),
+            t_v=self.t,
+            t_ca=self.t,
+        )
 
 
 class StateCollection(Trace):

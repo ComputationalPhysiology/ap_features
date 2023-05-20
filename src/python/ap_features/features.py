@@ -8,7 +8,7 @@ from typing import Tuple
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import _c
+
 from . import _numba
 from . import utils
 from .utils import _check_factor
@@ -192,10 +192,9 @@ def apd(
             # Return a number that indicate that something went wrong
             return -1
         return x2 - x1
-    elif backend == Backend.c:
-        return _c.apd(y=y, t=x, factor=factor)
+    # elif backend == Backend.c:
+    #     return _c.apd(y=y, t=x, factor=factor)
     else:
-        _numba.check_numba()
         return _numba.apd(V=y, T=x, factor=factor)
 
 
@@ -633,10 +632,9 @@ def apd_up_xy(
     y = numpyfy(y)
     t = numpyfy(t)
 
-    if backend == Backend.c:
-        return _c.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
+    # if backend == Backend.c:
+    #     return _c.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
     if backend == Backend.numba:
-        _numba.check_numba()
         return _numba.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
 
     y_norm = utils.normalize_signal(y)
@@ -1011,7 +1009,9 @@ def detect_ead(
     return len(peaks) > 0, None if len(peaks) == 0 else int(peaks[0] + idx_max)
 
 
-def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.ndarray:
+def cost_terms_trace(
+    y: Array, t: Array, backend: Backend = Backend.numba
+) -> np.ndarray:
     y = numpyfy(y)
     t = numpyfy(t)
 
@@ -1021,11 +1021,11 @@ def cost_terms_trace(y: Array, t: Array, backend: Backend = Backend.c) -> np.nda
         )
 
     if backend == Backend.numba:
-        _numba.check_numba()
         return _numba.cost_terms_trace(y=y, t=t)
 
-    # Use C backend
-    return _c.cost_terms_trace(y=y, t=t)
+    raise ValueError(f"Unknown backend {backend}")
+    # # Use C backend
+    # return _c.cost_terms_trace(y=y, t=t)
 
 
 def cost_terms(
@@ -1033,7 +1033,7 @@ def cost_terms(
     ca: Array,
     t_v: Array,
     t_ca: Array,
-    backend: Backend = Backend.c,
+    backend: Backend = Backend.numba,
 ) -> np.ndarray:
     v = numpyfy(v)
     t_v = numpyfy(t_v)
@@ -1046,18 +1046,18 @@ def cost_terms(
         )
 
     if backend == Backend.numba:
-        _numba.check_numba()
         return _numba.cost_terms(v=v, ca=ca, t_v=t_v, t_ca=t_ca)
 
     # Use C backend
-    return _c.cost_terms(v=v, ca=ca, t_v=t_v, t_ca=t_ca)
+    # return _c.cost_terms(v=v, ca=ca, t_v=t_v, t_ca=t_ca)
+    raise ValueError(f"Unknown backend {backend}")
 
 
 def all_cost_terms(
     arr: np.ndarray,
     t: np.ndarray,
     mask: Optional[np.ndarray] = None,
-    backend: Backend = Backend.c,
+    backend: Backend = Backend.numba,
     normalize_time: bool = True,
 ) -> np.ndarray:
     arr = numpyfy(arr)
@@ -1077,9 +1077,10 @@ def all_cost_terms(
         logger.warning(
             "Method currently not implemented for python backend (and will probably not be)",
         )
+
     if backend == Backend.numba:
-        _numba.check_numba()
         return _numba.all_cost_terms(arr=arr, t=t, mask=mask)
 
     # Use C backend
-    return _c.all_cost_terms(arr=arr, t=t, mask=mask)
+    # return _c.all_cost_terms(arr=arr, t=t, mask=mask)
+    raise ValueError(f"Unknown backend {backend}")

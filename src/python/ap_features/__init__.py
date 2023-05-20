@@ -10,30 +10,31 @@ from . import (
     features,
     average,
     filters,
-    lib,
     utils,
-    _c,
     _numba,
     plot,
 )
-from ._c import NUM_COST_TERMS
+
 from ._numba import transpose_trace_array
 from .beat import Beat, Beats, Trace, BeatCollection, StateCollection, State
 from .features import all_cost_terms, apd, apd_up_xy, cost_terms, cost_terms_trace
-from .utils import Backend, list_cost_function_terms, list_cost_function_terms_trace
+from .utils import (
+    Backend,
+    list_cost_function_terms,
+    list_cost_function_terms_trace,
+    NUM_COST_TERMS,
+)
 from .average import average_and_interpolate
 from .background import BackgroundCorrection as BC
 
 
 def set_log_level(level=_logging.INFO):
     for logger in [
-        _c.logger,
         _numba.logger,
         background.logger,
         chopping.logger,
         features.logger,
         filters.logger,
-        lib.logger,
         utils.logger,
     ]:
         logger.setLevel(level)
