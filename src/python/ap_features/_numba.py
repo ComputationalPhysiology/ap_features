@@ -11,6 +11,8 @@ float_3D_array = numba.types.Array(numba.float64, 3, "C")
 float_2D_array = numba.types.Array(numba.float64, 2, "C")
 float_1D_array = numba.types.Array(numba.float64, 1, "C")
 uint_1D_array = numba.types.Array(numba.uint8, 1, "C")
+floatTuple2 = numba.types.Tuple((numba.float64, numba.float64))
+floatIntTuple = numba.types.Tuple((numba.float64, numba.int64))
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +51,9 @@ def compute_dvdt_for_v(V, T, V_th):
 #     return t_end - t_start
 
 
-@numba.njit
+@numba.njit(
+    floatIntTuple(numba.int64, float_1D_array, float_1D_array, numba.float64, numba.float64),
+)
 def get_t_start(max_idx, V, T, th, t_start=0):
     idx1 = 0
     for n in range(min(max_idx, len(T) - 1)):
@@ -64,7 +68,9 @@ def get_t_start(max_idx, V, T, th, t_start=0):
     return t_start, idx1
 
 
-@numba.njit
+@numba.njit(
+    floatIntTuple(numba.int64, float_1D_array, float_1D_array, numba.float64, numba.float64),
+)
 def get_t_end(max_idx, V, T, th, t_end=np.inf):
     idx2 = len(T)
     for n in range(max(1, max_idx), len(T)):
@@ -118,13 +124,13 @@ def compute_integral(V, T, factor):
 
     # Find start time
     dt_start = np.inf
-    t_start, idx1 = get_t_start(max_idx, V, T, th)
+    t_start, idx1 = get_t_start(max_idx, V, T, th, 0)
     idx1 = idx1 + 1
     dt_start = T[idx1] - t_start
 
     # Find end time
     dt_end = np.inf
-    t_end, idx2 = get_t_end(max_idx, V, T, th)
+    t_end, idx2 = get_t_end(max_idx, V, T, th, np.inf)
     idx2 = idx2 - 1
     dt_end = t_end - T[idx2]
 
@@ -142,7 +148,7 @@ def compute_integral(V, T, factor):
     return integral
 
 
-@numba.njit  # (numba.float64(float_1D_array, float_1D_array, numba.int64, numba.int64))
+@numba.njit(floatTuple2(float_1D_array, float_1D_array, numba.int64, numba.int64))
 def peak_and_repolarization(V, T, factor_low, factor_high):
     T_half = np.max(T) / 2
     idx_T_half = np.argmin(np.abs(T - T_half))
