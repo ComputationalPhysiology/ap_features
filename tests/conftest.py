@@ -7,36 +7,9 @@ from matplotlib.testing.conftest import mpl_test_settings  # noqa: F401
 from scipy.integrate import solve_ivp
 from scipy.signal import find_peaks
 
-from ap_features.testing import ca_transient
+from ap_features.testing import ca_transient, fitzhugh_nagumo
 
 here = Path(__file__).absolute().parent
-
-
-def fitzhugh_nagumo(t, x, a, b, tau, Iext):
-    """Time derivative of the Fitzhugh-Nagumo neural model.
-    Parameters
-
-    Parameters
-    ----------
-    t : float
-        Time (not used)
-    x : np.ndarray
-        State of size 2 - (Membrane potential, Recovery variable)
-    a : float
-        Parameter in the model
-    b : float
-        Parameter in the model
-    tau : float
-        Time scale
-    Iext : float
-        Constant stimulus current
-
-    Returns
-    -------
-    np.ndarray
-        dx/dt - size 2
-    """
-    return np.array([x[0] - x[0] ** 3 - x[1] + Iext, (x[0] - a - b * x[1]) / tau])
 
 
 @pytest.fixture(scope="session")
@@ -48,16 +21,11 @@ def calcium_trace():
 
 @pytest.fixture(scope="session")
 def multiple_beats():
-    a = -0.3
-    b = 1.4
-    tau = 20
-    Iext = 0.23
     time = np.linspace(0, 999, 1000)
     res = solve_ivp(
         fitzhugh_nagumo,
         [0, 1000],
         [0, 0],
-        args=(a, b, tau, Iext),
         t_eval=time,
     )
 
