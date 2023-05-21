@@ -312,49 +312,25 @@ document.write(`
                   
   <h1>Source code for ap_features._numba</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
+<span class="kn">import</span> <span class="nn">numba</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">._c</span> <span class="kn">import</span> <span class="n">NUM_COST_TERMS</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">NUM_COST_TERMS</span>
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">prange</span>
 
-    <span class="n">has_numba</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">has_numba</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="c1"># In case numba is not install we create a dummy decorator</span>
-    <span class="k">def</span> <span class="nf">njit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_njit</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-            <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="n">wrapper</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">return</span> <span class="n">_njit</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">_njit</span>
-
-    <span class="n">prange</span> <span class="o">=</span> <span class="nb">range</span>
+<span class="n">float_3D_array</span> <span class="o">=</span> <span class="n">numba</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="n">float_2D_array</span> <span class="o">=</span> <span class="n">numba</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="n">float_1D_array</span> <span class="o">=</span> <span class="n">numba</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="n">uint_1D_array</span> <span class="o">=</span> <span class="n">numba</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="n">floatTuple2</span> <span class="o">=</span> <span class="n">numba</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Tuple</span><span class="p">((</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+<span class="n">floatIntTuple</span> <span class="o">=</span> <span class="n">numba</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Tuple</span><span class="p">((</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">check_numba</span><span class="p">():</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_numba</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;You are calling a numba method without having numba installed. &quot;</span>
-            <span class="s2">&quot;This might lead to a reduced performance. To fix this problem &quot;</span>
-            <span class="s2">&quot;please install numba - &#39;python -m pip install numba&#39;&quot;</span><span class="p">,</span>
-            <span class="ne">ImportWarning</span><span class="p">,</span>
-        <span class="p">)</span>
-
-
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">compute_dvdt_for_v</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">V_th</span><span class="p">):</span>
     <span class="n">idx_o</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
@@ -368,7 +344,7 @@ document.write(`
     <span class="k">return</span> <span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">idx_o</span><span class="p">]</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">idx_o</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">idx_o</span><span class="p">]</span> <span class="o">-</span> <span class="n">T</span><span class="p">[</span><span class="n">idx_o</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
 
 
-<span class="c1"># @njit</span>
+<span class="c1"># @numba.njit</span>
 <span class="c1"># def compute_APD_from_stim(V, T, t_stim, factor):</span>
 <span class="c1">#     T_half = T.max() / 2</span>
 <span class="c1">#     idx_T_half = np.argmin(np.abs(T - T_half))</span>
@@ -388,7 +364,9 @@ document.write(`
 <span class="c1">#     return t_end - t_start</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span>
+    <span class="n">floatIntTuple</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_t_start</span><span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">idx1</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
@@ -398,14 +376,14 @@ document.write(`
             <span class="n">v_o</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">idx1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
             <span class="n">t_u</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span>
             <span class="n">t_o</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">idx1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">t_start</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">v_o</span> <span class="o">-</span> <span class="n">v_u</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">th</span> <span class="o">-</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">*</span> <span class="n">v_u</span> <span class="o">-</span> <span class="n">t_u</span> <span class="o">*</span> <span class="n">v_o</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">))</span>
-            <span class="p">)</span>
+            <span class="n">t_start</span> <span class="o">=</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">v_o</span> <span class="o">-</span> <span class="n">v_u</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">th</span> <span class="o">-</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">*</span> <span class="n">v_u</span> <span class="o">-</span> <span class="n">t_u</span> <span class="o">*</span> <span class="n">v_o</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">))</span>
             <span class="k">break</span>
     <span class="k">return</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">idx1</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span>
+    <span class="n">floatIntTuple</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_t_end</span><span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">t_end</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
     <span class="n">idx2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_idx</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)):</span>
@@ -415,14 +393,12 @@ document.write(`
             <span class="n">v_o</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">idx2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
             <span class="n">t_u</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span>
             <span class="n">t_o</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">idx2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">t_end</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">v_o</span> <span class="o">-</span> <span class="n">v_u</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">th</span> <span class="o">-</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">*</span> <span class="n">v_u</span> <span class="o">-</span> <span class="n">t_u</span> <span class="o">*</span> <span class="n">v_o</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">))</span>
-            <span class="p">)</span>
+            <span class="n">t_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">v_o</span> <span class="o">-</span> <span class="n">v_u</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">th</span> <span class="o">-</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">*</span> <span class="n">v_u</span> <span class="o">-</span> <span class="n">t_u</span> <span class="o">*</span> <span class="n">v_o</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_o</span> <span class="o">-</span> <span class="n">t_u</span><span class="p">))</span>
             <span class="k">break</span>
     <span class="k">return</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">idx2</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">apd_up_xy</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">factor_x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">factor_y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute time from first intersection of</span>
 <span class="sd">    APDx line to first intersection of APDy line</span>
@@ -448,7 +424,7 @@ document.write(`
     <span class="k">return</span> <span class="n">tx</span> <span class="o">-</span> <span class="n">ty</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">compute_integral</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -461,13 +437,13 @@ document.write(`
 
     <span class="c1"># Find start time</span>
     <span class="n">dt_start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-    <span class="n">t_start</span><span class="p">,</span> <span class="n">idx1</span> <span class="o">=</span> <span class="n">get_t_start</span><span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">th</span><span class="p">)</span>
+    <span class="n">t_start</span><span class="p">,</span> <span class="n">idx1</span> <span class="o">=</span> <span class="n">get_t_start</span><span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx1</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">dt_start</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t_start</span>
 
     <span class="c1"># Find end time</span>
     <span class="n">dt_end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-    <span class="n">t_end</span><span class="p">,</span> <span class="n">idx2</span> <span class="o">=</span> <span class="n">get_t_end</span><span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">th</span><span class="p">)</span>
+    <span class="n">t_end</span><span class="p">,</span> <span class="n">idx2</span> <span class="o">=</span> <span class="n">get_t_end</span><span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
     <span class="n">idx2</span> <span class="o">=</span> <span class="n">idx2</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">dt_end</span> <span class="o">=</span> <span class="n">t_end</span> <span class="o">-</span> <span class="n">T</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span>
 
@@ -485,7 +461,7 @@ document.write(`
     <span class="k">return</span> <span class="n">integral</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">floatTuple2</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">peak_and_repolarization</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">factor_low</span><span class="p">,</span> <span class="n">factor_high</span><span class="p">):</span>
     <span class="n">T_half</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">idx_T_half</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="n">T_half</span><span class="p">))</span>
@@ -514,12 +490,12 @@ document.write(`
     <span class="k">return</span> <span class="n">time_up</span><span class="p">,</span> <span class="n">time_down</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">compute_dvdt_max</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">V</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">T</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">numba</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">apd</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
     <span class="n">T_half</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">idx_T_half</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="n">T_half</span><span class="p">))</span>
@@ -536,13 +512,7 @@ document.write(`
     <span class="k">return</span> <span class="n">t_end</span> <span class="o">-</span> <span class="n">t_start</span>
 
 
-<span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">NUM_COST_TERMS</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
-
-
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">_cost_terms_trace</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
     <span class="c1"># R = np.zeros(24)</span>
     <span class="n">R</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
@@ -569,14 +539,30 @@ document.write(`
     <span class="k">return</span> <span class="n">R</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">NUM_COST_TERMS</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span>
+    <span class="n">float_1D_array</span><span class="p">(</span>
+        <span class="n">float_1D_array</span><span class="p">,</span>
+        <span class="n">float_1D_array</span><span class="p">,</span>
+        <span class="n">float_1D_array</span><span class="p">,</span>
+        <span class="n">float_1D_array</span><span class="p">,</span>
+        <span class="n">float_1D_array</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">_cost_terms</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ca</span><span class="p">,</span> <span class="n">t_v</span><span class="p">,</span> <span class="n">t_ca</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
     <span class="n">_cost_terms_trace</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">t_v</span><span class="p">,</span> <span class="n">R</span><span class="p">[:</span> <span class="n">NUM_COST_TERMS</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
     <span class="n">_cost_terms_trace</span><span class="p">(</span><span class="n">ca</span><span class="p">,</span> <span class="n">t_ca</span><span class="p">,</span> <span class="n">R</span><span class="p">[</span><span class="n">NUM_COST_TERMS</span> <span class="o">//</span> <span class="mi">2</span> <span class="p">:])</span>
     <span class="k">return</span> <span class="n">R</span>
 
 
-<span class="nd">@njit</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span>
+    <span class="n">float_1D_array</span><span class="p">(</span><span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">),</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">cost_terms</span><span class="p">(</span>
     <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">ca</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -595,36 +581,39 @@ document.write(`
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">num_parameter_sets</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_parameter_sets</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_parameter_sets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_all_cost_terms</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">num_w</span><span class="p">)</span>
 
 
-<span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_all_cost_terms</span><span class="p">(</span><span class="n">arr_</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">num_w</span><span class="p">):</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="n">transpose_trace_array</span><span class="p">(</span><span class="n">arr_</span><span class="p">)</span>
-    <span class="n">num_parameter_sets</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_parameter_sets</span><span class="p">,</span> <span class="n">num_w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">num_parameter_sets</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-            <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-            <span class="k">continue</span>
-
-        <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">cost_terms</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">ca</span><span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">t_v</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">t_ca</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cost</span>
-
-
-<div class="viewcode-block" id="transpose_trace_array"><a class="viewcode-back" href="../../ap_features.html#ap_features.transpose_trace_array">[docs]</a><span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="transpose_trace_array"><a class="viewcode-back" href="../../ap_features.html#ap_features.transpose_trace_array">[docs]</a><span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span><span class="n">float_3D_array</span><span class="p">(</span><span class="n">float_3D_array</span><span class="p">),</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">transpose_trace_array</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
     <span class="n">old_shape</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">num_trace_points</span><span class="p">,</span> <span class="n">num_traced_states</span><span class="p">,</span> <span class="n">num_parameter_sets</span> <span class="o">=</span> <span class="n">old_shape</span>
     <span class="n">new_shape</span> <span class="o">=</span> <span class="n">num_parameter_sets</span><span class="p">,</span> <span class="n">num_traced_states</span><span class="p">,</span> <span class="n">num_trace_points</span>
 
     <span class="n">new_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">new_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">num_parameter_sets</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">numba</span><span class="o">.</span><span class="n">prange</span><span class="p">(</span><span class="n">num_parameter_sets</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_traced_states</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_trace_points</span><span class="p">):</span>
                 <span class="n">new_arr</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">new_arr</span></div>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span><span class="p">(</span>
+    <span class="n">float_2D_array</span><span class="p">(</span><span class="n">float_3D_array</span><span class="p">,</span> <span class="n">float_1D_array</span><span class="p">,</span> <span class="n">uint_1D_array</span><span class="p">,</span> <span class="n">numba</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+    <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">_all_cost_terms</span><span class="p">(</span><span class="n">arr_</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">num_w</span><span class="p">):</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">transpose_trace_array</span><span class="p">(</span><span class="n">arr_</span><span class="p">)</span>
+    <span class="n">num_parameter_sets</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_parameter_sets</span><span class="p">,</span> <span class="n">num_w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">numba</span><span class="o">.</span><span class="n">prange</span><span class="p">(</span><span class="n">num_parameter_sets</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="k">continue</span>
+
+        <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">cost_terms</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">ca</span><span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">t_v</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">t_ca</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cost</span>
 </pre></div>
 
                 </article>

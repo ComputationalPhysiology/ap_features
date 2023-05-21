@@ -8,7 +8,48 @@
 
 `ap_features` is package for computing features of action potential traces. This includes chopping, background correction and feature calculations.
 
-Parts of this library is written in `C` and `numba` and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.
+Parts of this library is written in `numba` and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.
+
+## Quick start
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import solve_ivp
+
+import ap_features as apf
+
+time = np.linspace(0, 999, 1000)
+res = solve_ivp(
+    apf.testing.fitzhugh_nagumo,
+    [0, 1000],
+    [0.0, 0.0],
+    t_eval=time,
+)
+trace = apf.Beats(y=res.y[0, :], t=time)
+print(f"Number of beats: {trace.num_beats}")
+print(f"Beat rates: {trace.beat_rates}")
+
+# Get a list of beats
+beats = trace.beats
+# Pick out the second beat
+beat = beats[1]
+
+# Compute features
+print(f"APD30: {beat.apd(30):.3f}s, APD80: {beat.apd(80):.3f}s")
+print(f"cAPD30: {beat.capd(30):.3f}s, cAPD80: {beat.capd(80):.3f}s")
+print(f"Time to peak: {beat.ttp():.3f}s")
+print(f"Decay time from max to 90%: {beat.tau(a=0.1):.3f}s")
+```
+
+```
+Number of beats: 5
+Beat rates: [779.2207792207793, 769.2307692307693, 779.2207792207793, 759.493670886076]
+APD30: 37.823s, APD80: 56.564s
+cAPD30: 88.525s, cAPD80: 132.387s
+Time to peak: 21.000s
+Decay time from max to 90%: 53.618s
+```
 
 ## Install
 Install the package with pip

@@ -439,10 +439,6 @@ can guide you through the process.</p>
 <div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
-<p>There is also a way to install the package using the Makefile, i.e</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>install
-</pre></div>
-</div>
 <section id="for-developers">
 <h3>For developers<a class="headerlink" href="#for-developers" title="Permalink to this heading">#</a></h3>
 <p>If you plan to develop this package you should also make sure to install
@@ -450,13 +446,12 @@ the development dependencies using the command</p>
 <div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
 </pre></div>
 </div>
-<p>In addition you should also make sure to install the pre-commit hook. All of this can be installed by
-executing the command</p>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>dev
-</pre></div>
-</div>
 <p>Note that this will also install the main package in editable mode,
 which is nice when developing.</p>
+<p>In addition you should also make sure to install the pre-commit hook</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">install</span>
+</pre></div>
+</div>
 </section>
 </section>
 </section>

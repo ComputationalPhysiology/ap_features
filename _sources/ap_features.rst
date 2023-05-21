@@ -52,18 +52,18 @@ ap\_features.filters module
    :undoc-members:
    :show-inheritance:
 
-ap\_features.lib module
------------------------
-
-.. automodule:: ap_features.lib
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 ap\_features.plot module
 ------------------------
 
 .. automodule:: ap_features.plot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ap\_features.testing module
+---------------------------
+
+.. automodule:: ap_features.testing
    :members:
    :undoc-members:
    :show-inheritance:

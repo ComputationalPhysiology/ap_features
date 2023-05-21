@@ -358,6 +358,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick start</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-features">Available features</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
@@ -383,7 +384,47 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="action-potential-features">
 <h1>Action Potential features<a class="headerlink" href="#action-potential-features" title="Permalink to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">ap_features</span></code> is package for computing features of action potential traces. This includes chopping, background correction and feature calculations.</p>
-<p>Parts of this library is written in <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">numba</span></code> and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.</p>
+<p>Parts of this library is written in <code class="docutils literal notranslate"><span class="pre">numba</span></code> and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.</p>
+<section id="quick-start">
+<h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="kn">import</span> <span class="nn">ap_features</span> <span class="k">as</span> <span class="nn">apf</span>
+
+<span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
+    <span class="n">apf</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">fitzhugh_nagumo</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+    <span class="n">t_eval</span><span class="o">=</span><span class="n">time</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">trace</span> <span class="o">=</span> <span class="n">apf</span><span class="o">.</span><span class="n">Beats</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">t</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of beats: </span><span class="si">{</span><span class="n">trace</span><span class="o">.</span><span class="n">num_beats</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Beat rates: </span><span class="si">{</span><span class="n">trace</span><span class="o">.</span><span class="n">beat_rates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get a list of beats</span>
+<span class="n">beats</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">beats</span>
+<span class="c1"># Pick out the second beat</span>
+<span class="n">beat</span> <span class="o">=</span> <span class="n">beats</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Compute features</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;APD30: </span><span class="si">{</span><span class="n">beat</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s, APD80: </span><span class="si">{</span><span class="n">beat</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cAPD30: </span><span class="si">{</span><span class="n">beat</span><span class="o">.</span><span class="n">capd</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s, cAPD80: </span><span class="si">{</span><span class="n">beat</span><span class="o">.</span><span class="n">capd</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time to peak: </span><span class="si">{</span><span class="n">beat</span><span class="o">.</span><span class="n">ttp</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decay time from max to 90%: </span><span class="si">{</span><span class="n">beat</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Number</span> <span class="n">of</span> <span class="n">beats</span><span class="p">:</span> <span class="mi">5</span>
+<span class="n">Beat</span> <span class="n">rates</span><span class="p">:</span> <span class="p">[</span><span class="mf">779.2207792207793</span><span class="p">,</span> <span class="mf">769.2307692307693</span><span class="p">,</span> <span class="mf">779.2207792207793</span><span class="p">,</span> <span class="mf">759.493670886076</span><span class="p">]</span>
+<span class="n">APD30</span><span class="p">:</span> <span class="mf">37.823</span><span class="n">s</span><span class="p">,</span> <span class="n">APD80</span><span class="p">:</span> <span class="mf">56.564</span><span class="n">s</span>
+<span class="n">cAPD30</span><span class="p">:</span> <span class="mf">88.525</span><span class="n">s</span><span class="p">,</span> <span class="n">cAPD80</span><span class="p">:</span> <span class="mf">132.387</span><span class="n">s</span>
+<span class="n">Time</span> <span class="n">to</span> <span class="n">peak</span><span class="p">:</span> <span class="mf">21.000</span><span class="n">s</span>
+<span class="n">Decay</span> <span class="n">time</span> <span class="kn">from</span> <span class="nn">max</span> <span class="n">to</span> <span class="mi">90</span><span class="o">%</span><span class="p">:</span> <span class="mf">53.618</span><span class="n">s</span>
+</pre></div>
+</div>
+</section>
 <section id="install">
 <h2>Install<a class="headerlink" href="#install" title="Permalink to this heading">#</a></h2>
 <p>Install the package with pip</p>
@@ -487,6 +528,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick start</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-features">Available features</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>

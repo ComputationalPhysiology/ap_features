@@ -321,7 +321,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">UnivariateSpline</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">_c</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">_numba</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">_check_factor</span>
@@ -375,7 +374,7 @@ document.write(`
 <span class="sd">        Only applicable for python Backend.</span>
 <span class="sd">    backend : utils.Backend, optional</span>
 <span class="sd">        Which backend to use by default Backend.python.</span>
-<span class="sd">        Choices, &#39;python&#39;, &#39;c&#39;, &#39;numba&#39;</span>
+<span class="sd">        Choices, &#39;python&#39;, &#39;numba&#39;</span>
 
 
 
@@ -432,7 +431,7 @@ document.write(`
 <span class="sd">        Only applicable for python Backend.</span>
 <span class="sd">    backend : utils.Backend, optional</span>
 <span class="sd">        Which backend to use by default Backend.python.</span>
-<span class="sd">        Choices, &#39;python&#39;, &#39;c&#39;, &#39;numba&#39;</span>
+<span class="sd">        Choices, &#39;python&#39;, &#39;numba&#39;</span>
 
 
 <span class="sd">    Returns</span>
@@ -505,10 +504,7 @@ document.write(`
             <span class="c1"># Return a number that indicate that something went wrong</span>
             <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">return</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
-    <span class="k">elif</span> <span class="n">backend</span> <span class="o">==</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_c</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">_numba</span><span class="o">.</span><span class="n">check_numba</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">_numba</span><span class="o">.</span><span class="n">apd</span><span class="p">(</span><span class="n">V</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span></div>
 
 
@@ -654,7 +650,7 @@ document.write(`
 <span class="sd">        The value for which you want to estimate the time decay, by default 0.75</span>
 <span class="sd">    backend : utils.Backend, optional</span>
 <span class="sd">        Which backend to use by default Backend.python.</span>
-<span class="sd">        Choices, &#39;python&#39;, &#39;c&#39;, &#39;numba&#39;</span>
+<span class="sd">        Choices, &#39;python&#39;, &#39;numba&#39;</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -672,17 +668,16 @@ document.write(`
         <span class="n">t_a</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="p">(</span>
-                <span class="s2">&quot;Only one zero was found when computing tau</span><span class="si">{}</span><span class="s2">. &quot;</span> <span class="s2">&quot;Result might be wrong&quot;</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s2">&quot;Only one zero was found when computing tau</span><span class="si">{}</span><span class="s2">. &quot;</span> <span class="s2">&quot;Result might be wrong&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+            <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">t_a</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="p">(</span>
-                <span class="s2">&quot;No zero found when computing tau</span><span class="si">{}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;Return the value of time to peak&quot;</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s2">&quot;No zero found when computing tau</span><span class="si">{}</span><span class="s2">. &quot;</span> <span class="s2">&quot;Return the value of time to peak&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+            <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">t_a</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -711,7 +706,7 @@ document.write(`
 <span class="sd">        The pacing amplitude, by default None</span>
 <span class="sd">    backend : utils.Backend, optional</span>
 <span class="sd">        Which backend to use by default Backend.python.</span>
-<span class="sd">        Choices, &#39;python&#39;, &#39;c&#39;, &#39;numba&#39;</span>
+<span class="sd">        Choices, &#39;python&#39;, &#39;numba&#39;</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -739,12 +734,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">start_idx</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="nb">next</span><span class="p">(</span>
-                    <span class="n">i</span>
-                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pacing</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)))</span>
-                    <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span>
-                <span class="p">)</span>
-                <span class="o">+</span> <span class="mi">1</span>
+                <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pacing</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)))</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
             <span class="n">start_idx</span> <span class="o">=</span> <span class="mi">0</span>
@@ -774,7 +764,7 @@ document.write(`
 <span class="sd">        Fraction of signal amplitude, by default 0.8</span>
 <span class="sd">    backend : utils.Backend, optional</span>
 <span class="sd">        Which backend to use by default Backend.python.</span>
-<span class="sd">        Choices, &#39;python&#39;, &#39;c&#39;, &#39;numba&#39;</span>
+<span class="sd">        Choices, &#39;python&#39;, &#39;numba&#39;</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -799,17 +789,15 @@ document.write(`
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;Only one zero was found when computing upstroke</span><span class="si">{}</span><span class="s2">. &quot;</span>
-                    <span class="s2">&quot;Result might be wrong&quot;</span>
+                    <span class="s2">&quot;Only one zero was found when computing upstroke</span><span class="si">{}</span><span class="s2">. &quot;</span> <span class="s2">&quot;Result might be wrong&quot;</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)),</span>
             <span class="p">)</span>
         <span class="n">t_a</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="p">(</span>
-                <span class="s2">&quot;No zero found when computing upstroke</span><span class="si">{}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;Return the value of time to peak&quot;</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s2">&quot;No zero found when computing upstroke</span><span class="si">{}</span><span class="s2">. &quot;</span> <span class="s2">&quot;Return the value of time to peak&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+            <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">t_a</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -930,7 +918,7 @@ document.write(`
 <span class="sd">        Second APD line (value between 0 and 100)</span>
 <span class="sd">    backend : utils.Backend, optional</span>
 <span class="sd">        Which backend to use by default Backend.python.</span>
-<span class="sd">        Choices, &#39;python&#39;, &#39;c&#39;, &#39;numba&#39;</span>
+<span class="sd">        Choices, &#39;python&#39;, &#39;numba&#39;</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -946,10 +934,7 @@ document.write(`
     <span class="n">y</span> <span class="o">=</span> <span class="n">numpyfy</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">numpyfy</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_c</span><span class="o">.</span><span class="n">apd_up_xy</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">factor_x</span><span class="o">=</span><span class="n">factor_x</span><span class="p">,</span> <span class="n">factor_y</span><span class="o">=</span><span class="n">factor_y</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="n">Backend</span><span class="o">.</span><span class="n">numba</span><span class="p">:</span>
-        <span class="n">_numba</span><span class="o">.</span><span class="n">check_numba</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">_numba</span><span class="o">.</span><span class="n">apd_up_xy</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">factor_x</span><span class="o">=</span><span class="n">factor_x</span><span class="p">,</span> <span class="n">factor_y</span><span class="o">=</span><span class="n">factor_y</span><span class="p">)</span>
 
     <span class="n">y_norm</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize_signal</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -1324,7 +1309,11 @@ document.write(`
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">peaks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">idx_max</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="cost_terms_trace"><a class="viewcode-back" href="../../ap_features.html#ap_features.features.cost_terms_trace">[docs]</a><span class="k">def</span> <span class="nf">cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="cost_terms_trace"><a class="viewcode-back" href="../../ap_features.html#ap_features.features.cost_terms_trace">[docs]</a><span class="k">def</span> <span class="nf">cost_terms_trace</span><span class="p">(</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">numba</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">numpyfy</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">numpyfy</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
@@ -1334,11 +1323,11 @@ document.write(`
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="n">Backend</span><span class="o">.</span><span class="n">numba</span><span class="p">:</span>
-        <span class="n">_numba</span><span class="o">.</span><span class="n">check_numba</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">_numba</span><span class="o">.</span><span class="n">cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
 
-    <span class="c1"># Use C backend</span>
-    <span class="k">return</span> <span class="n">_c</span><span class="o">.</span><span class="n">cost_terms_trace</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown backend </span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    <span class="c1"># # Use C backend</span>
+    <span class="c1"># return _c.cost_terms_trace(y=y, t=t)</span>
 
 
 <div class="viewcode-block" id="cost_terms"><a class="viewcode-back" href="../../ap_features.html#ap_features.features.cost_terms">[docs]</a><span class="k">def</span> <span class="nf">cost_terms</span><span class="p">(</span>
@@ -1346,7 +1335,7 @@ document.write(`
     <span class="n">ca</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
     <span class="n">t_v</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
     <span class="n">t_ca</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
-    <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">numba</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">numpyfy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="n">t_v</span> <span class="o">=</span> <span class="n">numpyfy</span><span class="p">(</span><span class="n">t_v</span><span class="p">)</span>
@@ -1359,18 +1348,18 @@ document.write(`
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="n">Backend</span><span class="o">.</span><span class="n">numba</span><span class="p">:</span>
-        <span class="n">_numba</span><span class="o">.</span><span class="n">check_numba</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">_numba</span><span class="o">.</span><span class="n">cost_terms</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">ca</span><span class="o">=</span><span class="n">ca</span><span class="p">,</span> <span class="n">t_v</span><span class="o">=</span><span class="n">t_v</span><span class="p">,</span> <span class="n">t_ca</span><span class="o">=</span><span class="n">t_ca</span><span class="p">)</span>
 
     <span class="c1"># Use C backend</span>
-    <span class="k">return</span> <span class="n">_c</span><span class="o">.</span><span class="n">cost_terms</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">ca</span><span class="o">=</span><span class="n">ca</span><span class="p">,</span> <span class="n">t_v</span><span class="o">=</span><span class="n">t_v</span><span class="p">,</span> <span class="n">t_ca</span><span class="o">=</span><span class="n">t_ca</span><span class="p">)</span></div>
+    <span class="c1"># return _c.cost_terms(v=v, ca=ca, t_v=t_v, t_ca=t_ca)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown backend </span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="all_cost_terms"><a class="viewcode-back" href="../../ap_features.html#ap_features.features.all_cost_terms">[docs]</a><span class="k">def</span> <span class="nf">all_cost_terms</span><span class="p">(</span>
     <span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="o">.</span><span class="n">numba</span><span class="p">,</span>
     <span class="n">normalize_time</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="n">arr</span> <span class="o">=</span> <span class="n">numpyfy</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
@@ -1390,12 +1379,13 @@ document.write(`
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
             <span class="s2">&quot;Method currently not implemented for python backend (and will probably not be)&quot;</span><span class="p">,</span>
         <span class="p">)</span>
+
     <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="n">Backend</span><span class="o">.</span><span class="n">numba</span><span class="p">:</span>
-        <span class="n">_numba</span><span class="o">.</span><span class="n">check_numba</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">_numba</span><span class="o">.</span><span class="n">all_cost_terms</span><span class="p">(</span><span class="n">arr</span><span class="o">=</span><span class="n">arr</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
 
     <span class="c1"># Use C backend</span>
-    <span class="k">return</span> <span class="n">_c</span><span class="o">.</span><span class="n">all_cost_terms</span><span class="p">(</span><span class="n">arr</span><span class="o">=</span><span class="n">arr</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span></div>
+    <span class="c1"># return _c.all_cost_terms(arr=arr, t=t, mask=mask)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown backend </span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>
