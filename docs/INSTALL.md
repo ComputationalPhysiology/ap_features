@@ -76,11 +76,6 @@ Once you have a copy of the source, you can install it with:
 $ python -m pip install .
 ```
 
-There is also a way to install the package using the Makefile, i.e
-
-```Shell
-$ make install
-```
 
 ### For developers
 
@@ -91,12 +86,11 @@ the development dependencies using the command
 python -m pip install -e ".[dev]"
 ```
 
-In addition you should also make sure to install the pre-commit hook. All of this can be installed by
-executing the command
-
-```Shell
-$ make dev
-```
-
 Note that this will also install the main package in editable mode,
 which is nice when developing.
+
+In addition you should also make sure to install the pre-commit hook
+
+```
+pre-commit install
+```

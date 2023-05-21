@@ -87,9 +87,7 @@ def correct_background(
     )
 
 
-def full_background_correction(
-    x: Array, y: Array, filter_kernel_size=0, **kwargs
-) -> Background:
+def full_background_correction(x: Array, y: Array, filter_kernel_size=0, **kwargs) -> Background:
     r"""Perform at background correction.
     First estimate background :math:`b`, and let
     :math:`F_0 = b(0)`. The corrected background is

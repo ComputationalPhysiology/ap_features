@@ -112,11 +112,15 @@ def test_time_to_peak_with_pacing(y, x, p, expected_ttp):
     assert apf.features.time_to_peak(y, x, pacing=p) == expected_ttp
 
 
-@pytest.mark.parametrize("backend", ("c", "numba"))
-def test_all_cost_terms(synthetic_data, backend):
+def test_all_cost_terms(synthetic_data):
     arr, t, expected_cost = synthetic_data
     arrs = np.expand_dims(arr, axis=0)
-    cost = apf.all_cost_terms(arrs.T, t, backend=backend).squeeze()
+
+    cost = apf.all_cost_terms(
+        np.ascontiguousarray(arrs.T),
+        t,
+        backend="numba",
+    ).squeeze()
 
     lst = apf.list_cost_function_terms()
     up_inds = np.where(["APD_up" in item or "CaD_up" in item for item in lst])[0]
@@ -125,21 +129,7 @@ def test_all_cost_terms(synthetic_data, backend):
     assert np.all(cost - expected_cost < 1e-10)
 
 
-def test_cost_terms_trace(synthetic_data):
-    arr, t, expected_cost = synthetic_data
-    V = np.ascontiguousarray(arr[0, :])
-
-    cost_terms_c = apf.cost_terms_trace(V, t, backend="c")
-    cost_terms_py = apf.cost_terms_trace(V, t, backend="numba")
-
-    lst = apf.list_cost_function_terms_trace()
-    inds = np.where(["int_30" in item for item in lst])[0]
-    x = np.delete(np.arange(len(lst)), inds)
-
-    assert np.all(np.abs(cost_terms_c[x] - cost_terms_py[x]) < 1e-10)
-
-
-@pytest.mark.parametrize("factor, backend", it.product((40, 60, 80), ("c", "numba")))
+@pytest.mark.parametrize("factor, backend", it.product((40, 60, 80), ("numba",)))
 def test_apd_equivalence(factor, backend, synthetic_data):
     arr, t, expected_cost = synthetic_data
     V = np.ascontiguousarray(arr[0, :])
@@ -148,16 +138,6 @@ def test_apd_equivalence(factor, backend, synthetic_data):
 
     # We expect some difference here, but no more than 1ms
     assert abs(apd_x - apd_py) < 1
-
-
-@pytest.mark.parametrize("factor", (40, 60, 80))
-def test_apd_equivalence_c_numba(factor, synthetic_data):
-    arr, t, expected_cost = synthetic_data
-    V = np.ascontiguousarray(arr[0, :])
-    apd_numba = apf.apd(V=V, t=t, factor=factor, backend="numba")
-    apd_c = apf.apd(V=V, t=t, factor=factor, backend="c")
-
-    assert abs(apd_c - apd_numba) < 1e-10
 
 
 @pytest.mark.parametrize(

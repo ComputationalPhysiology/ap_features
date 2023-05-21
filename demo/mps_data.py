@@ -42,8 +42,7 @@ def plot_beats(beats):
 
 
 def main():
-    path = "/home/henriknf/data/mps/181116_Lidocaine/20181116_0uM_1hz/Point1A_MM_ChannelCyan_VC_Seq0001.nd2"
-    # path = "/home/henriknf/data/mps/181116_Lidocaine/20181116_0uM_spont/Point1A_MM_ChannelCyan_VC_Seq0002.nd2"
+    path = "some path"
     data = mps.MPS(path)
 
     y = data.frames.mean((0, 1))

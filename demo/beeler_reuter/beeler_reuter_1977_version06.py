@@ -277,9 +277,7 @@ def rhs(t, states, parameters, values=None):
         / (1 + 17.41170806332765 * math.exp(0.05714285714285714 * V))
     )
     beta_x1 = (
-        0.0003916464405623223
-        * math.exp(-0.05998800239952009 * V)
-        / (1 + math.exp(-4 / 5 - V / 25))
+        0.0003916464405623223 * math.exp(-0.05998800239952009 * V) / (1 + math.exp(-4 / 5 - V / 25))
     )
     values[6] = (1 - x1) * alpha_x1 - beta_x1 * x1
 
@@ -397,9 +395,7 @@ def monitor(states, t, parameters, monitored=None):
         / (1 + 17.41170806332765 * math.exp(0.05714285714285714 * V))
     )
     monitored[15] = (
-        0.0003916464405623223
-        * math.exp(-0.05998800239952009 * V)
-        / (1 + math.exp(-4 / 5 - V / 25))
+        0.0003916464405623223 * math.exp(-0.05998800239952009 * V) / (1 + math.exp(-4 / 5 - V / 25))
     )
     monitored[24] = (1 - x1) * monitored[14] - monitored[15] * x1
 

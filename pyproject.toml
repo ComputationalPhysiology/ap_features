@@ -6,3 +6,130 @@ requires = [
     "oldest-supported-numpy; python_version>='3.5'",
 ]
 build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "ap_features"
+version = "2023.1.3"
+description = "Package to compute features of traces from action potential models"
+authors = [{name = "Henrik Finsberg", email = "henriknf@simula.no"}, {name = "Kristian G. Hustad", email = "kghustad@simula.no" }]
+license = {text = "LGPL-2.1"}
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["action potential", "cell", "models", "features"]
+dependencies = [
+    "numpy",
+    "numba",
+    "scipy",
+    "tqdm",
+]
+
+[project.urls]
+Homepage = "https://computationalphysiology.github.io/ap_features"
+Documentation = "https://computationalphysiology.github.io/ap_features"
+Source = "https://github.com/ComputationalPhysiology/ap_features"
+Tracker = "https://github.com/ComputationalPhysiology/ap_features/issues"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "ap_features[plot]",
+    "ap_features[array]"
+]
+array = [
+    "h5py",
+    "dask[array]"
+]
+dev = [
+    "pdbpp",
+    "ipython",
+    "bump2version",
+    "pre-commit",
+]
+plot = [
+    "matplotlib"
+]
+pypi = [
+    "twine",
+    "build"
+]
+docs = [
+   "jupyter-book",
+]
+all = [
+   "ap_features[test]",
+   "ap_features[docs]",
+   "ap_features[pypi]",
+   "ap_features[dev]",
+   "ap_features[array]",
+   "ap_features[plot]",
+]
+
+
+[tool.setuptools.packages.find]
+where = ["src/python"]
+
+
+[tool.pytest.ini_options]
+addopts = [
+   "--cov=ap_features",
+   "--cov-report=html",
+   "--cov-report=term-missing",
+   "-v"
+]
+
+testpaths = [
+    "tests"
+]
+
+[tool.mypy]
+files = ["src/python/ap_features","tests"]
+ignore_missing_imports = true
+exclude = "docs"
+
+[tool.ruff]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["E", "F"]
+ignore = ["E402", "E741", "E731"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["A", "B", "C", "D", "E", "F"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black.
+line-length = 100
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.10.
+target-version = "py310"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10

@@ -40,7 +40,7 @@ class Trace:
         y: Array,
         t: Optional[Array],
         pacing: Optional[Array] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
     ) -> None:
         if t is None:
             t = np.arange(len(y))
@@ -175,7 +175,7 @@ class Beat(Trace):
         pacing: Optional[Array] = None,
         y_rest: Optional[float] = None,
         parent: Optional["Beats"] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
         beat_number: Optional[int] = None,
     ) -> None:
         super().__init__(y, t, pacing=pacing, backend=backend)
@@ -560,9 +560,6 @@ class Beat(Trace):
             First APD line (value between 0 and 100)
         factor_y: int
             Second APD line (value between 0 and 100)
-        backend : utils.Backend, optional
-            Which backend to use by default Backend.python.
-            Choices, 'python', 'c', 'numba'
 
         Returns
         -------
@@ -598,11 +595,7 @@ def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
     bad_beats = [np.isclose(*p) for p in apd_points]
 
     # Make sure all beats start at time zero
-    xs = [
-        beat.t - ap[0]
-        for (beat, ap, bad) in zip(beats, apd_points, bad_beats)
-        if not bad
-    ]
+    xs = [beat.t - ap[0] for (beat, ap, bad) in zip(beats, apd_points, bad_beats) if not bad]
     ys = [beat.y for (beat, bad) in zip(beats, bad_beats) if not bad]
 
     # Make them start at zero
@@ -759,7 +752,7 @@ class Beats(Trace):
         background_correction_method: BC = BC.none,
         zero_index: Optional[int] = None,
         background_correction_kernel: int = 0,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
         intervals: Optional[List[chopping.Interval]] = None,
         chopping_options: Optional[Dict[str, float]] = None,
     ) -> None:
@@ -785,8 +778,8 @@ class Beats(Trace):
             by subtracting the value at that index from all other values in the
             array.
         backend : Backend, optional
-            Backend to use for heavy computations, by default Backend.c.
-            Possible options are "c", "numba" and "python". Note that
+            Backend to use for heavy computations, by default Backend.numba.
+            Possible options are "numba" and "python". Note that
             most functions will be implemented in python / numpy anyway.
         intervals : Optional[List[chopping.Interval]], optional
             Optional ist of tuples containing start and ends of each beat
@@ -1095,7 +1088,7 @@ class BeatCollection(Trace):
         pacing: Optional[Array] = None,
         mask: Optional[Array] = None,
         parent: Optional["BeatSeriesCollection"] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
     ) -> None:
         super().__init__(y, t, pacing=pacing, backend=backend)
         self._parent = parent
@@ -1104,9 +1097,7 @@ class BeatCollection(Trace):
             f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
         )
         assert self.t.size == self.y.shape[0], msg
-        assert (
-            len(self.y.shape) == 2
-        ), f"Expected shape of y to be 2D, got {len(self.y.shape)}D"
+        assert len(self.y.shape) == 2, f"Expected shape of y to be 2D, got {len(self.y.shape)}D"
 
     @property
     def num_traces(self):
@@ -1165,7 +1156,7 @@ class State(Trace):
         y: Array,
         t: Optional[Array],
         pacing: Optional[Array] = None,
-        backend: Backend = Backend.c,
+        backend: Backend = Backend.numba,
     ) -> None:
         super().__init__(y, t, pacing=pacing, backend=backend)
 
@@ -1174,9 +1165,7 @@ class State(Trace):
             f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
         )
         assert self.t.size == self.y.shape[0], msg
-        assert (
-            len(self.y.shape) == 2
-        ), f"Expected shape of y to be D, got {len(self.y.shape)}D"
+        assert len(self.y.shape) == 2, f"Expected shape of y to be D, got {len(self.y.shape)}D"
 
     @property
     def num_states(self):
@@ -1190,7 +1179,12 @@ class State(Trace):
         if self.num_states != 2:
             raise NotImplementedError
 
-        return features.cost_terms(v=self[0], ca=self[1], t_v=self.t, t_ca=self.t)
+        return features.cost_terms(
+            v=np.ascontiguousarray(self[0]),
+            ca=np.ascontiguousarray(self[1]),
+            t_v=self.t,
+            t_ca=self.t,
+        )
 
 
 class StateCollection(Trace):
@@ -1211,9 +1205,7 @@ class StateCollection(Trace):
             f", got {self._t.size}(t) and {self._y.shape[0]}(y)"
         )
         assert self.t.size == self.y.shape[0], msg
-        assert (
-            len(self.y.shape) == 3
-        ), f"Expected shape of y to be 3D, got {len(self.y.shape)}D"
+        assert len(self.y.shape) == 3, f"Expected shape of y to be 3D, got {len(self.y.shape)}D"
         self.mask = mask
 
     @property
