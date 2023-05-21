@@ -73,6 +73,7 @@ ndimage
 ndpointer
 njit
 numba
+numpy
 numpyfy
 OPENMP
 pcov

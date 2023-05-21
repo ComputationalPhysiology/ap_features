@@ -13,6 +13,7 @@ from . import (
     utils,
     _numba,
     plot,
+    testing,
 )
 
 from ._numba import transpose_trace_array
@@ -68,4 +69,5 @@ __all__ = [
     "filters",
     "BC",
     "plot",
+    "testing",
 ]

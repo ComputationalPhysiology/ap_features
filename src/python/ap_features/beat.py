@@ -560,9 +560,6 @@ class Beat(Trace):
             First APD line (value between 0 and 100)
         factor_y: int
             Second APD line (value between 0 and 100)
-        backend : utils.Backend, optional
-            Which backend to use by default Backend.python.
-            Choices, 'python', 'c', 'numba'
 
         Returns
         -------

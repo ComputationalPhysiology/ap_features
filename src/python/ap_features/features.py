@@ -61,7 +61,7 @@ def triangulation(
         Only applicable for python Backend.
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
-        Choices, 'python', 'c', 'numba'
+        Choices, 'python', 'numba'
 
 
 
@@ -118,7 +118,7 @@ def apd(
         Only applicable for python Backend.
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
-        Choices, 'python', 'c', 'numba'
+        Choices, 'python', 'numba'
 
 
     Returns
@@ -191,8 +191,6 @@ def apd(
             # Return a number that indicate that something went wrong
             return -1
         return x2 - x1
-    # elif backend == Backend.c:
-    #     return _c.apd(y=y, t=x, factor=factor)
     else:
         return _numba.apd(V=y, T=x, factor=factor)
 
@@ -339,7 +337,7 @@ def tau(
         The value for which you want to estimate the time decay, by default 0.75
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
-        Choices, 'python', 'c', 'numba'
+        Choices, 'python', 'numba'
 
     Returns
     -------
@@ -395,7 +393,7 @@ def time_to_peak(
         The pacing amplitude, by default None
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
-        Choices, 'python', 'c', 'numba'
+        Choices, 'python', 'numba'
 
     Returns
     -------
@@ -453,7 +451,7 @@ def upstroke(
         Fraction of signal amplitude, by default 0.8
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
-        Choices, 'python', 'c', 'numba'
+        Choices, 'python', 'numba'
 
     Returns
     -------
@@ -607,7 +605,7 @@ def apd_up_xy(
         Second APD line (value between 0 and 100)
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
-        Choices, 'python', 'c', 'numba'
+        Choices, 'python', 'numba'
 
     Returns
     -------
@@ -623,8 +621,6 @@ def apd_up_xy(
     y = numpyfy(y)
     t = numpyfy(t)
 
-    # if backend == Backend.c:
-    #     return _c.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
     if backend == Backend.numba:
         return _numba.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
 

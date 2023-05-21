@@ -7,6 +7,8 @@ from matplotlib.testing.conftest import mpl_test_settings  # noqa: F401
 from scipy.integrate import solve_ivp
 from scipy.signal import find_peaks
 
+from ap_features.testing import ca_transient
+
 here = Path(__file__).absolute().parent
 
 
@@ -35,24 +37,6 @@ def fitzhugh_nagumo(t, x, a, b, tau, Iext):
         dx/dt - size 2
     """
     return np.array([x[0] - x[0] ** 3 - x[1] + Iext, (x[0] - a - b * x[1]) / tau])
-
-
-def ca_transient(t, tstart=0.05):
-    tau1 = 0.05
-    tau2 = 0.110
-
-    ca_diast = 0.0
-    ca_ampl = 1.0
-
-    beta = (tau1 / tau2) ** (-1 / (tau1 / tau2 - 1)) - (tau1 / tau2) ** (-1 / (1 - tau2 / tau1))
-    ca = np.zeros_like(t)
-
-    ca[t <= tstart] = ca_diast
-
-    ca[t > tstart] = (ca_ampl - ca_diast) / beta * (
-        np.exp(-(t[t > tstart] - tstart) / tau1) - np.exp(-(t[t > tstart] - tstart) / tau2)
-    ) + ca_diast
-    return ca
 
 
 @pytest.fixture(scope="session")

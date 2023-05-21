@@ -8,7 +8,30 @@
 
 `ap_features` is package for computing features of action potential traces. This includes chopping, background correction and feature calculations.
 
-Parts of this library is written in `C` and `numba` and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.
+Parts of this library is written in `numba` and is therefore highly performant. This is useful if you want to do feature calculations on a large number of traces.
+
+## Quick start
+
+```python
+import numpy as np
+import ap_features as apf
+
+# Time in seconds
+t = np.linspace(0, 1, 100)
+# Some synthetic trace of a calcium transient
+y = apf.testing.ca_transient(t)
+beat = apf.Beat(y=y, t=t)
+
+print(f"APD30: {beat.apd(30):.3f}s, APD80: {beat.apd(80):.3f}s")
+print(f"Time to peak: {beat.ttp():.3f}s")
+print(f"Decay time from max to 90%: {beat.tau(a=0.1):.3f}s")
+```
+
+```
+APD30: 0.129s, APD80: 0.306s
+Time to peak: 0.121s
+Decay time from max to 90%: 0.319s
+```
 
 ## Install
 Install the package with pip
