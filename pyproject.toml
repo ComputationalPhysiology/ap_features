@@ -12,8 +12,8 @@ build-backend = "setuptools.build_meta"
 name = "ap_features"
 version = "2023.1.3"
 description = "Package to compute features of traces from action potential models"
-authors = [{name = "Henrik Finsberg", email = "henriknf@simula.no"}, {name = "Joakim Sundnes", email = "sundnes@simula.no" }]
-license = {text = "MIT"}
+authors = [{name = "Henrik Finsberg", email = "henriknf@simula.no"}, {name = "Kristian G. Hustad", email = "kghustad@simula.no" }]
+license = {text = "LGPL-2.1"}
 readme = "README.md"
 requires-python = ">=3.7"
 keywords = ["action potential", "cell", "models", "features"]
