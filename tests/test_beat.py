@@ -92,6 +92,9 @@ def test_trace(single_beat, trace):
     assert (abs(trace.t - t) < 1e-12).all()
     assert (abs(trace.y - y) < 1e-12).all()
     assert (abs(trace.pacing - 0) < 1e-12).all()
+    assert (abs(trace.max() - y.max()) < 1e-12).all()
+    assert (abs(trace.min() - y.min()) < 1e-12).all()
+    assert (abs(trace.amp() - (y.max() - y.min())) < 1e-12).all()
 
 
 def test_beat(single_beat, beat):

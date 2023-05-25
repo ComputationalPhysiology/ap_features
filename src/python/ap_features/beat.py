@@ -96,6 +96,18 @@ class Trace:
     def y(self) -> np.ndarray:
         return self._y
 
+    def max(self) -> float:
+        """Return the maximum value of the trace"""
+        return self.y.max()
+
+    def min(self) -> float:
+        """Return the minimum value of the trace"""
+        return self.y.min()
+
+    def amp(self) -> float:
+        """Return the difference between the maximum and minimum value"""
+        return self.max() - self.min()
+
     @property
     def pacing(self) -> np.ndarray:
         return self._pacing
