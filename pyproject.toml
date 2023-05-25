@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ap_features"
-version = "2023.2.0"
+version = "2023.3.0"
 description = "Package to compute features of traces from action potential models"
 authors = [{name = "Henrik Finsberg", email = "henriknf@simula.no"}, {name = "Kristian G. Hustad", email = "kghustad@simula.no" }]
 license = {text = "LGPL-2.1"}
