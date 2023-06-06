@@ -74,6 +74,11 @@ class Trace:
         """The time unit 'ms' or 's'"""
         return utils.time_unit(self.t)
 
+    @property
+    def duration(self) -> float:
+        """The duration of the trace, i.e last time point minus the first"""
+        return self.t[-1] - self.t[0]
+
     def ensure_time_unit(self, unit: str) -> None:
         """Convert time to milliseconds or seconds
 
