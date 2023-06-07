@@ -95,10 +95,12 @@ class Trace:
 
     @property
     def t(self) -> np.ndarray:
+        """The time stamps"""
         return self._t
 
     @property
     def y(self) -> np.ndarray:
+        """The trace"""
         return self._y
 
     def max(self) -> float:
@@ -115,6 +117,8 @@ class Trace:
 
     @property
     def pacing(self) -> np.ndarray:
+        """Array of pacing amplitudes. If no pacing info is available,
+        then this will be an array of zeros with same length as the trace"""
         return self._pacing
 
     def __len__(self):
@@ -131,6 +135,23 @@ class Trace:
             return False
 
     def slice(self, start: float, end: float, copy: bool = True) -> "Trace":
+        """Create a slice of the original trace
+
+        Parameters
+        ----------
+        start : float
+            Start time of slice
+        end : float
+            End time of slice
+        copy : bool, optional
+            If true create a copy of the original array otherwise return a slice
+            of the original array, by default True
+
+        Returns
+        -------
+        Trace
+            A sliced trace
+        """
         f = copy_function(copy)
         start_index, end_index = chopping.find_start_end_index(self.t, start, end)
         return self.__class__(
@@ -141,6 +162,7 @@ class Trace:
         )
 
     def copy(self):
+        """Create a copy of the trace"""
         return self.__class__(
             y=np.copy(self.y),
             t=np.copy(self.t),
@@ -155,6 +177,27 @@ class Trace:
         include_background: bool = False,
         ylabel: str = "",
     ):
+        """Plot the trace with matplotlib
+
+        Parameters
+        ----------
+        fname : str, optional
+            Name of the figure to be saved. If not provided the
+            figure will note be saved, but you can show by calling
+            `plt.show`
+        include_pacing : bool, optional
+            Whether to include pacing in the plot, by default False
+        include_background : bool, optional
+            Whether to include the background, by default False
+        ylabel : str, optional
+            Label on the y-axis, by default ""
+
+        Returns
+        -------
+        Tuple[plt.Figure, plt.Axes] | None
+            If matplotlib is installed it will return a tuple containing
+            the figure and the axes.
+        """
         return plot.plot_beat(
             self,
             include_pacing=include_pacing,
@@ -164,7 +207,7 @@ class Trace:
         )
 
     def as_spline(self, k: int = 3, s: Optional[int] = None) -> UnivariateSpline:
-        """[summary]
+        """Convert trace to spline
 
         Parameters
         ----------
@@ -206,11 +249,13 @@ class Beat(Trace):
         self._beat_number = beat_number
 
     @property
-    def y_normalized(self):
+    def y_normalized(self) -> np.ndarray:
+        """Return normalized signal"""
         return utils.normalize_signal(self.y, self.y_rest)
 
     @property
-    def y_rest(self):
+    def y_rest(self) -> Optional[float]:
+        """Return resting value if specified, otherwise None"""
         return self._y_rest
 
     def as_beats(self) -> "Beats":
@@ -450,7 +495,7 @@ class Beat(Trace):
         Returns
         -------
         float
-            [description]
+            Integral above the APD p line
         """
         return features.integrate_apd(
             t=self.t,
