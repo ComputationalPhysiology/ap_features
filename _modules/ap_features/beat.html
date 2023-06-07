@@ -387,6 +387,11 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The time unit &#39;ms&#39; or &#39;s&#39;&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">time_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The duration of the trace, i.e last time point minus the first&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
 <div class="viewcode-block" id="Trace.ensure_time_unit"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.ensure_time_unit">[docs]</a>    <span class="k">def</span> <span class="nf">ensure_time_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert time to milliseconds or seconds</span>
 
@@ -403,10 +408,12 @@ document.write(`
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The time stamps&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_t</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The trace&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span>
 
 <div class="viewcode-block" id="Trace.max"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.max">[docs]</a>    <span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -423,6 +430,8 @@ document.write(`
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">pacing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of pacing amplitudes. If no pacing info is available,</span>
+<span class="sd">        then this will be an array of zeros with same length as the trace&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pacing</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -439,6 +448,23 @@ document.write(`
             <span class="k">return</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="Trace.slice"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Trace&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a slice of the original trace</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : float</span>
+<span class="sd">            Start time of slice</span>
+<span class="sd">        end : float</span>
+<span class="sd">            End time of slice</span>
+<span class="sd">        copy : bool, optional</span>
+<span class="sd">            If true create a copy of the original array otherwise return a slice</span>
+<span class="sd">            of the original array, by default True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Trace</span>
+<span class="sd">            A sliced trace</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">copy_function</span><span class="p">(</span><span class="n">copy</span><span class="p">)</span>
         <span class="n">start_index</span><span class="p">,</span> <span class="n">end_index</span> <span class="o">=</span> <span class="n">chopping</span><span class="o">.</span><span class="n">find_start_end_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
@@ -449,6 +475,7 @@ document.write(`
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trace.copy"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a copy of the trace&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
             <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
             <span class="n">t</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">),</span>
@@ -463,6 +490,27 @@ document.write(`
         <span class="n">include_background</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the trace with matplotlib</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fname : str, optional</span>
+<span class="sd">            Name of the figure to be saved. If not provided the</span>
+<span class="sd">            figure will note be saved, but you can show by calling</span>
+<span class="sd">            `plt.show`</span>
+<span class="sd">        include_pacing : bool, optional</span>
+<span class="sd">            Whether to include pacing in the plot, by default False</span>
+<span class="sd">        include_background : bool, optional</span>
+<span class="sd">            Whether to include the background, by default False</span>
+<span class="sd">        ylabel : str, optional</span>
+<span class="sd">            Label on the y-axis, by default &quot;&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple[plt.Figure, plt.Axes] | None</span>
+<span class="sd">            If matplotlib is installed it will return a tuple containing</span>
+<span class="sd">            the figure and the axes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">plot</span><span class="o">.</span><span class="n">plot_beat</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">include_pacing</span><span class="o">=</span><span class="n">include_pacing</span><span class="p">,</span>
@@ -472,7 +520,7 @@ document.write(`
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trace.as_spline"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Trace.as_spline">[docs]</a>    <span class="k">def</span> <span class="nf">as_spline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnivariateSpline</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;[summary]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert trace to spline</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -514,11 +562,13 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_beat_number</span> <span class="o">=</span> <span class="n">beat_number</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">y_normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">y_normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return normalized signal&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize_signal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_rest</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">y_rest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">y_rest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return resting value if specified, otherwise None&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_rest</span>
 
 <div class="viewcode-block" id="Beat.as_beats"><a class="viewcode-back" href="../../ap_features.html#ap_features.beat.Beat.as_beats">[docs]</a>    <span class="k">def</span> <span class="nf">as_beats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Beats&quot;</span><span class="p">:</span>
@@ -758,7 +808,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
-<span class="sd">            [description]</span>
+<span class="sd">            Integral above the APD p line</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">features</span><span class="o">.</span><span class="n">integrate_apd</span><span class="p">(</span>
             <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>

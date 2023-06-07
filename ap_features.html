@@ -905,7 +905,7 @@ by default False</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>[description]</p>
+<dd class="field-even"><p>Integral above the APD p line</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1063,13 +1063,15 @@ of APD80 to the upstroke.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Beat.y_normalized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_normalized</span></span><a class="headerlink" href="#ap_features.beat.Beat.y_normalized" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_normalized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.beat.Beat.y_normalized" title="Permalink to this definition">#</a></dt>
+<dd><p>Return normalized signal</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Beat.y_rest">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_rest</span></span><a class="headerlink" href="#ap_features.beat.Beat.y_rest" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_rest</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ap_features.beat.Beat.y_rest" title="Permalink to this definition">#</a></dt>
+<dd><p>Return resting value if specified, otherwise None</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -1298,7 +1300,8 @@ included, by default 1.0</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Beats.y">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.beat.Beats.y" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>The trace</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -1383,7 +1386,7 @@ object then this will return that BeatSeries</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.as_spline">
 <span class="sig-name descname"><span class="pre">as_spline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">UnivariateSpline</span></span></span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.as_spline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.beat.Trace.as_spline" title="Permalink to this definition">#</a></dt>
-<dd><p>[summary]</p>
+<dd><p>Convert trace to spline</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1406,7 +1409,14 @@ by default 0</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.beat.Trace.copy" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Create a copy of the trace</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ap_features.beat.Trace.duration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#ap_features.beat.Trace.duration" title="Permalink to this definition">#</a></dt>
+<dd><p>The duration of the trace, i.e last time point minus the first</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.ensure_time_unit">
@@ -1434,22 +1444,62 @@ by default 0</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.pacing">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pacing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.beat.Trace.pacing" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Array of pacing amplitudes. If no pacing info is available,
+then this will be an array of zeros with same length as the trace</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_pacing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.beat.Trace.plot" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Plot the trace with matplotlib</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the figure to be saved. If not provided the
+figure will note be saved, but you can show by calling
+<cite>plt.show</cite></p></li>
+<li><p><strong>include_pacing</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to include pacing in the plot, by default False</p></li>
+<li><p><strong>include_background</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to include the background, by default False</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label on the y-axis, by default “”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If matplotlib is installed it will return a tuple containing
+the figure and the axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[plt.Figure, plt.Axes] | None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.slice">
 <span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ap_features.beat.Trace" title="ap_features.beat.Trace"><span class="pre">Trace</span></a></span></span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.beat.Trace.slice" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Create a slice of the original trace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>float</em>) – Start time of slice</p></li>
+<li><p><strong>end</strong> (<em>float</em>) – End time of slice</p></li>
+<li><p><strong>copy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true create a copy of the original array otherwise return a slice
+of the original array, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sliced trace</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ap_features.beat.Trace" title="ap_features.beat.Trace">Trace</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.t">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">t</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.beat.Trace.t" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>The time stamps</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.time_unit">
@@ -1460,7 +1510,8 @@ by default 0</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.beat.Trace.y">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.beat.Trace.y" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>The trace</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -3121,7 +3172,7 @@ by default False</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>[description]</p>
+<dd class="field-even"><p>Integral above the APD p line</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -3279,13 +3330,15 @@ of APD80 to the upstroke.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Beat.y_normalized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_normalized</span></span><a class="headerlink" href="#ap_features.Beat.y_normalized" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_normalized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.Beat.y_normalized" title="Permalink to this definition">#</a></dt>
+<dd><p>Return normalized signal</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Beat.y_rest">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_rest</span></span><a class="headerlink" href="#ap_features.Beat.y_rest" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_rest</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ap_features.Beat.y_rest" title="Permalink to this definition">#</a></dt>
+<dd><p>Return resting value if specified, otherwise None</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -3503,7 +3556,8 @@ included, by default 1.0</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Beats.y">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.Beats.y" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>The trace</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -3577,7 +3631,7 @@ object then this will return that BeatSeries</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Trace.as_spline">
 <span class="sig-name descname"><span class="pre">as_spline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">UnivariateSpline</span></span></span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.as_spline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.Trace.as_spline" title="Permalink to this definition">#</a></dt>
-<dd><p>[summary]</p>
+<dd><p>Convert trace to spline</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -3600,7 +3654,14 @@ by default 0</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Trace.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.Trace.copy" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Create a copy of the trace</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ap_features.Trace.duration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#ap_features.Trace.duration" title="Permalink to this definition">#</a></dt>
+<dd><p>The duration of the trace, i.e last time point minus the first</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Trace.ensure_time_unit">
@@ -3628,22 +3689,62 @@ by default 0</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Trace.pacing">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pacing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.Trace.pacing" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Array of pacing amplitudes. If no pacing info is available,
+then this will be an array of zeros with same length as the trace</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Trace.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_pacing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.Trace.plot" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Plot the trace with matplotlib</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the figure to be saved. If not provided the
+figure will note be saved, but you can show by calling
+<cite>plt.show</cite></p></li>
+<li><p><strong>include_pacing</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to include pacing in the plot, by default False</p></li>
+<li><p><strong>include_background</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to include the background, by default False</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label on the y-axis, by default “”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If matplotlib is installed it will return a tuple containing
+the figure and the axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[plt.Figure, plt.Axes] | None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ap_features.Trace.slice">
 <span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ap_features.beat.Trace" title="ap_features.beat.Trace"><span class="pre">Trace</span></a></span></span><a class="reference internal" href="_modules/ap_features/beat.html#Trace.slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ap_features.Trace.slice" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Create a slice of the original trace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>float</em>) – Start time of slice</p></li>
+<li><p><strong>end</strong> (<em>float</em>) – End time of slice</p></li>
+<li><p><strong>copy</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true create a copy of the original array otherwise return a slice
+of the original array, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sliced trace</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ap_features.Trace" title="ap_features.Trace">Trace</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Trace.t">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">t</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.Trace.t" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>The time stamps</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Trace.time_unit">
@@ -3654,7 +3755,8 @@ by default 0</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="ap_features.Trace.y">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#ap_features.Trace.y" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>The trace</p>
+</dd></dl>
 
 </dd></dl>
 
