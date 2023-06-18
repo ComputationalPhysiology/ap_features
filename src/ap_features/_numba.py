@@ -86,14 +86,14 @@ def get_t_end(max_idx, V, T, th, t_end=np.inf):
 
 
 @numba.njit(numba.float64(float_1D_array, float_1D_array, numba.int64, numba.int64))
-def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> float:
+def apd_up_xy(y: np.ndarray, t: np.ndarray, low: int, high: int) -> float:
     """Compute time from first intersection of
     APDx line to first intersection of APDy line
     """
-    if factor_x > factor_y:
-        # factor_x has to be larger than factor_y
+    if low > high:
+        # low has to be larger than high
         return -np.inf
-    if factor_x == factor_y:
+    if low == high:
         return 0
 
     t_half = t.max() / 2
@@ -104,9 +104,9 @@ def apd_up_xy(y: np.ndarray, t: np.ndarray, factor_x: int, factor_y: int) -> flo
     max_idx = np.argmax(y[:idx_t_half])
     y_min = np.min(y)
 
-    thx = y_min + (1 - factor_x / 100) * (y_max - y_min)
+    thx = y_min + (1 - low / 100) * (y_max - y_min)
     tx, idx1 = get_t_start(max_idx, y, t, thx, t_start=0)
-    thy = y_min + (1 - factor_y / 100) * (y_max - y_min)
+    thy = y_min + (1 - high / 100) * (y_max - y_min)
     ty, idx1 = get_t_start(max_idx, y, t, thy, t_start=tx)
     return tx - ty
 

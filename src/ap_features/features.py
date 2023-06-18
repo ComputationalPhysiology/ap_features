@@ -174,7 +174,7 @@ def apd(
 
     assert backend in Backend.__members__
 
-    if isinstance(factor, float) and 0 < factor < 1:
+    if isinstance(factor, (float, np.float_)) and 0 < factor < 1:
         # Factor should be multiplied with 100
         factor = int(factor * 100)
     _check_factor(factor)
@@ -288,7 +288,7 @@ def apd_coords(
     Parameters
     ----------
     factor : int
-        The APD factor between 0 and 100
+        The APD factor between 0 and 100.
     V : Array
         The signal
     t : Array
@@ -334,7 +334,8 @@ def tau(
     y : Array
         The signal
     a : float, optional
-        The value for which you want to estimate the time decay, by default 0.75
+        The value for which you want to estimate the time decay, by default 0.75.
+        If the value is larger than 1.0 it will be divided by 100
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'numba'
@@ -347,6 +348,9 @@ def tau(
     """
     if backend != Backend.python:
         logger.warning("Method currently only implemented for python backend")
+
+    if a > 1.0:
+        a /= 100
 
     Y = UnivariateSpline(x, utils.normalize_signal(y) - a, s=0, k=3)
     t_max = x[int(np.argmax(y))]
@@ -448,7 +452,8 @@ def upstroke(
     y : Array
         The signal
     a : float, optional
-        Fraction of signal amplitude, by default 0.8
+        Fraction of signal amplitude, by default 0.8.
+        If the value is larger than 1.0 it will be divided by 100
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
         Choices, 'python', 'numba'
@@ -465,6 +470,9 @@ def upstroke(
     """
     if backend != Backend.python:
         logger.warning("Method currently only implemented for python backend")
+
+    if a > 1.0:
+        a /= 100.0
 
     if not 0 < a < 1:
         raise ValueError("'a' has to be between 0.0 and 1.0")
@@ -586,8 +594,8 @@ def find_upstroke_values(
 def apd_up_xy(
     y: Array,
     t: Array,
-    factor_x: int,
-    factor_y: int,
+    low: int,
+    high: int,
     backend: Backend = Backend.python,
 ) -> float:
     """Find the duration between first intersection (i.e
@@ -599,9 +607,9 @@ def apd_up_xy(
         Time values
     y : np.ndarray
         The trace
-    from_APD: int
+    low: int
         First APD line (value between 0 and 100)
-    to_APD: int
+    high: int
         Second APD line (value between 0 and 100)
     backend : utils.Backend, optional
         Which backend to use by default Backend.python.
@@ -610,26 +618,26 @@ def apd_up_xy(
     Returns
     -------
     float:
-        The time between `factor_x` to `factor_y`
+        The time between `low` to `high`
 
 
 
     """
-    _check_factor(factor_x)
-    _check_factor(factor_y)
+    _check_factor(low)
+    _check_factor(high)
 
     y = numpyfy(y)
     t = numpyfy(t)
 
     if backend == Backend.numba:
-        return _numba.apd_up_xy(y=y, t=t, factor_x=factor_x, factor_y=factor_y)
+        return _numba.apd_up_xy(y=y, t=t, low=low, high=high)
 
     y_norm = utils.normalize_signal(y)
 
-    y_from = UnivariateSpline(t, y_norm - factor_x / 100, s=0, k=3)
+    y_from = UnivariateSpline(t, y_norm - low / 100, s=0, k=3)
     t_from = y_from.roots()[0]
 
-    y_to = UnivariateSpline(t, y_norm - factor_y / 100, s=0, k=3)
+    y_to = UnivariateSpline(t, y_norm - high / 100, s=0, k=3)
     t_to = y_to.roots()[0]
 
     return t_to - t_from

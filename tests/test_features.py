@@ -22,18 +22,18 @@ def test_apds_triangle_signal(factor, backend, triangle_signal):
 
 
 @pytest.mark.parametrize(
-    "factor_x, factor_y, backend",
+    "low, high, backend",
     it.product(range(10, 95, 20), range(10, 95, 20), apf.Backend),
 )
-def test_apdxy_triangle_signal(factor_x, factor_y, backend, triangle_signal):
+def test_apdxy_triangle_signal(low, high, backend, triangle_signal):
     x, y = triangle_signal
 
-    apd = apf.apd_up_xy(y, x, factor_x, factor_y)
+    apd = apf.apd_up_xy(y, x, low, high)
 
-    if factor_x == factor_y:
+    if low == high:
         assert abs(apd) < 1e-12
     else:
-        assert abs(apd - (factor_y - factor_x)) < 1e-10
+        assert abs(apd - (high - low)) < 1e-10
 
 
 def test_number_of_cost_terms():
