@@ -612,24 +612,24 @@ class Beat(Trace):
             prominence_level=prominence_level,
         )
 
-    def apd_up_xy(self, factor_x, factor_y):
+    def apd_up_xy(self, low, high):
         """Find the duration between first intersection (i.e
         during the upstroke) of two APD lines
 
         Arguments
         ---------
-        factor_x: int
+        low: int
             First APD line (value between 0 and 100)
-        factor_y: int
+        high: int
             Second APD line (value between 0 and 100)
 
         Returns
         -------
         float:
-            The time between `factor_x` to `factor_y`
+            The time between `low` to `high`
 
         """
-        return features.apd_up_xy(self.y, self.y, factor_x=factor_x, factor_y=factor_y)
+        return features.apd_up_xy(y=self.y, t=self.t, low=low, high=high)
 
     @property
     def cost_terms(self):
