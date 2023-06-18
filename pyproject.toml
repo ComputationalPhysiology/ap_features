@@ -67,10 +67,6 @@ all = [
 ]
 
 
-[tool.setuptools.packages.find]
-where = ["src/python"]
-
-
 [tool.pytest.ini_options]
 addopts = [
    "--cov=ap_features",
@@ -84,7 +80,7 @@ testpaths = [
 ]
 
 [tool.mypy]
-files = ["src/python/ap_features","tests"]
+files = ["src/ap_features","tests"]
 ignore_missing_imports = true
 exclude = "docs"
 

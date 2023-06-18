@@ -4,6 +4,9 @@ docs/HISTORY.md
 docs/README.md
 docs/ap_features.rst
 docs/modules.rst
+_build
+result_images/
+test.png
 
 wheel/
 
