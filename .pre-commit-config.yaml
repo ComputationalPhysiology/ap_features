@@ -16,6 +16,11 @@ repos:
       - id: black
         args: [--line-length=100]
 
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+
   - repo: https://github.com/asottile/add-trailing-comma
     rev: v2.5.1
     hooks:
