@@ -4,9 +4,8 @@
 format: jb-book
 root: README
 chapters:
-  - file: INSTALL
-  - file: demo_fitzhugh_nagumo
+  - file: docs/features.ipynb
+  - file: docs/demo_fitzhugh_nagumo
   - file: AUTHORS
   - file: CONTRIBUTING
-  - file: ap_features
-  - file: modules
+  - file: docs/api

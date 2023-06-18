@@ -31,12 +31,6 @@ Source = "https://github.com/ComputationalPhysiology/ap_features"
 Tracker = "https://github.com/ComputationalPhysiology/ap_features/issues"
 
 [project.optional-dependencies]
-test = [
-    "pytest",
-    "pytest-cov",
-    "ap_features[plot]",
-    "ap_features[array]"
-]
 array = [
     "h5py",
     "dask[array]"
@@ -56,6 +50,13 @@ pypi = [
 ]
 docs = [
    "jupyter-book",
+   "ap_features[plot]",
+]
+test = [
+    "pytest",
+    "pytest-cov",
+    "ap_features[plot]",
+    "ap_features[array]"
 ]
 all = [
    "ap_features[test]",
@@ -65,10 +66,6 @@ all = [
    "ap_features[array]",
    "ap_features[plot]",
 ]
-
-
-[tool.setuptools.packages.find]
-where = ["src/python"]
 
 
 [tool.pytest.ini_options]
@@ -84,7 +81,7 @@ testpaths = [
 ]
 
 [tool.mypy]
-files = ["src/python/ap_features","tests"]
+files = ["src/ap_features","tests"]
 ignore_missing_imports = true
 exclude = "docs"
 
