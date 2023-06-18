@@ -6,6 +6,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLISH_DIR: ./_build/html
     steps:
       - uses: actions/checkout@v3
 
