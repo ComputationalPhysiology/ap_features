@@ -907,7 +907,7 @@ class Beats(Trace):
         self,
         threshold_factor=0.5,
         min_window=50,
-        max_window=2000,
+        max_window=5000,
         N=None,
         extend_front=None,
         extend_end=None,

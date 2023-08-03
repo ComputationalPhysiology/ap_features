@@ -95,7 +95,7 @@ def default_chopping_options():
     return dict(
         threshold_factor=0.5,
         min_window=50,
-        max_window=2000,
+        max_window=5000,
         N=None,
         extend_front=None,
         extend_end=None,
@@ -109,7 +109,7 @@ def chop_data_without_pacing(
     time: Array,
     threshold_factor: float = 0.5,
     min_window: float = 50,
-    max_window: float = 2000,
+    max_window: float = 5000,
     N: Optional[int] = None,
     extend_front: Optional[float] = None,
     extend_end: Optional[float] = None,
