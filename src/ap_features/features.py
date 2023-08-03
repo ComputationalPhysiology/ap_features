@@ -558,6 +558,48 @@ def beating_frequency_from_peaks(
     return np.divide(1, dt)
 
 
+def beating_frequency_from_apd_line(
+    y: np.ndarray,
+    time: np.ndarray,
+    unit: str = "ms",
+) -> Sequence[float]:
+    """Returns the beating frequency in Hz by using
+    the intersection of the APD50 line
+
+    Parameters
+    ----------
+    signals : List[Array]
+        The signal values for each beat
+    times : List[Array]
+        The time stamps of all beats
+    unit : str, optional
+        Unit of time, by default "ms"
+
+    Returns
+    -------
+    List[float]
+        Beating frequency in Hz for each beat
+    """
+
+    from . import chopping
+
+    starts, ends, zeros = chopping.locate_chop_points(
+        time,
+        y,
+        threshold_factor=0.5,
+        min_window=50,
+    )
+
+    if len(starts) > 1:
+        dt = np.diff(starts)
+    else:
+        dt = np.diff(ends)
+
+    if unit == "ms":
+        dt = np.divide(dt, 1000.0)
+    return np.divide(1, dt)
+
+
 def find_upstroke_values(
     t: np.ndarray,
     y: np.ndarray,
