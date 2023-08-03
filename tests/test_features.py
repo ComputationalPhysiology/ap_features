@@ -216,24 +216,6 @@ def test_upstroke(factor, triangle_signal):
     assert np.isclose(apf.features.upstroke(x, y, a=factor / 100), factor)
 
 
-def test_beating_frequency(multiple_beats):
-    x, y = multiple_beats
-    beats = apf.Beats(y, x).beats
-    times = [beat.t for beat in beats]
-    expected = 12.922465208747514
-    import sys
-
-    if sys.version_info.minor <= 8:
-        # FIXME: For some reason, this value is different in python3.8
-        expected = 13.26259946949602
-
-    assert np.isclose(
-        apf.features.beating_frequency(times),
-        expected,
-        atol=0.1,
-    )
-
-
 def test_beating_frequency_from_peaks(multiple_beats):
     x, y = multiple_beats
     beats = apf.Beats(y, x).beats
@@ -244,6 +226,11 @@ def test_beating_frequency_from_peaks(multiple_beats):
         12.8,
         atol=0.2,
     ).all()
+
+
+def test_beating_frequency_from_apd_line(multiple_beats):
+    x, y = multiple_beats
+    assert np.isclose(apf.features.beating_frequency_from_apd_line(y, x), 12.82, atol=0.3).all()
 
 
 def test_max_relative_upstroke_velocity_sigmoid(calcium_trace):
