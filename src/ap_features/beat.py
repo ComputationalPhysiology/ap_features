@@ -1042,7 +1042,11 @@ class Beats(Trace):
         """
         signals: List[Array] = [beat.y for beat in self.beats]
         times: List[Array] = [beat.t for beat in self.beats]
-        return features.beating_frequency_from_peaks(signals=signals, times=times)
+
+        if len(signals) > 1:
+            return features.beating_frequency_from_peaks(signals=signals, times=times)
+        else:
+            return features.beating_frequency_from_apd_line(y=self.y, time=self.t)
 
     @property
     def beating_frequency(self) -> float:
