@@ -34,6 +34,7 @@ def triangulation(
     low: int = 30,
     high: int = 80,
     v_r: Optional[float] = None,
+    v_max: Optional[float] = None,
     use_spline: bool = True,
     backend: Backend = Backend.python,
 ) -> float:
@@ -55,7 +56,9 @@ def triangulation(
     high : int, optional
         Higher APD value, by default 80
     v_r : Optional[float], optional
-        Resting value, by default None. Only applicable for python Backend.
+        The resting value, by default None. If None the minimum value is chosen
+    v_max : Optional[float], optional
+        The maximum value, by default None. If None the maximum value is chosen
     use_spline : bool, optional
         Use spline interpolation, by default True.
         Only applicable for python Backend.
@@ -75,6 +78,7 @@ def triangulation(
         V=V,
         t=t,
         v_r=v_r,
+        v_max=v_max,
         use_spline=use_spline,
     )
     apd_high_point = apd_point(
@@ -82,6 +86,7 @@ def triangulation(
         V=V,
         t=t,
         v_r=v_r,
+        v_max=v_max,
         use_spline=use_spline,
     )
     tri = apd_high_point[-1] - apd_low_point[-1]
@@ -95,6 +100,7 @@ def apd(
     V: Array,
     t: Array,
     v_r: Optional[float] = None,
+    v_max: Optional[float] = None,
     use_spline: bool = True,
     backend: Backend = Backend.python,
 ) -> float:
@@ -112,7 +118,9 @@ def apd(
     t : Array
         The time stamps
     v_r : Optional[float], optional
-        Resting value, by default None. Only applicable for python Backend.
+        The resting value, by default None. If None the minimum value is chosen
+    v_max : Optional[float], optional
+        The maximum value, by default None. If None the maximum value is chosen
     use_spline : bool, optional
         Use spline interpolation, by default True.
         Only applicable for python Backend.
@@ -186,7 +194,7 @@ def apd(
 
     if backend == Backend.python:
         try:
-            x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
+            x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, v_max=v_max, use_spline=use_spline)
         except RuntimeError:
             # Return a number that indicate that something went wrong
             return -1
@@ -206,15 +214,16 @@ def sign_change(y: np.ndarray) -> np.ndarray:
     return np.where(np.diff(np.sign(y)))[0]
 
 
-def apd_point(
+def apd_points(
     factor: float,
     V: Array,
     t: Array,
     v_r: Optional[float] = None,
-    use_spline=True,
-) -> Tuple[float, float]:
-    """Return the first and second intersection
-    of the APD p line
+    v_max: Optional[float] = None,
+    use_spline: bool = True,
+) -> List[float]:
+    """Returns the indices of all the
+    intersections of the APD p line
 
     Parameters
     ----------
@@ -225,15 +234,16 @@ def apd_point(
     t : np.ndarray
         The time stamps
     v_r : Optional[float], optional
-        The resting value, by default None
+        The resting value, by default None. If None the minimum value is chosen
+    v_max : Optional[float], optional
+        The maximum value, by default None. If None the maximum value is chosen
     use_spline : bool, optional
         Use spline interpolation or not, by default True
 
     Returns
     -------
-    Tuple[float, float]
-        Two points corresponding to the first and second
-        intersection of the APD p line
+    List[float]
+        All indices of points intersecting the APD p line
 
     Raises
     ------
@@ -242,7 +252,7 @@ def apd_point(
     """
 
     _check_factor(factor)
-    y = utils.normalize_signal(V, v_r) - (1 - factor / 100)
+    y = utils.normalize_signal(V, v_r=v_r, v_max=v_max) - (1 - factor / 100)
 
     if use_spline:
         try:
@@ -261,9 +271,60 @@ def apd_point(
             inds = t[sign_change(y)]
     else:
         inds = t[sign_change(y)]
+
+    return inds
+
+
+def apd_point(
+    factor: float,
+    V: Array,
+    t: Array,
+    v_r: Optional[float] = None,
+    v_max: Optional[float] = None,
+    use_spline=True,
+) -> Tuple[float, float]:
+    """Returns exactly two intersections of the APD p line.
+
+    Parameters
+    ----------
+    factor : int
+        The APD line
+    V : np.ndarray
+        The signal
+    t : np.ndarray
+        The time stamps
+    v_r : Optional[float], optional
+        The resting value, by default None. If None the minimum value is chosen
+    v_max : Optional[float], optional
+        The maximum value, by default None. If None the maximum value is chosen
+    use_spline : bool, optional
+        Use spline interpolation or not, by default True
+
+    Returns
+    -------
+    Tuple[float, float]
+        Two points corresponding to the first and second
+        intersection of the APD p line
+
+    Raises
+    ------
+    RuntimeError
+        If spline interpolation fails
+
+    Notes
+    -----
+    Different strategies are used based on the number of intersections. If
+    only two intersections are used, we are done, while if there are fewer
+    then the same value will be returned for both the start and end.
+    If no intersections are found the value 0 will be used. If more
+    than two intersections are found then the neighboring intersections
+    with the largest gap will be returned.
+    """
+
+    inds = apd_points(factor=factor, V=V, t=t, v_r=v_r, v_max=v_max, use_spline=use_spline)
     if len(inds) == 0:
         logger.warning("Warning: no root was found for APD {}".format(factor))
-        x1 = x2 = 0
+        x1 = x2 = 0.0
     if len(inds) == 1:
         x1 = x2 = inds[0]
         logger.warning("Warning: only one root was found for APD {}" "".format(factor))
@@ -280,6 +341,7 @@ def apd_coords(
     V: Array,
     t: Array,
     v_r: Optional[float] = None,
+    v_max: Optional[float] = None,
     use_spline=True,
 ) -> APDCoords:
     """Return the coordinates of the start and stop
@@ -294,7 +356,9 @@ def apd_coords(
     t : Array
         The time stamps
     v_r : Optional[float], optional
-        Resting value, by default None. Only applicable for python Backend.
+        The resting value, by default None. If None the minimum value is chosen
+    v_max : Optional[float], optional
+        The maximum value, by default None. If None the maximum value is chosen
     use_spline : bool, optional
         Use spline interpolation, by default True.
         Only applicable for python Backend.
@@ -307,7 +371,7 @@ def apd_coords(
     _check_factor(factor)
     y = np.array(V)
     x = np.array(t)
-    x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, use_spline=use_spline)
+    x1, x2 = apd_point(factor=factor, V=y, t=x, v_r=v_r, v_max=v_max, use_spline=use_spline)
     g = UnivariateSpline(x, y, s=0)
     y1 = g(x1)
     y2 = g(x2)
