@@ -161,13 +161,14 @@ class Trace:
             backend=self._backend,
         )
 
-    def copy(self):
+    def copy(self, **kwargs):
         """Create a copy of the trace"""
         return self.__class__(
             y=np.copy(self.y),
             t=np.copy(self.t),
             pacing=np.copy(self.pacing),
             backend=self._backend,
+            **kwargs,
         )
 
     def plot(
@@ -507,6 +508,16 @@ class Beat(Trace):
         pacing = self.pacing if use_pacing else None
         return features.time_to_peak(x=self.t, y=self.y, pacing=pacing)
 
+    def time_above_apd_line(self, factor: float) -> float:
+        """Compute the amount of time spent above APD p line"""
+        return features.time_above_apd_line(
+            V=self.y,
+            t=self.t,
+            factor=factor,
+            v_r=self.y_rest,
+            v_max=self.y_max,
+        )
+
     def integrate_apd(
         self,
         factor: float,
@@ -541,6 +552,7 @@ class Beat(Trace):
         )
 
     def peaks(self, prominence_level: float = 0.1) -> List[int]:
+        """Return the list of peak indices given a prominence level"""
         from scipy.signal import find_peaks
 
         peaks, _ = find_peaks(self.y, prominence=prominence_level)

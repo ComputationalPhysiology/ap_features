@@ -100,8 +100,10 @@ def normalize_signal(V, v_r: Optional[float] = None, v_max: Optional[float] = No
     ---------
     V : array
         The signal
-    v_r : float
-        The resting value
+    v_r : Optional[float], optional
+        The resting value, by default None. If None the minimum value is chosen
+    v_max : Optional[float], optional
+        The maximum value, by default None. If None the maximum value is chosen
 
     """
 

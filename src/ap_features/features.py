@@ -381,6 +381,46 @@ def apd_coords(
     return APDCoords(x1, x2, y1, y2, yth)
 
 
+def time_above_apd_line(
+    V: Array,
+    t: Array,
+    factor: float,
+    v_r: Optional[float] = None,
+    v_max: Optional[float] = None,
+) -> float:
+    """Compute the amount of time spent above APD p line
+
+    Parameters
+    ----------
+    V : Array
+        Signal
+    t : Array
+        Time stamps
+    factor : float
+        The p in APD line
+    v_r : Optional[float], optional
+        Resting value, by default None
+    v_max : Optional[float], optional
+        Maximum value, by default None
+
+    Returns
+    -------
+    float
+        Total time spent above the APD p line
+    """
+    y = utils.normalize_signal(V, v_r=v_r, v_max=v_max)
+
+    intersections = np.where(np.diff(y > factor))[0]
+    starts = intersections[::2]
+    ends = intersections[1::2]
+
+    total_time = 0.0
+    for start, end in zip(starts, ends):
+        total_time += t[end] - t[start]
+
+    return total_time
+
+
 def tau(
     x: Array,
     y: Array,
