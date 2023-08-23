@@ -1,6 +1,6 @@
 import logging
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 from typing import Dict
 from typing import List
 from typing import Sequence
@@ -89,7 +89,7 @@ def numpyfy(y) -> np.ndarray:
     return y
 
 
-def normalize_signal(V, v_r=None):
+def normalize_signal(V, v_r: Optional[float] = None, v_max: Optional[float] = None):
     """
     Normalize signal to have maximum value 1
     and zero being the value equal to v_r (resting value).
@@ -100,13 +100,16 @@ def normalize_signal(V, v_r=None):
     ---------
     V : array
         The signal
-    v_r : float
-        The resting value
+    v_r : Optional[float], optional
+        The resting value, by default None. If None the minimum value is chosen
+    v_max : Optional[float], optional
+        The maximum value, by default None. If None the maximum value is chosen
 
     """
 
     # Maximum value
-    v_max = np.max(V)
+    if v_max is None:
+        v_max = np.max(V)
 
     # Baseline or resting value
     if v_r is None:

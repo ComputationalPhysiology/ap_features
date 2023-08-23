@@ -259,6 +259,20 @@ def test_maximum_upstroke_velocity(calcium_trace):
     assert np.isclose(max_up, 0.03282385532831371)
 
 
+def test_time_above_apd50_line_single(calcium_trace):
+    x, y = calcium_trace
+    total_time = apf.features.time_above_apd_line(V=y, t=x, factor=0.5)
+
+    assert np.isclose(total_time, 181.818)
+
+
+def test_time_above_apd50_line_multiple(multiple_beats):
+    x, y = multiple_beats
+    total_time = apf.features.time_above_apd_line(V=y, t=x, factor=0.5)
+
+    assert np.isclose(total_time, 579, atol=5)
+
+
 @pytest.mark.parametrize(
     "factor",
     range(10, 90, 5),

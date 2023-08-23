@@ -161,13 +161,14 @@ class Trace:
             backend=self._backend,
         )
 
-    def copy(self):
+    def copy(self, **kwargs):
         """Create a copy of the trace"""
         return self.__class__(
             y=np.copy(self.y),
             t=np.copy(self.t),
             pacing=np.copy(self.pacing),
             backend=self._backend,
+            **kwargs,
         )
 
     def plot(
@@ -234,6 +235,7 @@ class Beat(Trace):
         t: Array,
         pacing: Optional[Array] = None,
         y_rest: Optional[float] = None,
+        y_max: Optional[float] = None,
         parent: Optional["Beats"] = None,
         backend: Backend = Backend.numba,
         beat_number: Optional[int] = None,
@@ -245,18 +247,24 @@ class Beat(Trace):
         )
         assert self._t.shape == self._y.shape, msg
         self._y_rest = y_rest
+        self._y_max = y_max
         self._parent = parent
         self._beat_number = beat_number
 
     @property
     def y_normalized(self) -> np.ndarray:
         """Return normalized signal"""
-        return utils.normalize_signal(self.y, self.y_rest)
+        return utils.normalize_signal(self.y, v_r=self.y_rest, v_max=self.y_max)
 
     @property
     def y_rest(self) -> Optional[float]:
         """Return resting value if specified, otherwise None"""
         return self._y_rest
+
+    @property
+    def y_max(self) -> Optional[float]:
+        """Return maximum value if specified, otherwise None"""
+        return self._y_max
 
     def as_beats(self) -> "Beats":
         """Convert trace from Beat to Beats"""
@@ -303,6 +311,32 @@ class Beat(Trace):
             V=self.y,
             t=self.t,
             v_r=self.y_rest,
+            v_max=self.y_max,
+            use_spline=use_spline,
+        )
+
+    def apd_points(self, factor: float, use_spline: bool = True) -> List[float]:
+        """Return all intersections of the APD p line
+
+        Parameters
+        ----------
+        factor : int
+            The APD
+        use_spline : bool, optional
+            Use spline interpolation or not, by default True
+
+        Returns
+        -------
+        List[float]
+            Two points corresponding to the first and second
+            intersection of the APD p line
+        """
+        return features.apd_points(
+            factor=factor,
+            V=self.y,
+            t=self.t,
+            v_r=self.y_rest,
+            v_max=self.y_max,
             use_spline=use_spline,
         )
 
@@ -326,6 +360,7 @@ class Beat(Trace):
             V=self.y,
             t=self.t,
             v_r=self.y_rest,
+            v_max=self.y_max,
             use_spline=use_spline,
         )
 
@@ -362,6 +397,7 @@ class Beat(Trace):
             low=low,
             high=high,
             v_r=self.y_rest,
+            v_max=self.y_max,
             use_spline=use_spline,
         )
 
@@ -472,6 +508,16 @@ class Beat(Trace):
         pacing = self.pacing if use_pacing else None
         return features.time_to_peak(x=self.t, y=self.y, pacing=pacing)
 
+    def time_above_apd_line(self, factor: float) -> float:
+        """Compute the amount of time spent above APD p line"""
+        return features.time_above_apd_line(
+            V=self.y,
+            t=self.t,
+            factor=factor,
+            v_r=self.y_rest,
+            v_max=self.y_max,
+        )
+
     def integrate_apd(
         self,
         factor: float,
@@ -504,6 +550,13 @@ class Beat(Trace):
             use_spline=use_spline,
             normalize=normalize,
         )
+
+    def peaks(self, prominence_level: float = 0.1) -> List[int]:
+        """Return the list of peak indices given a prominence level"""
+        from scipy.signal import find_peaks
+
+        peaks, _ = find_peaks(self.y, prominence=prominence_level)
+        return peaks
 
     def upstroke(self, a: float) -> float:
         """Compute the time from (1-a)*100 % signal
