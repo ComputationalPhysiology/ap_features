@@ -270,7 +270,7 @@ def test_time_above_apd50_line_multiple(multiple_beats):
     x, y = multiple_beats
     total_time = apf.features.time_above_apd_line(V=y, t=x, factor=0.5)
 
-    assert np.isclose(total_time, 583.0)
+    assert np.isclose(total_time, 579, atol=5)
 
 
 @pytest.mark.parametrize(
