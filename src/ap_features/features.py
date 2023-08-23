@@ -410,7 +410,7 @@ def time_above_apd_line(
     """
     y = utils.normalize_signal(V, v_r=v_r, v_max=v_max)
 
-    intersections = np.where(np.diff(y > factor))[0]
+    intersections = np.where(np.diff(y >= factor))[0]
     starts = intersections[::2]
     ends = intersections[1::2]
 
