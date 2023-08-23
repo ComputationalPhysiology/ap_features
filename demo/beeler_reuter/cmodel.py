@@ -256,10 +256,10 @@ class CModel:
                     parameter_values[index] = new_value
                     print(f"Update paramameter {name} from {old_value} to {new_value}")
 
-        if type(dt) is not float:
+        if not isinstance(dt, float):
             dt = float(dt)
         if num_steps is not None:
-            assert type(num_steps) is int
+            assert isinstance(num_steps, int)
             t_end = dt * num_steps
         else:
             num_steps = round((t_end - t_start) / dt)
