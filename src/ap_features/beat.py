@@ -725,6 +725,7 @@ def average_beat(
     N: int = 200,
     filters: Optional[Sequence[_filters.Filters]] = None,
     x: float = 1.0,
+    apd_point: float = 50,
 ) -> Beat:
     if len(beats) == 0:
         raise ValueError("Cannot average an empty list")
@@ -732,7 +733,7 @@ def average_beat(
         beats = filter_beats(beats, filters=filters, x=x)
 
     try:
-        beats = align_beats(beats, N=N)
+        beats = align_beats(beats, apd_point=apd_point, N=N)
     except Exception:
         pass
 
@@ -1130,6 +1131,7 @@ class Beats(Trace):
         filters: Optional[Sequence[_filters.Filters]] = None,
         N: int = 200,
         x: float = 1.0,
+        apd_point: float = 50,
     ) -> Beat:
         """Compute an average beat based on
         aligning the individual beats
@@ -1154,7 +1156,7 @@ class Beats(Trace):
         Beat
             An average beat.
         """
-        return average_beat(beats=self.beats, N=N, filters=filters, x=x)
+        return average_beat(beats=self.beats, N=N, apd_point=apd_point, filters=filters, x=x)
 
     def aligned_beats(self, N=200) -> List[Beat]:
         return align_beats(self.beats, N=N, parent=self)
