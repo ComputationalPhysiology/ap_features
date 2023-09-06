@@ -282,3 +282,33 @@ def test_apd_point_triangle_signal(factor, triangle_signal):
     x0, x1 = apf.features.apd_point(factor=factor, V=y, t=x, use_spline=True)
     assert np.isclose(x0, 100 - factor)
     assert np.isclose(x1, 100 + factor)
+
+
+@pytest.mark.parametrize("strategy", apf.features.APDPointStrategy)
+def test_apd_point_strategy(strategy):
+    import matplotlib.pyplot as plt
+
+    x = np.linspace(0, 1, 100)
+    y1 = np.zeros_like(x)
+
+    width = 10
+    start = 80
+    y1[start : start + width] = np.sin(np.pi * np.linspace(0, 1, width))
+    y = np.sin(np.pi * x) + y1
+
+    x0, x1 = apf.features.apd_point(factor=50, V=y, t=x, use_spline=True, strategy=strategy)
+    if strategy == apf.features.APDPointStrategy.first_last:
+        assert np.allclose([x0, x1], [0.2565548928876845, 0.8879308433057725])
+    elif strategy == apf.features.APDPointStrategy.big_diff_plus_one:
+        assert np.allclose([x0, x1], [0.2565548928876845, 0.7434400669853347])
+    else:
+        # big_diff_last
+        assert np.allclose([x0, x1], [0.2565548928876845, 0.8879308433057725])
+
+    if 0:
+        y_mid = 0.5 * (y.max() - y.min())
+        fig, ax = plt.subplots()
+        ax.title(f"{strategy=}, {x0=}, {x1=}")
+        ax.plot(x, y)
+        ax.plot([x0, x1], [y_mid, y_mid])
+        plt.show()
