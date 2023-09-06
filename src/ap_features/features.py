@@ -1,4 +1,5 @@
 import logging
+from enum import Enum
 from collections import namedtuple
 from typing import List
 from typing import Optional
@@ -275,6 +276,12 @@ def apd_points(
     return inds
 
 
+class APDPointStrategy(str, Enum):
+    first_last = "first_last"
+    big_diff_plus_one = "big_diff_plus_one"
+    big_diff_last = "big_diff_last"
+
+
 def apd_point(
     factor: float,
     V: Array,
@@ -282,6 +289,7 @@ def apd_point(
     v_r: Optional[float] = None,
     v_max: Optional[float] = None,
     use_spline=True,
+    strategy: APDPointStrategy = APDPointStrategy.big_diff_plus_one,
 ) -> Tuple[float, float]:
     """Returns exactly two intersections of the APD p line.
 
@@ -299,6 +307,9 @@ def apd_point(
         The maximum value, by default None. If None the maximum value is chosen
     use_spline : bool, optional
         Use spline interpolation or not, by default True
+    strategy: APDPointStrategy
+        Strategy for picking two apd points, either 'first_last',
+        'big_diff_plus_one' or 'big_diff_last', by default `big_diff_plus_one'
 
     Returns
     -------
@@ -329,9 +340,20 @@ def apd_point(
         x1 = x2 = inds[0]
         logger.warning("Warning: only one root was found for APD {}" "".format(factor))
     else:
-        start_index = int(np.argmax(np.diff(inds)))
+        if APDPointStrategy[strategy] == APDPointStrategy.big_diff_plus_one:
+            start_index = int(np.argmax(np.diff(inds)))
+            end_index = start_index + 1
+        elif APDPointStrategy[strategy] == APDPointStrategy.big_diff_last:
+            start_index = int(np.argmax(np.diff(inds)))
+            end_index = -1
+
+        else:
+            # first_last
+            start_index = 0
+            end_index = -1
+
         x1 = sorted(inds)[start_index]
-        x2 = sorted(inds)[start_index + 1]
+        x2 = sorted(inds)[end_index]
 
     return x1, x2
 
