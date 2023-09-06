@@ -289,7 +289,12 @@ class Beat(Trace):
         """
         return self._parent
 
-    def apd_point(self, factor: float, use_spline: bool = True) -> Tuple[float, float]:
+    def apd_point(
+        self,
+        factor: float,
+        use_spline: bool = True,
+        strategy: features.APDPointStrategy = features.APDPointStrategy.big_diff_plus_one,
+    ) -> Tuple[float, float]:
         """Return the first and second intersection
         of the APD p line
 
@@ -313,6 +318,7 @@ class Beat(Trace):
             v_r=self.y_rest,
             v_max=self.y_max,
             use_spline=use_spline,
+            strategy=strategy,
         )
 
     def apd_points(self, factor: float, use_spline: bool = True) -> List[float]:
@@ -702,11 +708,17 @@ def remove_bad_indices(feature_list: List[List[float]], bad_indices: Set[int]):
     return new_list
 
 
-def align_beats(beats: List[Beat], apd_point=50, N=200, parent=None):
+def align_beats(
+    beats: List[Beat],
+    apd_point=50,
+    N=200,
+    parent=None,
+    strategy: features.APDPointStrategy = features.APDPointStrategy.big_diff_plus_one,
+):
     if len(beats) == 0:
         return beats
 
-    apd_points = [b.apd_point(apd_point) for b in beats]
+    apd_points = [b.apd_point(apd_point, strategy=strategy) for b in beats]
     bad_beats = [np.isclose(*p) for p in apd_points]
 
     # Make sure all beats start at time zero
