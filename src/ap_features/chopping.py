@@ -551,7 +551,7 @@ def locate_chop_points(
     data: Array,
     threshold_factor: float,
     min_window: float = 50,
-    eps: float = 0.1,
+    eps: float | None = None,
 ) -> Tuple[Array, Array, Array]:
     """Find the points where to chop
 
@@ -574,6 +574,9 @@ def locate_chop_points(
     Tuple[Array, Array, Array]
         starts, ends, zeros
     """
+    if eps is None:
+        # Use 1.5 times the time step
+        eps = np.mean(np.diff(time)) * 1.5
 
     # Data with zeros at the threshold
     data_spline_thresh = UnivariateSpline(
