@@ -551,7 +551,7 @@ def locate_chop_points(
     data: Array,
     threshold_factor: float,
     min_window: float = 50,
-    eps: float | None = None,
+    eps: Optional[float] = None,
 ) -> Tuple[Array, Array, Array]:
     """Find the points where to chop
 
