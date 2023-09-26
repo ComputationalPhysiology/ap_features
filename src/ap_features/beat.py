@@ -883,6 +883,7 @@ class Beats(Trace):
         backend: Backend = Backend.numba,
         intervals: Optional[List[chopping.Interval]] = None,
         chopping_options: Optional[Dict[str, float]] = None,
+        force_positive: bool = False,
     ) -> None:
         """Initializer for `Beats` class
 
@@ -916,6 +917,9 @@ class Beats(Trace):
             Parameters to be used for chopping trace into individual beats,
             by default None. See `ap_features.chopping.chop_data_without_pacing`
             and `ap_features.chopping.chop_data_with_pacing` for more info.
+        force_positive: bool, optional
+            If True, make all values positive by setting negative values to
+            zero after background correction, by default False.
 
         Raises
         ------
@@ -929,6 +933,7 @@ class Beats(Trace):
             y=self._y,
             method=background_correction_method,
             filter_kernel_size=background_correction_kernel,
+            force_positive=force_positive,
         )
 
         msg = (
