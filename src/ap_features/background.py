@@ -46,6 +46,7 @@ def correct_background(
     y: Array,
     method: BackgroundCorrection,
     filter_kernel_size: int = 0,
+    force_positive: bool = False,
     **kwargs,
 ) -> Background:
     methods = tuple(BackgroundCorrection.__members__.keys())
@@ -73,9 +74,14 @@ def correct_background(
     if method == BackgroundCorrection.full:
         F0 = bkg[0]
 
-    if method == BackgroundCorrection.subtract:
+    else:
+        # method == BackgroundCorrection.subtract:
         F0 = 1
     corrected = (1 / F0) * (y - bkg)
+
+    if force_positive:
+        neg = corrected < 0.0
+        corrected[neg] = 0.0
     return Background(
         x=x,
         y=y,

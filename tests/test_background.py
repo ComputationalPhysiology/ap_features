@@ -1,16 +1,13 @@
-import itertools as it
-
 import numpy as np
 import pytest
 from ap_features import background
 
 
 # Test linear and quadratic background for each method
-@pytest.mark.parametrize(
-    "a, method",
-    it.product([0, 0.1], background.BackgroundCorrection),
-)
-def test_background(a, method):
+@pytest.mark.parametrize("a", [0, 0.1])
+@pytest.mark.parametrize("method", background.BackgroundCorrection)
+@pytest.mark.parametrize("force_positive", [True, False])
+def test_background(a, method, force_positive):
     N = 700
     x = np.linspace(0, 7, N)
     y = np.sin(2 * np.pi * 1.2 * x) + 1
@@ -22,7 +19,12 @@ def test_background(a, method):
     signal = y + bkg
 
     estimated_background = background.background(x, signal)
-    corrected = background.correct_background(x, signal, method=method)
+    corrected = background.correct_background(
+        x,
+        signal,
+        method=method,
+        force_positive=force_positive,
+    )
 
     # import matplotlib.pyplot as plt
 
@@ -36,6 +38,9 @@ def test_background(a, method):
     # ax[0].legend()
     # ax[1].legend()
     # plt.show()
+    if method != background.BackgroundCorrection.none:
+        all_positive = np.greater_equal(corrected.corrected, 0.0).all()
+        assert all_positive == force_positive
 
     assert np.isclose(estimated_background, bkg, rtol=1e-3).all()
     if method == background.BackgroundCorrection.none:
