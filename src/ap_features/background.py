@@ -38,7 +38,14 @@ def get_filtered_signal(y: Array, filter_kernel_size: int = 0) -> Array:
     if filter_kernel_size == 0:
         return y
     else:
-        return medfilt(y, kernel_size=13)
+        n = min(filter_kernel_size, len(y))
+        y_start = np.median(y[:n])
+        y_end = np.median(y[-n:])
+        y_filt = medfilt(
+            np.concatenate((np.ones(n) * y_start, y, np.ones(n) * y_end)),
+            kernel_size=filter_kernel_size,
+        )
+        return y_filt[n:-n]
 
 
 def correct_background(
