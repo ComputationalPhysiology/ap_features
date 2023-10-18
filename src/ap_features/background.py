@@ -39,6 +39,8 @@ def get_filtered_signal(y: Array, filter_kernel_size: int = 0) -> Array:
         return y
     else:
         n = min(filter_kernel_size, len(y))
+        # Make sure kernel_size is odd
+        filter_kernel_size = round(filter_kernel_size) // 2 * 2 + 1
         y_start = np.median(y[:n])
         y_end = np.median(y[-n:])
         y_filt = medfilt(
