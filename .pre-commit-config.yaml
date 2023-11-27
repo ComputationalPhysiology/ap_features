@@ -11,7 +11,7 @@ repos:
 
 
   - repo: https://github.com/psf/black
-    rev: 23.10.1
+    rev: 23.11.0
     hooks:
       - id: black
         args: [--line-length=100]
@@ -27,17 +27,17 @@ repos:
       - id: add-trailing-comma
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.1.4'
+    rev: 'v0.1.6'
     hooks:
       - id: ruff
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.6.1
+    rev: v1.7.1
     hooks:
       - id: mypy
 
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v7.3.2
+    rev: v8.0.0
     hooks:
       - id: cspell
         files: src/|docs/(.+).md|docs/source/(.+).ipynb|tests|README.md
