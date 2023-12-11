@@ -27,7 +27,7 @@ repos:
       - id: add-trailing-comma
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.1.6'
+    rev: 'v0.1.7'
     hooks:
       - id: ruff
 
@@ -37,7 +37,7 @@ repos:
       - id: mypy
 
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v8.0.0
+    rev: v8.1.1
     hooks:
       - id: cspell
         files: src/|docs/(.+).md|docs/source/(.+).ipynb|tests|README.md
