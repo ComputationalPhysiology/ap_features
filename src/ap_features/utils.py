@@ -31,7 +31,7 @@ def _check_factor(factor: float) -> None:
         )
 
 
-def valid_index(arr: Array, index: int):
+def valid_index(arr: Array, index: int) -> np.ndarray:
     y = numpyfy(arr)
     try:
         y[index]

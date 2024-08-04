@@ -1353,9 +1353,10 @@ class StateCollection(Trace):
     @mask.setter
     def mask(self, mask: Optional[Array]) -> None:
         if mask is not None:
-            mask = utils.numpyfy(mask)
-            assert mask.size == self.num_traces
-        self._mask = mask
+            self._mask = utils.numpyfy(mask)
+            assert self._mask.size == self.num_traces
+        else:
+            self._mask = mask
 
     @property
     def num_traces(self):
