@@ -19,7 +19,7 @@ requires-python = ">=3.7"
 keywords = ["action potential", "cell", "models", "features"]
 dependencies = [
     "numpy",
-    "numba<0.58",
+    "numba",
     "scipy",
     "tqdm",
 ]
