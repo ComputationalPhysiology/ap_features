@@ -183,7 +183,7 @@ def apd(
 
     assert backend in Backend.__members__
 
-    if isinstance(factor, (float, np.float_)) and 0 < factor < 1:
+    if isinstance(factor, (float, np.float64)) and 0 < factor < 1:
         # Factor should be multiplied with 100
         factor = int(factor * 100)
     _check_factor(factor)

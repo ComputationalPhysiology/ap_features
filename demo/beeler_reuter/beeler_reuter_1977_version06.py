@@ -15,7 +15,7 @@ def init_state_values(**values):
     # V=-84.624
     init_values = np.array(
         [0.011, 0.988, 0.975, 0.0001, 0.003, 0.994, 0.0001, -84.624],
-        dtype=np.float_,
+        dtype=np.float64,
     )
 
     # State indices and limit checker
@@ -53,7 +53,7 @@ def init_parameter_values(**values):
     # IstimStart=10.0, C=0.01
     init_values = np.array(
         [50.0, 0.04, 3e-05, 0.0009, 0.5, 50000.0, 1000.0, 1.0, 10.0, 0.01],
-        dtype=np.float_,
+        dtype=np.float64,
     )
 
     # Parameter indices and limit checker
@@ -213,7 +213,7 @@ def rhs(t, states, parameters, values=None):
 
     # Init return args
     if values is None:
-        values = np.zeros((8,), dtype=np.float_)
+        values = np.zeros((8,), dtype=np.float64)
     else:
         assert isinstance(values, np.ndarray) and values.shape == (8,)
 
@@ -331,7 +331,7 @@ def monitor(states, t, parameters, monitored=None):
 
     # Init return args
     if monitored is None:
-        monitored = np.zeros((26,), dtype=np.float_)
+        monitored = np.zeros((26,), dtype=np.float64)
     else:
         assert isinstance(monitored, np.ndarray) and monitored.shape == (26,)
 
