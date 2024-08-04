@@ -307,9 +307,10 @@ def apd_point(
         The maximum value, by default None. If None the maximum value is chosen
     use_spline : bool, optional
         Use spline interpolation or not, by default True
-    strategy: APDPointStrategy
-        Strategy for picking two apd points, either 'first_last',
-        'big_diff_plus_one' or 'big_diff_last', by default `big_diff_plus_one'
+    strategy : APDPointStrategy
+        Strategy for picking two apd points, either :code:`first_last`,
+        :code:`big_diff_plus_one` or :code:`big_diff_last`,
+        by default :code:`big_diff_plus_one`
 
     Returns
     -------
@@ -330,6 +331,7 @@ def apd_point(
     If no intersections are found the value 0 will be used. If more
     than two intersections are found then the neighboring intersections
     with the largest gap will be returned.
+
     """
 
     inds = apd_points(factor=factor, V=V, t=t, v_r=v_r, v_max=v_max, use_spline=use_spline)
