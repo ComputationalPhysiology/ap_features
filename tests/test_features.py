@@ -286,8 +286,6 @@ def test_apd_point_triangle_signal(factor, triangle_signal):
 
 @pytest.mark.parametrize("strategy", apf.features.APDPointStrategy)
 def test_apd_point_strategy(strategy):
-    import matplotlib.pyplot as plt
-
     x = np.linspace(0, 1, 100)
     y1 = np.zeros_like(x)
 
@@ -304,11 +302,3 @@ def test_apd_point_strategy(strategy):
     else:
         # big_diff_last
         assert np.allclose([x0, x1], [0.2565548928876845, 0.8879308433057725])
-
-    if 0:
-        y_mid = 0.5 * (y.max() - y.min())
-        fig, ax = plt.subplots()
-        ax.title(f"{strategy=}, {x0=}, {x1=}")
-        ax.plot(x, y)
-        ax.plot([x0, x1], [y_mid, y_mid])
-        plt.show()

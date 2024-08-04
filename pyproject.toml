@@ -19,7 +19,7 @@ requires-python = ">=3.7"
 keywords = ["action potential", "cell", "models", "features"]
 dependencies = [
     "numpy",
-    "numba<0.58",
+    "numba",
     "scipy",
     "tqdm",
 ]
@@ -42,7 +42,7 @@ dev = [
     "pre-commit",
 ]
 plot = [
-    "matplotlib"
+    "matplotlib",
 ]
 pypi = [
     "twine",
@@ -55,7 +55,6 @@ docs = [
 test = [
     "pytest",
     "pytest-cov",
-    "ap_features[plot]",
     "ap_features[array]"
 ]
 all = [
