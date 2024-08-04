@@ -55,7 +55,6 @@ docs = [
 test = [
     "pytest",
     "pytest-cov",
-    "ap_features[plot]",
     "ap_features[array]"
 ]
 all = [
