@@ -42,7 +42,8 @@ dev = [
     "pre-commit",
 ]
 plot = [
-    "matplotlib"
+    "matplotlib",
+    'msvc-runtime;platform_system=="Windows"'
 ]
 pypi = [
     "twine",
