@@ -43,7 +43,6 @@ dev = [
 ]
 plot = [
     "matplotlib",
-    'msvc-runtime;platform_system=="Windows"'
 ]
 pypi = [
     "twine",
