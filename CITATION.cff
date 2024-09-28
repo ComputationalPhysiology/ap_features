@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- affiliation: Simula Research Laboratoy
+  family-names: Finsberg
+  given-names: Henrik
+  orcid: "https://orcid.org/0000-0003-3766-2393"
+- family-names: Hustad
+  given-names: Kristian Gregorius
+date-released: '2024-09-28'
+doi: 10.5281/zenodo.13854740
+repository-code: https://github.com/ComputationalPhysiology/ap_features/
+title: 'ap_features'
+type: software
+version: v2024.0.0
