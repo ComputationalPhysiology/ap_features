@@ -1,9 +1,11 @@
 [![image](https://img.shields.io/pypi/v/ap_features.svg)](https://pypi.python.org/pypi/ap_features)
 ![CI](https://github.com/ComputationalPhysiology/ap_features/workflows/CI/badge.svg)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ComputationalPhysiology/ap_features/main.svg)](https://results.pre-commit.ci/latest/github/ComputationalPhysiology/ap_features/main)
-[![github pages](https://github.com/ComputationalPhysiology/ap_features/actions/workflows/github-pages.yml/badge.svg)](https://github.com/ComputationalPhysiology/ap_features/actions/workflows/github-pages.yml)
+[![Publish documentation](https://github.com/ComputationalPhysiology/ap_features/actions/workflows/deploy_docs.yml/badge.svg)](https://github.com/ComputationalPhysiology/ap_features/actions/workflows/deploy_docs.yml)
 [![Build and upload to PyPI](https://github.com/ComputationalPhysiology/ap_features/actions/workflows/pypi.yml/badge.svg)](https://github.com/ComputationalPhysiology/ap_features/actions/workflows/pypi.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/finsberg/a7290de789564f03eb6b1ee122fce423/raw/ap_features-coverage.json)](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/finsberg/a7290de789564f03eb6b1ee122fce423/raw/ap_features-coverage.json)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13854740.svg)](https://doi.org/10.5281/zenodo.13854740)
+
 # Action Potential features
 
 `ap_features` is package for computing features of action potential traces. This includes chopping, background correction and feature calculations.
