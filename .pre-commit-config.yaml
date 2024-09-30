@@ -27,7 +27,7 @@ repos:
       - id: add-trailing-comma
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.6.7'
+    rev: 'v0.6.8'
     hooks:
       - id: ruff
 
