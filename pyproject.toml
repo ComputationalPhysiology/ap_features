@@ -49,7 +49,14 @@ pypi = [
     "build"
 ]
 docs = [
-   "jupyter-book",
+   "jupyter-book<2.0",
+   "sphinx",
+   "sphinx-togglebutton",
+   "myst-nb",
+   "sphinx-copybutton",
+   "sphinx-comments",
+   "sphinx-external-toc",
+   "sphinx-thebe",
    "ap_features[plot]",
 ]
 test = [
