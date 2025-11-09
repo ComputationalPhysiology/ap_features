@@ -49,11 +49,15 @@ pypi = [
     "build"
 ]
 docs = [
-   "jupyter-book<2.0",
    "sphinx",
    "sphinx-togglebutton",
    "myst-nb",
+   "myst-parser",
    "sphinx-copybutton",
+   "sphinx-design",
+   "sphinx-book-theme",
+   "linkify-it-py",
+   "sphinx-multitoc-numbering",
    "sphinx-comments",
    "sphinx-external-toc",
    "sphinx-thebe",

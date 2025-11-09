@@ -19,7 +19,6 @@ extensions = [
     "sphinx_togglebutton",
     "sphinx_copybutton",
     "myst_nb",
-    "jupyter_book",
     "sphinx_thebe",
     "sphinx_comments",
     "sphinx_external_toc",
@@ -29,7 +28,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "sphinx_jupyterbook_latex",
     "sphinx_multitoc_numbering",
 ]
 external_toc_exclude_missing = True
