@@ -19,7 +19,6 @@ requires-python = ">=3.7"
 keywords = ["action potential", "cell", "models", "features"]
 dependencies = [
     "numpy",
-    "numba",
     "scipy",
     "tqdm",
 ]
@@ -31,9 +30,11 @@ Source = "https://github.com/ComputationalPhysiology/ap_features"
 Tracker = "https://github.com/ComputationalPhysiology/ap_features/issues"
 
 [project.optional-dependencies]
+numba = ["numba"]
 array = [
     "h5py",
-    "dask[array]"
+    "dask[array]",
+    "numba",
 ]
 dev = [
     "pdbpp",
@@ -62,6 +63,7 @@ docs = [
    "sphinx-external-toc",
    "sphinx-thebe",
    "ap_features[plot]",
+   "numba",
 ]
 test = [
     "pytest",
