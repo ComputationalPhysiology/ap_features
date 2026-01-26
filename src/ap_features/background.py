@@ -7,7 +7,6 @@ from scipy.signal import medfilt
 
 from .utils import Array
 
-
 logger = logging.getLogger(__name__)
 
 
