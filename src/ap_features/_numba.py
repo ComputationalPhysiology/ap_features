@@ -11,7 +11,6 @@ import numpy as np
 
 from .utils import NUM_COST_TERMS
 
-
 # float_3D_array = numba.types.Array(numba.float64, 3, "C")
 # float_2D_array = numba.types.Array(numba.float64, 2, "C")
 # float_1D_array = numba.types.Array(numba.float64, 1, "C")

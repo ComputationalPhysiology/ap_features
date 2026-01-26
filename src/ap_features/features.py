@@ -879,14 +879,14 @@ def max_relative_upstroke_velocity(
             popt, pcov = curve_fit(sigmoid, t_upstroke, upstroke, method="dogbox")
 
             k, x0 = popt
-            index = None  # type:ignore
+            index = None  # type: ignore
             s = sigmoid(t_upstroke, k, x0)
             value = k / 2
             time_APD20_to_APD80 = apd_up_xy(s, t_upstroke, 20, 80)
 
         else:
             # Find max upstroke
-            index = np.argmax(np.diff(upstroke))  # type:ignore
+            index = np.argmax(np.diff(upstroke))  # type: ignore
             value = np.max(np.diff(upstroke))
             x0 = None
             s = None
