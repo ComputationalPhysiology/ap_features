@@ -101,6 +101,7 @@ sysconfig
 Tinv
 tqdm
 trapz
+trise
 tstart
 twinx
 unitfactor
