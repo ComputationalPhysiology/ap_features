@@ -761,6 +761,40 @@ def find_upstroke_values(
     return upstroke
 
 
+def trise(
+    y: Array,
+    t: Array,
+    low: int,
+    high: int,
+    backend: Backend = Backend.python,
+) -> float:
+    """Find the duration between first intersection (i.e
+    during the upstroke) of two APD lines. Note that
+    this function is equivalent to :code:`apd_up_xy`
+
+    Arguments
+    ---------
+    t : np.ndarray
+        Time values
+    y : np.ndarray
+        The trace
+    low: int
+        First APD line (value between 0 and 100)
+    high: int
+        Second APD line (value between 0 and 100)
+    backend : utils.Backend, optional
+        Which backend to use by default Backend.python.
+        Choices, 'python', 'numba'
+
+    Returns
+    -------
+    float:
+        The time between `low` to `high`
+
+    """
+    return apd_up_xy(y=y, t=t, low=low, high=high, backend=backend)
+
+
 def apd_up_xy(
     y: Array,
     t: Array,
@@ -789,8 +823,6 @@ def apd_up_xy(
     -------
     float:
         The time between `low` to `high`
-
-
 
     """
     _check_factor(low)
