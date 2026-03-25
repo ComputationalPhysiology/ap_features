@@ -1,20 +1,13 @@
 import logging
-from enum import Enum
 from collections import namedtuple
-from typing import List
-from typing import Optional
-from typing import Sequence
-from typing import Tuple
+from enum import Enum
+from typing import List, Optional, Sequence, Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import _numba
-from . import utils
-from .utils import _check_factor
-from .utils import Array
-from .utils import Backend
-from .utils import numpyfy
+from . import _numba, utils
+from .utils import Array, Backend, _check_factor, numpyfy
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +98,8 @@ def apd(
     use_spline: bool = True,
     backend: Backend = Backend.python,
 ) -> float:
-    r"""Return the action potential duration at the given
+    (
+        r"""Return the action potential duration at the given
     factor repolarization, so that factor = 0
     would be zero, and factor = 1 given the time from triggering
     to potential is down to resting potential.
@@ -179,7 +173,9 @@ def apd(
     .. math::
         \mathrm{APD} \; p = \min \mathcal{T} / \min \mathcal{T}  - \min \mathcal{T}
 
-    """ ""
+    """
+        ""
+    )
 
     assert backend in Backend.__members__
 
@@ -340,7 +336,7 @@ def apd_point(
         x1 = x2 = 0.0
     if len(inds) == 1:
         x1 = x2 = inds[0]
-        logger.warning("Warning: only one root was found for APD {}" "".format(factor))
+        logger.warning("Warning: only one root was found for APD {}".format(factor))
     else:
         if APDPointStrategy[strategy] == APDPointStrategy.big_diff_plus_one:
             start_index = int(np.argmax(np.diff(inds)))
@@ -487,14 +483,14 @@ def tau(
         t_a = r[1]
     elif len(r) == 1:
         logger.warning(
-            ("Only one zero was found when computing tau{}. " "Result might be wrong").format(
+            ("Only one zero was found when computing tau{}. Result might be wrong").format(
                 int(a * 100),
             ),
         )
         t_a = r[0]
     else:
         logger.warning(
-            ("No zero found when computing tau{}. " "Return the value of time to peak").format(
+            ("No zero found when computing tau{}. Return the value of time to peak").format(
                 int(a * 100),
             ),
         )
@@ -611,14 +607,14 @@ def upstroke(
     if len(r) >= 1:
         if len(r) == 1:
             logger.warning(
-                (
-                    "Only one zero was found when computing upstroke{}. " "Result might be wrong"
-                ).format(int(a * 100)),
+                ("Only one zero was found when computing upstroke{}. Result might be wrong").format(
+                    int(a * 100),
+                ),
             )
         t_a = r[0]
     else:
         logger.warning(
-            ("No zero found when computing upstroke{}. " "Return the value of time to peak").format(
+            ("No zero found when computing upstroke{}. Return the value of time to peak").format(
                 int(a * 100),
             ),
         )

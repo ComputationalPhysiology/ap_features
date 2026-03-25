@@ -97,17 +97,12 @@ files = ["src/ap_features","tests"]
 ignore_missing_imports = true
 exclude = "docs"
 
+
+
 [tool.ruff]
-# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-select = ["E", "F"]
-ignore = ["E402", "E741", "E731"]
-
-# Allow autofix for all enabled rules (when `--fix`) is provided.
-fixable = ["A", "B", "C", "D", "E", "F"]
-unfixable = []
-
 # Exclude a variety of commonly ignored directories.
 exclude = [
+    "demo/*.py",
     ".bzr",
     ".direnv",
     ".eggs",
@@ -128,18 +123,30 @@ exclude = [
     "dist",
     "node_modules",
     "venv",
+    "demos",
 ]
 
 # Same as Black.
 line-length = 100
 
 # Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Assume Python 3.10.
 target-version = "py310"
 
-[tool.ruff.mccabe]
+
+[tool.ruff.lint]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["E", "F", "I"]
+ignore = ["E402", "E741", "E743", "E731"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["A", "B", "C", "D", "E", "F", "I"]
+unfixable = []
+
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
 

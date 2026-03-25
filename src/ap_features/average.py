@@ -1,7 +1,5 @@
 from collections import namedtuple
-from typing import Optional
-from typing import Sequence
-from typing import Tuple
+from typing import Optional, Sequence, Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline

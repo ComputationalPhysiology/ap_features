@@ -1,24 +1,12 @@
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Sequence
-from typing import Set
-from typing import Tuple
+from typing import Any, Dict, List, Optional, Sequence, Set, Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import average
-from . import background
-from . import chopping
-from . import features
+from . import average, background, chopping, features, plot, utils
 from . import filters as _filters
-from . import plot
-from . import utils
 from .background import BackgroundCorrection as BC
-from .utils import Array
-from .utils import Backend
+from .utils import Array, Backend
 
 
 def identity(x: Any, y: Any = None, z: Any = None) -> Any:
@@ -33,6 +21,11 @@ def copy_function(copy: bool):
 
 
 class Trace:
+    """A trace of a single beat. This is the basic data structure for a beat.
+    It contains the time points, the signal values, and optionally
+    the pacing information. It also contains some basic methods for computing
+    features and plotting the beat."""
+
     __slots__ = ("_t", "_y", "_pacing", "_backend")
 
     def __init__(
@@ -42,6 +35,20 @@ class Trace:
         pacing: Optional[Array] = None,
         backend: Backend = Backend.numba,
     ) -> None:
+        """
+        Initialize the Trace.
+
+        Parameters
+        ----------
+        y : Array
+            The data array
+        t : Array
+            The time array
+        pacing : Optional[Array], optional
+            The pacing array, by default None
+        backend : Backend, optional
+            The backend to use, by default Backend.numba
+        """
         if t is None:
             t = np.arange(len(y))
         self._t = utils.numpyfy(t)
@@ -57,8 +64,7 @@ class Trace:
     def _validate_array_sizes(self):
         if len(self._y) != len(self._t):
             raise ValueError(
-                f"Expected y (size={len(self._y)}) and "
-                f"t (size={len(self._t)}) to have same size",
+                f"Expected y (size={len(self._y)}) and t (size={len(self._t)}) to have same size",
             )
         if len(self._y) != len(self._pacing):
             raise ValueError(
@@ -177,6 +183,7 @@ class Trace:
         include_pacing: bool = False,
         include_background: bool = False,
         ylabel: str = "",
+        ax: Optional[Any] = None,
     ):
         """Plot the trace with matplotlib
 
@@ -192,6 +199,9 @@ class Trace:
             Whether to include the background, by default False
         ylabel : str, optional
             Label on the y-axis, by default ""
+        ax : Optional[Any], optional
+            An optional matplotlib axes to plot on.
+            If not provided a new figure and axes will be created, by default None
 
         Returns
         -------
@@ -205,6 +215,7 @@ class Trace:
             include_background=include_background,
             ylabel=ylabel,
             fname=fname,
+            ax=ax,
         )
 
     def as_spline(self, k: int = 3, s: Optional[int] = None) -> UnivariateSpline:
@@ -229,6 +240,13 @@ class Trace:
 
 
 class Beat(Trace):
+    """A beat is a trace of a single beat with some additional information
+    such as the resting value and maximum value of the signal. This is
+    useful for computing features such as the APD which require the resting
+    value and maximum value of the signal. It also contains a reference to
+    the parent Beats object if the beat comes from a Beats object.
+    """
+
     def __init__(
         self,
         y: Array,
@@ -240,6 +258,27 @@ class Beat(Trace):
         backend: Backend = Backend.numba,
         beat_number: Optional[int] = None,
     ) -> None:
+        """Initialize the Beat
+
+        Parameters
+        ----------
+        y : Array
+            The signal values
+        t : Array
+            The time points
+        pacing : Optional[Array], optional
+            The pacing signal, by default None
+        y_rest : Optional[float], optional
+            The resting value, by default None
+        y_max : Optional[float], optional
+            The maximum value, by default None
+        parent : Optional[&quot;Beats&quot;], optional
+            The parent Beats object, by default None
+        backend : Backend, optional
+            The backend to use, by default Backend.numba
+        beat_number : Optional[int], optional
+            The number of the beat, by default None
+        """
         super().__init__(y, t, pacing=pacing, backend=backend)
         msg = (
             "Expected shape of 't' and 'y' to be the same. got "
@@ -739,6 +778,34 @@ def average_beat(
     x: float = 1.0,
     apd_point: float = 50,
 ) -> Beat:
+    """Average a list of beats. This is done by first aligning the beats
+    based on the APD p line and then averaging the signal at each time point.
+
+    Parameters
+    ----------
+    beats : List[Beat]
+        List of beats to average
+    N : int, optional
+        Number of points to interpolate to, by default 200
+    filters : Optional[Sequence[_filters.Filters]], optional
+        List of filters to apply, by default None
+    x : float, optional
+        How many standard deviations away from the mean
+        the different beats should be to be
+        included, by default 1.0
+    apd_point : float, optional
+        The APD point to use for alignment, by default 50
+
+    Returns
+    -------
+    Beat
+        The average beat
+
+    Raises
+    ------
+    ValueError
+        If the list of beats is empty
+    """
     if len(beats) == 0:
         raise ValueError("Cannot average an empty list")
     if filters is not None:
@@ -751,9 +818,6 @@ def average_beat(
 
     avg = average.average_and_interpolate([b.y for b in beats], [b.t for b in beats], N)
 
-    # plt.figure()
-    # plt.plot(avg.x, avg.y)
-    # plt.show()
     pacing_avg = np.interp(
         np.linspace(
             np.min(beats[0].t),
@@ -958,11 +1022,47 @@ class Beats(Trace):
         """Convert trace from Beats to Beat"""
         return Beat(y=self.y, t=self.t, pacing=self.pacing)
 
-    def plot_beats(self, ylabel: str = "", align: bool = False, fname: str = ""):
-        plot.plot_beats_from_beat(self, ylabel=ylabel, align=align, fname=fname)
+    def plot_beats(
+        self,
+        ylabel: str = "",
+        align: bool = False,
+        fname: str = "",
+        ax: Optional[Any] = None,
+    ):
+        """Plot the beats with matplotlib
+
+        Parameters
+        ----------
+        ylabel : str, optional
+            Label on the y-axis, by default ""
+        align : bool, optional
+            Whether to align the beats based on the APD p line, by default False
+        fname : str, optional
+            Name of the figure to be saved. If not provided the
+            figure will note be saved, but you can show by calling
+            `plt.show`, by default ""
+        ax : Optional[Any], optional
+            An optional matplotlib axes to plot on.
+            If not provided a new figure and axes will be created, by default None
+        Returns
+        -------
+        Tuple[plt.Figure, plt.Axes] | None
+            If matplotlib is installed it will return a tuple containing
+            the figure and the axes.
+        """
+        return plot.plot_beats_from_beat(
+            self,
+            ylabel=ylabel,
+            align=align,
+            fname=fname,
+            ax=ax,
+        )
 
     @property
     def chopped_data(self) -> chopping.ChoppedData:
+        """Return the chopped data. This is computed lazily, so it will only be computed
+        the first time this property is accessed, and then cached for future use.
+        """
         if not hasattr(self, "_chopped_data"):
             self._chopped_data = self.chop_data(**self.chopping_options)
         return self._chopped_data
@@ -972,6 +1072,7 @@ class Beats(Trace):
         factor: float,
         corrected_apd: bool = False,
     ) -> Tuple[float, float]:
+
         return apd_slope(self.beats, factor=factor, corrected_apd=corrected_apd)
 
     def chop_data(
@@ -1004,6 +1105,23 @@ class Beats(Trace):
         background_correction_method: BC,
         copy: bool = True,
     ) -> "Beats":
+        """
+        Perform background correction on the signal and return a new
+        `Beats` object with the corrected signal.
+
+        Parameters
+        ----------
+        background_correction_method : BC
+            Method to perform background correction.
+            Possible methods are "full", "subtract" and "none".
+        copy : bool, optional
+            Whether to copy the data, by default True
+
+        Returns
+        -------
+        Beats
+            The corrected beats object
+        """
         f = copy_function(copy)
         return Beats(
             y=f(self.y),
@@ -1017,6 +1135,21 @@ class Beats(Trace):
         )
 
     def remove_points(self, t_start: float, t_end: float) -> "Beats":
+        """Remove points from the signal between t_start and
+        t_end and return a new
+
+        Parameters
+        ----------
+        t_start : float
+            Start time of the interval to remove
+        t_end : float
+            End time of the interval to remove
+
+        Returns
+        -------
+        Beats
+            A new `Beats` object with the points removed
+        """
         t, y = _filters.remove_points(
             x=np.copy(self.t),
             y=np.copy(self._y),
@@ -1041,6 +1174,21 @@ class Beats(Trace):
         )
 
     def filter(self, kernel_size: int = 3, copy: bool = True) -> "Beats":
+        """Filter the signal using a moving average filter and return a new `Beats`
+        object with the filtered signal.
+
+        Parameters
+        ----------
+        kernel_size : int, optional
+            The size of the filter kernel, by default 3
+        copy : bool, optional
+            Whether to copy the data, by default True
+
+        Returns
+        -------
+        Beats
+            A new `Beats` object with the filtered signal
+        """
         y = _filters.filt(self._y, kernel_size=kernel_size)
         f = copy_function(copy)
         return Beats(
@@ -1055,6 +1203,21 @@ class Beats(Trace):
         )
 
     def remove_spikes(self, spike_duration: int) -> "Beats":
+        """Remove spikes from the signal and return a new `Beats` object
+        with the spikes removed.
+
+        Parameters
+        ----------
+        spike_duration : int
+            The duration of the spikes to remove in milliseconds. For example, if
+            spike_duration is 5, then any spike that lasts for 5 milliseconds or less
+            will be removed.
+
+        Returns
+        -------
+        Beats
+            A new `Beats` object with the spikes removed
+        """
         if spike_duration == 0:
             return self
         spike_points = _filters.find_spike_points(
@@ -1173,7 +1336,13 @@ class Beats(Trace):
         Beat
             An average beat.
         """
-        return average_beat(beats=self.beats, N=N, apd_point=apd_point, filters=filters, x=x)
+        return average_beat(
+            beats=self.beats,
+            N=N,
+            apd_point=apd_point,
+            filters=filters,
+            x=x,
+        )
 
     def aligned_beats(self, N=200) -> List[Beat]:
         return align_beats(self.beats, N=N, parent=self)
@@ -1219,6 +1388,11 @@ class Beats(Trace):
 
 
 class BeatCollection(Trace):
+    """
+    A collection of beats. This is useful for storing multiple beats together, for example
+    when you have multiple beats from the same trace and you want to store them together.
+    """
+
     def __init__(
         self,
         y: Array,
@@ -1228,6 +1402,23 @@ class BeatCollection(Trace):
         parent: Optional["BeatSeriesCollection"] = None,
         backend: Backend = Backend.numba,
     ) -> None:
+        """Initialize a BeatCollection.
+
+        Parameters
+        ----------
+        y : Array
+            The signal data.
+        t : Array
+            The time points.
+        pacing : Optional[Array], optional
+            The pacing data, by default None.
+        mask : Optional[Array], optional
+            A mask for the data, by default None.
+        parent : Optional["BeatSeriesCollection"], optional
+            The parent object, by default None.
+        backend : Backend, optional
+            The backend to use, by default Backend.numba.
+        """
         super().__init__(y, t, pacing=pacing, backend=backend)
         self._parent = parent
         msg = (
@@ -1289,6 +1480,15 @@ class BeatSeriesCollection(Trace):
 
 
 class State(Trace):
+    """A state is a trace that contains multiple signals.
+    For example, it could be a trace that contains both the voltage
+    and the calcium signal. The first dimension of the signal
+    should be the same as the shape of the time array, and the
+    second dimension should be the different signals.
+    For example, if you have a voltage and a calcium signal,
+    then the shape of y should be (num_time_points, 2)
+    """
+
     def __init__(
         self,
         y: Array,
@@ -1326,6 +1526,10 @@ class State(Trace):
 
 
 class StateCollection(Trace):
+    """A collection of states. This is useful for storing multiple states together, for example
+    when you have multiple states from the same trace and you want to store them together.
+    """
+
     def __init__(
         self,
         y: Array,
@@ -1334,6 +1538,21 @@ class StateCollection(Trace):
         mask: Optional[Array] = None,
         parent: Optional["StateSeriesCollection"] = None,
     ) -> None:
+        """Initialize the StateCollection.
+
+        Parameters
+        ----------
+        y : Array
+            The data array
+        t : Array
+            The time array
+        pacing : Optional[Array], optional
+            The pacing array, by default None
+        mask : Optional[Array], optional
+            The mask array, by default None
+        parent : Optional["StateSeriesCollection"], optional
+            The parent object, by default None
+        """
         # TODO: Check dimensions
         super().__init__(y=y, t=t, pacing=pacing)
         self._parent = parent
