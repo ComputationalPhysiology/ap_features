@@ -1,9 +1,10 @@
 import itertools as it
 import os
 
-import ap_features as apf
 import numpy as np
 import pytest
+
+import ap_features as apf
 
 here = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,7 +55,7 @@ def test_compare_python_matlab(synthetic_data):
     for ri in expected_cost:
         if i in np.where(["APD_up" in item or "CaD_up" in item for item in lst])[0]:
             continue
-        msg = f"{i}\tPython: {cost[i]}, Matlab {ri}" ""
+        msg = f"{i}\tPython: {cost[i]}, Matlab {ri}"
         # print(msg)
         assert abs(cost[i] - ri) < 1e-10, msg
         i += 1

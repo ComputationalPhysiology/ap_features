@@ -1,14 +1,11 @@
 import logging
 from collections import namedtuple
-from typing import List
-from typing import Optional
-from typing import Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
 
-from . import filters
-from . import utils
+from . import filters, utils
 from .utils import Array
 
 logger = logging.getLogger(__name__)

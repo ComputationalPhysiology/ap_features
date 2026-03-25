@@ -1,7 +1,8 @@
-import ap_features as apf
 import dask.array as da
 import numpy as np
 import pytest
+
+import ap_features as apf
 from ap_features.beat import Beat
 
 try:

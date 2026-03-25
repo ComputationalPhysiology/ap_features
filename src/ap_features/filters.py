@@ -1,11 +1,6 @@
 import logging
 from enum import Enum
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Sequence
-from typing import Tuple
-from typing import Union
+from typing import Any, Dict, List, Sequence, Tuple, Union
 
 import numpy as np
 
@@ -126,7 +121,7 @@ def remove_points(
         end = len(x) - 1
 
     logger.debug(
-        ("Remove points for t={} (index:{}) to t={} (index:{})" "").format(
+        ("Remove points for t={} (index:{}) to t={} (index:{})").format(
             t_start,
             start,
             t_end,

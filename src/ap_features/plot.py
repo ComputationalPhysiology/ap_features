@@ -1,5 +1,5 @@
 from functools import wraps
-from typing import List
+from typing import Any, List, NamedTuple, Optional
 
 import numpy as np
 
@@ -40,6 +40,11 @@ def savefig(fig, fname: str) -> None:
         fig.savefig(fname)
 
 
+class FigAx(NamedTuple):
+    fig: Any
+    ax: Any
+
+
 @require_matplotlib
 def plot_beat(
     beat: _beat.Trace,
@@ -47,7 +52,30 @@ def plot_beat(
     include_background: bool = False,
     ylabel: str = "",
     fname: str = "",
-):
+    ax: Optional[Any] = None,
+) -> FigAx:
+    """Plot a single beat
+
+    Parameters
+    ----------
+    beat : _beat.Trace
+        The beat to plot
+    include_pacing : bool, optional
+        Whether to include pacing in the plot, by default False
+    include_background : bool, optional
+        Whether to include the background, by default False
+    ylabel : str, optional
+        Label on the y-axis, by default ""
+    fname : str, optional
+        Name of the figure to be saved, by default ""
+    ax : Optional[Any], optional
+        An optional matplotlib axes to plot on, by default None
+
+    Returns
+    -------
+    FigAx :
+        A named tuple with the figure and axes of the plot
+    """
     import matplotlib.pyplot as plt
 
     y = beat.y
@@ -55,7 +83,10 @@ def plot_beat(
         assert isinstance(beat, _beat.Beats), "Can only plot background for Beats"
         y = beat.original_y
 
-    fig, ax = plt.subplots()
+    if ax is not None:
+        fig = ax.get_figure()
+    else:
+        fig, ax = plt.subplots()
     (line,) = ax.plot(beat.t, y)
     ax.set_xlabel("Time (ms)")
     lines = [line]
@@ -76,7 +107,7 @@ def plot_beat(
         ax.legend(lines, labels, loc="best")
 
     savefig(fig, fname=fname)
-    return fig, ax
+    return FigAx(fig, ax)
 
 
 def plot_beats_from_beat(
@@ -84,8 +115,15 @@ def plot_beats_from_beat(
     ylabel: str = "",
     align: bool = False,
     fname: str = "",
-):
-    return plot_beats(trace.beats, ylabel=ylabel, align=align, fname=fname)
+    ax: Optional[Any] = None,
+) -> FigAx:
+    return plot_beats(
+        trace.beats,
+        ylabel=ylabel,
+        align=align,
+        fname=fname,
+        ax=ax,
+    )
 
 
 @require_matplotlib
@@ -94,10 +132,34 @@ def plot_beats(
     ylabel: str = "",
     align: bool = False,
     fname: str = "",
-):
+    ax: Optional[Any] = None,
+) -> FigAx:
+    """Plot multiple beats
+
+    Parameters
+    ----------
+    beats : List[_beat.Beat]
+        The beats to plot
+    ylabel : str, optional
+        Label on the y-axis, by default ""
+    align : bool, optional
+        Whether to align the beats, by default False
+    fname : str, optional
+        Name of the figure to be saved, by default ""
+    ax : Optional[Any], optional
+        An optional matplotlib axes to plot on, by default None
+
+    Returns
+    -------
+    FigAx
+        A named tuple with the figure and axes of the plot
+    """
     import matplotlib.pyplot as plt
 
-    fig, ax = plt.subplots()
+    if ax is not None:
+        fig = ax.get_figure()
+    else:
+        fig, ax = plt.subplots()
     for beat in beats:
         t = np.copy(beat.t)
         if align:
@@ -108,7 +170,7 @@ def plot_beats(
     ax.set_ylabel(ylabel)
 
     savefig(fig, fname=fname)
-    return fig, ax
+    return FigAx(fig, ax)
 
 
 @require_matplotlib
@@ -116,7 +178,8 @@ def poincare_from_beats(
     beats: List[_beat.Beat],
     apds: List[int],
     fname: str = "",
-):
+    ax: Optional[Any] = None,
+) -> Optional[FigAx]:
     """
     Create poincare plots for given APDs
 
@@ -137,9 +200,7 @@ def poincare_from_beats(
 
     Returns
     -------
-    dict:
-        A dictionary with the key being the :math:`x` in APD:math:`x`
-        and the value begin the points being plotted.
+    tuple
 
     """
 
@@ -160,13 +221,14 @@ def poincare_from_beats(
     ax.set_ylabel("APD(n) [ms]")
 
     savefig(fig, fname=fname)
-    return fig, ax
+    return FigAx(fig, ax)
 
 
 def poincare(
     trace: _beat.Beats,
     apds: List[int],
     fname: str = "",
+    ax: Optional[Any] = None,
 ):
     """
     Create poincare plots for given APDs
@@ -181,6 +243,8 @@ def poincare(
     fname : str
         Path to filename to save the figure.
         If not provided plot will be showed and not saved
+    ax : Optional[Any]
+        An optional matplotlib axes to plot on, by default None
 
     Notes
     -----
@@ -193,4 +257,4 @@ def poincare(
         and the value begin the points being plotted.
 
     """
-    return poincare_from_beats(trace.beats, apds=apds, fname=fname)
+    return poincare_from_beats(trace.beats, apds=apds, fname=fname, ax=ax)
