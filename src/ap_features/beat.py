@@ -729,6 +729,25 @@ class Beat(Trace):
         """
         return features.apd_up_xy(y=self.y, t=self.t, low=low, high=high)
 
+    def trise(self, low, high):
+        """Find the duration between first intersection (i.e
+        during the upstroke) of two APD lines
+
+        Arguments
+        ---------
+        low: int
+            First APD line (value between 0 and 100)
+        high: int
+            Second APD line (value between 0 and 100)
+
+        Returns
+        -------
+        float:
+            The time between `low` to `high`
+
+        """
+        return features.apd_up_xy(y=self.y, t=self.t, low=low, high=high)
+
     @property
     def cost_terms(self):
         return features.cost_terms_trace(y=self.y, t=self.t, backend=self._backend)
