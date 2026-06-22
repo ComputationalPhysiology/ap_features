@@ -22,7 +22,7 @@ repos:
       - id: add-trailing-comma
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.15.17'
+    rev: 'v0.15.18'
     hooks:
        # Run the linter.
       - id: ruff-check
@@ -37,7 +37,7 @@ repos:
       - id: mypy
 
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v10.0.0
+    rev: v10.0.1
     hooks:
       - id: cspell
         files: src/|docs/(.+).md|docs/source/(.+).ipynb|tests|README.md
